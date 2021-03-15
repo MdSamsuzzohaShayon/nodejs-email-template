@@ -1,0 +1,57 @@
+.rb-wrapper {
+  width: 100%;
+  height: 100%;
+  color: #7aa6ce;
+  background: #0f3050;
+  display: flex;
+  flex-direction: column;
+}
+.rb-wrapper .rb-header {
+  margin-left: 20px;
+}
+.rb-wrapper .rb-block {
+  margin-top: 20px;
+  margin-left: 20px;
+  height: 100%;
+}
+.rb-wrapper .rb-block .block {
+  display: flex;
+  flex-direction: row;
+}
+.rb-wrapper .rb-block .block .col {
+  background: #b5d5f3;
+  width: 90%;
+  margin: 0 3%;
+  height: 30px;
+  border: 1px solid #b5d5f3;
+  padding: 10px 0;
+  margin-top: 5px;
+}
+.rb-wrapper .rb-block .block .col-1-grid .content-holder {
+  width: 60%;
+  height: 60%;
+  margin: 5% 0 0 20%;
+  background: #4685c0;
+}
+.rb-wrapper .rb-block .block .col-2-grid {
+  display: flex;
+  justify-content: space-around;
+}
+.rb-wrapper .rb-block .block .col-2-grid .content-holder {
+  width: 40%;
+  height: 60%;
+  margin-top: 5%;
+  background: #4685c0;
+}
+.rb-wrapper .rb-block .block .col-3-grid {
+  display: flex;
+  justify-content: space-around;
+}
+.rb-wrapper .rb-block .block .col-3-grid .content-holder {
+  width: 30%;
+  height: 60%;
+  margin-top: 5%;
+  background: #4685c0;
+}
+
+/*# sourceMappingURL=Rightbar.css.map */

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Template.css';
+import './css/Template.css';
 
 export class Template extends Component {
     render() {
