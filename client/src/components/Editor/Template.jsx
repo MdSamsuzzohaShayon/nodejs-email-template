@@ -14,11 +14,11 @@ export class Template extends Component {
                         <button className="btn save">Save</button>
                     </div>
                 </header>
-                <div className="template-body">
-                    <header className="header-image">
+                <div className="template-wrapper">
+                    <header style={{ background: 'url(./img/sky-blue.jpg)' }} className="header-image">
                         This is header image
                     </header>
-                    <div className="temp-wrapper">
+                    <div className="temp-body">
                         {/* THERE WILL BE OUR DROPABLE COLUMN OR CONTENT */}
                         <h2>Drop</h2>
                     </div>

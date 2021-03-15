@@ -1,36 +1,48 @@
-.header{
-    height: 60px;
-    background-color: rgb(122, 166, 206);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-}
-.h-form{
-
+.header {
+  height: 60px;
+  background-color: #7aa6ce;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-
-.h-form input{
-    height: 25px;
-    padding: 5px;
-    width: 300px;
-    border: none;
-    background: rgb(181, 213, 243);
-    color: rgb(122, 166, 206);
-
+.h-form input {
+  height: 25px;
+  padding: 5px;
+  width: 300px;
+  border: none;
+  background: #b5d5f3;
+  color: #7aa6ce;
 }
 
-.h-form input:focus{
-    outline: none;
-    color: rgb(70, 133, 192);
+.h-form input::placeholder {
+  color: #7aa6ce;
 }
 
-.btn{
-    padding: 10px 20px;
-    margin-left: 5px;
-    border: none;
-    outline: none;
-    color: white;
-    background: rgb(15, 48, 80);
+.h-form input:focus {
+  outline: none;
+  color: #4685c0;
 }
+
+.btn {
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: white;
+  background: #0f3050;
+}
+
+.template-wrapper {
+  width: 86%;
+  margin-left: 7%;
+  margin-top: 5%;
+}
+.template-wrapper .header-image {
+  height: 60px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/*# sourceMappingURL=Template.css.map */

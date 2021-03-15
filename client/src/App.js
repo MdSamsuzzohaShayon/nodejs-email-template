@@ -18,7 +18,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div ClassName="App">
+      <div className="App">
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}

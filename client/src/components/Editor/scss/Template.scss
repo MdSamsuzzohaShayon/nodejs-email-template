@@ -1,0 +1,57 @@
+@import "./variables";
+
+
+
+.header{
+    height: 60px;
+    background-color: $p-color;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+
+.h-form input{
+    height: 25px;
+    padding: 5px;
+    width: 300px;
+    border: none;
+    background: $s-color;
+    color: $p-color;
+
+}
+.h-form input::placeholder{
+    color: $p-color;
+
+}
+
+.h-form input:focus{
+    outline: none;
+    color: $f-color;
+}
+
+.btn{
+    padding: 10px 20px;
+    margin-left: 5px;
+    border: none;
+    outline: none;
+    color: white;
+    background: $t-color;
+}
+
+
+
+
+.template-wrapper{
+    width: 86%;
+    margin-left: 7%;
+    margin-top: 5%;
+
+    .header-image{
+        height: 60px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}
