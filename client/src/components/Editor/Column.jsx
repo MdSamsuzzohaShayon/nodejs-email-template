@@ -3,13 +3,7 @@ import { DragSource } from 'react-dnd'
 import { BLOCK_TYPE } from "./Types";
 
 
-
-
-
-
-
-
-
+// console.log("Block type", BLOCK_TYPE);
 
 
 
@@ -19,14 +13,16 @@ import { BLOCK_TYPE } from "./Types";
  */
 const cardSource = {
     beginDrag(props) {
-        console.log("Drag begin");
+        console.log("Drag begin, props: ", props);
         // Return the data describing the dragged item
         const item = { id: props.id }
         return item
     },
 
     endDrag(props, monitor, component) {
-        console.log("drag end");
+        console.log("drag end, props: ", props);
+        console.log("drag end, monitor: ", monitor);
+        console.log("drag end, component: ", component);
         if (!monitor.didDrop()) {
             return
         }
@@ -42,7 +38,7 @@ const cardSource = {
  * Specifies which props to inject into your component.
  */
 function collect(connect, monitor) {
-    // console.log("This is from collect");
+    console.log("This is from collect");
     return {
         // Call this function inside render()
         // to let React DnD handle the drag events:
@@ -56,21 +52,12 @@ function collect(connect, monitor) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 class Column extends Component {
     constructor(props) {
         super(props);
     }
     render() {
+        // console.log("Props from column: ", this.props);
         function loopContent(headerContent) {
             let elements = [];
             // console.log("elements: ", elements);
@@ -80,38 +67,11 @@ class Column extends Component {
             return elements;
         }
         const { connectDragSource, connectDropTarget } = this.props
-        return (
-            <div className="rb-column">
-                {/* <div className="col col-1-grid">
-                            <div className="content-holder"></div>
-                        </div>
-                        <div className="col col-2-grid">
-                            <div className="content-holder"></div>
-                            <div className="content-holder"></div>
-                        </div>
-                        <div className="col col-3-grid">
-                            <div className="content-holder"></div>
-                            <div className="content-holder"></div>
-                            <div className="content-holder"></div>
-                        </div> */}
-                {
-                    this.props.columnBlock.map(col => {
-                        return connectDragSource(
-                            <div key={col.id} className={col.cls}>column</div>
-                        );
-                    }
-                    )
-                }
-
-            </div>
+        return connectDragSource(
+            <div className={this.props.cls}>{loopContent(this.props.contentHolder)}</div>
         )
     }
 }
 
-export default DragSource(BLOCK_TYPE, cardSource, collect)(Column)
 
-
-
-
-
-
+export default DragSource(BLOCK_TYPE, cardSource, collect)(Column);

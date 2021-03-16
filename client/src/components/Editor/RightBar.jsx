@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Column from './Column';
+import ColumnList from './ColumnList';
 import Content from './Content';
 import "./css/Rightbar.css";
 
@@ -22,9 +22,7 @@ export class RightBar extends Component {
     }
 
 
-    connectDrugSource() {
-        console.log("Connect drug source");
-    }
+
 
 
 
@@ -44,7 +42,7 @@ export class RightBar extends Component {
                 <div className="rb-block">
                     {/* COLUMNS START  */}
                     <h3 className="content-header">Add Column</h3>
-                    <Column connectDrugSource={this.connectDrugSource} columnBlock={this.props.columnBlock} />
+                    <ColumnList connectDrugSource={this.connectDrugSource} columnBlock={this.props.columnBlock} />
                     {/* COLUMNS ENDS  */}
 
                     {/* CONTENT START  */}

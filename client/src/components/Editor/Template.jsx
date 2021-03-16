@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Body from './Body';
 import './css/Template.css';
 
 export class Template extends Component {
@@ -6,8 +7,13 @@ export class Template extends Component {
         super(props);
     }
 
-    render() {
 
+
+
+
+
+
+    render() {
         return (
             <div className="temp-container">
                 <header className="header">
@@ -19,15 +25,9 @@ export class Template extends Component {
                         <button className="btn save">Save</button>
                     </div>
                 </header>
-                <div className="template-wrapper">
-                    <header style={{ background: this.props.headerImg }} className="header-image">
-                        This is header image
-                    </header>
-                    <div className="template-body">
-                        {/* THERE WILL BE OUR DROPABLE COLUMN OR CONTENT */}
-                        <h2>Drop</h2>
-                    </div>
-                </div>
+                {/* TEMPLATE BODY START  */}
+                <Body />
+                {/* TEMPLATE BODY ENDS  */}
             </div>
         )
     }
