@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { DragSource } from 'react-dnd'
-import { BLOCK_TYPE } from "./Types";
 import Column from './Column';
 import Content from './Content';
 import "./css/Rightbar.css";
@@ -12,44 +10,6 @@ import "./css/Rightbar.css";
 
 
 
-/**
- * Specifies the drag source contract.
- * Only `beginDrag` function is required.
- */
-const cardSource = {
-    beginDrag(props) {
-        console.log("Drag begin");
-        // Return the data describing the dragged item
-        const item = { id: props.id }
-        return item
-    },
-
-    endDrag(props, monitor, component) {
-        console.log("drag end");
-        if (!monitor.didDrop()) {
-            return
-        }
-
-        // When dropped on a compatible target, do something
-        const item = monitor.getItem()
-        const dropResult = monitor.getDropResult()
-        // CardActions.moveCardToList(item.id, dropResult.listId)
-    }
-}
-
-/**
- * Specifies which props to inject into your component.
- */
-function collect(connect, monitor) {
-    console.log("This is from collect");
-    return {
-        // Call this function inside render()
-        // to let React DnD handle the drag events:
-        connectDragSource: connect.dragSource(),
-        // You can ask the monitor about the current drag state:
-        isDragging: monitor.isDragging()
-    }
-}
 
 
 
@@ -62,6 +22,11 @@ export class RightBar extends Component {
     }
 
 
+    connectDrugSource() {
+        console.log("Connect drug source");
+    }
+
+
 
 
 
@@ -69,8 +34,7 @@ export class RightBar extends Component {
 
         // console.log(loopContent(20));
 
-        const { connectDragSource, connectDropTarget } = this.props
-        return connectDragSource(
+        return (
             <div className="rb-wrapper">
                 <div className="rb-header">
                     <h2>Template Creator</h2>
@@ -80,7 +44,7 @@ export class RightBar extends Component {
                 <div className="rb-block">
                     {/* COLUMNS START  */}
                     <h3 className="content-header">Add Column</h3>
-                    <Column columnBlock={this.props.columnBlock} />
+                    <Column connectDrugSource={this.connectDrugSource} columnBlock={this.props.columnBlock} />
                     {/* COLUMNS ENDS  */}
 
                     {/* CONTENT START  */}
@@ -115,4 +79,4 @@ export class RightBar extends Component {
 
 
 
-export default DragSource(BLOCK_TYPE, cardSource, collect)(RightBar)
+export default RightBar;

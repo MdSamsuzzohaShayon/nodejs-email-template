@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function Content(props) {
-    return (
-        <div className="rb-content">
-            {/* <div className="col img-holder">
+class Content extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div className="rb-content">
+                {/* <div className="col img-holder">
             <img src="./icon/picture.png" alt="" />
             <p>Image</p>
         </div>
@@ -23,19 +27,21 @@ function Content(props) {
             <img src="./icon/spacing.png" alt="" />
             <p>Spacing</p>
         </div> */}
-            {
-                props.contentBlock.map((content, index) => (
-                    <div key={content.id} className={"col " + content.cls}>
-                        <img src={content.img} alt="" />
-                        <p>{content.text}</p>
-                    </div>
-                ))
-            }
-        </div>
-    )
+                {
+                    this.props.contentBlock.map((content, index) => (
+                        <div key={content.id} className={"col " + content.cls}>
+                            <img src={content.img} alt="" />
+                            <p>{content.text}</p>
+                        </div>
+                    ))
+                }
+            </div>
+        )
+    }
 }
 
 export default Content;
+
 
 
 
