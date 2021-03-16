@@ -47,7 +47,10 @@
   background-repeat: no-repeat;
 }
 .template-wrapper .template-body {
-  margin-top: 600px;
+  height: fit-content;
+}
+.template-wrapper .template-body .Cell {
+  height: 200px;
 }
 
 /*# sourceMappingURL=Template.css.map */

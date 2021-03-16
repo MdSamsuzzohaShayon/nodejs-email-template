@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DropTarget } from 'react-dnd';
-import { BLOCK_TYPE } from "./Types";
+import { COLUMN_BLOCK } from "./Types";
 
 
 
@@ -29,6 +29,7 @@ import { BLOCK_TYPE } from "./Types";
 
 const bodyTarget = {
     canDrop(props, monitor) {
+        console.log("Props: " + props, "Monitor: ", monitor);
         // You can disallow drop based on props or item
         console.log("You can disallow drop based on props or item");
         const item = monitor.getItem()
@@ -190,17 +191,17 @@ class Body extends Component {
 
 
         return connectDropTarget(
-            <div className="template-wrapper">
-                <header style={{ background: this.props.headerImg }} className="header-image">
-                    This is header image
-                    </header>
-                <div className="template-body">
-                    {/* THERE WILL BE OUR DROPABLE COLUMN OR CONTENT */}
-                    <h2>Drop</h2>
+
+            <div className="template-body">
+                {/* THERE WILL BE OUR DROPABLE COLUMN OR CONTENT */}
+                <div className="Cell">
+                    {isOver && canDrop && <div class="green" />}
+                    {!isOver && canDrop && <div class="yellow" />}
+                    {isOver && !canDrop && <div class="red" />}
                 </div>
             </div>
         )
     }
 }
 
-export default DropTarget(BLOCK_TYPE, bodyTarget, collect)(Body)
+export default DropTarget(COLUMN_BLOCK, bodyTarget, collect)(Body)

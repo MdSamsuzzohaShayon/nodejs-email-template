@@ -3,9 +3,6 @@ import Body from './Body';
 import './css/Template.css';
 
 export class Template extends Component {
-    constructor(props) {
-        super(props);
-    }
 
 
 
@@ -25,9 +22,14 @@ export class Template extends Component {
                         <button className="btn save">Save</button>
                     </div>
                 </header>
-                {/* TEMPLATE BODY START  */}
-                <Body />
-                {/* TEMPLATE BODY ENDS  */}
+                <div className="template-wrapper">
+                    <header style={{ background: this.props.headerImg }} className="header-image">
+                        This is header image
+                    </header>
+                    {/* TEMPLATE BODY START  */}
+                    <Body />
+                    {/* TEMPLATE BODY ENDS  */}
+                </div>
             </div>
         )
     }

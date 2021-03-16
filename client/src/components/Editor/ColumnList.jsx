@@ -5,9 +5,6 @@ import Column from './Column'
 
 
 class ColumnList extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
 
 

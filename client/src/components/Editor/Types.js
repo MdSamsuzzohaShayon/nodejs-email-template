@@ -1,1 +1,2 @@
-export const BLOCK_TYPE = "BLOCK";
+export const COLUMN_BLOCK = "COLUMN";
+export const CONTENT_BLOCK = "CONTENT";

@@ -55,6 +55,9 @@
         @include header_image(60px);
     }
     .template-body{
-        margin-top: 600px;
+        height: fit-content;
+        .Cell{
+            height: 200px;
+        }
     }
 }

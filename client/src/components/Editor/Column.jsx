@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd'
-import { BLOCK_TYPE } from "./Types";
+import { COLUMN_BLOCK } from "./Types";
 
 
 // console.log("Block type", BLOCK_TYPE);
@@ -13,16 +13,16 @@ import { BLOCK_TYPE } from "./Types";
  */
 const cardSource = {
     beginDrag(props) {
-        console.log("Drag begin, props: ", props);
+        // console.log("Drag begin, props: ", props);
         // Return the data describing the dragged item
         const item = { id: props.id }
         return item
     },
 
     endDrag(props, monitor, component) {
-        console.log("drag end, props: ", props);
-        console.log("drag end, monitor: ", monitor);
-        console.log("drag end, component: ", component);
+        // console.log("drag end, props: ", props);
+        // console.log("drag end, monitor: ", monitor);
+        // console.log("drag end, component: ", component);
         if (!monitor.didDrop()) {
             return
         }
@@ -38,13 +38,14 @@ const cardSource = {
  * Specifies which props to inject into your component.
  */
 function collect(connect, monitor) {
-    console.log("This is from collect");
+    // console.log("This is from collect");
     return {
         // Call this function inside render()
         // to let React DnD handle the drag events:
         connectDragSource: connect.dragSource(),
         // You can ask the monitor about the current drag state:
         isDragging: monitor.isDragging()
+
     }
 }
 
@@ -74,4 +75,4 @@ class Column extends Component {
 }
 
 
-export default DragSource(BLOCK_TYPE, cardSource, collect)(Column);
+export default DragSource(COLUMN_BLOCK, cardSource, collect)(Column);
