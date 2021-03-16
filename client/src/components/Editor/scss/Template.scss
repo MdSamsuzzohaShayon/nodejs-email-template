@@ -1,4 +1,5 @@
 @import "./variables";
+@import "./functions";
 
 
 
@@ -36,7 +37,7 @@
     margin-left: 5px;
     border: none;
     outline: none;
-    color: white;
+    color: $f-color;
     background: $t-color;
 }
 
@@ -47,12 +48,13 @@
     width: 86%;
     margin-left: 7%;
     margin-top: 5%;
+    background: $s-color;
+
 
     .header-image{
-        color: white;
-        height: 60px;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
+        @include header_image(60px);
+    }
+    .template-body{
+        margin-top: 600px;
     }
 }

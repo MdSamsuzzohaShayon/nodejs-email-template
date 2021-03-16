@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import './css/Template.css';
 
 export class Template extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+
         return (
             <div className="temp-container">
                 <header className="header">
                     <form className="h-form">
-                        <input type="text" placeholder="Newslatter title" />
+                        <input type="text" id="header" onChange={this.props.titleChangeHandler} placeholder="Newslatter title" />
                     </form>
                     <div className="h-btn">
                         <button className="btn cancel">Cancel</button>
@@ -15,10 +20,10 @@ export class Template extends Component {
                     </div>
                 </header>
                 <div className="template-wrapper">
-                    <header style={{ background: 'url(./img/sky-blue.jpg)' }} className="header-image">
+                    <header style={{ background: this.props.headerImg }} className="header-image">
                         This is header image
                     </header>
-                    <div className="temp-body">
+                    <div className="template-body">
                         {/* THERE WILL BE OUR DROPABLE COLUMN OR CONTENT */}
                         <h2>Drop</h2>
                     </div>
