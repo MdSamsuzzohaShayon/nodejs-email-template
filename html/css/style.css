@@ -1,0 +1,163 @@
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+.whole-body {
+  width: 100%;
+  height: 100%;
+}
+.whole-body .wrapper .template-builder {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 2%;
+  background-color: #b5d5f3;
+}
+.whole-body .wrapper .template-builder .workpace {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.whole-body .wrapper .template-builder .workpace .col-10 {
+  width: 62.5%;
+}
+.whole-body .wrapper .template-builder .workpace .col-6 {
+  width: 37.5%;
+}
+.whole-body .wrapper .template-builder .workpace .title-bar {
+  height: 60px;
+  background-color: #7aa6ce;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.whole-body .wrapper .template-builder .workpace .title-bar input[type=text] {
+  height: 25px;
+  padding: 5px;
+  width: 300px;
+  border: none;
+  background: #b5d5f3;
+  color: #7aa6ce;
+}
+.whole-body .wrapper .template-builder .workpace .title-bar input[type=text]::placeholder {
+  color: #7aa6ce;
+}
+.whole-body .wrapper .template-builder .workpace .title-bar input[type=text]:focus {
+  outline: none;
+  color: #4685c0;
+}
+.whole-body .wrapper .template-builder .workpace .title-bar .btn {
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: #4685c0;
+  background: #0f3050;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper {
+  margin-top: 3%;
+  background: #4685c0;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .header-image {
+  color: #0f3050;
+  height: 60px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .template-body {
+  height: fit-content;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .template-body .Cell {
+  height: 200px;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar {
+  color: #7aa6ce;
+  background: #0f3050;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper {
+  width: 90%;
+  height: 100%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block {
+  height: 100%;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block {
+  display: flex;
+  flex-direction: row;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block .block-col {
+  background: #b5d5f3;
+  width: 90%;
+  margin: 0 3%;
+  height: 150px;
+  border: 1px solid #b5d5f3;
+  align-items: center;
+  margin-top: 5px;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block .col-1-grid .content-holder {
+  margin-left: 20%;
+  width: 60%;
+  height: 60%;
+  margin-top: 25%;
+  background: #4685c0;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block .col-2-grid {
+  display: flex;
+  justify-content: space-around;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block .col-2-grid .content-holder {
+  width: 40%;
+  height: 60%;
+  margin-top: 0;
+  background: #4685c0;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block .col-3-grid {
+  display: flex;
+  justify-content: space-around;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .column-block .col-3-grid .content-holder {
+  width: 30%;
+  height: 60%;
+  margin-top: 0;
+  background: #4685c0;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .block-col {
+  width: 30%;
+  height: 150px;
+  margin-top: 15px;
+  border: #b5d5f3 solid 1px;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .block-col img {
+  width: 80%;
+  margin-left: 10%;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .block-col p {
+  text-align: center;
+  margin-top: 2%;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .elements {
+  width: 90%;
+  margin-left: 5%;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .elements .header-image {
+  color: #0f3050;
+  height: 90px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/*# sourceMappingURL=style.css.map */

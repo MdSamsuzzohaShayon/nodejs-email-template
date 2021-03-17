@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <div class="whole-body">
+        <div class="wrapper">
+            <div class="template-builder">
+                <div class="workpace">
+                    <!-- TEMPLATE EDITING START  -->
+                    <div class="col col-10">
+                        <header class="title-bar">
+                            <form class="h-form">
+                                <input type="text" id="title" placeholder="Newslatter title" />
+                            </form>
+                            <div class="h-btn">
+                                <button class="btn cancel">Cancel</button>
+                                <button class="btn save">Save</button>
+                            </div>
+                        </header>
+
+                        <div class="template-wrapper" style="background-image: url(img/header.jpg);">
+                            <header class="header-image">
+                                This is header image
+                            </header>
+                        </div>
+                    </div>
+                    <!-- TEMPLATE EDITING ENDS  -->
+
+
+                    <!-- RIGHTBAR START  -->
+                    <div class="col col-6 right-bar">
+                        <div class="rb-wrapper">
+                            <div class="rb-header">
+                                <h2>Template Creator</h2>
+                                <h4>Drag & Drop to Get Started</h4>
+                            </div>
+                            <!-- {/* BLOCK START */} -->
+                            <div class="rb-block">
+                                <!-- {/* COLUMNS START */} -->
+                                <h3 class="content-header">Add Column</h3>
+                                <div class="column-block">
+                                    <div class="block-col col-1-grid">
+                                        <div class="content-holder"></div>
+                                    </div>
+                                    <div class="block-col col-2-grid">
+                                        <div class="content-holder"></div>
+                                        <div class="content-holder"></div>
+                                    </div>
+                                    <div class="block-col col-3-grid">
+                                        <div class="content-holder"></div>
+                                        <div class="content-holder"></div>
+                                        <div class="content-holder"></div>
+                                    </div>
+                                </div>
+                                <!-- {/* COLUMNS ENDS */} -->
+
+                                <!-- {/* CONTENT START */} -->
+                                <h3 class="content-header">Add Content</h3>
+                                <div class="content-block">
+                                    <div class="block-col img-holder">
+                                        <img src="./icon/picture.png" alt="" />
+                                        <p>Image</p>
+                                    </div>
+                                    <div class="block-col txt-holder">
+                                        <img src="./icon/text.png" alt="" />
+                                        <p>Text</p>
+                                    </div>
+                                    <div class="block-col btn-holder">
+                                        <img src="./icon/button.png" alt="" />
+                                        <p>Button</p>
+                                    </div>
+                                    <div class="block-col social-holder">
+                                        <img src="./icon/social.png" alt="" />
+                                        <p>Social</p>
+                                    </div>
+                                    <div class="block-col spx-holder">
+                                        <img src="./icon/spacing.png" alt="" />
+                                        <p>Spacing</p>
+                                    </div>
+                                </div>
+                                <!-- {/* CONTENT ENDS */} -->
+                            </div>
+                            <!-- {/* BLOCK ENDS */} -->
+                            <div class="elements">
+                                <h3 class="content-header">Add Element</h3>
+                                <form>
+                                    <div class="row">
+                                        <label htmlFor="favcolor">Background color</label>
+                                        <input type="color" id="favcolor" name="favcolor" />
+                                    </div>
+                                    <div class="row">
+                                        <label htmlFor="favcolor">Text Link Color</label>
+                                        <input type="color" id="favcolor" name="favcolor" />
+                                    </div>
+                                </form>
+                                <div class="elements-header">
+                                    <header style={{ background: this.props.headerImg }} class="header-image">
+                                    </header>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- RIGHTBAR ENDS  -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

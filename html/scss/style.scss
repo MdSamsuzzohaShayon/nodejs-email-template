@@ -1,0 +1,191 @@
+@import "./variables";
+@import "./function";
+
+
+body,html{
+    padding: 0;
+    margin: 0;
+}
+
+
+.whole-body{
+    width: 100%;
+    height: 100%;
+    .wrapper{
+        // TEMPLATE BUILDER START 
+        .template-builder{
+            width: 80%;
+            margin-left: 10%;
+            margin-top: 2%;
+            background-color: $s-color;
+            .workpace{
+                display: flex;
+                // justify-content: spac;
+                width: 100%;
+                height: 100%;
+                    .col-10{
+                        width: 62.5%;
+                    }
+                    .col-6{
+                        width: 37.5%;
+                    }
+
+
+                    // TEMPLATE START 
+                    .title-bar{
+                        height: 60px;
+                        background-color: $p-color;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        input[type = "text"]{
+                            height: 25px;
+                            padding: 5px;
+                            width: 300px;
+                            border: none;
+                            background: $s-color;
+                            color: $p-color;
+                        }
+        
+                        input[type = "text"]::placeholder{
+                            color: $p-color;
+                
+                        }
+                
+                        input[type = "text"]:focus{
+                            outline: none;
+                            color: $f-color;
+                        }
+            
+                        .btn{
+                            padding: 10px 20px;
+                            margin-left: 5px;
+                            border: none;
+                            outline: none;
+                            color: $f-color;
+                            background: $t-color;
+                        }
+                    }
+                    .template-wrapper{
+                        margin-top: 3%;
+                        background: $f-color;
+            
+            
+                        .header-image{
+                            @include header_image(60px);
+                        }
+                        .template-body{
+                            height: fit-content;
+                            .Cell{
+                                height: 200px;
+                            }
+                        }
+                    }
+                    // TEMPLATE ENDS 
+
+
+
+
+                    // RIGHTBAR START 
+                    .right-bar{
+                        color: $p-color;
+                        background: $t-color;
+                        .rb-wrapper{
+                            width: 90%;
+                            height: 100%;
+                            margin-left: 5%;
+                            display: flex;
+                            flex-direction: column;
+                            // BLOCK START 
+                            .rb-block{
+                                height: 100%;
+
+                                // COLUMN BLOCK START 
+                                .column-block{
+                                    display: flex;
+                                    flex-direction: row;
+
+                                    .block-col{
+                                        background: $s-color;
+                                        width: 90%;
+                                        margin: 0 3%;
+                                        height: $block-height;
+                                        border: 1px solid $s-color;
+                                        // padding: 10px 0;
+                                        align-items: center;
+                                        margin-top: 5px;
+                                    }
+                                    .col-1-grid{
+                                        .content-holder{
+                                            margin-left: 20%;
+                                            @include content_holder(60%, 60%, 25% );
+                                        }
+                                    }
+                                    .col-2-grid{
+                                        @include block_col_2_3();
+                                        .content-holder{
+                                            @include content_holder(40%, 60%, 0);
+                                        }
+                                    }
+                                    .col-3-grid{
+                                        @include block_col_2_3();
+                                        .content-holder{
+                                            @include content_holder(30%, 60%, 0);
+                                        }
+                                    }
+                                }
+                                // COLUMN BLOCK ENDS 
+
+
+                                // CONTENT BLOCK START 
+                                .content-block{
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    width: 100%;
+                                    flex-wrap: wrap;
+                                    .block-col{
+                                        width: 30%;
+                                        height: 150px;
+                                        margin-top: 15px;
+                                        border: $s-color solid 1px;
+                                        img{
+                                            width: 80%;
+                                            margin-left: 10%;
+                                            filter: invert(100%);
+                                            -webkit-filter: invert(100%);
+                                        }
+                                        p{
+                                            text-align: center;
+                                            margin-top: 2%;
+                                        }
+                                    }
+                                }
+                                // CONTENT BLOCK ENDS 
+                            }
+                            // BLOCK ENDS 
+
+                            // ELEMENTS START 
+                            .elements{
+                                width: 90%;
+                                margin-left: 5%;
+                                .elements-header{
+                                    
+                                }
+                                .header-image{
+                                    @include header_image(90px);
+                                }
+                            }
+                            // ELEMENTS ENDS 
+                        }
+                    }
+                    
+                    // RIGHTBAR ENDS 
+                
+            }
+        }
+
+       
+        // TEMPLATE BUILDER ENDS 
+    }
+}

@@ -44,6 +44,7 @@ function collect(connect, monitor) {
         // to let React DnD handle the drag events:
         connectDragSource: connect.dragSource(),
         // You can ask the monitor about the current drag state:
+        connectDragPreview: connect.dragPreview(),
         isDragging: monitor.isDragging()
 
     }

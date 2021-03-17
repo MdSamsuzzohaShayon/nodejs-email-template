@@ -29,10 +29,11 @@ import { COLUMN_BLOCK } from "./Types";
 
 const bodyTarget = {
     canDrop(props, monitor) {
-        console.log("Props: " + props, "Monitor: ", monitor);
+        // console.log("Props: " + props, "Monitor: ", monitor);
         // You can disallow drop based on props or item
         console.log("You can disallow drop based on props or item");
-        const item = monitor.getItem()
+        const item = monitor.getItem();
+        console.log("canDrop - Item: ", item);
         // return canMakeChessMove(item.fromPosition, props.position)
     },
 
@@ -45,14 +46,19 @@ const bodyTarget = {
         console.log("Hover");
 
         // You can access the coordinates if you need them
-        const clientOffset = monitor.getClientOffset()
+        const clientOffset = monitor.getClientOffset();
+        console.log("hover - Client offset: ", clientOffset);
         const componentRect = findDOMNode(component).getBoundingClientRect()
+        console.log("hover - componentRect: ", componentRect);
 
         // You can check whether we're over a nested drop target
-        const isOnlyThisOne = monitor.isOver({ shallow: true })
+        const isOnlyThisOne = monitor.isOver({ shallow: true });
+        console.log("hover - isOnlyThisOne: ", isOnlyThisOne);
 
         // You will receive hover() even for items for which canDrop() is false
         const canDrop = monitor.canDrop()
+        console.log("hover - canDrop: ", canDrop);
+
     },
 
     drop(props, monitor, component) {
@@ -60,11 +66,13 @@ const bodyTarget = {
         if (monitor.didDrop()) {
             // If you want, you can check whether some nested
             // target already handled drop
+            console.log("Drop - didDrop: ", monitor.didDrop());
             return
         }
 
         // Obtain the dragged item
-        const item = monitor.getItem()
+        const item = monitor.getItem();
+        console.log("Drop - Item: ", item);
 
         // You can do something with it
         // ChessActions.movePiece(item.fromPosition, props.position)
@@ -115,6 +123,9 @@ function collect(connect, monitor) {
         itemType: monitor.getItemType()
     }
 }
+
+
+// console.log("Body - Collect: ", collect);
 
 
 
@@ -195,9 +206,9 @@ class Body extends Component {
             <div className="template-body">
                 {/* THERE WILL BE OUR DROPABLE COLUMN OR CONTENT */}
                 <div className="Cell">
-                    {isOver && canDrop && <div class="green" />}
-                    {!isOver && canDrop && <div class="yellow" />}
-                    {isOver && !canDrop && <div class="red" />}
+                    {isOver && canDrop && <div className="green" />}
+                    {!isOver && canDrop && <div className="yellow" />}
+                    {isOver && !canDrop && <div className="red" />}
                 </div>
             </div>
         )
