@@ -13,7 +13,7 @@ let rowID = 1; // AUTO INCREMENT
 // THIS ROW LIST WOULD BE ANOTHER DATABASE TABLE 
 let rowList = []; // THIS IS FOR TRACKING ROW DETAIL - FOR EXAMPLE - FIRST ROW WITH 3 COLUMN, 2ND ROW WITH ONE COLUMN, 3RD COLUMN WITH 2 COLUMN
 
-let currentRowWithColumn = null;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3 COLUMN ROW
+let rowWithColumn;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3 COLUMN ROW
 // DATABASE DESIGN ENDS 
 
 
@@ -83,7 +83,7 @@ function columnDragAndDrop() {
                     const oneColumnDiv = document.createElement('div');
                     oneColumnDiv.setAttribute('class', 'one-column-div');
                     newDiv.appendChild(oneColumnDiv);
-                    currentRowWithColumn = 'col-1-grid';
+                    rowWithColumn = 1;
                     break;
                 case 'col-2-grid':
                     // ADD 2 COLUMN INSIDE A DIV 
@@ -92,7 +92,7 @@ function columnDragAndDrop() {
                         const twoColumnDiv = document.createElement('div');
                         twoColumnDiv.setAttribute('class', 'two-column-div');
                         newDiv.appendChild(twoColumnDiv);
-                        currentRowWithColumn = 'col-2-grid';
+                        rowWithColumn = 2;
                     }
                     break;
                 case 'col-3-grid':
@@ -102,17 +102,17 @@ function columnDragAndDrop() {
                         const threeColumnDiv = document.createElement('div');
                         threeColumnDiv.setAttribute('class', 'two-column-div');
                         newDiv.appendChild(threeColumnDiv);
-                        currentRowWithColumn = 'col-3-grid';
+                        rowWithColumn = 3;
                     }
                     break;
                 default:
                     dropableColumn = null;
                     break;
             };
-            console.log("current row with column: ", currentRowWithColumn);
+            console.log("current row with column: ", rowWithColumn);
             console.log("rowID : ", rowID);
             dropColumnZone.appendChild(newDiv);
-            rowList.push({ rowID, currentRowWithColumn });
+            rowList.push({ rowID, rowWithColumn });
             console.log("Row List from function end: ", rowList);
             // EVERYTIME WHEN WE ADD A ROW WE WILL ADD 1
             rowID++;
