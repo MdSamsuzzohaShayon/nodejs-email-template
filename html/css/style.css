@@ -55,6 +55,8 @@ body, html {
   background: #0f3050;
 }
 .whole-body .wrapper .template-builder .workpace .template-wrapper {
+  width: 90%;
+  margin-left: 5%;
   margin-top: 3%;
   background: #4685c0;
 }
@@ -65,11 +67,38 @@ body, html {
   background-size: cover;
   background-repeat: no-repeat;
 }
-.whole-body .wrapper .template-builder .workpace .template-wrapper .template-body {
-  height: fit-content;
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 2%;
+  border: 1px solid #7aa6ce;
+  height: 45em;
 }
-.whole-body .wrapper .template-builder .workpace .template-wrapper .template-body .Cell {
-  height: 200px;
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row {
+  background: #0f3050;
+  color: #4685c0;
+  width: 100%;
+  height: 15em;
+  border: 1px solid #b5d5f3;
+  display: flex;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .one-column-div {
+  width: 100%;
+  height: 100%;
+  background: #7aa6ce;
+  border-right: 1px solid #b5d5f3;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .two-column-div {
+  width: 50%;
+  height: 100%;
+  background: #7aa6ce;
+  border-right: 1px solid #b5d5f3;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .three-column-div {
+  width: 33.99%;
+  height: 100%;
+  background: #7aa6ce;
+  border-right: 1px solid #b5d5f3;
 }
 .whole-body .wrapper .template-builder .workpace .right-bar {
   color: #7aa6ce;

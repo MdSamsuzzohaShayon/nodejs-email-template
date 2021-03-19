@@ -67,6 +67,8 @@ body,html{
                         }
                     }
                     .template-wrapper{
+                        width: 90%;
+                        margin-left: 5%;
                         margin-top: 3%;
                         background: $f-color;
             
@@ -74,12 +76,34 @@ body,html{
                         .header-image{
                             @include header_image(60px);
                         }
-                        .template-body{
-                            height: fit-content;
-                            .Cell{
-                                height: 200px;
+                        // DROPZONE START 
+                        .drop-wrapper{
+                            width: 80%;
+                            margin-left: 10%;
+                            margin-top: 2%;
+                            border: 1px solid $p-color;
+                            height: 45em;
+
+                            .drop-row{
+                                background: $t-color;
+                                color: $f-color;
+                                width: 100%;
+                                height: 15em;
+                                border: 1px solid $s-color;
+                                display: flex;
+                                .one-column-div{
+                                    @include drop_column(100%);
+                                }
+                                
+                                .two-column-div {
+                                    @include drop_column(50%);
+                                }
+                                .three-column-div{
+                                    @include drop_column(33.99%);
+                                }
                             }
                         }
+                        // DROPZONE ENDS 
                     }
                     // TEMPLATE ENDS 
 

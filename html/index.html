@@ -27,10 +27,11 @@
                             </div>
                         </header>
 
-                        <div class="template-wrapper" style="background-image: url(img/header.jpg);">
-                            <header class="header-image">
-                                This is header image
-                            </header>
+                        <div class="template-wrapper">
+                            <header class="header-image" style="background-image: url(img/header.jpg);"></header>
+                            <!-- DROPABLE ZONE START -->
+                            <div class="drop-wrapper" id="drop-zone"></div>
+                            <!-- DROPABLE ZONE ENDS  -->
                         </div>
                     </div>
                     <!-- TEMPLATE EDITING ENDS  -->
@@ -43,19 +44,20 @@
                                 <h2>Template Creator</h2>
                                 <h4>Drag & Drop to Get Started</h4>
                             </div>
+                            <!-- DRAGABLE ZONE START  -->
                             <!-- {/* BLOCK START */} -->
                             <div class="rb-block">
                                 <!-- {/* COLUMNS START */} -->
                                 <h3 class="content-header">Add Column</h3>
                                 <div class="column-block">
-                                    <div class="block-col col-1-grid">
+                                    <div draggable="true" class="block-col col-1-grid">
                                         <div class="content-holder"></div>
                                     </div>
-                                    <div class="block-col col-2-grid">
+                                    <div draggable="true" class="block-col col-2-grid">
                                         <div class="content-holder"></div>
                                         <div class="content-holder"></div>
                                     </div>
-                                    <div class="block-col col-3-grid">
+                                    <div draggable="true" class="block-col col-3-grid">
                                         <div class="content-holder"></div>
                                         <div class="content-holder"></div>
                                         <div class="content-holder"></div>
@@ -90,6 +92,7 @@
                                 <!-- {/* CONTENT ENDS */} -->
                             </div>
                             <!-- {/* BLOCK ENDS */} -->
+                            <!-- DRAGABLE ZONE ENDS  -->
                             <div class="elements">
                                 <h3 class="content-header">Add Element</h3>
                                 <form>
