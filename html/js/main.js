@@ -39,7 +39,7 @@ let rowWithColumn;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3
 
 
 // DROPABLE COLUMN ELEMENTS 
-let dropableColumnZone = [];
+// let dropableColumnZone = [];
 
 
 
@@ -117,7 +117,6 @@ function columnDragAndDrop() {
                     // ADD 1 COLUMN INSIDE A DIV
                     const oneColumnDiv = document.createElement('div');
                     oneColumnDiv.setAttribute('class', 'one-column-div');
-                    dropableColumnZone.push(oneColumnDiv);
                     newDiv.appendChild(oneColumnDiv);
                     rowWithColumn = 1;
                     break;
@@ -126,7 +125,6 @@ function columnDragAndDrop() {
                     for (let i = 0; i < 2; i++) {
                         const twoColumnDiv = document.createElement('div');
                         twoColumnDiv.setAttribute('class', 'two-column-div');
-                        dropableColumnZone.push(twoColumnDiv);
                         newDiv.appendChild(twoColumnDiv);
                         rowWithColumn = 2;
                     }
@@ -136,7 +134,6 @@ function columnDragAndDrop() {
                     for (let i = 0; i < 3; i++) {
                         const threeColumnDiv = document.createElement('div');
                         threeColumnDiv.setAttribute('class', 'three-column-div');
-                        dropableColumnZone.push(threeColumnDiv);
                         newDiv.appendChild(threeColumnDiv);
                         rowWithColumn = 3;
                     }
@@ -155,17 +152,12 @@ function columnDragAndDrop() {
 
             // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
             dropableColumn = null;
-        } else {
-            alert("This element is not dropable, you must add column first");
         }
+        // else {
+
+        //     alert("This element is not dropable, you must add column first");
+        // }
     });
-
-
-    console.log(document.body);
-
-
-
-
     // DROPZONE EVENTS ENDS
 }
 
@@ -175,27 +167,99 @@ columnDragAndDrop();
 
 
 
-document.addEventListener('dragleave', (e) => {
-    console.log("Mouseleave - Event: ");
-    // console.log("Mouseleave - Event: ", e.toElement);
-});
-document.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    console.log("Mouseover - Event: ");
-    // console.log("Mouseover - Event: ", e.toElement);
-});
 
 
 
-document.addEventListener('drop', (e) => {
-    // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
-    e.preventDefault();
-    console.log("Drop - Event: ", e.toElement);
-    const newBlockCol = document.createElement('div');
-    newBlockCol.setAttribute('id', "working");
-    newBlockCol.textContent = 'Hello world 😊';
-    e.toElement.appendChild(newBlockCol);
-});
+
+function blockDragAndDrop() {
+    let dropableBlock = null;
+
+
+    contentBlockCol.forEach((blockCol, index) => {
+        // DRAGABLE BLOCK
+        blockCol.addEventListener('dragstart', (e) => {
+            // console.log("Content block dragstart - E: ", e);
+            // CHECK WHICH BLOCK WE ARE DRAGGING AND DROPPING 
+            const blockContent = e.toElement.classList[0];
+            if (blockContent) {
+                console.log("Block content: ", blockContent);
+                switch (e.toElement.classList[1].toString()) {
+                    case 'img-holder':
+                        dropableBlock = "img-holder";
+                        break;
+                    case 'txt-holder':
+                        dropableBlock = "txt-holder";
+                        break;
+                    case 'social-holder':
+                        dropableBlock = "social-holder";
+                        break;
+                    case 'btn-holder':
+                        dropableBlock = "btn-holder";
+                        break;
+                    case 'spx-holder':
+                        dropableBlock = "spx-holder";
+                        break;
+                    default:
+                        dropableBlock = null;
+                        break;
+                };
+            }
+            // console.log("Content block drag start ");
+            // console.log("Content block dragstart children", dropColumnZone.children);
+
+        });
+    });
+
+
+
+
+
+
+
+
+
+    // document.addEventListener('dragleave', (e) => {
+    //     console.log("Mouseleave - Event: ");
+    //     // console.log("Mouseleave - Event: ", e.toElement);
+    // });
+    document.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        // console.log("dragover - Event: Prevent default");
+        // console.log("Mouseover - Event: ", e.toElement);
+    });
+
+
+
+    document.addEventListener('drop', (e) => {
+        // console.log("Targeter element", e.target.className);
+        let dropableColumn = e.target.className;
+        // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
+        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
+
+            if (dropableBlock === "img-holder" || dropableBlock === "txt-holder" || dropableBlock === "btn-holder" || dropableBlock === "social-holder" || dropableBlock === "spx-holder") {
+                // console.log("Drop - Dropable Block: ", dropableBlock);
+                // console.log("Drop event : ", e);
+                // console.log("Drop - Event: ", e.toElement);
+                const newBlockCol = document.createElement('div');
+                newBlockCol.setAttribute('id', "working");
+                newBlockCol.textContent = 'Hello world 😊';
+                e.toElement.appendChild(newBlockCol);
+            } else {
+                console.log("Drop - Not Dropable Block: ", dropableBlock);
+            }
+        } else {
+
+        }
+    });
+}
+
+
+blockDragAndDrop();
+
+
+
+
+
 
 
 
