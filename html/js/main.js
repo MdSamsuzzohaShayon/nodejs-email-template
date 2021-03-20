@@ -1,6 +1,22 @@
 const draggableColumn = document.querySelectorAll('.block-col');
+// console.log("Dragable column : ", draggableColumn);
 const dropColumnZone = document.getElementById('drop-zone');
 // const dropIntoContainer = document.querySelectorAll('.drop-wrapper');
+
+
+
+
+
+
+
+// DRAGABLE CONTENT BLOCK 
+const contentBlockCol = document.querySelectorAll('.content-block-col');
+// console.log("Content block column : ", contentBlockCol);
+
+
+
+
+
 
 
 
@@ -18,14 +34,27 @@ let rowWithColumn;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3
 
 
 
+
+
+
+
+// DROPABLE COLUMN ELEMENTS 
+let dropableColumnZone = [];
+
+
+
+
+
+
 function columnDragAndDrop() {
     let dropableColumn = null;
 
     draggableColumn.forEach((column, index) => {
         column.addEventListener('dragstart', (e) => {
-            console.log("Drag Start - E: ", e);
-            if (e.toElement.classList[0]) {
-                console.log("Valid element");
+            // console.log("Drag Start - E: ", e);
+            // console.log("drag start - e.toElement.classList[0]: ", e.toElement.classList[0]); // RESULT - block-col
+            const blockCol = e.toElement.classList[0];
+            if (blockCol) {
                 switch (e.toElement.classList[1].toString()) {
                     case 'col-1-grid':
                         dropableColumn = "col-1-grid";
@@ -40,10 +69,11 @@ function columnDragAndDrop() {
                         dropableColumn = null;
                         break;
                 };
-            } else {
-                console.log("this is not column");
             }
         });
+
+
+
     });
 
 
@@ -63,13 +93,18 @@ function columnDragAndDrop() {
     }, false);
 
 
+
+
+
+
     dropColumnZone.addEventListener('drop', e => {
+        // console.log("Dropable column: ", dropableColumn);
         if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid") {
-            console.log("this element is dropable");
+
+            // console.log("this element is dropable");
 
             // e.preventDefault();
             // console.log("Drag over - E: ", e.srcElement);
-            console.log("Drop - E.Target: ", e.target);
 
             // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
             const newDiv = document.createElement('div');
@@ -82,15 +117,16 @@ function columnDragAndDrop() {
                     // ADD 1 COLUMN INSIDE A DIV
                     const oneColumnDiv = document.createElement('div');
                     oneColumnDiv.setAttribute('class', 'one-column-div');
+                    dropableColumnZone.push(oneColumnDiv);
                     newDiv.appendChild(oneColumnDiv);
                     rowWithColumn = 1;
                     break;
                 case 'col-2-grid':
                     // ADD 2 COLUMN INSIDE A DIV 
                     for (let i = 0; i < 2; i++) {
-                        console.log("two column grid: " + i);
                         const twoColumnDiv = document.createElement('div');
                         twoColumnDiv.setAttribute('class', 'two-column-div');
+                        dropableColumnZone.push(twoColumnDiv);
                         newDiv.appendChild(twoColumnDiv);
                         rowWithColumn = 2;
                     }
@@ -98,9 +134,9 @@ function columnDragAndDrop() {
                 case 'col-3-grid':
                     // ADD 3 COULMN INSIDE A DIV
                     for (let i = 0; i < 3; i++) {
-                        console.log("two column grid: " + i);
                         const threeColumnDiv = document.createElement('div');
-                        threeColumnDiv.setAttribute('class', 'two-column-div');
+                        threeColumnDiv.setAttribute('class', 'three-column-div');
+                        dropableColumnZone.push(threeColumnDiv);
                         newDiv.appendChild(threeColumnDiv);
                         rowWithColumn = 3;
                     }
@@ -109,17 +145,25 @@ function columnDragAndDrop() {
                     dropableColumn = null;
                     break;
             };
-            console.log("current row with column: ", rowWithColumn);
-            console.log("rowID : ", rowID);
+
+
             dropColumnZone.appendChild(newDiv);
             rowList.push({ rowID, rowWithColumn });
-            console.log("Row List from function end: ", rowList);
+            // console.log("Row List from function end: ", rowList);
             // EVERYTIME WHEN WE ADD A ROW WE WILL ADD 1
             rowID++;
+
+            // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
+            dropableColumn = null;
         } else {
             alert("This element is not dropable, you must add column first");
         }
     });
+
+
+    console.log(document.body);
+
+
 
 
     // DROPZONE EVENTS ENDS
@@ -128,6 +172,153 @@ function columnDragAndDrop() {
 
 
 columnDragAndDrop();
+
+
+
+document.addEventListener('dragleave', (e) => {
+    console.log("Mouseleave - Event: ");
+    // console.log("Mouseleave - Event: ", e.toElement);
+});
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    console.log("Mouseover - Event: ");
+    // console.log("Mouseover - Event: ", e.toElement);
+});
+
+
+
+document.addEventListener('drop', (e) => {
+    // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
+    e.preventDefault();
+    console.log("Drop - Event: ", e.toElement);
+    const newBlockCol = document.createElement('div');
+    newBlockCol.setAttribute('id', "working");
+    newBlockCol.textContent = 'Hello world 😊';
+    e.toElement.appendChild(newBlockCol);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// PLANNING 
+// THIS WAY IS NOT WORKING SO NOW I AM GOING TO APPEND ALL BLOCK ELEMENT INTO DROP ZONE (ELEMENT ID)
+// BY USING CSS I WILL STYLE TOP OF THE COLUMN DIV BY USING POSITION ABSOLUTE 
+// OR WE CAN REMOVE BELOW DIV AND USE CREATE NEW DIV THAT WE WANT TO APPEND OUR BLOCK
+
+//  OR WE CAN MADE THE EVENT LISTENER OR ACTION ABOVE WHERE WE MADE THE ELEMENT dropableColumnZone
+
+// OR WE CAN MADE COLUMN ELEMENT GLOBALLY(OUTSIDE OF ANY FUNCTION OR LOOP) SO WE CAN ACCESS ANYWARE 
+// OR WE CAN SEECT DIRECTLY FROM THE ELEMENT // document.addEventListener   == IT'S WORKED 😊
+
+/*
+// console.log("Rowlist: ", rowList);
+
+function blockDragAndDrop() {
+    // const dropRow = document.querySelectorAll('.drop-row');
+    // console.log("dropable row: ", dropRow);
+    // try {
+
+    //     const rowColumn = dropRow.querySelectorAll('.one-column-div');
+    //     console.log("Row column: ", rowColumn);
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
+
+    contentBlockCol.forEach((blockCol, index) => {
+        // DRAGABLE BLOCK
+        blockCol.addEventListener('dragstart', (e) => {
+            // console.log("Content block drag start ");
+            console.log("Content block dragstart - E: ", e);
+            // console.log("Content block dragstart children", dropColumnZone.children);
+
+
+        });
+    });
+
+
+    // const twoColumnDiv = document.querySelectorAll('.two-column-div');
+    // console.log("Two column div: ", twoColumnDiv);
+
+
+
+    try {
+        console.log("dropableColumnZone: ", dropableColumnZone);
+        for (let i = 0; i < dropColumnZone.length; i++) {
+
+            const element = array[i];
+            console.log("element");
+
+        }
+        // dropableColumnZone.forEach((el, i) => {
+        //     console.log("Element: ", el);
+        //     console.log("Index: ", i);
+        // });
+        // dropRow.childNodes.addEventListener('dragover', (e) => {
+        //     console.log("Drag over - event: ", e);
+        // });
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+    // DROPABLE COLUMN
+    // dropRow.childNodes.forEach((oneCol, index) => {
+    //     console.log("Content block: ", oneCol);
+    //     oneCol.addEventListener("dragover", function (event) {
+    //         // prevent default to allow drop
+    //         // event.preventDefault();
+    //         console.log("Content block - Dragover: ");
+    //     }, false);
+
+    // });
+}
+
+
+blockDragAndDrop();
+*/
 
 
 

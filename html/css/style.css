@@ -161,19 +161,19 @@ body, html {
   width: 100%;
   flex-wrap: wrap;
 }
-.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .block-col {
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .content-block-col {
   width: 30%;
   height: 150px;
   margin-top: 15px;
   border: #b5d5f3 solid 1px;
 }
-.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .block-col img {
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .content-block-col img {
   width: 80%;
   margin-left: 10%;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }
-.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .block-col p {
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block .content-block .content-block-col p {
   text-align: center;
   margin-top: 2%;
 }

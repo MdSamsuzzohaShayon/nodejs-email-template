@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/main.js" defer></script>
+
 </head>
 
 <body>
@@ -68,24 +68,24 @@
                                 <!-- {/* CONTENT START */} -->
                                 <h3 class="content-header">Add Content</h3>
                                 <div class="content-block">
-                                    <div class="block-col img-holder">
-                                        <img src="./icon/picture.png" alt="" />
+                                    <div draggable="true" class="content-block-col img-holder">
+                                        <img draggable="false" src="./icon/picture.png" alt="" />
                                         <p>Image</p>
                                     </div>
-                                    <div class="block-col txt-holder">
-                                        <img src="./icon/text.png" alt="" />
+                                    <div draggable="true" class="content-block-col txt-holder">
+                                        <img draggable="false" src="./icon/text.png" alt="" />
                                         <p>Text</p>
                                     </div>
-                                    <div class="block-col btn-holder">
-                                        <img src="./icon/button.png" alt="" />
+                                    <div draggable="true" class="content-block-col btn-holder">
+                                        <img draggable="false" src="./icon/button.png" alt="" />
                                         <p>Button</p>
                                     </div>
-                                    <div class="block-col social-holder">
-                                        <img src="./icon/social.png" alt="" />
+                                    <div draggable="true" class="content-block-col social-holder">
+                                        <img draggable="false" src="./icon/social.png" alt="" />
                                         <p>Social</p>
                                     </div>
-                                    <div class="block-col spx-holder">
-                                        <img src="./icon/spacing.png" alt="" />
+                                    <div draggable="true" class="content-block-col spx-holder">
+                                        <img draggable="false" src="./icon/spacing.png" alt="" />
                                         <p>Spacing</p>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                                     </div>
                                 </form>
                                 <div class="elements-header">
-                                    <header style={{ background: this.props.headerImg }} class="header-image">
+                                    <header style="background-image: url(img/header.jpg);" class="header-image">
                                     </header>
                                 </div>
                             </div>
@@ -118,6 +118,11 @@
             </div>
         </div>
     </div>
+
+
+
+    <script src="js/main.js"></script>
+    <script src="js/main2.js"></script>
 </body>
 
 </html>
