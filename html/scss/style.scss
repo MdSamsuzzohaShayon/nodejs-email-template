@@ -101,6 +101,11 @@ body,html{
                                 .three-column-div{
                                     @include drop_column(33.99%);
                                 }
+                                .block{
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: $t-color;
+                                }
                             }
                         }
                         // DROPZONE ENDS 

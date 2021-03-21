@@ -100,6 +100,11 @@ body, html {
   background: #7aa6ce;
   border-right: 1px solid #b5d5f3;
 }
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .block {
+  width: 100%;
+  height: 100%;
+  background-color: #0f3050;
+}
 .whole-body .wrapper .template-builder .workpace .right-bar {
   color: #7aa6ce;
   background: #0f3050;
