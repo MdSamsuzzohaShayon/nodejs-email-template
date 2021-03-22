@@ -5,9 +5,8 @@ const saveButton = document.getElementById('save-btn');
 
 
 const draggableColumn = document.querySelectorAll('.block-col');
-// console.log("Dragable column : ", draggableColumn);
 const dropColumnZone = document.getElementById('drop-zone');
-// const dropIntoContainer = document.querySelectorAll('.drop-wrapper');
+
 
 
 
@@ -17,7 +16,6 @@ const dropColumnZone = document.getElementById('drop-zone');
 
 // DRAGABLE CONTENT BLOCK 
 const contentBlockCol = document.querySelectorAll('.content-block-col');
-// console.log("Content block column : ", contentBlockCol);
 
 
 
@@ -51,10 +49,28 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // CHANGING TITLE 
 saveButton.addEventListener('click', e => {
     e.preventDefault();
-    // console.log(inputTitle.value);
     title = inputTitle.value;
     inputTitle.nodeValue = title;
 });
@@ -126,19 +142,12 @@ function columnDragAndDrop() {
         if (e.toElement.id == 'drop-zone') {
             // PREVENT TO ADD MORE THAN 3 ROW 
             if (rowList.length < 3) {
-                // console.log("Dropable column: ", dropableColumn);
                 if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid") {
-
-                    // console.log("this element is dropable");
-
-                    // e.preventDefault();
-                    // console.log("Drag over - E: ", e.srcElement);
 
                     // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
                     const newDiv = document.createElement('div');
                     // setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
                     setAttributes(newDiv, { "class": "drop-row", "id": `row-${rowID}` });
-                    // newDiv.setAttribute('class', 'drop-row');
 
 
                     // ADD DEFFERENT TYPE OF STYLING FOR DEFFERENT TYPE OF COLUMN ELEMENT 
@@ -259,26 +268,7 @@ columnDragAndDrop();
 
 
 
-// PLANNING 
-// THIS WAY IS NOT WORKING SO NOW I AM GOING TO APPEND ALL BLOCK ELEMENT INTO DROP ZONE (ELEMENT ID)
-// BY USING CSS I WILL STYLE TOP OF THE COLUMN DIV BY USING POSITION ABSOLUTE 
-// OR WE CAN REMOVE BELOW DIV AND USE CREATE NEW DIV THAT WE WANT TO APPEND OUR BLOCK
 
-//  OR WE CAN MADE THE EVENT LISTENER OR ACTION ABOVE WHERE WE MADE THE ELEMENT dropableColumnZone
-
-// OR WE CAN MADE COLUMN ELEMENT GLOBALLY(OUTSIDE OF ANY FUNCTION OR LOOP) SO WE CAN ACCESS ANYWARE 
-// OR WE CAN SEECT DIRECTLY FROM THE ELEMENT // document.addEventListener   == IT'S WORKED 😊
-
-
-
-// BY POSITION FIND OUT THE COLUMN INDEX NUMBER 
-// FIND OUT IN WHICH COLUMN AND WHICH ROW OUR ELEMENT IS LOCATED
-// SET ONE MORE ATTRIBUTE IN COLUMN BLOCK THAT CAN DIFFERENTTHIATE EACH ELEMENT 
-
-
-
-
-// AT FIRST GET ROW ID AND COL ID 
 
 
 function blockDragAndDrop() {
@@ -291,7 +281,6 @@ function blockDragAndDrop() {
     contentBlockCol.forEach((blockCol, index) => {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
-            // console.log("Content block dragstart - E: ", e);
             // CHECK WHICH BLOCK WE ARE DRAGGING AND DROPPING 
             const blockContent = e.toElement.classList[0];
             if (blockContent) {
@@ -317,8 +306,6 @@ function blockDragAndDrop() {
                         break;
                 };
             }
-            // console.log("Content block drag start ");
-            // console.log("Content block dragstart children", dropColumnZone.children);
 
         });
     });
@@ -331,10 +318,7 @@ function blockDragAndDrop() {
 
 
 
-    // document.addEventListener('dragleave', (e) => {
-    //     console.log("Mouseleave - Event: ");
-    //     // console.log("Mouseleave - Event: ", e.toElement);
-    // });
+
     document.addEventListener('dragover', (e) => {
         e.preventDefault();
         // if (e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div" || e.toElement.className === "three-column-div") {
@@ -349,7 +333,6 @@ function blockDragAndDrop() {
 
 
 
-    console.log(rowList);
     document.addEventListener('drop', (e) => {
         // console.log("Mouseover - Event: ", e.toElement.id);   // GETTING COLUMN ID (iNDICATES INDEX NUMBER OF THE COLUMN)
 
@@ -369,6 +352,7 @@ function blockDragAndDrop() {
             if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
                 // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
 
+                /*
                 if (dropableBlock === "img-holder" || dropableBlock === "txt-holder" || dropableBlock === "btn-holder" || dropableBlock === "social-holder" || dropableBlock === "spx-holder") {
 
                     // console.log("Drop - Dropable Block: ", dropableBlock);
@@ -387,12 +371,92 @@ function blockDragAndDrop() {
                 } else {
                     console.log("Drop - Not Dropable Block: ", dropableBlock);
                 }
+                */
+                if (dropableBlock === "img-holder") {
+                    // console.log("Drop - Dropable Block: ", dropableBlock);
+                    // console.log("Drop event : ", e);
+                    // console.log("Drop - E: e.toElement", e.toElement);  // RESULT = <div class="one-column-div" id="one-col-0"></div>
+                    const newBlockCol = document.createElement('div');
+                    //  setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
+                    setAttributes(newBlockCol, { "style": "background: url(icon/picture.png); ", "class": "block", 'id': 'img-holder' });
+                    e.toElement.appendChild(newBlockCol);
+
+                    // DATABASE AND VARIABLE 
+                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                    columnNumber = convertColIdToNumber(e.toElement.id);
+                    blockElement = dropableBlock;
+                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                    // console.log(positionElement);
+                } else if (dropableBlock === "txt-holder") {
+                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                    columnNumber = convertColIdToNumber(e.toElement.id);
+
+                    const newBlockCol = document.createElement('div');
+                    setAttributes(newBlockCol, { 'class': "block", "id": "txt-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    newBlockCol.textContent = '😊Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
+                    e.toElement.appendChild(newBlockCol);
+
+                    blockElement = dropableBlock;
+                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                } else if (dropableBlock === "btn-holder") {
+                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                    columnNumber = convertColIdToNumber(e.toElement.id);
+
+                    const newBlockCol = document.createElement('button');
+                    setAttributes(newBlockCol, { 'class': "block", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    newBlockCol.textContent = 'Preview';
+                    e.toElement.appendChild(newBlockCol);
+
+                    blockElement = dropableBlock;
+                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                } else if (dropableBlock === "social-holder") {
+                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                    columnNumber = convertColIdToNumber(e.toElement.id);
+
+
+
+                    const newBlockCol = document.createElement('button');
+                    setAttributes(newBlockCol, { 'class': "block", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    e.toElement.appendChild(newBlockCol);
+                    // CREATING THREE SOCIAL ICON 
+                    for (let i = 0; i < 3; i++) {
+                        const threeButton = document.createElement('button');
+                        setAttributes(threeButton, { "class": "icon", "id": `icon-${i}` });
+                        threeButton.textContent = 'icon';
+                        newBlockCol.appendChild(threeButton);
+                    }
+
+                    blockElement = dropableBlock;
+                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                } else if (dropableBlock === "spx-holder") {
+                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                    columnNumber = convertColIdToNumber(e.toElement.id);
+
+                    const newBlockCol = document.createElement('button');
+                    setAttributes(newBlockCol, { 'class': "block", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    newBlockCol.textContent = 'space';
+                    e.toElement.appendChild(newBlockCol);
+
+                    blockElement = dropableBlock;
+                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                } else {
+                    console.log('Not creating element');
+                }
             } else {
                 console.log("Not dropable column");
             }
         };
     });
 }
+
+
+
+
+
+document.addEventListener('click', e => {
+    console.log("Click: E", e);
+    console.log("Click: E Target", e.target);
+});
 
 
 blockDragAndDrop();
@@ -441,12 +505,30 @@ blockDragAndDrop();
 
 
 // EXTRA FUNCTIONS 
+function createBlockElement(blockElement, attributes) {
+    // console.log("Drop - Dropable Block: ", dropableBlock);
+    // console.log("Drop event : ", e);
+    // console.log("Drop - E: e.toElement", e.toElement);  // RESULT = <div class="one-column-div" id="one-col-0"></div>
+    const newBlockCol = document.createElement('div');
+    //  setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
+    setAttributes(newBlockCol, { attributes });
+    e.toElement.appendChild(newBlockCol);
+
+    // DATABASE AND VARIABLE 
+    rowNumber = convertRowIdToNumber(e.path[1].id);
+    columnNumber = convertColIdToNumber(e.toElement.id);
+    blockElement = dropableBlock;
+    positionElement.push({ rowNumber, columnNumber, blockElement });
+    // console.log(positionElement);
+}
+
+
+
 function setAttributes(el, attrs) {
     for (let key in attrs) {
         el.setAttribute(key, attrs[key]);
     }
 }
-
 
 
 
