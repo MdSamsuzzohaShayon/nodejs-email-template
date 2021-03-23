@@ -12,8 +12,7 @@
 }
 
 
-@mixin header_image($height){
-    color: $t-color;
+@mixin bg_img($height){
     height: $height;
     background-position: center;
     background-size: cover;
@@ -28,3 +27,4 @@
     background: $p-color;
     border-right: 1px solid $s-color;
 }
+

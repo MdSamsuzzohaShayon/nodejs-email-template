@@ -39,79 +39,106 @@
 
                     <!-- RIGHTBAR START  -->
                     <div class="col col-6 right-bar">
-                        <div class="rb-wrapper">
+                        <!-- ON CLICK EVENT CLOSE THE RIGHT BAR WRAPPER IN THE MEAN TIME OPEN PROPERTY BAR  -->
+
+                        <div class="rb-wrapper" id="br-content">
                             <div class="rb-header">
                                 <h2>Template Creator</h2>
                                 <h4>Drag & Drop to Get Started</h4>
                             </div>
-                            <!-- DRAGABLE ZONE START  -->
-                            <!-- {/* BLOCK START */} -->
-                            <div class="rb-block">
-                                <!-- {/* COLUMNS START */} -->
-                                <h3 class="content-header">Add Column</h3>
-                                <div class="column-block">
-                                    <div draggable="true" class="block-col col-1-grid">
-                                        <div class="content-holder"></div>
-                                    </div>
-                                    <div draggable="true" class="block-col col-2-grid">
-                                        <div class="content-holder"></div>
-                                        <div class="content-holder"></div>
-                                    </div>
-                                    <div draggable="true" class="block-col col-3-grid">
-                                        <div class="content-holder"></div>
-                                        <div class="content-holder"></div>
-                                        <div class="content-holder"></div>
-                                    </div>
-                                </div>
-                                <!-- {/* COLUMNS ENDS */} -->
+                            <!-- PROPERTY BAR START  -->
+                            <div class="rb-props" id="rb-props">
+                                properties
+                                <div class="props img-props">
 
-                                <!-- {/* CONTENT START */} -->
-                                <h3 class="content-header">Add Content</h3>
-                                <div class="content-block">
-                                    <div draggable="true" class="content-block-col img-holder">
-                                        <img draggable="false" src="./icon/picture.png" alt="" />
-                                        <p>Image</p>
-                                    </div>
-                                    <div draggable="true" class="content-block-col txt-holder">
-                                        <img draggable="false" src="./icon/text.png" alt="" />
-                                        <p>Text</p>
-                                    </div>
-                                    <div draggable="true" class="content-block-col btn-holder">
-                                        <img draggable="false" src="./icon/button.png" alt="" />
-                                        <p>Button</p>
-                                    </div>
-                                    <div draggable="true" class="content-block-col social-holder">
-                                        <img draggable="false" src="./icon/social.png" alt="" />
-                                        <p>Social</p>
-                                    </div>
-                                    <div draggable="true" class="content-block-col spx-holder">
-                                        <img draggable="false" src="./icon/spacing.png" alt="" />
-                                        <p>Spacing</p>
-                                    </div>
                                 </div>
-                                <!-- {/* CONTENT ENDS */} -->
-                            </div>
-                            <!-- {/* BLOCK ENDS */} -->
-                            <!-- DRAGABLE ZONE ENDS  -->
-                            <div class="elements">
-                                <h3 class="content-header">Add Element</h3>
-                                <form>
-                                    <div class="row">
-                                        <label htmlFor="favcolor">Background color</label>
-                                        <input type="color" id="favcolor" name="favcolor" />
-                                    </div>
-                                    <div class="row">
-                                        <label htmlFor="favcolor">Text Link Color</label>
-                                        <input type="color" id="favcolor" name="favcolor" />
-                                    </div>
-                                </form>
-                                <div class="elements-header">
-                                    <header style="background-image: url(img/header.jpg);" class="header-image">
-                                    </header>
+                                <div class="props txt-props">
+                                    Text props
+                                </div>
+                                <div class="props btn-props">
+                                    Button props
+                                </div>
+                                <div class="props social-props">
+                                    Social props
+                                </div>
+                                <div class="props spx-props">
+                                    Space
                                 </div>
                             </div>
+                            <!-- PROPERTY BAR ENDS  -->
+                            <!-- COLUMN AND CONTENT START  -->
+                            <div class="rb-block-elements" id="rb-block">
+                                <!-- DRAGABLE START  -->
+                                <!-- {/* BLOCK START */} -->
+                                <div class="rb-block">
+                                    <!-- {/* COLUMNS START */} -->
+                                    <h3 class="content-header">Add Column</h3>
+                                    <div class="column-block">
+                                        <div draggable="true" class="block-col col-1-grid">
+                                            <div class="content-holder"></div>
+                                        </div>
+                                        <div draggable="true" class="block-col col-2-grid">
+                                            <div class="content-holder"></div>
+                                            <div class="content-holder"></div>
+                                        </div>
+                                        <div draggable="true" class="block-col col-3-grid">
+                                            <div class="content-holder"></div>
+                                            <div class="content-holder"></div>
+                                            <div class="content-holder"></div>
+                                        </div>
+                                    </div>
+                                    <!-- {/* COLUMNS ENDS */} -->
+
+                                    <!-- {/* CONTENT START */} -->
+                                    <h3 class="content-header">Add Content</h3>
+                                    <div class="content-block">
+                                        <div draggable="true" class="content-block-col img-holder">
+                                            <img draggable="false" src="./icon/picture.png" alt="" />
+                                            <p>Image</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col txt-holder">
+                                            <img draggable="false" src="./icon/text.png" alt="" />
+                                            <p>Text</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col btn-holder">
+                                            <img draggable="false" src="./icon/button.png" alt="" />
+                                            <p>Button</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col social-holder">
+                                            <img draggable="false" src="./icon/social.png" alt="" />
+                                            <p>Social</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col spx-holder">
+                                            <img draggable="false" src="./icon/spacing.png" alt="" />
+                                            <p>Spacing</p>
+                                        </div>
+                                    </div>
+                                    <!-- {/* CONTENT ENDS */} -->
+                                </div>
+                                <!-- {/* BLOCK ENDS */} -->
+                                <!-- DRAGABLE ENDS  -->
+                                <div class="elements">
+                                    <h3 class="content-header">Add Element</h3>
+                                    <form>
+                                        <div class="row">
+                                            <label htmlFor="favcolor">Background color</label>
+                                            <input type="color" id="favcolor" name="favcolor" />
+                                        </div>
+                                        <div class="row">
+                                            <label htmlFor="favcolor">Text Link Color</label>
+                                            <input type="color" id="favcolor" name="favcolor" />
+                                        </div>
+                                    </form>
+                                    <div class="elements-header">
+                                        <header style="background-image: url(img/header.jpg);" class="header-image">
+                                        </header>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- COLUMN AND CONTENT ENDS  -->
 
                         </div>
+
                     </div>
                     <!-- RIGHTBAR ENDS  -->
                 </div>

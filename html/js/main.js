@@ -2,20 +2,25 @@
 const inputTitle = document.getElementById('title');
 const saveButton = document.getElementById('save-btn');
 
-
-
+// DRAG AND DROP COLUMN ELEMENT 
 const draggableColumn = document.querySelectorAll('.block-col');
 const dropColumnZone = document.getElementById('drop-zone');
 
-
-
-
-
-
-
-
 // DRAGABLE CONTENT BLOCK 
 const contentBlockCol = document.querySelectorAll('.content-block-col');
+
+// RIGHT BAR ELEMENT TO SHOW AND HIDE 
+const propertiesBar = document.getElementById('rb-props');
+const blockElementBar = document.getElementById('rb-block');
+// SELECTING ALL ELEMENT AT ALL 
+const allProperties = document.querySelectorAll('.props');
+// SELECTING ALL ELEMENT SECEPaRATLY 
+const imgProps = document.querySelector('.img-props');
+const txtProps = document.querySelector('.txt-props');
+const btnProps = document.querySelector('.btn-props');
+const socialProps = document.querySelector('.social-props');
+const spxProps = document.querySelector('.spx-props');
+
 
 
 
@@ -373,12 +378,13 @@ function blockDragAndDrop() {
                 }
                 */
                 if (dropableBlock === "img-holder") {
+                    // CREATING IMAGE 
                     // console.log("Drop - Dropable Block: ", dropableBlock);
                     // console.log("Drop event : ", e);
                     // console.log("Drop - E: e.toElement", e.toElement);  // RESULT = <div class="one-column-div" id="one-col-0"></div>
                     const newBlockCol = document.createElement('div');
                     //  setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
-                    setAttributes(newBlockCol, { "style": "background: url(icon/picture.png); ", "class": "block", 'id': 'img-holder' });
+                    setAttributes(newBlockCol, { "style": "background-image: url(./icon/picture.png);", "class": "content", 'id': 'img-holder' });
                     e.toElement.appendChild(newBlockCol);
 
                     // DATABASE AND VARIABLE 
@@ -388,11 +394,12 @@ function blockDragAndDrop() {
                     positionElement.push({ rowNumber, columnNumber, blockElement });
                     // console.log(positionElement);
                 } else if (dropableBlock === "txt-holder") {
+                    // CREATING REXT 
                     rowNumber = convertRowIdToNumber(e.path[1].id);
                     columnNumber = convertColIdToNumber(e.toElement.id);
 
                     const newBlockCol = document.createElement('div');
-                    setAttributes(newBlockCol, { 'class': "block", "id": "txt-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    setAttributes(newBlockCol, { 'class': "content", "id": "txt-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
                     newBlockCol.textContent = '😊Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
                     e.toElement.appendChild(newBlockCol);
 
@@ -403,7 +410,7 @@ function blockDragAndDrop() {
                     columnNumber = convertColIdToNumber(e.toElement.id);
 
                     const newBlockCol = document.createElement('button');
-                    setAttributes(newBlockCol, { 'class': "block", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    setAttributes(newBlockCol, { 'class': "content", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
                     newBlockCol.textContent = 'Preview';
                     e.toElement.appendChild(newBlockCol);
 
@@ -416,12 +423,12 @@ function blockDragAndDrop() {
 
 
                     const newBlockCol = document.createElement('button');
-                    setAttributes(newBlockCol, { 'class': "block", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    setAttributes(newBlockCol, { 'class': "content", "id": "social-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
                     e.toElement.appendChild(newBlockCol);
                     // CREATING THREE SOCIAL ICON 
                     for (let i = 0; i < 3; i++) {
                         const threeButton = document.createElement('button');
-                        setAttributes(threeButton, { "class": "icon", "id": `icon-${i}` });
+                        setAttributes(threeButton, { "class": "content", "id": `icon-${i}` });
                         threeButton.textContent = 'icon';
                         newBlockCol.appendChild(threeButton);
                     }
@@ -433,7 +440,7 @@ function blockDragAndDrop() {
                     columnNumber = convertColIdToNumber(e.toElement.id);
 
                     const newBlockCol = document.createElement('button');
-                    setAttributes(newBlockCol, { 'class': "block", "id": "btn-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                    setAttributes(newBlockCol, { 'class': "content", "id": "spx-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
                     newBlockCol.textContent = 'space';
                     e.toElement.appendChild(newBlockCol);
 
@@ -448,17 +455,6 @@ function blockDragAndDrop() {
         };
     });
 }
-
-
-
-
-
-document.addEventListener('click', e => {
-    console.log("Click: E", e);
-    console.log("Click: E Target", e.target);
-});
-
-
 blockDragAndDrop();
 
 
@@ -486,6 +482,71 @@ blockDragAndDrop();
 
 
 
+const rightBarElementShowHide = () => {
+    document.addEventListener('click', e => {
+        // console.log("Click: E", e);
+        // console.log("Click: E Target", e.target.id);
+        // console.log("Click: E Target", e.target.className);
+
+        // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN 
+        if (e.target.className === 'content') {
+            // console.log("This is block");
+
+            propertiesBar.style.display = 'block';
+            blockElementBar.style.display = 'none';
+            console.log(e.toElement.id);
+            switch (e.toElement.id) {
+                case 'img-holder':
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    imgProps.style.display = 'block';
+                    break;
+                case 'txt-holder':
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    txtProps.style.display = 'block';
+                    break;
+                case 'social-holder':
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    socialProps.style.display = 'block';
+                    break;
+                case 'btn-holder':
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    btnProps.style.display = 'block';
+                    break;
+                case 'spx-holder':
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    spxProps.style.display = 'block';
+                    break;
+                default:
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    break;
+            };
+        }
+
+
+    });
+
+
+
+    // CLICK OUT OF THE COLUMN 
+    document.addEventListener('click', e => {
+
+        // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
+        if (e.target.className !== 'content') {
+            allProperties.forEach(ap => { ap.style.display = 'none' });
+            propertiesBar.style.display = 'none';
+            blockElementBar.style.display = 'block';
+        }
+
+
+    });
+
+
+
+
+}
+
+
+rightBarElementShowHide();
 
 
 
@@ -504,7 +565,36 @@ blockDragAndDrop();
 
 
 
-// EXTRA FUNCTIONS 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// EXTRA HELPING FUNCTIONS 
 function createBlockElement(blockElement, attributes) {
     // console.log("Drop - Dropable Block: ", dropableBlock);
     // console.log("Drop event : ", e);
@@ -529,11 +619,6 @@ function setAttributes(el, attrs) {
         el.setAttribute(key, attrs[key]);
     }
 }
-
-
-
-
-
 
 
 function convertRowIdToNumber(rowElementId) {

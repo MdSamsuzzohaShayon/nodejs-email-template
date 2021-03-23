@@ -30,3 +30,14 @@
 
 
  - AT FIRST GET ROW ID AND COL ID*
+
+
+
+
+
+
+ ### Problem & bugs
+ - somehow column is still dropping into the column 
+ - social  icon props hide and show ☑️
+ - space show and hide problem  ☑️
+ - Image content
