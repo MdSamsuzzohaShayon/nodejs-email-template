@@ -20,6 +20,11 @@ const txtProps = document.querySelector('.txt-props');
 const btnProps = document.querySelector('.btn-props');
 const socialProps = document.querySelector('.social-props');
 const spxProps = document.querySelector('.spx-props');
+// SELECT ELEMENT FOR IMAGE UPLOAD AND PREVIEW HANDLER 
+const inputImg = document.getElementById('img-input');
+const previewImg = document.getElementById('img-preview');
+const imgLink = document.getElementById('img-link');
+const newTab = document.getElementById('new-tab');
 
 
 
@@ -50,6 +55,13 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 // DATABASE DESIGN ENDS 
 
 
+
+
+
+
+// IMAGE 
+let imgDefaultUrl = "./icon/picture.png";
+let imgDefault = "background-image: url(./icon/picture.png);";
 
 
 
@@ -384,7 +396,7 @@ function blockDragAndDrop() {
                     // console.log("Drop - E: e.toElement", e.toElement);  // RESULT = <div class="one-column-div" id="one-col-0"></div>
                     const newBlockCol = document.createElement('div');
                     //  setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
-                    setAttributes(newBlockCol, { "style": "background-image: url(./icon/picture.png);", "class": "content", 'id': 'img-holder' });
+                    setAttributes(newBlockCol, { "style": `background-image: url(${imgDefaultUrl});`, "class": "content", 'id': 'img-holder' });
                     e.toElement.appendChild(newBlockCol);
 
                     // DATABASE AND VARIABLE 
@@ -497,6 +509,9 @@ const rightBarElementShowHide = () => {
             console.log(e.toElement.id);
             switch (e.toElement.id) {
                 case 'img-holder':
+                    console.log("Click: E Target", e.target);
+                    const imageStyle = e.target.style;
+                    console.log("Click: E", e);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     imgProps.style.display = 'block';
                     break;
@@ -527,11 +542,14 @@ const rightBarElementShowHide = () => {
 
 
 
-    // CLICK OUT OF THE COLUMN 
+    // CLICK OUTSIDE OF THE COLUMN 
     document.addEventListener('click', e => {
+        // console.log(e.target.classList[0]);
+        // template-wrapper // header-image  // col
 
         // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
-        if (e.target.className !== 'content') {
+        if (e.target.className === 'template-wrapper' || e.target.className === 'header-image' || e.target.classList[0] === 'col') {
+
             allProperties.forEach(ap => { ap.style.display = 'none' });
             propertiesBar.style.display = 'none';
             blockElementBar.style.display = 'block';
@@ -545,8 +563,49 @@ const rightBarElementShowHide = () => {
 
 }
 
-
 rightBarElementShowHide();
+
+
+
+
+
+
+
+
+function imgUploadHandler() {
+    // https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
+    inputImg.addEventListener('change', function (e) {
+        const imgFile = e.target.files[0]; // this.files[0]
+        // console.log("image file event : ", e);
+        if (imgFile) {
+            // image/jpeg
+            if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
+                // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+                const reader = new FileReader();
+                reader.addEventListener('load', function (le) {
+                    // console.log("Load element target: ", le.target.result);
+                    // console.log(le.target.result);
+                    previewImg.setAttribute('src', le.target.result);
+                    imgDefaultUrl = le.target.result;
+
+                });
+                reader.readAsDataURL(imgFile);
+            } else {
+                alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
+            }
+        } else {
+            console.log('no img');
+        }
+    });
+}
+imgUploadHandler();
+
+
+
+
+
+
 
 
 
