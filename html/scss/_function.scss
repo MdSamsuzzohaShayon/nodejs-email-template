@@ -28,3 +28,12 @@
     border-right: 1px solid $s-color;
 }
 
+@mixin btn_general($clr, $bgClr){
+    padding: 10px 20px;
+    margin-left: 5px;
+    border: none;
+    outline: none;
+    color: $clr;
+    background: $bgClr;
+}
+

@@ -100,11 +100,21 @@ body, html {
   border-right: 1px solid #b5d5f3;
 }
 .whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .content {
-  height: 15em;
-  height: 15em;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 96%;
+  margin-left: 2%;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row #social-holder {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row #social-holder a {
+  padding: 20px 20px;
+  border-radius: 50%;
+  background-color: #0f3050;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row #social-holder a img {
+  width: 20px;
 }
 .whole-body .wrapper .template-builder .workpace .right-bar {
   color: #7aa6ce;
@@ -198,6 +208,20 @@ body, html {
 }
 .whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props {
   display: none;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props .img-wrap input[type=file] {
+  margin-bottom: 5px;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props .img-wrap input[type=file]::-webkit-file-upload-button {
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: #0f3050;
+  background: #7aa6ce;
+}
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props .img-wrap img {
+  width: 80%;
 }
 
 /*# sourceMappingURL=style.css.map */

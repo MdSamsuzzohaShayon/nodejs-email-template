@@ -61,7 +61,31 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 
 // IMAGE 
 let imgDefaultUrl = "./icon/picture.png";
-let imgDefault = "background-image: url(./icon/picture.png);";
+// let imgDefault = "background-image: url(./icon/picture.png);";
+let imageBlockElment = `<img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id="img-holder">`;
+// document.body.innerHTML = imageBlockElment;
+
+
+
+//SOCIAL
+// let iconList = ['./icon/facebook.png', './icon/twitter.png', './icon/instagram.png'];
+let fb_icon = './icon/facebook.png';
+let twitter_icon = './icon/twitter.png';
+let instagram_icon = './icon/instagram.png';
+// let currentIcon = '';
+// let iconElement = `<button class="social-icon">${currentIcon}</button>`;
+// let fbIconElement = `<button class="social-icon"><img src="./icon/facebook.png" ></button>`;
+// let twitterIconElement = `<button class="social-icon"><img src="./icon/twitter.png" ></button>`;
+// let instagramIconElement = `<button class="social-icon"><img src="./icon/instagram.png" ></button>`;
+// document.body.innerHTML = iconElement;
+let iconLink = '#';
+let iconElement = `
+            <a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a>
+            <a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a>
+            <a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a>
+`;
+
+
 
 
 
@@ -336,17 +360,7 @@ function blockDragAndDrop() {
 
 
 
-    document.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        // if (e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div" || e.toElement.className === "three-column-div") {
-        //     // console.log("E: ", e);
-        //     // console.log("Mouseover - Event: ", e.toElement.className);
-        // }
-        // console.log("dragover - Event: Prevent default");
-        // console.log("Mouseover - Event: ", e.path[1].classList);
-        // console.log(e.target);
 
-    });
 
 
 
@@ -358,46 +372,17 @@ function blockDragAndDrop() {
         if (e.toElement.id !== 'drop-zone') {
             // console.log(e.toElement.id);
             let dropableColumn = e.target.className;
-            // if (dropableColumn === 'one-column-div') {
-            //     // console.log("Drop - One E: ", e);
-            // } else if (dropableColumn === 'two-column-div') {
-            //     // console.log("Drop - Two E: ", e);
-            // } else if (dropableColumn == 'three-column-div') {
-            //     // console.log("Drop - Three E: ", e);
-            // }
             // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
             if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
                 // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
 
-                /*
-                if (dropableBlock === "img-holder" || dropableBlock === "txt-holder" || dropableBlock === "btn-holder" || dropableBlock === "social-holder" || dropableBlock === "spx-holder") {
 
-                    // console.log("Drop - Dropable Block: ", dropableBlock);
-                    // console.log("Drop event : ", e);
-                    console.log("Drop - Event: ", e.target);
-                    const newBlockCol = document.createElement('div');
-                    newBlockCol.setAttribute('class', "block");
-                    newBlockCol.textContent = dropableBlock + ' 😊';
-                    e.toElement.appendChild(newBlockCol);
-
-                    rowNumber = convertRowIdToNumber(e.path[1].id);
-                    columnNumber = convertColIdToNumber(e.toElement.id);
-                    blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement });
-                    // console.log(positionElement);
-                } else {
-                    console.log("Drop - Not Dropable Block: ", dropableBlock);
-                }
-                */
                 if (dropableBlock === "img-holder") {
                     // CREATING IMAGE 
-                    // console.log("Drop - Dropable Block: ", dropableBlock);
-                    // console.log("Drop event : ", e);
                     // console.log("Drop - E: e.toElement", e.toElement);  // RESULT = <div class="one-column-div" id="one-col-0"></div>
                     const newBlockCol = document.createElement('div');
-                    //  setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
-                    setAttributes(newBlockCol, { "style": `background-image: url(${imgDefaultUrl});`, "class": "content", 'id': 'img-holder' });
-                    e.toElement.appendChild(newBlockCol);
+                    // setAttributes(newBlockCol, { "style": `background-image: url(${imgDefaultUrl});`, "class": "content", 'id': 'img-holder' });
+                    e.toElement.innerHTML = imageBlockElment;
 
                     // DATABASE AND VARIABLE 
                     rowNumber = convertRowIdToNumber(e.path[1].id);
@@ -432,18 +417,20 @@ function blockDragAndDrop() {
                     rowNumber = convertRowIdToNumber(e.path[1].id);
                     columnNumber = convertColIdToNumber(e.toElement.id);
 
-
-
-                    const newBlockCol = document.createElement('button');
+                    const newBlockCol = document.createElement('div');
                     setAttributes(newBlockCol, { 'class': "content", "id": "social-holder" });   //  "txt-" + rowNumber + '-' + columnNumber 
-                    e.toElement.appendChild(newBlockCol);
                     // CREATING THREE SOCIAL ICON 
+                    /*
                     for (let i = 0; i < 3; i++) {
                         const threeButton = document.createElement('button');
                         setAttributes(threeButton, { "class": "content", "id": `icon-${i}` });
                         threeButton.textContent = 'icon';
                         newBlockCol.appendChild(threeButton);
                     }
+                    */
+                    newBlockCol.innerHTML = iconElement;
+                    e.toElement.appendChild(newBlockCol);
+
 
                     blockElement = dropableBlock;
                     positionElement.push({ rowNumber, columnNumber, blockElement });
@@ -497,21 +484,40 @@ blockDragAndDrop();
 const rightBarElementShowHide = () => {
     document.addEventListener('click', e => {
         // console.log("Click: E", e);
-        // console.log("Click: E Target", e.target.id);
         // console.log("Click: E Target", e.target.className);
+        // console.log("Click: E Target", e.toElement.classList[0]);
 
         // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN 
-        if (e.target.className === 'content') {
-            // console.log("This is block");
+        if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+
 
             propertiesBar.style.display = 'block';
             blockElementBar.style.display = 'none';
-            console.log(e.toElement.id);
+            // console.log(e.toElement.id);
+            if (e.toElement.id === "img-holder") {
+                // console.log("Click: E Target", e.target);
+                // console.log("Click: E", e);
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                imgProps.style.display = 'block';
+            } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                socialProps.style.display = 'block';
+            } else if (e.toElement.id === 'btn-holder') {
+                console.log("This is block");
+                console.log(btnProps);
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                btnProps.style.display = 'block';
+            }
+            else {
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+
+            }
+
+            /*
             switch (e.toElement.id) {
                 case 'img-holder':
-                    console.log("Click: E Target", e.target);
-                    const imageStyle = e.target.style;
-                    console.log("Click: E", e);
+                    // console.log("Click: E Target", e.target);
+                    // console.log("Click: E", e);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     imgProps.style.display = 'block';
                     break;
@@ -535,6 +541,7 @@ const rightBarElementShowHide = () => {
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     break;
             };
+            */
         }
 
 
@@ -587,7 +594,7 @@ function imgUploadHandler() {
                     // console.log("Load element target: ", le.target.result);
                     // console.log(le.target.result);
                     previewImg.setAttribute('src', le.target.result);
-                    imgDefaultUrl = le.target.result;
+                    // imgDefaultUrl = le.target.result;
 
                 });
                 reader.readAsDataURL(imgFile);
@@ -676,6 +683,15 @@ function createBlockElement(blockElement, attributes) {
 function setAttributes(el, attrs) {
     for (let key in attrs) {
         el.setAttribute(key, attrs[key]);
+    }
+}
+
+function createAllIcon(outerElement) {
+    for (let i = 0; i < 3; i++) {
+        console.log(i);
+        currentIcon = `<img src="${iconList[i]}">`;
+        iconElement.innerHTML = currentIcon;
+        outerElement.innerHTML = iconElement;
     }
 }
 

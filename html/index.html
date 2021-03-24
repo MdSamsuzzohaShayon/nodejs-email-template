@@ -48,7 +48,7 @@
                             </div>
                             <!-- PROPERTY BAR START  -->
                             <div class="rb-props" id="rb-props">
-                                properties
+                                <h3>Properties</h3>
                                 <div class="props img-props">
                                     <div class="img-props-1 img-wrap">
                                         <input type="file" name="img-input" id="img-input">
@@ -67,10 +67,65 @@
                                     Text props
                                 </div>
                                 <div class="props btn-props">
-                                    Button props
+                                    <h3 class="props-header">Button Properties</h3>
+                                    <div class="btn-color-props bg-btn-color">
+                                        <label for="btn-color">Button Color</label>
+                                        <input type="color" name="btn-color" id="btn-color">
+                                    </div>
+                                    <div class="btn-color-props text-color">
+                                        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color -->
+                                        <label for="btn-text-color">Text Color</label>
+                                        <input type="color" name="text-color" id="text-color">
+                                    </div>
+                                    <div class="btn-color-props font-btn-size">
+                                        <select name="btn-font-family" id="btn-font-family">
+                                            <option value="Calibri">Calibri</option>
+                                            <option value="Open Sans">Open Sans</option>
+                                            <option value="Arial">Arial</option>
+                                        </select>
+                                        <select name="btn-font-size size-btn" id="btn-font-size">
+                                            <option value="12">12</option>
+                                            <option value="16">16</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                    </div>
+                                    <div class="btn-color-props btn-text">
+                                        <label for="btn-text-color">Button Text</label>
+                                        <input type="text" name="btn-text" id="btn-text">
+                                    </div>
+
+                                    <div class="btn-color-props btn-hyperlink">
+                                        <label for="btn-hyperlink">Button Hyperlink</label>
+                                        <input type="text" name="btn-hyperlink" id="btn-hyperlink">
+                                    </div>
+
+                                    <div class="btn-color-props btn-new-tab">
+                                        <label for="btn-new-tab">Open in new tab</label>
+                                        <input type="checkbox" name="btn-new-tab" id="btn-new-tab">
+                                    </div>
+
+                                    <div class="btn-color-props btn-alignment">
+                                        <label for="btn-alignment">Button Allignment</label>
+                                        <input type="checkbox" name="btn-alignment" id="btn-alignment">
+                                    </div>
+
+
                                 </div>
                                 <div class="props social-props">
-                                    Social props
+                                    <!-- The Social Media Icons can only be dragged to a one-column or a two-column layout. -->
+                                    <h3 class="props-header">Social Media Link</h3>
+                                    <div class="social-link fb-sl">
+                                        <label for="fb-link">Facebook</label>
+                                        <input type="text" name="fb-link" id="fb-link">
+                                    </div>
+                                    <div class="social-link twitter-sl">
+                                        <label for="twitter-link">Facebook</label>
+                                        <input type="text" name="twitter-link" id="twitter-link">
+                                    </div>
+                                    <div class="social-link instagram-sl">
+                                        <label for="instagram-link">Instagram</label>
+                                        <input type="text" name="instagram-link" id="instagram-link">
+                                    </div>
                                 </div>
                                 <div class="props spx-props">
                                     Space
@@ -132,12 +187,12 @@
                                     <h3 class="content-header">Add Element</h3>
                                     <form>
                                         <div class="row">
-                                            <label htmlFor="favcolor">Background color</label>
-                                            <input type="color" id="favcolor" name="favcolor" />
+                                            <label for="favcolor">Background color</label>
+                                            <input type="color" id="t-bg-color" name="favcolor" />
                                         </div>
                                         <div class="row">
-                                            <label htmlFor="favcolor">Text Link Color</label>
-                                            <input type="color" id="favcolor" name="favcolor" />
+                                            <label for="favcolor">Text Link Color</label>
+                                            <input type="color" id="t-link-color" name="favcolor" />
                                         </div>
                                     </form>
                                     <div class="elements-header">
@@ -160,7 +215,6 @@
 
 
     <script src="js/main.js"></script>
-    <script src="js/main2.js"></script>
 </body>
 
 </html>
