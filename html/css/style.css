@@ -103,18 +103,26 @@ body, html {
   width: 96%;
   margin-left: 2%;
 }
-.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row #social-holder {
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block {
   display: flex;
   width: 100%;
   justify-content: space-around;
 }
-.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row #social-holder a {
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block a {
   padding: 20px 20px;
   border-radius: 50%;
   background-color: #0f3050;
 }
-.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row #social-holder a img {
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block a img {
   width: 20px;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .btn-content-block {
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: #4685c0;
+  background: #0f3050;
 }
 .whole-body .wrapper .template-builder .workpace .right-bar {
   color: #7aa6ce;
