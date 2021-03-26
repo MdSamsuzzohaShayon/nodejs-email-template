@@ -62,9 +62,13 @@ body, html {
 }
 .whole-body .wrapper .template-builder .workpace .template-wrapper .header-image {
   height: 60px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 100%;
+}
+.whole-body .wrapper .template-builder .workpace .template-wrapper .header-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper {
   width: 80%;
@@ -205,11 +209,11 @@ body, html {
   width: 90%;
   margin-left: 5%;
 }
-.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .elements .header-image {
-  height: 90px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+.whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .elements img {
+  height: 60px;
+  object-position: center;
+  object-fit: cover;
+  width: 100%;
 }
 .whole-body .wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props {
   display: none;

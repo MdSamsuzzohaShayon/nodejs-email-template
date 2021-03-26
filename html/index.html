@@ -28,9 +28,9 @@
                         </header>
 
                         <div class="template-wrapper">
-                            <header class="header-image">
-
-                            </header>
+                            <div class="header-image">
+                                <img class="header-img" id="header-img" src="./img/header.jpg" />
+                            </div>
                             <!-- DROPABLE ZONE START -->
                             <div class="drop-wrapper" id="drop-zone"></div>
                             <!-- DROPABLE ZONE ENDS  -->
@@ -66,7 +66,40 @@
                                     </div>
                                 </div>
                                 <div class="props txt-props">
-                                    Text props
+                                    <h4 class="txt-options">Pragraph</h4>
+                                    <div class="txt-pragraph">
+                                        <button class="txt-pra-btn" id="txt-pra-left">Left</button>
+                                        <button class="txt-pra-btn" id="txt-pra-center">Center</button>
+                                        <button class="txt-pra-btn" id="txt-pra-right">Right</button>
+                                    </div>
+                                    <h4 class="txt-options">Fonts</h4>
+                                    <div class="txt-fonts-family">
+                                        <select name="txt-font txt-font-family" id="txt-font-family">
+                                            <option value="Calibri">Calibri</option>
+                                            <option value="Open Sans">Open Sans</option>
+                                            <option value="Arial">Arial</option>
+                                        </select>
+                                        <select name="txt-font txt-font-size" id="txt-font-size">
+                                            <option value="12">12</option>
+                                            <option value="16">16</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                    </div>
+                                    <div class="txt-font-style">
+                                        <button class="txt-btn-style" id="txt-bold">Bold</button>
+                                        <button class="txt-btn-style" id="txt-italic">Italic</button>
+                                        <button class="txt-btn-style" id="txt-underline">Underline</button>
+                                    </div>
+                                    <div class="txt-link">
+                                        <div class="txt-props-2 txt-link-wrap">
+                                            <label for="txt-link">Hyperlink</label>
+                                            <input type="text" name="txt-link" id="txt-link">
+                                        </div>
+                                        <div class="txt-props-2 txt-link-wrap">
+                                            <label for="new-tab">Open in new tab</label>
+                                            <input type="checkbox" name="new-tab" id="new-tab">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="props btn-props">
                                     <h3 class="props-header">Button Properties</h3>
@@ -77,7 +110,7 @@
                                     <div class="btn-color-props text-color">
                                         <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color -->
                                         <label for="btn-text-color">Text Color</label>
-                                        <input type="color" name="text-color" id="text-color">
+                                        <input type="color" name="text-color" id="btn-font-color">
                                     </div>
                                     <div class="btn-color-props font-btn-size">
                                         <select name="btn-font-family" id="btn-font-family">
@@ -198,8 +231,8 @@
                                         </div>
                                     </form>
                                     <div class="elements-header">
-                                        <header style="background-image: url(img/header.jpg);" class="header-image">
-                                        </header>
+                                        <input type="file" name="header-img-input" id="header-img-input">
+                                        <img class="img" id="header-img-preview" src="img/header.jpg" alt="Image">
                                     </div>
                                 </div>
                             </div>

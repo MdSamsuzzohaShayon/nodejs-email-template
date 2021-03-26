@@ -1,6 +1,15 @@
 // TITLE 
 const inputTitle = document.getElementById('title');
 const saveButton = document.getElementById('save-btn');
+// HEADER IMAGE 
+const headerImgInput = document.getElementById('header-img-input');
+const headerImage = document.getElementById('header-img');
+const headerImgPreview = document.getElementById('header-img-preview');
+
+// TEMPLATE COLOR 
+const templateWrapper = document.querySelector('.template-wrapper');
+const templateBGColorInput = document.getElementById('t-bg-color');
+const templateLinkColorInput = document.getElementById('t-link-color');
 
 // DRAG AND DROP COLUMN ELEMENT 
 const draggableColumn = document.querySelectorAll('.block-col');
@@ -14,16 +23,37 @@ const propertiesBar = document.getElementById('rb-props');
 const blockElementBar = document.getElementById('rb-block');
 // SELECTING ALL ELEMENT AT ALL 
 const allProperties = document.querySelectorAll('.props');
-// SELECTING ALL ELEMENT SECEPaRATLY 
-const imgProps = document.querySelector('.img-props');
+
+// TEXT PROPS 
 const txtProps = document.querySelector('.txt-props');
+const alignLeftBtn = document.getElementById('txt-pra-left'), alignCenterBtn = document.getElementById('txt-pra-center'), alignRightBtn = document.getElementById('txt-pra-right');
+const txtFontFamily = document.getElementById('txt-font-family');
+const txtFontSize = document.getElementById('txt-font-size');
+const blodText = document.getElementById('txt-bold'), italicText = document.getElementById('txt-italic'), underlineText = document.getElementById('txt-underline');
+
+
+// BUTTON PROPS 
 const btnProps = document.querySelector('.btn-props');
+const btnBGColorInput = document.getElementById('btn-color');
+const btnTxtColorInput = document.getElementById('btn-font-color');
+const btnFontFamilyInput = document.getElementById('btn-font-family');
+const btnFontSizeInput = document.getElementById('btn-font-size');
+const btnTextContentInput = document.getElementById('btn-text');
+const btnHyperlinkInput = document.getElementById('btn-hyperlink');
+const btnNewTabInput = document.getElementById('btn-new-tab');
+
+
+// SOCIAL PROPS 
 const socialProps = document.querySelector('.social-props');
+
+// SPACE PROPS 
 const spxProps = document.querySelector('.spx-props');
+
+// IMAGE PROPS 
 // SELECT ELEMENT FOR IMAGE UPLOAD AND PREVIEW HANDLER 
+const imgProps = document.querySelector('.img-props');
 const inputImg = document.getElementById('img-input');
 const previewImg = document.getElementById('img-preview');
-
 const imgLink = document.getElementById('img-link');
 const newTab = document.getElementById('new-tab');
 
@@ -585,7 +615,7 @@ blockDragAndDrop();
 // MAIN FUNCTION 3
 const rightBarElementShowHide = () => {
     document.addEventListener('click', e => {
-        console.log("Click E: ", e.toElement);
+        // console.log("Click E: ", e.toElement);
         // console.log("Click: E Target", e.target.className);
         // console.log("Click: E Target", e.toElement.classList[0]);
 
@@ -596,7 +626,6 @@ const rightBarElementShowHide = () => {
 
             propertiesBar.style.display = 'block';
             blockElementBar.style.display = 'none';
-            console.log(e.toElement);
             if (e.toElement.classList[1] === "img-content-block") {
                 allProperties.forEach(ap => { ap.style.display = 'none' });
                 imgProps.style.display = 'block';
@@ -647,15 +676,83 @@ rightBarElementShowHide();
 // MAIN FUNCTION 4
 const rightBarProps = async () => {
 
+    // IMAGE PROPERTIES 
     // imgUploadHandler(inputImg, [previewImg]);
     const URL = await imgUploadHandler(inputImg, [previewImg, document.getElementById('img-preview-2')]);
     console.log(URL);
+    let imgHyperlink = null;
+    let imgNewTab = false;
+    imgLink.addEventListener('change', e => { imgHyperlink = e.target.value; console.log("Hyperlink: ", imgHyperlink); });
+    newTab.addEventListener('change', e => { if (e.target.value == 'on') imgNewTab = true; console.log("New tab: ", imgNewTab); });
+
+
+
+
+
+    // TEXT PROPERTIES 
+    let alignItems = "center", fontFamily = "Calibri", fontSize = 20, textStyle = 'normal';
+    alignLeftBtn.addEventListener('click', e => { alignItems = 'left'; });
+    alignCenterBtn.addEventListener('click', e => { alignItems = 'center'; });
+    alignRightBtn.addEventListener('click', e => { alignItems = 'right'; });
+    txtFontFamily.addEventListener('change', e => { fontFamily = e.target.value; console.log("Font family: ", fontFamily); });
+    txtFontSize.addEventListener('change', e => { fontSize = e.target.value; console.log("Font size: ", fontSize); });
+    blodText.addEventListener('click', e => { textStyle = 'bold'; });
+    italicText.addEventListener('click', e => { textStyle = 'italic'; });
+    underlineText.addEventListener('click', e => { textStyle = 'underline'; });
+
+
+
+
+
+    // BUTTON PROPERTIES 
+    let btnBGColor = 'green', btnTxtColor = 'blue', btnFontSize = 12, btnFontFamily = "Calibri", btnTxtContent = "Preview";
+    let btnHyperLink = null;
+    let btnNewTab = false;
+    btnBGColorInput.addEventListener('change', e => { btnBGColor = e.target.value; console.log("btnBGColor: ", btnBGColor); });
+    btnTxtColorInput.addEventListener('change', e => { btnTxtColor = e.target.value; console.log("btnTxtColor: ", btnTxtColor); });
+    btnFontSizeInput.addEventListener('change', e => { btnFontSize = e.target.value; console.log("btnFontSize: ", btnFontSize); });
+    btnFontFamilyInput.addEventListener('change', e => { btnFontFamily = e.target.value; console.log("btnFontFamily: ", btnFontFamily); });
+    btnTextContentInput.addEventListener('change', e => { btnTxtContent = e.target.value; console.log("btnTxtContent: ", btnTxtContent); });
+    btnHyperlinkInput.addEventListener('change', e => { btnHyperLink = e.target.value; console.log("Hyperlink: ", btnHyperLink); });
+    btnNewTabInput.addEventListener('change', e => { if (e.target.value == 'on') btnNewTab = true; console.log("New tab: ", btnNewTab); });
+
+    // SOME PROBLEM IN HERE 
+
+
+
 }
 rightBarProps();
 
 
+
+
 // MAIN FUNCTION 5
+const templatePropsCng = () => {
+    // HEADER IMAGE CHANGE
+    imgUploadHandler(headerImgInput, [headerImage, headerImgPreview]);
+
+    // TEMPLATE COLOR CHANGE 
+    templateBGColorInput.addEventListener('change', (e) => {
+        console.log("Color Change E: ", e);
+        templateWrapper.style.background = e.target.value;
+    });
+
+    // LINKS COLOR CHANGE 
+    const links = document.getElementsByTagName('a');
+    templateLinkColorInput.addEventListener('change', (e) => {
+        links.forEach(link => style.color = e.target.value);
+    });
+}
+templatePropsCng();
+
+
+
+// MAIN FUNCTION 6
 const backendAndDataBase = () => {
+
+
+
+
     // CHANGING TITLE 
     saveButton.addEventListener('click', e => {
         e.preventDefault();

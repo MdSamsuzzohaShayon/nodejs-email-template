@@ -47,6 +47,7 @@
  
  
  - MAKE AN ON CHANGE EVENT ATTRIBUTE IN THE BLOCK ELEMENT WE HAVE CREATED TO CHANGE ANYTHING
+ - EVERYTIME WHEN CHANGE THE ROW LIST AND ROW POSITION ELELMENT WE CAN CREATE ELEMENT AND UPDATE ELEMENT
 
 
 
@@ -54,7 +55,7 @@
 
 
  ### Problem & bugs
- - somehow column is still dropping into the column 
+ - somehow column is still dropping into the column ☑️
  - social  icon props hide and show ☑️
  - space show and hide problem  ☑️
- - Image content
+ - Image content ☑️

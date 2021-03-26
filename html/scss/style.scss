@@ -69,7 +69,14 @@ body,html{
             
             
                         .header-image{
-                            @include bg_img(60px);
+                            height: 60px;
+                            width: 100%;
+                            img{
+                                height: 100%;
+                                width: 100%;
+                                object-fit: cover;
+                                object-position: center;
+                            }
                         }
                         // DROPZONE START 
                         .drop-wrapper{
@@ -226,8 +233,15 @@ body,html{
                                     // .elements-header{
                                         
                                     // }
-                                    .header-image{
-                                        @include bg_img(90px);
+                                    // .header-image{
+                                    //     @include bg_img(90px);
+                                    // }
+                                    img{
+                                        height: 60px;
+                                        object-position: center;
+                                        object-fit: cover;
+                                        width: 100%;
+                                        // margin-left: 10%;
                                     }
                                 }
                                 // ELEMENTS ENDS 
