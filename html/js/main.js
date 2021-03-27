@@ -77,6 +77,11 @@ const dropElementsProperties = {};
 // TITLE OF THE TEMPLATE 
 let title = null;
 
+// IMAGE PROPERTIES 
+let allImgPropertyList = new Array();
+
+
+
 // THIS ROW LIST WOULD BE ANOTHER DATABASE TABLE 
 let rowList = []; // THIS IS FOR TRACKING ROW DETAIL - FOR EXAMPLE - FIRST ROW WITH 3 COLUMN, 2ND ROW WITH ONE COLUMN, 3RD COLUMN WITH 2 COLUMN
 let rowID = 1; // AUTO INCREMENT
@@ -615,13 +620,28 @@ blockDragAndDrop();
 // MAIN FUNCTION 3
 const rightBarElementShowHide = () => {
     document.addEventListener('click', e => {
-        // console.log("Click E: ", e.toElement);
+        console.log("Click E: ", e.toElement.id);
+        // img-1-1
+        // ALL OF THEM ARE WORKING EXCEPT SOCIAL 
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+        const str = e.toElement.id.toString();
+        let find = str.split('-');
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
+        let row = parseInt(find[1]);
+        let col = parseInt(find[2]);
+
+        console.log("Row: " + row + " \n Col: " + col);
+        // console.log(typeof row);
         // console.log("Click: E Target", e.target.className);
         // console.log("Click: E Target", e.toElement.classList[0]);
 
-
         // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN 
         if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+
+
+
+            // content
+            // two-column-div
 
 
             propertiesBar.style.display = 'block';
@@ -686,8 +706,20 @@ const rightBarProps = async () => {
     const URL = await imgUploadHandler(inputImg, [previewImg]);
     let imgHyperlink = null;
     let imgNewTab = false;
-    imgLink.addEventListener('change', e => { imgHyperlink = e.target.value; console.log("Hyperlink: ", imgHyperlink); });
-    newTab.addEventListener('change', e => { if (e.target.value == 'on') imgNewTab = true; console.log("New tab: ", imgNewTab); });
+    let currentRow = 1;
+    let currentCol = 2;
+    // allImgPropertyList.push({ row: currentRow, col: currentCol, hyperlink: imgHyperlink, imgNewTab });
+    imgLink.addEventListener('change', async (e) => {
+        imgHyperlink = e.target.value;
+        // SET IMAGE HYPERLINK 
+        // console.log(allImgPropertyList.filter(row => console.log(row)));
+    });
+    newTab.addEventListener('change', e => {
+        console.log(allImgPropertyList);
+        if (e.target.value == 'on') imgNewTab = true;
+        console.log("New tab: ", imgNewTab);
+    });
+
 
 
 
@@ -698,8 +730,8 @@ const rightBarProps = async () => {
     alignLeftBtn.addEventListener('click', e => { alignItems = 'left'; });
     alignCenterBtn.addEventListener('click', e => { alignItems = 'center'; });
     alignRightBtn.addEventListener('click', e => { alignItems = 'right'; });
-    txtFontFamily.addEventListener('change', e => { fontFamily = e.target.value; console.log("Font family: ", fontFamily); });
-    txtFontSize.addEventListener('change', e => { fontSize = e.target.value; console.log("Font size: ", fontSize); });
+    txtFontFamily.addEventListener('change', e => { fontFamily = e.target.value; });
+    txtFontSize.addEventListener('change', e => { fontSize = e.target.value; });
     blodText.addEventListener('click', e => { textStyle = 'bold'; });
     italicText.addEventListener('click', e => { textStyle = 'italic'; });
     underlineText.addEventListener('click', e => { textStyle = 'underline'; });
@@ -788,6 +820,7 @@ const backendAndDataBase = () => {
 
         // IMAGE PROPS 
         // console.log("Image block element: ", imageBlockElment);
+        console.log("Image property list: ", allImgPropertyList);
 
 
 
@@ -802,6 +835,27 @@ const backendAndDataBase = () => {
     });
 }
 backendAndDataBase();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+window.onbeforeunload = function () {
+    return "Dude, are you sure you want to leave? Think of the kittens!";
+}
+*/
 
 
 
