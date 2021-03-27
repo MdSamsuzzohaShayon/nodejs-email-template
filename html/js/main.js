@@ -45,6 +45,10 @@ const btnNewTabInput = document.getElementById('btn-new-tab');
 
 // SOCIAL PROPS 
 const socialProps = document.querySelector('.social-props');
+const fbLinkInput = document.getElementById('fb-link'),
+    twitterLinkInput = document.getElementById("twitter-link"),
+    instagramLinkInput = document.getElementById("instagram-link");
+
 
 // SPACE PROPS 
 const spxProps = document.querySelector('.spx-props');
@@ -94,7 +98,7 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 let imgDefaultUrl = "./icon/picture.png";
 // let imgDefault = "background-image: url(./icon/picture.png);";
 let imageBlockElment = null;
-// document.body.innerHTML = imageBlockElment;
+
 
 
 
@@ -190,12 +194,13 @@ const imgUploadHandler = (inputImgElement, imgSrcUrl) => {
                 reader.addEventListener('load', function (le) {
                     // console.log("Load element target: ", le.target.result);
                     // console.log(le.target.result);
-                    imgSrcUrl.forEach((isu, i) => isu.setAttribute('src', le.target.result));
+                    // imgSrcUrl.forEach((isu, i) => isu.setAttribute('src', le.target.result));
+                    imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                     // return uploadedImgUrl;   // THIS RETUREN STATEMENT IS REFERING TO CALLBACK FUNCTION  OF LOAD FILE 
                     // loadedImgUrl.push(le.target.result);
-                    // imgDefaultUrl = le.target.result;
+                    imgDefaultUrl = le.target.result;
                     // uploadedImgUrl = le.target.result;
-                    currentUploadedImageUrl = le.target.result;
+                    // currentUploadedImageUrl = le.target.result;
                     // console.log("Logout from load event: ", uploadedImgUrl);
 
                 });
@@ -519,12 +524,13 @@ function blockDragAndDrop() {
                     // console.log("Drop - E: e.toElement", e.toElement);  // RESULT = <div class="one-column-div" id="one-col-0"></div>
                     // const newBlockCol = document.createElement('div');
                     // setAttributes(newBlockCol, { "style": `background-image: url(${imgDefaultUrl});`, "class": "content", 'id': 'img-holder' });
-                    imageBlockElment = `<img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id="img-${rowNumber + '-' + columnNumber}">`;
+                    let imgID = `"img-${rowNumber + '-' + columnNumber}"`;
+                    imageBlockElment = `<img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id=${imgID}>`;
                     e.toElement.innerHTML = imageBlockElment;
 
                     // DATABASE AND VARIABLE 
                     blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                    positionElement.push({ rowNumber, columnNumber, blockElement: imageBlockElment });
                     // console.log(positionElement);
                 } else if (dropableBlock === "txt-holder") {
                     // CREATING REXT 
@@ -543,7 +549,7 @@ function blockDragAndDrop() {
                     e.toElement.innerHTML = txtBlockElement;
 
                     blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                    positionElement.push({ rowNumber, columnNumber, blockElement: txtBlockElement });
                 } else if (dropableBlock === "btn-holder") {
                     rowNumber = convertRowIdToNumber(e.path[1].id);
                     columnNumber = convertColIdToNumber(e.toElement.id);
@@ -559,7 +565,7 @@ function blockDragAndDrop() {
                     e.toElement.innerHTML = btnBlockElement;
 
                     blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                    positionElement.push({ rowNumber, columnNumber, blockElement: btnBlockElement });
                 } else if (dropableBlock === "social-holder") {
                     rowNumber = convertRowIdToNumber(e.path[1].id);
                     columnNumber = convertColIdToNumber(e.toElement.id);
@@ -576,19 +582,13 @@ function blockDragAndDrop() {
                     }
                     newBlockCol.innerHTML = iconElement;
                     */
-                    iconBlockElement = `
-                            <div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" >
-                                <a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a>
-                                <a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a>
-                                <a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a>
-                            <div />
-                            `;
+                    iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
 
                     e.toElement.innerHTML = (iconBlockElement);
 
 
                     blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                    positionElement.push({ rowNumber, columnNumber, blockElement: iconBlockElement });
                 } else if (dropableBlock === "spx-holder") {
                     rowNumber = convertRowIdToNumber(e.path[1].id);
                     columnNumber = convertColIdToNumber(e.toElement.id);
@@ -599,7 +599,7 @@ function blockDragAndDrop() {
                     e.toElement.appendChild(newBlockCol);
 
                     blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement });
+                    positionElement.push({ rowNumber, columnNumber, blockElement: "Space" });
                 } else {
                     console.log('Not creating element');
                 }
@@ -673,13 +673,17 @@ rightBarElementShowHide();
 
 
 
+
+
+
 // MAIN FUNCTION 4
 const rightBarProps = async () => {
 
+
+    // KNOW THE CURRENT ROW AND COLUMN WHICH WE ARE ON 
     // IMAGE PROPERTIES 
     // imgUploadHandler(inputImg, [previewImg]);
-    const URL = await imgUploadHandler(inputImg, [previewImg, document.getElementById('img-preview-2')]);
-    console.log(URL);
+    const URL = await imgUploadHandler(inputImg, [previewImg]);
     let imgHyperlink = null;
     let imgNewTab = false;
     imgLink.addEventListener('change', e => { imgHyperlink = e.target.value; console.log("Hyperlink: ", imgHyperlink); });
@@ -716,7 +720,28 @@ const rightBarProps = async () => {
     btnHyperlinkInput.addEventListener('change', e => { btnHyperLink = e.target.value; console.log("Hyperlink: ", btnHyperLink); });
     btnNewTabInput.addEventListener('change', e => { if (e.target.value == 'on') btnNewTab = true; console.log("New tab: ", btnNewTab); });
 
-    // SOME PROBLEM IN HERE 
+
+
+
+    // SOCIAL PROPERTIES 
+    let socialFbHyperlink = null, socialTwitterHyperlink = null, instagramHyperlink = null;
+    fbLinkInput.addEventListener('change', (e) => { socialFbHyperlink = e.target.value; console.log("socialFbHyperlink: ", socialFbHyperlink); });
+    twitterLinkInput.addEventListener('change', (e) => { socialTwitterHyperlink = e.target.value; console.log("socialTwitterHyperlink: ", socialTwitterHyperlink); });
+    instagramLinkInput.addEventListener('change', (e) => {
+        instagramFbHyperlink = e.target.value;
+        console.log("instagramFbHyperlink: ", instagramFbHyperlink);
+
+        /*
+        OMG THIS IS WORKING 
+        // console.log("social icon: ", document.activeElement);
+        const rowOneHere = document.getElementById('row-1');
+        const newEl = document.createElement('h2');
+        newEl.setAttribute('class', 'header');
+        newEl.textContent = "Hello world";
+        rowOneHere.appendChild(newEl)
+        console.log(rowOneHere);
+        */
+    });
 
 
 
@@ -761,14 +786,27 @@ const backendAndDataBase = () => {
 
 
 
+        // IMAGE PROPS 
+        // console.log("Image block element: ", imageBlockElment);
 
-        console.log("Current image upload URL: ", currentUploadedImageUrl);
-        console.log("ROW ID: ", rowID);
 
 
-        // THE OBJECT TO SAVE INTO THE DATABASE 
-        console.log("Row list: ", rowList);
+
+        // console.log("Current image upload URL: ", currentUploadedImageUrl);
+        // console.log("ROW ID: ", rowID);
+
+
+        // // THE OBJECT TO SAVE INTO THE DATABASE 
+        // console.log("Row list: ", rowList);
         console.log("Position Element: ", positionElement);
     });
 }
 backendAndDataBase();
+
+
+
+
+
+
+
+
