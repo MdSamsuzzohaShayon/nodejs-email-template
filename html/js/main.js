@@ -155,8 +155,8 @@ let currentUploadedImageUrl = null;
 
 
 
-// WEBSITE URL OPERATION 
-let websiteDomain = "www.google.com";
+// WEBSITE DEFAULT URL OPERATION 
+let websiteDomain = "www.google.com", defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
 
 
 
@@ -505,7 +505,6 @@ function blockDragAndDrop() {
     let columnNumber;
     let blockElement = null;
 
-
     contentBlockCol.forEach((blockCol, index) => {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
@@ -538,23 +537,9 @@ function blockDragAndDrop() {
         });
     });
 
-
-
-
-
-
-
     document.addEventListener('dragover', e => {
-        // console.log(e.target);
         e.preventDefault();
     });
-
-
-
-
-
-
-
 
     document.addEventListener('drop', (e) => {
         // console.log("Mouseover - Event: ", e.toElement.id);   // GETTING COLUMN ID (iNDICATES INDEX NUMBER OF THE COLUMN)
@@ -622,28 +607,33 @@ function blockDragAndDrop() {
                     blockElement = dropableBlock;
                     positionElement.push({ rowNumber, columnNumber, blockElement: btnBlockElement });
                 } else if (dropableBlock === "social-holder") {
-                    rowNumber = convertRowIdToNumber(e.path[1].id);
-                    columnNumber = convertColIdToNumber(e.toElement.id);
+                    // The Social Media Icons can only be dragged to a one - column or a two - column layout
+                    if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
+                        rowNumber = convertRowIdToNumber(e.path[1].id);
+                        columnNumber = convertColIdToNumber(e.toElement.id);
 
-                    // CREATING THREE SOCIAL ICON 
-                    /*
-                    const newBlockCol = document.createElement('div');
-                    setAttributes(newBlockCol, { 'class': "content", "id": "social-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                    for (let i = 0; i < 3; i++) {
-                        const threeButton = document.createElement('button');
-                        setAttributes(threeButton, { "class": "content", "id": `icon-${i}` });
-                        threeButton.textContent = 'icon';
-                        newBlockCol.appendChild(threeButton);
+                        // CREATING THREE SOCIAL ICON 
+                        /*
+                        const newBlockCol = document.createElement('div');
+                        setAttributes(newBlockCol, { 'class': "content", "id": "social-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
+                        for (let i = 0; i < 3; i++) {
+                            const threeButton = document.createElement('button');
+                            setAttributes(threeButton, { "class": "content", "id": `icon-${i}` });
+                            threeButton.textContent = 'icon';
+                            newBlockCol.appendChild(threeButton);
+                        }
+                        newBlockCol.innerHTML = iconElement;
+                        */
+                        iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
+
+                        e.toElement.innerHTML = (iconBlockElement);
+
+
+                        blockElement = dropableBlock;
+                        positionElement.push({ rowNumber, columnNumber, blockElement: iconBlockElement, socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink });
+                    } else {
+                        alert("Social icon can't drop into three column!");
                     }
-                    newBlockCol.innerHTML = iconElement;
-                    */
-                    iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
-
-                    e.toElement.innerHTML = (iconBlockElement);
-
-
-                    blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement: iconBlockElement });
                 } else if (dropableBlock === "spx-holder") {
                     rowNumber = convertRowIdToNumber(e.path[1].id);
                     columnNumber = convertColIdToNumber(e.toElement.id);
@@ -671,23 +661,26 @@ blockDragAndDrop();
 const rightBarElementShowHide = () => {
 
     document.addEventListener('click', e => {
-        console.log("Click E: ", e.toElement.id);
+        // console.log("Click E: ", e.toElement);
+        let idString = null;
 
-
-
-
-
-        // console.log(typeof row);
-        // console.log("Click: E Target", e.target.className);
-        // console.log("Click: E Target", e.toElement.classList[0]);
 
         // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN 
         if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
 
-            // img-1-1
-            // ALL OF THEM ARE WORKING EXCEPT SOCIAL 
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
-            const idString = e.toElement.id.toString();
+            if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                if (e.toElement.className === 'social-icon-img') {
+                    idString = e.toElement.parentElement.parentElement.id;
+                }
+                if (e.toElement.className === 'social-icon-content') {
+                    idString = e.toElement.parentElement.id;
+                }
+            } else {
+                // img-1-1
+                // ALL OF THEM ARE WORKING EXCEPT SOCIAL 
+                // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+                idString = e.toElement.id.toString();
+            }
             let findRowCol = idString.split('-');
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
             // selectedRow = parseInt(idString.charAt(4));
@@ -695,13 +688,6 @@ const rightBarElementShowHide = () => {
             selectedRow = parseInt(findRowCol[1]);
             selectedCol = parseInt(findRowCol[2]);
 
-
-
-
-
-
-            // content
-            // two-column-div
 
 
             propertiesBar.style.display = 'block';
@@ -765,29 +751,23 @@ const rightBarProps = async () => {
 
     // SUB FUNCTION 1
     function imgPropertiesUpdate() {
-        let objIndex = null;
 
         // KNOW THE CURRENT ROW AND COLUMN WHICH WE ARE ON 
         // IMAGE PROPERTIES 
-        // imgUploadHandler(inputImg, [previewImg]);
         imgUploadHandler(inputImg, [previewImg]);
         let imgHyperlink = null;
         let imgNewTab = false;
 
-        // allImgPropertyList.push({ row: currentRow, col: currentCol, hyperlink: imgHyperlink, imgNewTab });
         imgLink.addEventListener('change', (e) => {
             imgHyperlink = e.target.value;
             // BY USING SELECTED ROW AND COL SEARCH ITEM FROM POSITION ELEMENT AND UPDATE 
+            // https://stackoverflow.com/questions/4689856/how-to-change-value-of-object-which-is-inside-an-array-using-javascript-or-jquer
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].imgHyperlink = imgHyperlink; } });
             // updatePositionElement(selectedRow, selectedCol, imgHyperlink, imgHyperlink);
-            // updatePositionElement(selectedRow, selectedCol, imgHyperlink, imgHyperlink);
-
         });
         newTab.addEventListener('change', async e => {
-            // console.log(allImgPropertyList);
             if (e.target.value == 'on') imgNewTab = true;
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].imgNewTab = imgNewTab; } });
-
         });
 
 
@@ -801,55 +781,75 @@ const rightBarProps = async () => {
 
 
 
-    // TEXT PROPERTIES 
-    let alignItems = "center", fontFamily = "Calibri", fontSize = 20, textStyle = 'normal';
-    alignLeftBtn.addEventListener('click', e => { alignItems = 'left'; });
-    alignCenterBtn.addEventListener('click', e => { alignItems = 'center'; });
-    alignRightBtn.addEventListener('click', e => { alignItems = 'right'; });
-    txtFontFamily.addEventListener('change', e => { fontFamily = e.target.value; });
-    txtFontSize.addEventListener('change', e => { fontSize = e.target.value; });
-    blodText.addEventListener('click', e => { textStyle = 'bold'; });
-    italicText.addEventListener('click', e => { textStyle = 'italic'; });
-    underlineText.addEventListener('click', e => { textStyle = 'underline'; });
+    // SUB FINCTION 2
+    function txtPropertiesUpdate() {
+        // TEXT PROPERTIES 
+        let alignItems = "center", fontFamily = "Calibri", fontSize = 20, textStyle = 'normal';
+
+        alignLeftBtn.addEventListener('click', e => { alignItems = 'left'; });
+        alignCenterBtn.addEventListener('click', e => { alignItems = 'center'; });
+        alignRightBtn.addEventListener('click', e => { alignItems = 'right'; });
+        txtFontFamily.addEventListener('change', e => { fontFamily = e.target.value; });
+        txtFontSize.addEventListener('change', e => { fontSize = e.target.value; });
+        blodText.addEventListener('click', e => { textStyle = 'bold'; });
+        italicText.addEventListener('click', e => { textStyle = 'italic'; });
+        underlineText.addEventListener('click', e => { textStyle = 'underline'; });
+    }
+    txtPropertiesUpdate();
 
 
 
 
 
-    // BUTTON PROPERTIES 
-    let btnBGColor = 'green', btnTxtColor = 'blue', btnFontSize = 12, btnFontFamily = "Calibri", btnTxtContent = "Preview";
-    let btnHyperLink = null;
-    let btnNewTab = false;
-    btnBGColorInput.addEventListener('change', e => { btnBGColor = e.target.value; console.log("btnBGColor: ", btnBGColor); });
-    btnTxtColorInput.addEventListener('change', e => { btnTxtColor = e.target.value; console.log("btnTxtColor: ", btnTxtColor); });
-    btnFontSizeInput.addEventListener('change', e => { btnFontSize = e.target.value; console.log("btnFontSize: ", btnFontSize); });
-    btnFontFamilyInput.addEventListener('change', e => { btnFontFamily = e.target.value; console.log("btnFontFamily: ", btnFontFamily); });
-    btnTextContentInput.addEventListener('change', e => { btnTxtContent = e.target.value; console.log("btnTxtContent: ", btnTxtContent); });
-    btnHyperlinkInput.addEventListener('change', e => { btnHyperLink = e.target.value; console.log("Hyperlink: ", btnHyperLink); });
-    btnNewTabInput.addEventListener('change', e => { if (e.target.value == 'on') btnNewTab = true; console.log("New tab: ", btnNewTab); });
+    // SUB FUNCTION  3 
+    function btnPropertiesUpdate() {
+        // BUTTON PROPERTIES 
+        let btnBGColor = 'green', btnTxtColor = 'blue', btnFontSize = 12, btnFontFamily = "Calibri", btnTxtContent = "Preview";
+        let btnHyperLink = null;
+        let btnNewTab = false;
+        btnBGColorInput.addEventListener('change', e => { btnBGColor = e.target.value; });
+        btnTxtColorInput.addEventListener('change', e => { btnTxtColor = e.target.value; });
+        btnFontSizeInput.addEventListener('change', e => { btnFontSize = e.target.value; });
+        btnFontFamilyInput.addEventListener('change', e => { btnFontFamily = e.target.value; });
+        btnTextContentInput.addEventListener('change', e => { btnTxtContent = e.target.value; });
+        btnHyperlinkInput.addEventListener('change', e => { btnHyperLink = e.target.value; });
+        btnNewTabInput.addEventListener('change', e => { if (e.target.value == 'on') btnNewTab = true; });
+    }
+    btnPropertiesUpdate();
 
 
 
 
-    // SOCIAL PROPERTIES 
-    let socialFbHyperlink = null, socialTwitterHyperlink = null, instagramHyperlink = null;
-    fbLinkInput.addEventListener('change', (e) => { socialFbHyperlink = e.target.value; console.log("socialFbHyperlink: ", socialFbHyperlink); });
-    twitterLinkInput.addEventListener('change', (e) => { socialTwitterHyperlink = e.target.value; console.log("socialTwitterHyperlink: ", socialTwitterHyperlink); });
-    instagramLinkInput.addEventListener('change', (e) => {
-        instagramFbHyperlink = e.target.value;
-        console.log("instagramFbHyperlink: ", instagramFbHyperlink);
 
-        /*
-        OMG THIS IS WORKING 
-        // console.log("social icon: ", document.activeElement);
-        const rowOneHere = document.getElementById('row-1');
-        const newEl = document.createElement('h2');
-        newEl.setAttribute('class', 'header');
-        newEl.textContent = "Hello world";
-        rowOneHere.appendChild(newEl)
-        console.log(rowOneHere);
-        */
-    });
+    // SUB FINCTION 4
+    function socialPropertiesUpdate() {
+        // SOCIAL PROPERTIES 
+        let socialFbHyperlink = null, socialTwitterHyperlink = null, socialInstagramHyperlink = null;
+        fbLinkInput.addEventListener('change', (e) => {
+            socialFbHyperlink = e.target.value;
+            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].socialFbHyperlink = socialFbHyperlink; } });
+        });
+        twitterLinkInput.addEventListener('change', (e) => {
+            socialTwitterHyperlink = e.target.value;
+            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].socialTwitterHyperlink = socialTwitterHyperlink; } });
+        });
+        instagramLinkInput.addEventListener('change', (e) => {
+            socialInstagramHyperlink = e.target.value;
+            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].socialInstagramHyperlink = socialInstagramHyperlink; } });
+            /*
+            OMG THIS IS WORKING 
+            // console.log("social icon: ", document.activeElement);
+            const rowOneHere = document.getElementById('row-1');
+            const newEl = document.createElement('h2');
+            newEl.setAttribute('class', 'header');
+            newEl.textContent = "Hello world";
+            rowOneHere.appendChild(newEl)
+            console.log(rowOneHere);
+            */
+        });
+
+    }
+    socialPropertiesUpdate();
 
 
 
