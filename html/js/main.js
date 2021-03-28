@@ -10,6 +10,7 @@ const headerImgPreview = document.getElementById('header-img-preview');
 const templateWrapper = document.querySelector('.template-wrapper');
 const templateBGColorInput = document.getElementById('t-bg-color');
 const templateLinkColorInput = document.getElementById('t-link-color');
+const links = document.getElementsByTagName('a');
 
 // DRAG AND DROP COLUMN ELEMENT 
 const draggableColumn = document.querySelectorAll('.block-col');
@@ -34,13 +35,13 @@ const blodText = document.getElementById('txt-bold'), italicText = document.getE
 
 // BUTTON PROPS 
 const btnProps = document.querySelector('.btn-props');
-const btnBGColorInput = document.getElementById('btn-color');
-const btnTxtColorInput = document.getElementById('btn-font-color');
-const btnFontFamilyInput = document.getElementById('btn-font-family');
-const btnFontSizeInput = document.getElementById('btn-font-size');
-const btnTextContentInput = document.getElementById('btn-text');
-const btnHyperlinkInput = document.getElementById('btn-hyperlink');
-const btnNewTabInput = document.getElementById('btn-new-tab');
+const btnBGColorInput = document.getElementById('btn-color'),
+    btnTxtColorInput = document.getElementById('btn-font-color'),
+    btnFontFamilyInput = document.getElementById('btn-font-family'),
+    btnFontSizeInput = document.getElementById('btn-font-size'),
+    btnTextContentInput = document.getElementById('btn-text'),
+    btnHyperlinkInput = document.getElementById('btn-hyperlink'),
+    btnNewTabInput = document.getElementById('btn-new-tab');
 
 
 // SOCIAL PROPS 
@@ -139,6 +140,23 @@ let instagram_icon = './icon/instagram.png';
 let iconLink = '#';
 let iconBlockElement = null;
 let currentUploadedImageUrl = null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// WEBSITE URL OPERATION 
+let websiteDomain = "www.google.com";
 
 
 
@@ -292,6 +310,35 @@ function convertColIdToNumber(colElementId) {
     return columnNumber;
 }
 
+
+// FUNCTION IS NOT WORKING 
+const updatePositionElement = (selectedRow, selectedCol, propertyName, propertyValue) => {
+    // console.log("Selected row: ", selectedRow);
+    // console.log("Selected Col: ", selectedCol);
+    // selectedPositionElement.imgHyperlink = imgHyperlink;
+    // console.log("Selected position element: ", objIndex);
+    // GETTING INDEX NUMBER OF ARRAY 
+    // objIndex = positionElement.findIndex(pl => pl.rowNumber === selectedRow && pl.columnNumber === selectedCol);
+    // if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) {
+    //     return positionElement[index].imgHyperlink = imgHyperlink;
+    // }
+
+    // console.log(positionElement);
+    positionElement.forEach((pl, index) => {
+        if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) {
+            positionElement[index].propertyName = propertyValue;
+            // console.log(positionElement[index]);
+        }
+    });
+    // updatePositionElement(selectedRow, selectedCol, imgHyperlink);
+    // console.log("position Element: ", positionElement[objIndex]);
+
+
+
+    // SET IMAGE HYPERLINK 
+    // console.log(allImgPropertyList.filter(row => console.log(row)));
+}
+
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -319,7 +366,6 @@ function convertColIdToNumber(colElementId) {
 
 
 
-// MAIN FUNCTION 5
 
 
 
@@ -539,7 +585,7 @@ function blockDragAndDrop() {
 
                     // DATABASE AND VARIABLE 
                     blockElement = dropableBlock;
-                    positionElement.push({ rowNumber, columnNumber, blockElement: imageBlockElment });
+                    positionElement.push({ rowNumber, columnNumber, blockElement: imageBlockElment, imgHyperlink: websiteDomain, imgNewTab: false });
                     // console.log(positionElement);
                 } else if (dropableBlock === "txt-holder") {
                     // CREATING REXT 
@@ -644,15 +690,11 @@ const rightBarElementShowHide = () => {
             const idString = e.toElement.id.toString();
             let findRowCol = idString.split('-');
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
-
-            // selectedCol = `${findRowCol[2]} `;
-            // let findRow = idString.charAt(4);
-            // console.log("find: ", findRow);
             // selectedRow = parseInt(idString.charAt(4));
             // selectedCol = parseInt(idString.charAt(7));
             selectedRow = parseInt(findRowCol[1]);
             selectedCol = parseInt(findRowCol[2]);
-            // selectedCol = find[2];
+
 
 
 
@@ -719,26 +761,40 @@ rightBarElementShowHide();
 const rightBarProps = async () => {
 
 
-    // KNOW THE CURRENT ROW AND COLUMN WHICH WE ARE ON 
-    // IMAGE PROPERTIES 
-    // imgUploadHandler(inputImg, [previewImg]);
-    const URL = await imgUploadHandler(inputImg, [previewImg]);
-    let imgHyperlink = null;
-    let imgNewTab = false;
 
-    // allImgPropertyList.push({ row: currentRow, col: currentCol, hyperlink: imgHyperlink, imgNewTab });
-    imgLink.addEventListener('change', async (e) => {
-        imgHyperlink = e.target.value;
-        // console.log("Selected row: ", selectedRow);
-        // console.log("Selected Col: ", selectedCol);
-        // SET IMAGE HYPERLINK 
-        // console.log(allImgPropertyList.filter(row => console.log(row)));
-    });
-    newTab.addEventListener('change', e => {
-        console.log(allImgPropertyList);
-        if (e.target.value == 'on') imgNewTab = true;
-        console.log("New tab: ", imgNewTab);
-    });
+
+    // SUB FUNCTION 1
+    function imgPropertiesUpdate() {
+        let objIndex = null;
+
+        // KNOW THE CURRENT ROW AND COLUMN WHICH WE ARE ON 
+        // IMAGE PROPERTIES 
+        // imgUploadHandler(inputImg, [previewImg]);
+        imgUploadHandler(inputImg, [previewImg]);
+        let imgHyperlink = null;
+        let imgNewTab = false;
+
+        // allImgPropertyList.push({ row: currentRow, col: currentCol, hyperlink: imgHyperlink, imgNewTab });
+        imgLink.addEventListener('change', (e) => {
+            imgHyperlink = e.target.value;
+            // BY USING SELECTED ROW AND COL SEARCH ITEM FROM POSITION ELEMENT AND UPDATE 
+            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].imgHyperlink = imgHyperlink; } });
+            // updatePositionElement(selectedRow, selectedCol, imgHyperlink, imgHyperlink);
+            // updatePositionElement(selectedRow, selectedCol, imgHyperlink, imgHyperlink);
+
+        });
+        newTab.addEventListener('change', async e => {
+            // console.log(allImgPropertyList);
+            if (e.target.value == 'on') imgNewTab = true;
+            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].imgNewTab = imgNewTab; } });
+
+        });
+
+
+    }
+    imgPropertiesUpdate();
+
+
 
 
 
@@ -815,9 +871,11 @@ const templatePropsCng = () => {
     });
 
     // LINKS COLOR CHANGE 
-    const links = document.getElementsByTagName('a');
     templateLinkColorInput.addEventListener('change', (e) => {
-        links.forEach(link => style.color = e.target.value);
+        for (let link of links) {
+            link => style.color = e.target.value
+        }
+        // links.forEach(link => style.color = e.target.value);
     });
 }
 templatePropsCng();
@@ -876,7 +934,15 @@ backendAndDataBase();
 window.onbeforeunload = function () {
     return "Dude, are you sure you want to leave? Think of the kittens!";
 }
+window.addEventListener('beforeunload', function (e) {
+    // Cancel the event
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = 'Save it and leave otherwise it can be undone';
+});
 */
+// https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+// document.cookie = "test=Hello";
 
 
 
