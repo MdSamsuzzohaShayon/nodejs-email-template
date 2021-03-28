@@ -97,6 +97,13 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 
 
 
+// TEMPORARY GLOBAL VARIABLES 
+// WHEN SOMEONE CLICK ON BLOCK ELEMENT IT CAN ASSIGNED WITH ROW NUMBER AND COL NUMBER 
+let selectedRow = null;
+let selectedCol = null;
+// let selectedBlock = {};
+
+
 
 
 // IMAGE 
@@ -176,9 +183,6 @@ function createBlockElement(blockElement, attributes) {
     // console.log(positionElement);
 }
 */
-
-
-
 
 
 
@@ -619,24 +623,38 @@ blockDragAndDrop();
 
 // MAIN FUNCTION 3
 const rightBarElementShowHide = () => {
+
     document.addEventListener('click', e => {
         console.log("Click E: ", e.toElement.id);
-        // img-1-1
-        // ALL OF THEM ARE WORKING EXCEPT SOCIAL 
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
-        const str = e.toElement.id.toString();
-        let find = str.split('-');
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
-        let row = parseInt(find[1]);
-        let col = parseInt(find[2]);
 
-        console.log("Row: " + row + " \n Col: " + col);
+
+
+
+
         // console.log(typeof row);
         // console.log("Click: E Target", e.target.className);
         // console.log("Click: E Target", e.toElement.classList[0]);
 
         // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN 
         if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+
+            // img-1-1
+            // ALL OF THEM ARE WORKING EXCEPT SOCIAL 
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+            const idString = e.toElement.id.toString();
+            let findRowCol = idString.split('-');
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
+
+            // selectedCol = `${findRowCol[2]} `;
+            // let findRow = idString.charAt(4);
+            // console.log("find: ", findRow);
+            // selectedRow = parseInt(idString.charAt(4));
+            // selectedCol = parseInt(idString.charAt(7));
+            selectedRow = parseInt(findRowCol[1]);
+            selectedCol = parseInt(findRowCol[2]);
+            // selectedCol = find[2];
+
+
 
 
 
@@ -686,10 +704,11 @@ const rightBarElementShowHide = () => {
     });
 
 
-
-
 }
 rightBarElementShowHide();
+
+
+
 
 
 
@@ -706,11 +725,12 @@ const rightBarProps = async () => {
     const URL = await imgUploadHandler(inputImg, [previewImg]);
     let imgHyperlink = null;
     let imgNewTab = false;
-    let currentRow = 1;
-    let currentCol = 2;
+
     // allImgPropertyList.push({ row: currentRow, col: currentCol, hyperlink: imgHyperlink, imgNewTab });
     imgLink.addEventListener('change', async (e) => {
         imgHyperlink = e.target.value;
+        // console.log("Selected row: ", selectedRow);
+        // console.log("Selected Col: ", selectedCol);
         // SET IMAGE HYPERLINK 
         // console.log(allImgPropertyList.filter(row => console.log(row)));
     });
@@ -821,6 +841,7 @@ const backendAndDataBase = () => {
         // IMAGE PROPS 
         // console.log("Image block element: ", imageBlockElment);
         console.log("Image property list: ", allImgPropertyList);
+
 
 
 
