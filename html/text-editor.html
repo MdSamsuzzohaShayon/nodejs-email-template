@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor</title>
+    <link rel=" stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            block-size: border-box;
+        }
+
+        body {
+            padding-left: 20px;
+            padding-top: 50px;
+        }
+
+        form {
+            margin: 10px 0;
+        }
+
+        button {
+            border: none;
+            outline: none;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        #output {
+            width: 700px;
+            height: 400px;
+            border: 1px solud #111;
+
+        }
+
+        .active {
+            border: apx solid crimson;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- https://www.youtube.com/watch?v=fOKaD4NXHIs -->
+    <form>
+        <button data-cmd="Lest"><i class="fa fa-align-left" aria-hidden="true"></i></button>
+        <button data-cmd="justifyCenter"><i class="fa fa-align-center" aria-hidden="true"></i></button>
+        <button data-cmd="justifyFull"><i class="fa fa-align-justify" aria-hidden="true"></i></button>
+        <button data-cmd="justifyRight"><i class="fa fa-align-right" aria-hidden="true"></i></button>
+
+        <button data-cmd="justifyBold"><i class="fa fa-bold" aria-hidden="true"></i></button>
+        <button data-cmd="justifyItalic"><i class="fa fa-italic" aria-hidden="true"></i></button>
+        <button data-cmd="justifyUnderline"><i class="fa fa-underline" aria-hidden="true"></i></button>
+
+        <button data-cmd="insertOrderedList"><i class="fa fa-list-ol" aria-hidden="true"></i></button>
+        <button data-cmd="insertUnorderedList"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+
+        <button data-cmd="insertImage"><i class="fa fa-file-image" aria-hidden="true"></i></button>
+        <button data-cmd="createLink"><i class="fa fa-link" aria-hidden="true"></i></button>
+
+        <button data-cmd="showCode" name="active"><i class="fa fa-code" aria-hidden="true"></i></button>
+    </form>
+
+    <iframe id="output" name="textField"></iframe>
+
+    <script>
+        const buttons = document.querySelectorAll('button');
+        textField.document.designMode = "On";
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', e => {
+                e.preventDefault();
+                let cmd = buttons[i].getAttribute('data-cmd');
+                if (buttons[i].name === 'active') {
+                    buttons[i].classList.toggle('active');
+                }
+                if (cmd === 'insertImage' || cmd === 'createLink') {
+                    let url = prompt('Enter link here: ', "");
+                    textField.document.execCommand(cmd, false, url);
+                    if (cmd === 'insertimage') {
+                        const imgs = textField.document.querySelectorAll('img');
+                        imgs.forEach(item => {
+                            item.style.maxWidth = '200px';
+                        });
+                    } else {
+                        const links = textField.document.querySelectorAll('a');
+                        links.forEach(item => {
+                            item.addEventListener('mouseover', () => {
+                                textField.document.designMode = "Off";
+                            });
+                            item.addEventListener('mouseover', () => {
+                                textField.document.designMode = "On";
+                            });
+                        });
+                    }
+                } else {
+                    textField.document.execCommand(cmd, false, null);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
