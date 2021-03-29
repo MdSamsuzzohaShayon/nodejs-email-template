@@ -56,6 +56,7 @@
  - INSIDE PROPERTY CHANGE OR CLICK EVENT ->GET ROW AND COL NUMBER -> ACCORDING TO ROW AND COL NUMBER UPDATE ELEMENT POSITION ARRAY WITH RESENTLY INPUTED VALUE   == IT'S WORKED😊
  - SAVE HTML ELEMENT WITH RIGHT COLUMN AND RIGHT ROW    == IT'S WORKED😊
  - FROM CLICK OR CHANGE EVENT OF PROPERTY CHANGE THE ELEMENT ATTRIBUTE OF TEMPLATE 
+ - DROP THE BUTTON INSIDE ANOTHER ELEMENT 
 
 
  - WORK WITH IMAGE 
@@ -70,3 +71,5 @@
  - social  icon props hide and show ☑️
  - space show and hide problem  ☑️
  - Image content ☑️
+
+ - Bugs TypeError: Cannot read property 'classList' of undefined at HTMLDocument.<anonymous> (main.js:597)

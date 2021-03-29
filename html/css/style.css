@@ -107,6 +107,10 @@ body, html {
   width: 96%;
   margin-left: 2%;
 }
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .img-content-block {
+  width: 70%;
+  margin-left: 15%;
+}
 .whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block {
   display: flex;
   width: 100%;

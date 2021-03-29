@@ -105,17 +105,13 @@ body,html{
                                 }
                                 .content{
                                     width: 96%;
-                                    margin-left: 2%;
-
-                                    // width: 100%;
-                                    // height: 100%;
-                                    // height: 15em;
-                                    // @include bg_img();
-                                    // @include bg_img(15em);
-                                    // background-color: $t-color;
-                                    // background: #000;
+                                    margin-left: 2%;                                   
                                     
-                                    
+                                }
+                                // THIS SHOULD BE SET BY JS 
+                                .img-content-block{
+                                    width: 70%;
+                                    margin-left: 15%;
                                 }
                                 .icon-content-block{
                                     display: flex;
