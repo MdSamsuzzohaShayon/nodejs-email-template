@@ -49,6 +49,8 @@
  - MAKE AN ON CHANGE EVENT ATTRIBUTE IN THE BLOCK ELEMENT WE HAVE CREATED TO CHANGE ANYTHING   == IT'S WORKED 😊
  - EVERYTIME WHEN CHANGE THE ROW LIST AND ROW POSITION ELELMENT WE CAN CREATE ELEMENT AND UPDATE ELEMENT
 
+ - MAKE ALL THE ELEMENT VARTICALLY AND HORIZONTALLY RESPONSIVE
+
 
 
 
@@ -71,5 +73,12 @@
  - social  icon props hide and show ☑️
  - space show and hide problem  ☑️
  - Image content ☑️
-
  - Bugs TypeError: Cannot read property 'classList' of undefined at HTMLDocument.<anonymous> (main.js:597)
+
+
+
+### Referances
+ - https://w3c.github.io/input-events/
+ - https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
+ - https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
+ - *[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility

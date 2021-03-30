@@ -66,29 +66,44 @@
                                     </div>
                                 </div>
                                 <div class="props txt-props">
+                                    <!-- https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand -->
                                     <h4 class="txt-options">Pragraph</h4>
                                     <div class="txt-pragraph">
-                                        <button class="txt-pra-btn" id="txt-pra-left">Left</button>
-                                        <button class="txt-pra-btn" id="txt-pra-center">Center</button>
-                                        <button class="txt-pra-btn" id="txt-pra-right">Right</button>
+                                        <button class="txt-align-btn" data-align="justifyLeft"
+                                            id="txt-align-left">Left</button>
+                                        <button class="txt-align-btn" data-align="justifyCenter"
+                                            id="txt-align-center">Center</button>
+                                        <button class="txt-align-btn" data-align="justifyRight"
+                                            id="txt-align-right">Right</button>
                                     </div>
                                     <h4 class="txt-options">Fonts</h4>
                                     <div class="txt-fonts-family">
                                         <select name="txt-font txt-font-family" id="txt-font-family">
-                                            <option value="Calibri">Calibri</option>
-                                            <option value="Open Sans">Open Sans</option>
-                                            <option value="Arial">Arial</option>
+                                            <option value="Verdana">Verdana</option>
+                                            <option value="Helvetica">Helvetica</option>
+                                            <option value="Tahoma">Tahoma</option>
+                                            <option value="Trebuchet MS">Trebuchet MS</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Garamond">Garamond</option>
+                                            <option value="Courier New">Courier New</option>
+                                            <option value="Brush Script MT">Brush Script MT</option>
                                         </select>
                                         <select name="txt-font txt-font-size" id="txt-font-size">
-                                            <option value="12">12</option>
-                                            <option value="16">16</option>
-                                            <option value="20">20</option>
+                                            <option value="2">8</option>
+                                            <option value="3">10</option>
+                                            <option value="4">11</option>
+                                            <option value="5">12</option>
+                                            <option value="6">13</option>
+                                            <option value="7">14</option>
                                         </select>
                                     </div>
                                     <div class="txt-font-style">
-                                        <button class="txt-btn-style" id="txt-bold">Bold</button>
-                                        <button class="txt-btn-style" id="txt-italic">Italic</button>
-                                        <button class="txt-btn-style" id="txt-underline">Underline</button>
+                                        <button class="txt-btn-style" data-style="bold" id="txt-bold">Bold</button>
+                                        <button class="txt-btn-style" data-style="italic"
+                                            id="txt-italic">Italic</button>
+                                        <button class="txt-btn-style" data-style="underline"
+                                            id="txt-underline">Underline</button>
                                     </div>
                                     <div class="txt-link">
                                         <div class="txt-props-2 txt-link-wrap">
@@ -250,7 +265,6 @@
 
 
     <script src="js/main.js"></script>
-    <script src="js/example.js"></script>
 </body>
 
 </html>

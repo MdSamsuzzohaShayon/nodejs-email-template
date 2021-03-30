@@ -27,10 +27,10 @@ const allProperties = document.querySelectorAll('.props');
 
 // TEXT PROPS 
 const txtProps = document.querySelector('.txt-props');
-const alignLeftBtn = document.getElementById('txt-pra-left'), alignCenterBtn = document.getElementById('txt-pra-center'), alignRightBtn = document.getElementById('txt-pra-right');
+const alignBtn = document.querySelectorAll('.txt-align-btn');
 const txtFontFamily = document.getElementById('txt-font-family');
 const txtFontSize = document.getElementById('txt-font-size');
-const blodText = document.getElementById('txt-bold'), italicText = document.getElementById('txt-italic'), underlineText = document.getElementById('txt-underline');
+const txtStyle = document.querySelectorAll('.txt-btn-style');
 
 
 // BUTTON PROPS 
@@ -584,7 +584,7 @@ function blockDragAndDrop() {
                             */
 
                             text = "😊Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
-                            txtBlockElement = `<div class="content txt-content-block" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
+                            txtBlockElement = `<div class="content txt-content-block" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
                             e.toElement.innerHTML = txtBlockElement;
 
                             blockElement = dropableBlock;
@@ -813,17 +813,48 @@ const rightBarProps = async () => {
 
     // SUB FINCTION 2
     function txtPropertiesUpdate() {
+        // https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
         // TEXT PROPERTIES 
-        let alignItems = "center", fontFamily = "Calibri", fontSize = 20, textStyle = 'normal';
 
+        // let fontFamily = "Calibri", fontSize = 20, textStyle = 'normal';
+        /*
+        let alignItems = "center"; 
         alignLeftBtn.addEventListener('click', e => { alignItems = 'left'; });
         alignCenterBtn.addEventListener('click', e => { alignItems = 'center'; });
         alignRightBtn.addEventListener('click', e => { alignItems = 'right'; });
-        txtFontFamily.addEventListener('change', e => { fontFamily = e.target.value; });
-        txtFontSize.addEventListener('change', e => { fontSize = e.target.value; });
-        blodText.addEventListener('click', e => { textStyle = 'bold'; });
-        italicText.addEventListener('click', e => { textStyle = 'italic'; });
-        underlineText.addEventListener('click', e => { textStyle = 'underline'; });
+        */
+        alignBtn.forEach(btn => {
+            btn.addEventListener('click', e => {
+                let cmd = btn.dataset['align'];
+                document.execCommand(cmd, false, null);
+                console.log(cmd);
+                // const text = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+                // console.log(text.outerHTML.toString().trim());
+            });
+
+        });
+        txtStyle.forEach(btn => {
+            btn.addEventListener('click', e => {
+                let cmd = btn.dataset['style'];
+                document.execCommand(cmd, false, null);
+                const text = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+                console.log(text.outerHTML.toString().trim());
+            });
+
+        });
+
+        txtFontFamily.addEventListener('change', e => {
+            let fontName = e.target.value;
+            document.execCommand("fontName", false, fontName);
+            const text = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+            console.log(text.outerHTML.toString().trim());
+        });
+        txtFontSize.addEventListener('change', e => {
+            let fontSize = e.target.value;
+            document.execCommand("fontSize", false, fontSize);
+            const text = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+            console.log(text.outerHTML.toString().trim());
+        });
     }
     txtPropertiesUpdate();
 
@@ -923,6 +954,7 @@ const backendAndDataBase = () => {
         e.preventDefault();
         title = inputTitle.value;
         inputTitle.nodeValue = title;
+
 
 
 
