@@ -1001,23 +1001,32 @@ const rightBarProps = async () => {
         let btnNewTab = false, btnRoundShape = false;
 
         btnFontSizeInput.addEventListener('change', e => {
-            btnFontSize = e.target.value;
+            const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            cngBtn.style.fontSize = e.target.value + 'px';
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnFontSize = e.target.value } });
         });
         btnFontFamilyInput.addEventListener('change', e => {
+            const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            cngBtn.style.fontFamily = e.target.value;
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnFontFamily = e.target.value } });
         });
 
 
 
         btnBGColorInput.addEventListener('change', e => {
+            const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            cngBtn.style.backgroundColor = e.target.value;
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnBgColor = e.target.value } });
         });
         btnTxtColorInput.addEventListener('change', e => {
+            const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            cngBtn.style.color = e.target.value;
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnTextColor = e.target.value } });
         });
 
         btnTextContentInput.addEventListener('change', e => {
+            const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            cngBtn.textContent = e.target.value;
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnContent = e.target.value } });
         });
         btnHyperlinkInput.addEventListener('change', e => {
@@ -1029,10 +1038,14 @@ const rightBarProps = async () => {
         });
         btnShapeInput.addEventListener('change', e => {
             if (e.target.value == 'on') btnRoundShape = true;
+            const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            cngBtn.style.borderRadius = '5px';
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnRound = btnRoundShape } });
         });
         btnAlignElement.forEach((bae, i) => {
             bae.addEventListener('click', e => {
+                const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+                cngBtn.style.float = e.target.value + 'px';
                 // console.log(e.target.outerText.toLowerCase().trim());  // RESULT - left / right / center
                 positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].siblingButton.btnAlign = e.target.outerText.toLowerCase().trim(); } });
             });
@@ -1091,7 +1104,6 @@ const templatePropsCng = () => {
 
     // TEMPLATE COLOR CHANGE 
     templateBGColorInput.addEventListener('change', (e) => {
-        console.log("Color Change E: ", e);
         templateWrapper.style.background = e.target.value;
     });
 
