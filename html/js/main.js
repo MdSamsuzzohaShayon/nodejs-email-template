@@ -361,6 +361,10 @@ const updatePositionElement = (selectedRow, selectedCol, propertyName, propertyV
     // console.log("position Element: ", positionElement[objIndex]);
 }
 
+
+
+
+
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -429,6 +433,20 @@ function columnDragAndDrop() {
 
 
 
+    contentBlockCol.forEach((blockCol, index) => {
+        // DRAGABLE BLOCK
+        blockCol.addEventListener('dragstart', (e) => {
+            if (e.toElement.classList[1] === "spx-holder") {
+                console.log(e.toElement.classList[1]);
+                dropableColumn = "space-row-grid";
+            }
+        });
+    });
+
+
+
+
+
 
 
 
@@ -438,9 +456,13 @@ function columnDragAndDrop() {
 
     // DROPZONE EVENTS START 
     /* events fired on the drop targets */
-    dropColumnZone.addEventListener("dragover", function (event) {
+    dropColumnZone.addEventListener("dragover", function (e) {
         // prevent default to allow drop
-        event.preventDefault();
+        e.preventDefault();
+        // console.log(e.target.id); // RESULT - drop-zone
+        // console.log("Dragover - e: Parent element ", e.target.parentElement.className); // RESULT - drop-row
+        // console.log("Dragover - e: ID ", e.toElement.id); // RESULT - drop-zone / one-col-0 / two-col-0 / two-col-1 / three-col-0 / three-col-1 / three-col-2
+
     }, false);
 
 
@@ -449,18 +471,19 @@ function columnDragAndDrop() {
 
 
     dropColumnZone.addEventListener('drop', e => {
+        let newDiv = document.createElement('div');
         // console.log(event.toElement.id); // Result - drop-zone
         // COLUMN ARE ONLY ABLE TO DROP INTO DROP ZONE (ID)
-        if (e.toElement.id === 'drop-zone') {
+        if (e.toElement.id === 'drop-zone' && dropableColumn !== "space-row-grid") {
             // PREVENT TO ADD MORE THAN 3 ROW 
-            if (rowList.length < 3) {
-                if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid") {
+            if (rowList.length < 5) {
+                if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid" || dropableColumn === "space-row-grid") {
 
                     // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
-                    const newDiv = document.createElement('div');
                     // setAttributes(elem, {"src": "http://example.com/something.jpeg", "height": "100%", ...});
                     setAttributes(newDiv, { "class": "drop-row", "id": `row-${rowID}` });
 
+                    // console.log("dc " + dropableColumn);
 
                     // ADD DEFFERENT TYPE OF STYLING FOR DEFFERENT TYPE OF COLUMN ELEMENT 
                     switch (dropableColumn) {
@@ -489,6 +512,7 @@ function columnDragAndDrop() {
                                 newDiv.appendChild(threeColumnDiv);
                             }
                             break;
+
                         default:
                             dropableColumn = null;
                             break;
@@ -503,6 +527,7 @@ function columnDragAndDrop() {
                     // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
                     dropableColumn = null;
                 }
+
                 // else {
 
                 //     alert("This element is not dropable, you must add column first");
@@ -514,6 +539,86 @@ function columnDragAndDrop() {
         } else {
             console.log("outside of drop zone");
         }
+
+
+
+
+        // DROP SPACE BLOCK ELEMET 
+        if (e.toElement.id === 'drop-zone' && dropableColumn === 'space-row-grid') {
+
+            // ADD 1 COLUMN INSIDE A DIV
+            // rowNumber = convertRowIdToNumber(e.path[1].id);
+            // columnNumber = convertColIdToNumber(e.toElement.id);
+
+            // newDiv = document.createElement('div');
+            // DROPPING THE ELEMENT INTO A CURRECT POSITION 
+            // https://github.com/MdSamsuzzohaShayon/vanilla-javascript-mini-project/blob/master/Drag%20%26%20Drop/part-2/js/main.js
+            setAttributes(newDiv, { "id": "spx-" + 'row' + '-' + 'col' });   //  "txt-" + rowNumber + '-' + columnNumber 
+            newDiv.className = 'space space-row-grid'
+            dropColumnZone.appendChild(newDiv);
+
+            // blockElement = dropableBlock;
+            // positionElement.push({ rowNumber, columnNumber, blockElement: "Space" });
+        }
+
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements
+        // https://github.com/MdSamsuzzohaShayon/vanilla-javascript-mini-project/blob/master/Drag%20%26%20Drop/part-2/js/main.js
+        if (e.target.parentElement.className === 'drop-row' && dropableColumn === 'space-row-grid') {
+            // console.log("Dragover - e: offset height ", e.target.parentElement);
+            // GETTING ELEMENT HEIGHT 
+            // console.log("Dragover - e: offset height ", e.target.parentElement.offsetHeight);
+            let elementHeight = e.target.parentElement.offsetHeight;
+            // console.log("Dragover - e: clientX ", e.clientX);
+            // console.log(e.toElement.ariaRowCount);
+            // Mouse position
+
+            // GETTING MOUSE POSITION OVER ELEMENT 
+            // https://htmldom.dev/calculate-the-mouse-position-relative-to-an-element/
+            let rect = e.target.parentElement.getBoundingClientRect();
+            // const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            // console.log("x", x);
+            console.log("y", y);
+
+            // GET MOUSE POSITION OVER ELEMENT 
+            // console.log("Dragover - e: getBoundingClientRect()  ", e.target.parentElement.getBoundingClientRect());
+
+
+            newDiv.className = 'space space-row-grid';
+            let middleOfY = elementHeight / 2;
+            let rowNumString = e.target.parentElement.id.toString();
+            let rowNumArray = rowNumString.split('-');
+            let rowNum = parseInt(rowNumArray[1]);
+
+            // console.log(rowNum);
+
+            if (y > middleOfY) {
+                // GETTING ROW NUMBER AND COLUMN NUMBER 
+                setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
+                e.target.parentElement.after(newDiv);
+                // INSERT AFTER 
+                // console.log("Insert after-Y: " + y, "half element height", elementHeight / 2);
+                // console.log(e.toElement);
+                // e.target.parentElement.after();
+
+            }
+            if (y < middleOfY) {
+                // INSERT BEFORE 
+                // console.log("Insert before-Y:" + y, "half element height", elementHeight / 2);
+                rowNum--;
+                setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
+                e.target.parentElement.previousSibling.after(newDiv);
+                // console.log("parent element: ", e.toElement.parentElement);
+                // console.log("previous element: ", e.toElement.parentElement.previousSibling);
+                // e.target.parentElement.insertBefore(newDiv, null);
+                // previousElement.parentElement.insertBefore(newNode, null);
+                // const rowNum = document.getElementById(e.toElement.parentElement.id.toString());
+                // rowNum.insertBefore(newDiv, null);
+            }
+
+        }
+        dropableColumn = null;
     });
     // DROPZONE EVENTS ENDS
 }
@@ -570,7 +675,7 @@ function blockDragAndDrop() {
         // console.log("Mouseover - Event: ", e.path[1].id); // // GETTING ROW ID (iNDICATES INDEX NUMBER OF THE ROW)
         // console.log("Targeter element", e.target.className); // Result - three-column-div
         // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
-        if (e.toElement.id !== 'drop-zone') {
+        if (e.toElement.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
             // console.log(e.toElement.id);
             let dropableColumn = e.target.className;
             let dropInsideImgTxt = e.target.classList[1];
@@ -744,19 +849,8 @@ function blockDragAndDrop() {
                         } else {
                             alert("Social icon can't drop into three column!");
                         }
-                    } else if (dropableBlock === "spx-holder") {
-                        rowNumber = convertRowIdToNumber(e.path[1].id);
-                        columnNumber = convertColIdToNumber(e.toElement.id);
-
-                        const newBlockCol = document.createElement('button');
-                        setAttributes(newBlockCol, { 'class': "content", "id": "spx-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                        newBlockCol.textContent = 'space';
-                        e.toElement.appendChild(newBlockCol);
-
-                        blockElement = dropableBlock;
-                        positionElement.push({ rowNumber, columnNumber, blockElement: "Space" });
                     } else {
-                        console.log('Not creating element');
+                        console.log('Not creating CONTENT element');
                     }
                 } else {
                     console.log("Not dropable column");

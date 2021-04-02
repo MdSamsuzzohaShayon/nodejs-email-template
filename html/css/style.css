@@ -132,6 +132,10 @@ body, html {
   color: #4685c0;
   background: #0f3050;
 }
+.whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .space-row-grid {
+  height: 40px;
+  background: #b5d5f3;
+}
 .whole-body .wrapper .template-builder .workpace .right-bar {
   color: #7aa6ce;
   background: #0f3050;

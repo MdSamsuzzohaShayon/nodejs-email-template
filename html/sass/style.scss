@@ -103,6 +103,8 @@ body,html{
                                 .three-column-div{
                                     @include drop_column(33.99%);
                                 }
+                                
+
                                 .content{
                                     width: 96%;
                                     margin-left: 2%;                                   
@@ -133,6 +135,10 @@ body,html{
                                     @include btn_general($f-color, $t-color);
                                 }                              
                                 
+                            }
+                            .space-row-grid{
+                                height: 40px;
+                                background: $s-color;
                             }
                         }
                         // DROPZONE ENDS 
