@@ -58,6 +58,7 @@ const fbLinkInput = document.getElementById('fb-link'),
 
 // SPACE PROPS 
 const spxProps = document.querySelector('.spx-props');
+const spxHeightInput = document.getElementById('spx-height');
 
 // IMAGE PROPS 
 // SELECT ELEMENT FOR IMAGE UPLOAD AND PREVIEW HANDLER 
@@ -112,6 +113,7 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 let selectedRow = null;
 let selectedCol = null;
 let templateSelected = true;
+let selectedAfterRow = null;
 // let selectedBlock = {};
 
 
@@ -250,7 +252,7 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
         // console.log(uploadedImgUrl);
         // return uploadedImgUrl;
     } else {
-        console.log("temp select: ", templateSelected);
+        // console.log("temp select: ", templateSelected);
         if (imgFile) {
             if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
                 const reader = new FileReader();
@@ -364,6 +366,18 @@ const updatePositionElement = (selectedRow, selectedCol, propertyName, propertyV
 
 
 
+// HELPING FUNCTION 8 
+const stringIdToIdNum = (stringText, arrNum) => {
+    let rowNumString = stringText.toString();
+    // console.log(rowNumString);
+    let findFromArr = rowNumString.split('-');
+    let numVal = parseInt(findFromArr[arrNum]);
+    return numVal;
+}
+
+
+
+
 
 // EXTRA HELPING FUNCTIONS ENDS
 
@@ -437,7 +451,7 @@ function columnDragAndDrop() {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
             if (e.toElement.classList[1] === "spx-holder") {
-                console.log(e.toElement.classList[1]);
+                // console.log(e.toElement.classList[1]);
                 dropableColumn = "space-row-grid";
             }
         });
@@ -543,7 +557,7 @@ function columnDragAndDrop() {
 
 
 
-        // DROP SPACE BLOCK ELEMET 
+        // DROP SPACE BLOCK ELEMET INTO DROPZONE OR AFTER ROW
         if (e.toElement.id === 'drop-zone' && dropableColumn === 'space-row-grid') {
 
             // ADD 1 COLUMN INSIDE A DIV
@@ -552,10 +566,12 @@ function columnDragAndDrop() {
 
             // newDiv = document.createElement('div');
             // DROPPING THE ELEMENT INTO A CURRECT POSITION 
+            let spxID = rowID - 1;
             // https://github.com/MdSamsuzzohaShayon/vanilla-javascript-mini-project/blob/master/Drag%20%26%20Drop/part-2/js/main.js
-            setAttributes(newDiv, { "id": "spx-" + 'row' + '-' + 'col' });   //  "txt-" + rowNumber + '-' + columnNumber 
+            setAttributes(newDiv, { "id": "spx-" + spxID + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
             newDiv.className = 'space space-row-grid'
             dropColumnZone.appendChild(newDiv);
+            rowList.push({ afterRow: spxID, spaceRow: 12 });
 
             // blockElement = dropableBlock;
             // positionElement.push({ rowNumber, columnNumber, blockElement: "Space" });
@@ -579,7 +595,7 @@ function columnDragAndDrop() {
             // const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             // console.log("x", x);
-            console.log("y", y);
+            // console.log("y", y);
 
             // GET MOUSE POSITION OVER ELEMENT 
             // console.log("Dragover - e: getBoundingClientRect()  ", e.target.parentElement.getBoundingClientRect());
@@ -587,9 +603,11 @@ function columnDragAndDrop() {
 
             newDiv.className = 'space space-row-grid';
             let middleOfY = elementHeight / 2;
-            let rowNumString = e.target.parentElement.id.toString();
-            let rowNumArray = rowNumString.split('-');
-            let rowNum = parseInt(rowNumArray[1]);
+            // let rowNumString = e.target.parentElement.id.toString();
+            // console.log(rowNumString);
+            // let rowNumArray = rowNumString.split('-');
+            // let rowNum = parseInt(rowNumArray[1]);
+            let rowNum = stringIdToIdNum(e.target.parentElement.id, 1);
 
             // console.log(rowNum);
 
@@ -597,6 +615,7 @@ function columnDragAndDrop() {
                 // GETTING ROW NUMBER AND COLUMN NUMBER 
                 setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
                 e.target.parentElement.after(newDiv);
+                rowList.push({ afterRow: rowNum, spaceRow: 12 });
                 // INSERT AFTER 
                 // console.log("Insert after-Y: " + y, "half element height", elementHeight / 2);
                 // console.log(e.toElement);
@@ -609,6 +628,7 @@ function columnDragAndDrop() {
                 rowNum--;
                 setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
                 e.target.parentElement.previousSibling.after(newDiv);
+                rowList.push({ afterRow: rowNum, spaceRow: 12 });
                 // console.log("parent element: ", e.toElement.parentElement);
                 // console.log("previous element: ", e.toElement.parentElement.previousSibling);
                 // e.target.parentElement.insertBefore(newDiv, null);
@@ -868,12 +888,13 @@ blockDragAndDrop();
 // MAIN FUNCTION 3
 const rightBarElementShowHide = () => {
 
+
     document.addEventListener('click', e => {
         // console.log("Click E: ", e.toElement);
         let idString = null;
 
 
-        // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN 
+        // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
         if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
             templateSelected = false;
 
@@ -920,12 +941,32 @@ const rightBarElementShowHide = () => {
         }
 
 
-    });
+
+
+        if (e.toElement.classList[1] === "space-row-grid") {
+            propertiesBar.style.display = 'block';
+            blockElementBar.style.display = 'none';
+
+            // console.log(afterRowString);
+
+            allProperties.forEach(ap => { ap.style.display = 'none' });
+            spxProps.style.display = 'block';
+
+            // afterRowString = e.toElement.id.toString();
+            // let findAR = afterRowString.split('-');
+            // // console.log(findAR);
+            // let afterRow = parseInt(findAR[1]);
+            selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
+            // console.log(afterRow);
+        }
 
 
 
-    // CLICK OUTSIDE OF THE COLUMN 
-    document.addEventListener('click', e => {
+
+
+
+
+        // CLOSE PROPERTIES BAR 
         // console.log(e.target.classList[0]);
         // template-wrapper // header-image  // col
 
@@ -935,11 +976,15 @@ const rightBarElementShowHide = () => {
             allProperties.forEach(ap => { ap.style.display = 'none' });
             propertiesBar.style.display = 'none';
             blockElementBar.style.display = 'block';
+            selectedAfterRow = null;
         }
 
 
-    });
 
+
+
+
+    });
 
 }
 rightBarElementShowHide();
@@ -1183,6 +1228,21 @@ const rightBarProps = async () => {
 
 
 
+
+    // SUB FINCTION 5
+    function spaceBtnRowUpdate() {
+        // rowList.push({ afterRow: spxID, spaceRow: 12 });
+        spxHeightInput.addEventListener('change', e => {
+            rowList.forEach((rl, i) => {
+                if (rl.afterRow === selectedAfterRow) { rowList[i].spaceRow = parseInt(e.target.value) }
+                document.getElementById("spx-" + selectedAfterRow + "-after").style.height = e.target.value + "px";
+            });
+        });
+    }
+    spaceBtnRowUpdate();
+
+
+
 }
 rightBarProps();
 
@@ -1235,7 +1295,7 @@ const backendAndDataBase = () => {
 
 
         // // THE OBJECT TO SAVE INTO THE DATABASE 
-        // console.log("Row list: ", rowList);
+        console.log("Row list: ", rowList);
         console.log("Position Element: ", positionElement);
     });
 }
