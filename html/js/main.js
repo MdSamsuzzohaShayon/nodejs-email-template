@@ -1380,7 +1380,92 @@ const rightBarProps = async () => {
 
 
 
+        // ROW MOVE UP 
+        rowMoveUp.addEventListener('click', (e) => {
+            const selectedRowElement = document.getElementById(`row-${selectedRow}`);
+            // CHECK IF THE SELECTED ELEMENT IS FIRST ELEMENT OR LAST ELEMENT 
+            // console.log("first child: ", dropColumnZone.firstChild);
+            // console.log("SelectedRow: ", selectedRowElement);
+            if (dropColumnZone.firstChild.id === selectedRowElement.id) {
+                alert("First row can't be move up")
+            } else {
+                try {
+                    // console.log("Move up");
+                    // console.log(selectedRowElement.nextElementSibling.classList[0]);
+                    if (selectedRowElement.previousSibling.classList[0] === 'space') {
+                        // THIS IS FOR SKIPPING SPACE 
+                        // console.log('skip space', selectedRowElement.previousSibling.previousSibling);
+                        dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.previousSibling.previousSibling);
+                        // selectedRowElement.previousSibling.previousSibling.setAttribute('id', `row-${selectedRow}`);
+                    } else {
+                        // THERE IS NO SPACE IN NEXT SIBLING 
+                        // console.log('no space');
+                        dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.previousSibling);
+                        // selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+                    }
+                    if (selectedRow.id !== 'row-1') {
+                        selectedRowElement.setAttribute('id', `row-${selectedRow - 1}`);
+                        selectedRowElement.nextSibling.setAttribute('id', `row-${selectedRow}`);
+                        // console.log(selectedRowElement.nextSibling);
+                    }
 
+                    // three-column-div
+                    // CHANGING ID 
+                    if (selectedRowElement.hasChildNodes()) {
+                        // let rowNum = selectedRow - 1;
+                        // console.log("chold nodes count: ", selectedRowElement.childElementCount);
+                        // FOR TWO COLUMN ROW 
+                        // console.log("Two col row: ", selectedRowElement.children[1]);
+                        let i = 0;
+                        // console.log(selectedRow);
+                        // console.log(rowNum);
+                        let colNum = 1;
+                        while (selectedRowElement.children.length > i) {
+                            selectedRowElement.children[i].childNodes.forEach((be, idx) => {
+                                // console.log("Looping row child block", be);
+                                be.setAttribute('id', `txt-${selectedRow - 1}-${colNum}`);
+                            });
+                            // console.log(selectedRowElement.nextSibling.children[i]);
+                            selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
+                                // console.log("Looping row child block", nbe);
+                                nbe.setAttribute('id', `txt-${selectedRow}-${colNum}`);
+                            });
+
+
+                            colNum++;
+                            i++;
+                        }
+                    }
+
+
+
+
+
+
+
+                    // WORK WITH DATABASE 
+                    // console.log(positionElement);
+                    // positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow) { positionElement[index].rowNumber = selectedRow - 1; } });
+
+
+
+
+
+                } catch (err) {
+                    console.log(err);
+                }
+                // console.log(positionElement); // NOT GETTING POSITION ELEMENT 
+                positionElement.forEach((pl, index) => {
+                    console.log(pl.rowNumber);
+                    if (pl.rowNumber === selectedRow) {
+                        console.log('match');
+                        positionElement[index].rowNumber = selectedRow - 1;
+                        positionElement[i - 1].rowNumber = selectedRow;
+                    }
+                });
+            }
+
+        });
 
 
 
