@@ -96,9 +96,9 @@
  - space show and hide problem  ☑️
  - Image content ☑️
  - Bugs TypeError: Cannot read property 'classList' of undefined at HTMLDocument.<anonymous> (main.js:597)
- - When dragging row div with an block element and droping it, it's creating a duplicate of text content block
- - When deleting a row item from middle the attribute is is not setting properly
- - 
+ - When dragging row div with an block element and droping it, it's creating a duplicate of text content block ☑️
+ - When deleting a row item from middle the attribute is is not setting properly ☑️
+ - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑
 
 
 

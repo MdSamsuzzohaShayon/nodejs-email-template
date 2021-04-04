@@ -1421,19 +1421,27 @@ const rightBarProps = async () => {
                         // console.log(rowNum);
                         let colNum = 1;
                         while (selectedRowElement.children.length > i) {
-                            selectedRowElement.children[i].childNodes.forEach((be, idx) => {
-                                // console.log("Looping row child block", be);
-                                be.setAttribute('id', `txt-${selectedRow - 1}-${colNum}`);
-                            });
-                            // console.log(selectedRowElement.nextSibling.children[i]);
-                            selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
-                                // console.log("Looping row child block", nbe);
-                                nbe.setAttribute('id', `txt-${selectedRow}-${colNum}`);
-                            });
+                            if (selectedRowElement.children[i].hasChildNodes()) {
+                                selectedRowElement.children[i].childNodes.forEach((be, idx) => {
+                                    let contentId = be.id.toString().substring(0, 3);
+                                    // text.substring(-5)
+                                    // console.log("content id: ", contentId);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    // console.log("Looping row child block", be);
+                                    be.setAttribute('id', `${contentId}-${selectedRow - 1}-${colNum}`);
+                                });
+                                // console.log(selectedRowElement.nextSibling.children[i]);
+                                selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
+                                    let contentId = nbe.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    // console.log("Looping row child block", nbe);
+                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);
+                                });
 
 
-                            colNum++;
-                            i++;
+                                colNum++;
+                                i++;
+                            }
                         }
                     }
 
