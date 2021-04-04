@@ -70,7 +70,9 @@
  - SOME PROBLEM WITH HYPERLINK AND NEW TEXT OF TEXT EDITOR  == IT'S WORKED😊
  - WORK TO SHOW ALL THE CHANGED ELEMENT INSIDE TEMPLATE  == IT'S WORKED😊
  - WORK WITH BUTTON PROPERTIES  == IT'S WORKED😊
- - WORK WITH SPACING
+ - WORK WITH SPACING == IT'S WORKED😊
+ - WORK WITH ROW UP AND DOWN
+
 
 
  - WORK WITH IMAGE 
@@ -82,6 +84,7 @@
  - MAKE IT RESPONSIVE
  - DEFAULT BUTTON ALIGNMENT
  - BUTTON ALIGNMENT IS NOT WORKING PROPERLY IS JS
+ - MAKE A BORDER FOR ALL ELEMENT ON HOVER
 
 
 
@@ -93,6 +96,9 @@
  - space show and hide problem  ☑️
  - Image content ☑️
  - Bugs TypeError: Cannot read property 'classList' of undefined at HTMLDocument.<anonymous> (main.js:597)
+ - When dragging row div with an block element and droping it, it's creating a duplicate of text content block
+ - When deleting a row item from middle the attribute is is not setting properly
+ - 
 
 
 

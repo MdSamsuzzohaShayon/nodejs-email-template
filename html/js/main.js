@@ -25,6 +25,14 @@ const blockElementBar = document.getElementById('rb-block');
 // SELECTING ALL ELEMENT AT ALL 
 const allProperties = document.querySelectorAll('.props');
 
+
+
+// ROW PROPS 
+const rowProps = document.querySelector('.row-props');
+const rowMoveUp = document.getElementById('row-move-up'),
+    rowMoveDown = document.getElementById('row-move-down'),
+    rowDelete = document.getElementById('row-delete');
+
 // TEXT PROPS 
 const txtProps = document.querySelector('.txt-props');
 const alignBtn = document.querySelectorAll('.txt-align-btn');
@@ -63,10 +71,15 @@ const spxHeightInput = document.getElementById('spx-height');
 // IMAGE PROPS 
 // SELECT ELEMENT FOR IMAGE UPLOAD AND PREVIEW HANDLER 
 const imgProps = document.querySelector('.img-props');
-const inputImg = document.getElementById('img-input');
-const previewImg = document.getElementById('img-preview');
-const imgLink = document.getElementById('img-link');
-const imgNewTab = document.getElementById('img-new-tab');
+const inputImg = document.getElementById('img-input'),
+    previewImg = document.getElementById('img-preview'),
+    imgLink = document.getElementById('img-link'),
+    imgNewTab = document.getElementById('img-new-tab');
+
+
+
+
+
 
 
 
@@ -84,7 +97,7 @@ let websiteDomain = "www.google.com", defaultFbLink = 'fb.com/md.shayon.148', de
 
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE 
-const dropElementsProperties = {};
+// const dropElementsProperties = {};
 // COUNT ROW AND COLUMNS 
 
 // TITLE OF THE TEMPLATE 
@@ -108,6 +121,7 @@ let blockElementDetails = [];   // THIS IS FOR DETAILS OF THE BLOCK WHICH WE HAV
 
 
 
+
 // TEMPORARY GLOBAL VARIABLES 
 // WHEN SOMEONE CLICK ON BLOCK ELEMENT IT CAN ASSIGNED WITH ROW NUMBER AND COL NUMBER 
 let selectedRow = null;
@@ -115,6 +129,7 @@ let selectedCol = null;
 let templateSelected = true;
 let selectedAfterRow = null;
 // let selectedBlock = {};
+
 
 
 
@@ -375,6 +390,25 @@ const stringIdToIdNum = (stringText, arrNum) => {
     return numVal;
 }
 
+
+
+
+// HELPING FUNCTION 9 
+
+const getNextAllElement = element => {
+    const nextAllFound = [];
+    const getAll = element => {
+        if (element !== null) {
+            nextAllFound.push(element);
+            const nextFound = element.nextElementSibling;
+            if (nextFound !== null) {
+                getAll(nextFound);
+            }
+        }
+    };
+    getAll(element.nextElementSibling);
+    return nextAllFound;
+};
 
 
 
@@ -890,7 +924,7 @@ const rightBarElementShowHide = () => {
 
 
     document.addEventListener('click', e => {
-        // console.log("Click E: ", e.toElement);
+        // console.log("Click E: ", e);
         let idString = null;
 
 
@@ -943,6 +977,7 @@ const rightBarElementShowHide = () => {
 
 
 
+        // IF SOMEONE CLICK ON SPACE HE WILL BE ABLE TO CHANGE SPACE PROPS 
         if (e.toElement.classList[1] === "space-row-grid") {
             propertiesBar.style.display = 'block';
             blockElementBar.style.display = 'none';
@@ -965,6 +1000,23 @@ const rightBarElementShowHide = () => {
 
 
 
+        // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
+        if (e.target.className === 'drop-row') {
+            propertiesBar.style.display = 'block';
+            blockElementBar.style.display = 'none';
+            allProperties.forEach(ap => { ap.style.display = 'none' });
+            rowProps.style.display = 'block';
+
+            selectedRow = stringIdToIdNum(e.toElement.id, 1);
+            // console.log("selected row: ", selectedRow);
+
+        }
+
+
+
+
+
+
 
         // CLOSE PROPERTIES BAR 
         // console.log(e.target.classList[0]);
@@ -977,7 +1029,15 @@ const rightBarElementShowHide = () => {
             propertiesBar.style.display = 'none';
             blockElementBar.style.display = 'block';
             selectedAfterRow = null;
+            selectedRow = null;
+            selectedCol = null;
         }
+
+
+
+
+
+
 
 
 
@@ -1240,6 +1300,94 @@ const rightBarProps = async () => {
         });
     }
     spaceBtnRowUpdate();
+
+
+
+
+    function rowUpDownDelete() {
+        // DELETE AN ROW 
+        rowDelete.addEventListener('click', e => {
+
+
+            const selectedRowElement = document.getElementById('row-' + selectedRow);
+            const allNextEl = getNextAllElement(selectedRowElement);
+            const allRowEl = document.querySelectorAll('.drop-row');
+
+            try {
+                // console.log(allNextEl);
+                const rowIdx = rowList.findIndex(rl => rl.rowID === selectedRow);
+                // console.log("row index: ", rowIdx);
+                rowList.splice(rowIdx, 1);
+
+
+                // UPDATING DATABASE 
+                rowList.forEach((rl, i) => {
+                    if (rl.rowID > rowIdx) {
+                        if (rl.rowID > 1) {
+                            rl.rowID = rl.rowID - 1;
+                            // console.log("next sibling: ", selectedRowElement.nextSibling);
+                        }
+                        // CHANGE THE ID OF NEXT SIBLINGS 
+                    }
+                });
+                selectedRowElement.remove();
+
+
+
+                // allNextEl.forEach((ane, i) => {
+                //     let idNum = selectedRow;
+                //     ane.setAttribute('id', `row-${idNum}`);
+                //     idNum++;
+                // });
+
+                // let ANEL = allNextEl.length + 1;
+                // for (let i = 1; i < ANEL; i++) {
+                //     // if (selectedRow > i) {
+                //     allRowEl[i].setAttribute('id', `row-${i}`);
+                //     // }
+                // }
+                // console.log(allNextEl);
+
+
+                // SETTING ROW ID DYNAMICALLY 
+                let idNum = selectedRow;
+                console.log("ID number: ", idNum);
+                let i = 0;
+                while (i < allNextEl.length) {
+                    console.log("ID number from loop(selected row > 1): ", idNum);
+                    allNextEl[i].setAttribute('id', `row-${idNum}`);
+                    idNum++;
+                    i++
+                }
+
+            } catch (err) {
+                console.log(err);
+            }
+
+
+
+
+
+
+            // EVERYTIME WE DELETE A ROW WE SHOULD SUBSTRACT ROW ID BY ONE 
+            rowID--;
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+    rowUpDownDelete();
 
 
 

@@ -75,13 +75,14 @@ body, html {
   margin-left: 10%;
   margin-top: 2%;
   border: 1px solid #7aa6ce;
-  height: 45em;
+  height: 50em;
 }
 .whole-body .wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row {
   background: #0f3050;
   color: #4685c0;
   width: 100%;
   height: 15em;
+  padding: 10px 0;
   border: 1px solid #b5d5f3;
   display: flex;
 }
