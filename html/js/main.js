@@ -1351,10 +1351,10 @@ const rightBarProps = async () => {
 
                 // SETTING ROW ID DYNAMICALLY 
                 let idNum = selectedRow;
-                console.log("ID number: ", idNum);
+                // console.log("ID number: ", idNum);
                 let i = 0;
                 while (i < allNextEl.length) {
-                    console.log("ID number from loop(selected row > 1): ", idNum);
+                    // console.log("ID number from loop(selected row > 1): ", idNum);
                     allNextEl[i].setAttribute('id', `row-${idNum}`);
                     idNum++;
                     i++
@@ -1455,13 +1455,16 @@ const rightBarProps = async () => {
                     console.log(err);
                 }
                 // console.log(positionElement); // NOT GETTING POSITION ELEMENT 
+                let previousRow = selectedRow - 1;
                 positionElement.forEach((pl, index) => {
-                    console.log(pl.rowNumber);
-                    if (pl.rowNumber === selectedRow) {
+                    // console.log(pl.rowNumber);
+                    if (pl.rowNumber === previousRow) {
+                        positionElement[index].rowNumber = selectedRow;
+                    } else if (pl.rowNumber === selectedRow) {
                         console.log('match');
                         positionElement[index].rowNumber = selectedRow - 1;
-                        positionElement[i - 1].rowNumber = selectedRow;
                     }
+
                 });
             }
 
