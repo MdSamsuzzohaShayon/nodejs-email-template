@@ -1399,7 +1399,7 @@ const rightBarProps = async () => {
                         dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.previousSibling);
                         // selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
                     }
-                    if (selectedRow.id !== 'row-1') {
+                    if (selectedRowElement.id !== 'row-1') {
                         selectedRowElement.setAttribute('id', `row-${selectedRow - 1}`);
                         selectedRowElement.nextSibling.setAttribute('id', `row-${selectedRow}`);
                         // console.log(selectedRowElement.nextSibling);
@@ -1467,6 +1467,124 @@ const rightBarProps = async () => {
                     } else if (pl.rowNumber === selectedRow) {
                         console.log('match');
                         positionElement[index].rowNumber = selectedRow - 1;
+                    }
+
+                });
+            }
+
+        });
+
+
+
+
+        // ROW MOVE DOWN 
+        rowMoveDown.addEventListener('click', (e) => {
+            const selectedRowElement = document.getElementById(`row-${selectedRow}`);
+            // CHECK IF THE SELECTED ELEMENT IS FIRST ELEMENT OR LAST ELEMENT 
+            // console.log("first child: ", dropColumnZone.firstChild);
+            // console.log("SelectedRow: ", selectedRowElement);
+            if (dropColumnZone.lastChild.id === selectedRowElement.id) {
+                alert("Last row can't be move down")
+            } else {
+                try {
+                    console.log(selectedRowElement.id);
+
+
+                    if (selectedRowElement.nextSibling.classList[0] === 'space') {
+                        selectedRowElement.nextSibling.nextSibling.after(selectedRowElement);
+                    } else {
+                        selectedRowElement.nextSibling.after(selectedRowElement);
+                    }
+
+
+
+                    if (selectedRowElement.id !== dropColumnZone.lastChild.id) {
+                        console.log("Selected id: ", selectedRow);
+                        selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
+                        console.log("prev element: ", selectedRowElement.previousSibling);
+                        selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+                        // console.log(selectedRowElement.nextSibling);
+                    }
+
+
+                    /*
+
+                    if (selectedRow.id !== dropColumnZone.lastChild.id) {
+                        selectedRowElement.setAttribute('id', `row-${selectedRow - 1}`);
+                        selectedRowElement.nextSibling.setAttribute('id', `row-${selectedRow}`);
+                        // console.log(selectedRowElement.nextSibling);
+                    }
+                    */
+
+
+
+
+
+                    /*
+                    // three-column-div
+                    // CHANGING ID OF CONTENT
+                    if (selectedRowElement.hasChildNodes()) {
+                        // let rowNum = selectedRow - 1;
+                        // console.log("chold nodes count: ", selectedRowElement.childElementCount);
+                        // FOR TWO COLUMN ROW 
+                        // console.log("Two col row: ", selectedRowElement.children[1]);
+                        let i = 0;
+                        // console.log(selectedRow);
+                        // console.log(rowNum);
+                        let colNum = 1;
+                        while (selectedRowElement.children.length > i) {
+                            if (selectedRowElement.children[i].hasChildNodes()) {
+                                selectedRowElement.children[i].childNodes.forEach((be, idx) => {
+                                    let contentId = be.id.toString().substring(0, 3);
+                                    // text.substring(-5)
+                                    // console.log("content id: ", contentId);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    // console.log("Looping row child block", be);
+                                    be.setAttribute('id', `${contentId}-${selectedRow + 1}-${colNum}`);
+                                });
+                                // console.log(selectedRowElement.nextSibling.children[i]);
+                                selectedRowElement.previousSibling.children[i].childNodes.forEach((nbe, idx) => {
+                                    let contentId = nbe.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    // console.log("Looping row child block", nbe);
+                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);
+                                });
+
+
+                                colNum++;
+                                i++;
+                            }
+                        }
+                    }
+
+                    */
+
+
+
+
+
+
+
+                    // WORK WITH DATABASE 
+                    // console.log(positionElement);
+                    // positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow) { positionElement[index].rowNumber = selectedRow - 1; } });
+
+
+
+
+
+                } catch (err) {
+                    console.log(err);
+                }
+                // console.log(positionElement); // NOT GETTING POSITION ELEMENT 
+                let nextRow = selectedRow + 1;
+                positionElement.forEach((pl, index) => {
+                    // console.log(pl.rowNumber);
+                    if (pl.rowNumber === nextRow) {
+                        positionElement[index].rowNumber = selectedRow;
+                    } else if (pl.rowNumber === selectedRow) {
+                        // console.log('match');
+                        positionElement[index].rowNumber = selectedRow + 1;
                     }
 
                 });
