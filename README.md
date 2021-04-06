@@ -111,3 +111,4 @@
  - __*[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility__
  - __https://stackoverflow.com/questions/36067767/how-do-i-upload-a-file-with-the-js-fetch-api__
  - __https://flaviocopes.com/how-to-upload-files-fetch/__
+ - __https://stackoverflow.com/questions/6667291/javascript-error-cannot-convert-object-to-primitive-value__

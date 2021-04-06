@@ -14,8 +14,14 @@ const storage = multer.diskStorage({
         // });
     },
     filename: function (req, file, cb) {
-
-        cb(null, file.originalname)
+        let newFileName = null;
+        if (file.originalname.length > 10) {
+            newFileName = `${file.fieldname}-${file.originalname.substring(0, 9)}-${file.originalname.substring(file.originalname.length - 5)}`
+        } else {
+            newFileName = `${file.fieldname}-${file.originalname}-${file.originalname.substring(file.originalname.length - 5)}`
+        }
+        // cb(null, newFileName);
+        cb(null, newFileName);
     }
 })
 
