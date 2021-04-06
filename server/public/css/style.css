@@ -13,12 +13,12 @@ body, html {
 
   /* FILE UPLOAD  */
 
-  #file-input, #submit-upload{
+  .file-input, #submit-upload{
   margin-top: 30px;
 
     margin-left: 50px;
   }
-  #file-input::-webkit-file-upload-button {
+  .file-input::-webkit-file-upload-button {
     padding: 0;
     margin: 0;
     
@@ -38,7 +38,7 @@ body, html {
 
 
 
-#submit-upload {
+.upload-btn {
   border: none;
   height: 40px;
   /* padding: 0 40px; */

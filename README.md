@@ -110,3 +110,4 @@
  - __https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard__
  - __*[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility__
  - __https://stackoverflow.com/questions/36067767/how-do-i-upload-a-file-with-the-js-fetch-api__
+ - __https://flaviocopes.com/how-to-upload-files-fetch/__

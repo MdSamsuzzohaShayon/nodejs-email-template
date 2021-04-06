@@ -28,8 +28,31 @@ router.get('/editor', (req, res, next) => {
 router.get('/file-upload', (req, res, next) => {
     res.render('file-upload');
 });
-router.post('/file-upload', uploadFile.single('filename'), (req, res, next) => {
-    console.log(req.file);
+// router.post('/file-upload', uploadFile.single('imgs'), (req, res, next) => {
+//     console.log(req.file);
+//     console.log(req.body);
+// });
+
+
+
+
+// router.post('/file-multiple-upload', uploadFile.any(), (req, res, next) => {
+//     console.log(req.files);
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.end("Done");
+//     // console.log(req.body);
+// });
+
+
+router.post('/file-multiple-upload', uploadFile.fields([{ name: 'img1', maxCount: 1 }, { name: 'img2', maxCount: 1 }]), (req, res, next) => {
+    // const files = req.files['img1'][0];
+    // if (!files) {
+    //     const error = new Error('Please choose files')
+    //     error.httpStatusCode = 400
+    //     return next(error)
+    // }
+
+    console.log(req.files['img1'][0]);
     console.log(req.body);
 });
 
