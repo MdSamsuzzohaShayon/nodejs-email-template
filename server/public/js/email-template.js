@@ -73,7 +73,7 @@ const inputImg = document.getElementById('img-input'),
     imgNewTab = document.getElementById('img-new-tab');
 
 // WEBSITE DEFAULT URL OPERATION 
-let websiteDomain = "www.google.com", defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
+let websiteDomain = "http://localhost:4000", defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
 
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
@@ -84,6 +84,8 @@ let rowList = []; // THIS IS FOR TRACKING ROW DETAIL - FOR EXAMPLE - FIRST ROW W
 let rowID = 1; // AUTO INCREMENT
 let rowWithColumn;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3 COLUMN ROW
 let positionElement = [];   // THIS IS FOR TRACKING WHICH WHICH BLOCK ELEMENT IS HOLDING WHICH POSITION - FOR EXAMPLE IMAGE HOLDER IS TAKING ROW-2 AND COLUMN 2
+// FORM DATA 
+const formData = new FormData();
 // DATABASE DESIGN ENDS 
 
 // TEMPORARY GLOBAL VARIABLES 
@@ -118,15 +120,17 @@ let currentUploadedImageUrl = null;
 const imgUploadHandler = (imgFile, imgSrcUrl) => {
     if (selectedRow !== null && selectedCol !== null && !templateSelected) {
         if (imgFile) {
-            // image/jpeg
+            console.log("rc: ", selectedRow, selectedCol);
             if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
                 // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
                 const reader = new FileReader();
                 reader.addEventListener('load', function (le) {
                     imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
-                    positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgUrl = le.target.result; } });
+                    positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgUrl = "le.target.result"; } });
                 });
                 reader.readAsDataURL(imgFile);
+                // formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
+                formData.append("img-1-1", imgFile);
             } else {
                 alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
             }
@@ -135,12 +139,14 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
         }
     } else {
         if (imgFile) {
+            console.log("rc: ", selectedRow, selectedCol);
             if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
                 const reader = new FileReader();
                 reader.addEventListener('load', function (le) {
                     imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                 });
                 reader.readAsDataURL(imgFile);
+                formData.append("header-img", imgFile);
             } else {
                 alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
             }
@@ -149,12 +155,6 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
         }
     }
 }
-
-
-
-
-
-
 
 // HELPING FUNCTION 3
 function setAttributes(el, attrs) {
@@ -913,12 +913,28 @@ templatePropsCng();
 // MAIN FUNCTION 6
 const backendAndDataBase = () => {
     // CHANGING TITLE 
-    saveButton.addEventListener('click', e => {
+
+    saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        title = inputTitle.value;
-        inputTitle.nodeValue = title;
+        title = await inputTitle.value;
+        console.log(title);
+        await formData.append("title", title);
+        // inputTitle.nodeValue = title;
         console.log("Row list: ", rowList);
+        await formData.append('layout', JSON.stringify(rowList));
         console.log("Position Element: ", positionElement);
+        await formData.append('element', JSON.stringify(positionElement));
+
+        fetch(`${websiteDomain}/template/add`, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     });
 }
 backendAndDataBase();
