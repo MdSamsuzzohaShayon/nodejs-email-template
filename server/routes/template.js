@@ -19,11 +19,16 @@ router.get('/editor', (req, res, next) => {
 });
 
 
+router.post('/add', (req, res, next) => {
+    res.status(200).json({ request: 'Success' });
+});
+
+
 
 
 
 // THIS IS FOR EXPIREMENT 
-
+/*
 // const uploadFile = multer({ storage });
 router.get('/file-upload', (req, res, next) => {
     res.render('file-upload');
@@ -55,13 +60,12 @@ router.post('/file-multiple-upload', uploadFile.fields([{ name: 'img1', maxCount
     console.log(req.files['img1'][0]);
     console.log(req.body.title);
 });
+*/
 
 
 
 
 
 
-router.post('/add', (req, res, next) => {
-    res.status(200).json({ request: 'Success' });
-});
+
 module.exports = router;

@@ -1,6 +1,7 @@
+/*
 // https://www.youtube.com/watch?v=6JR8HI9Ymd8
 
-// INPUT FILES 
+// INPUT FILES
 const fileInput = document.getElementById('file-input');
 const fileInput2 = document.getElementById('file-input-2');
 const title = document.getElementById('title');
@@ -62,15 +63,13 @@ uploadSubmit.addEventListener('click', async e => {
 uploadMultipleSubmit.addEventListener('click', async e => {
 
 
-    // DIFFERENT FILES BUT THE SAME KEY 
-
-
-    /*
+    // DIFFERENT FILES BUT THE SAME KEY
+    // WITH ONE INPUT FIELD
     for (const [key, value] of formData) {
         console.log("key: ", key);
         console.log("value: ", value);
     }
-    */
+
 
 
     fetch('http://localhost:4000/template/file-multiple-upload', {
@@ -85,3 +84,4 @@ uploadMultipleSubmit.addEventListener('click', async e => {
             console.log(err);
         });
 });
+*/
