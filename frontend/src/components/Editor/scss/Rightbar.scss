@@ -1,0 +1,85 @@
+@import "./variables";
+@import "./functions";
+
+
+.rb-wrapper{
+    width: 100%;
+    height: 100%;
+    color: $p-color;
+    background: $t-color;
+    display: flex;
+    flex-direction: column;
+    .rb-header{
+        margin-left: $ml;
+    }
+    .rb-block{
+        margin-top: $ml;
+        margin-left: $ml;
+        height: 100%;
+        .rb-column{            
+            display: flex;
+            flex-direction: row;
+            .col{
+                background: $s-color;
+                width: 90%;
+                margin: 0 3%;
+                height: $block-height;
+                border: 1px solid $s-color;
+                // padding: 10px 0;
+                align-items: center;
+                margin-top: 5px;
+            }
+            .col-1-grid{
+                .content-holder{
+                    margin-left: 20%;
+                    @include content_holder(60%, 60%, 25% );
+                }
+            }
+            .col-2-grid{
+                @include block_col_2_3();
+                .content-holder{
+                    @include content_holder(40%, 60%, 0);
+                }
+            }
+            .col-3-grid{
+                @include block_col_2_3();
+                .content-holder{
+                    @include content_holder(30%, 60%, 0);
+                }
+            }
+        }
+        .rb-content{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+            .col{
+                width: 30%;
+                height: 150px;
+                margin-top: 15px;
+                border: $s-color solid 1px;
+                img{
+                    width: 80%;
+                    margin-left: 10%;
+                    filter: invert(100%);
+                    -webkit-filter: invert(100%);
+                }
+                p{
+                    text-align: center;
+                    margin-top: 2%;
+                }
+            }
+        }
+    }
+    .elements{
+        width: 90%;
+        margin-left: 5%;
+        .elements-header{
+            
+        }
+        .header-image{
+            @include header_image(90px);
+        }
+    }
+}

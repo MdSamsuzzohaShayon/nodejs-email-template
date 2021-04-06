@@ -100,11 +100,13 @@
  - When dragging row div with an block element and droping it, it's creating a duplicate of text content block ☑️
  - When deleting a row item from middle the attribute is is not setting properly ☑️
  - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑
+ - When droping space creating a extra block element col for database
 
 
 
 ### Referances
- - https://w3c.github.io/input-events/
- - https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
- - https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
- - *[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility
+ - __https://w3c.github.io/input-events/__
+ - __https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API__
+ - __https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard__
+ - __*[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility__
+ - __https://stackoverflow.com/questions/36067767/how-do-i-upload-a-file-with-the-js-fetch-api__

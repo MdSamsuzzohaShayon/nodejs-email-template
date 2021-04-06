@@ -1,0 +1,56 @@
+.header {
+  height: 60px;
+  background-color: #7aa6ce;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.h-form input {
+  height: 25px;
+  padding: 5px;
+  width: 300px;
+  border: none;
+  background: #b5d5f3;
+  color: #7aa6ce;
+}
+
+.h-form input::placeholder {
+  color: #7aa6ce;
+}
+
+.h-form input:focus {
+  outline: none;
+  color: #4685c0;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: #4685c0;
+  background: #0f3050;
+}
+
+.template-wrapper {
+  width: 86%;
+  margin-left: 7%;
+  margin-top: 5%;
+  background: #b5d5f3;
+}
+.template-wrapper .header-image {
+  color: #0f3050;
+  height: 60px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.template-wrapper .template-body {
+  height: fit-content;
+}
+.template-wrapper .template-body .Cell {
+  height: 200px;
+}
+
+/*# sourceMappingURL=Template.css.map */
