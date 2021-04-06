@@ -53,7 +53,7 @@ router.post('/file-multiple-upload', uploadFile.fields([{ name: 'img1', maxCount
     // }
 
     console.log(req.files['img1'][0]);
-    console.log(req.body);
+    console.log(req.body.title);
 });
 
 

@@ -32,8 +32,12 @@ title.addEventListener('change', e => {
 
 
 
+const someJson = {
+    name: "this is name",
+    desc: "this is desc"
+};
+formData.append("json", JSON.stringify(someJson));
 uploadSubmit.addEventListener('click', async e => {
-    // console.log("File temp value: ", tempFile);
 
 
     fetch('http://localhost:4000/template/file-upload', {
