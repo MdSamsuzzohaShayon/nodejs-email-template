@@ -129,8 +129,8 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                     positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgUrl = "le.target.result"; } });
                 });
                 reader.readAsDataURL(imgFile);
-                // formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
-                formData.append("img-1-1", imgFile);
+                formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
+                // formData.append("img-1-1", imgFile);
             } else {
                 alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
             }
@@ -617,8 +617,9 @@ const rightBarProps = async () => {
     // SUB FUNCTION 1
     function imgPropertiesUpdate() {
         inputImg.addEventListener('change', e => {
-            const previewTempImg = document.querySelector('.img-content-block');
-            imgUploadHandler(e.target.files[0], [previewImg, previewTempImg]);  // Working but need to save in db
+            // const previewTempImg = document.querySelector('.img-content-block');
+            const templateImgPreview = document.getElementById(`img-${selectedRow}-${selectedCol}`);
+            imgUploadHandler(e.target.files[0], [previewImg, templateImgPreview]);  // Working but need to save in db
         });
         let setImgNewTab = false;
         imgLink.addEventListener('change', (e) => {
@@ -921,12 +922,14 @@ const backendAndDataBase = () => {
         await formData.append("title", title);
         // inputTitle.nodeValue = title;
         console.log("Row list: ", rowList);
+        // Object.assign({}, ['a','b','c']); // {0:"a", 1:"b", 2:"c"}
         await formData.append('layout', JSON.stringify(rowList));
         console.log("Position Element: ", positionElement);
         await formData.append('element', JSON.stringify(positionElement));
 
         fetch(`${websiteDomain}/template/add`, {
             method: "POST",
+            // headers: { "Content-Type": "application/json" },
             body: formData
         })
             .then(response => {

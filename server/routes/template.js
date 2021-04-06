@@ -22,41 +22,35 @@ router.get('/editor', (req, res, next) => {
 // POSSIBLE NAME 
 // header-img
 // img-1-1 
-// img-1-2 
-// img-1-3
-// img-2-1 
-// img-2-2 
-// img-2-3
-// img-3-1 
-// img-3-2 
-// img-3-3
-// img-4-1 
-// img-4-2 
-// img-4-3
-// img-5-1 
-// img-5-2 
-// img-5-3
+
 
 const arrayOfImg = [
     { name: 'header-img', maxCount: 1 },
     { name: 'img-1-1', maxCount: 1 },
     { name: 'img-1-2', maxCount: 1 },
-    // { name: 'img-1-3', maxCount: 1 },
-    // { name: 'img-2-1', maxCount: 1 },
-    // { name: 'img-2-2', maxCount: 1 },
-    // { name: 'img-2-3', maxCount: 1 },
-    // { name: 'img-3-1', maxCount: 1 },
-    // { name: 'img-3-2', maxCount: 1 },
-    // { name: 'img-3-3', maxCount: 1 },
-    // { name: 'img-4-1', maxCount: 1 },
-    // { name: 'img-4-2', maxCount: 1 },
-    // { name: 'img-4-3', maxCount: 1 },
+    { name: 'img-1-3', maxCount: 1 },
+    { name: 'img-2-1', maxCount: 1 },
+    { name: 'img-2-2', maxCount: 1 },
+    { name: 'img-2-3', maxCount: 1 },
+    { name: 'img-3-1', maxCount: 1 },
+    { name: 'img-3-2', maxCount: 1 },
+    { name: 'img-3-3', maxCount: 1 },
+    { name: 'img-4-1', maxCount: 1 },
+    { name: 'img-4-2', maxCount: 1 },
+    { name: 'img-4-3', maxCount: 1 },
+    { name: 'img-5-1', maxCount: 1 },
+    { name: 'img-5-2', maxCount: 1 },
+    { name: 'img-5-3', maxCount: 1 },
 ];
+
+
 
 
 router.post('/add', uploadFile.fields(arrayOfImg), (req, res, next) => {
     console.log(req.files);
     console.log(req.body);
+    console.log(req.body.layout);
+    console.log(req.body.element);
     res.status(200).json({ request: 'Success' });
 });
 

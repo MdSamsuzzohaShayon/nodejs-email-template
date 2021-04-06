@@ -1074,8 +1074,9 @@ const rightBarProps = async () => {
         // imgUploadHandler(inputImg, [previewImg]);
 
         inputImg.addEventListener('change', e => {
-            const previewTempImg = document.querySelector('.img-content-block');
-            imgUploadHandler(e.target.files[0], [previewImg, previewTempImg]);  // Working but need to save in db
+            // const previewTempImg = document.querySelector('.img-content-block');
+            const templateImgPreview = document.getElementById(`img-${selectedRow}-${selectedCol}`);
+            imgUploadHandler(e.target.files[0], [previewImg, templateImgPreview]);  // Working but need to save in db
         });
 
 
