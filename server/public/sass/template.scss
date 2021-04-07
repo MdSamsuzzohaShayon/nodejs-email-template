@@ -3,50 +3,85 @@
 
 // 612.88
 // 794.25
-#et-container{
+
+.template-wrapper{
     width: 612.88px;
     height: 794.25px;
-    background: $f-color;
 
 
-
-    .et-template-wrapper{
+    .header-image{
+        height: 60px;
         width: 100%;
-        // margin-left: 5%;
-        margin-top: 3%;
-        background: $f-color;
-
-
-        .et-header-image{
-            @include header_image(60px);
+        img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
         }
-        // DROPZONE START 
-        .et-drop-wrapper{
-            width: 80%;
-            margin-left: 10%;
-            margin-top: 2%;
-            border: 1px solid $p-color;
-            height: 45em;
-
-            .et-drop-row{
-                background: $t-color;
-                color: $f-color;
-                width: 100%;
-                height: 15em;
-                border: 1px solid $s-color;
-                display: flex;
-                .et-one-column-div{
-                    @include drop_column(100%);
-                }
-                
-                .et-two-column-div {
-                    @include drop_column(50%);
-                }
-                .et-three-column-div{
-                    @include drop_column(33.99%);
-                }
-            }
-        }
-        // DROPZONE ENDS 
     }
+    // DROPZONE START 
+    .drop-wrapper{
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 2%;
+        border: 1px solid $p-color;
+        height: 50em;
+
+        .drop-row{
+            background: $t-color;
+            color: $f-color;
+            width: 100%;
+            height: 15em;
+            padding: 10px 0;
+            border: 1px solid $s-color;
+            display: flex;
+            .one-column-div{
+                @include drop_column(100%);
+            }
+            
+            .two-column-div {
+                @include drop_column(50%);
+            }
+            .three-column-div{
+                @include drop_column(33.99%);
+            }
+            
+
+            .content{
+                width: 96%;
+                margin-left: 2%;                                   
+                
+            }
+            // THIS SHOULD BE SET BY JS 
+            .img-content-block{
+                width: 70%;
+                margin-left: 15%;
+            }
+            .icon-content-block{
+                display: flex;
+                width: 100%;
+                justify-content: space-around;
+                a{
+                    padding: 20px 20px;
+                    // padding-top: 40px;
+                    // height: 60px !important;
+                    // width: 60px;
+                    border-radius: 50%;
+                    background-color: $t-color;
+                    img{
+                        width: 20px;
+                    }
+                }
+            }  
+            .btn-content-block{
+                @include btn_general($f-color, $t-color);
+            }                              
+            
+        }
+        .space-row-grid{
+            height: 40px;
+            background: $s-color;
+        }
+    }
+    // DROPZONE ENDS 
 }

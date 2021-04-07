@@ -23,7 +23,25 @@ const storage = multer.diskStorage({
         // cb(null, newFileName);
         cb(null, newFileName);
     }
-})
+});
+const arrayOfImg = [
+    { name: 'header-img', maxCount: 1 },
+    { name: 'img-1-1', maxCount: 1 },
+    { name: 'img-1-2', maxCount: 1 },
+    { name: 'img-1-3', maxCount: 1 },
+    { name: 'img-2-1', maxCount: 1 },
+    { name: 'img-2-2', maxCount: 1 },
+    { name: 'img-2-3', maxCount: 1 },
+    { name: 'img-3-1', maxCount: 1 },
+    { name: 'img-3-2', maxCount: 1 },
+    { name: 'img-3-3', maxCount: 1 },
+    { name: 'img-4-1', maxCount: 1 },
+    { name: 'img-4-2', maxCount: 1 },
+    { name: 'img-4-3', maxCount: 1 },
+    { name: 'img-5-1', maxCount: 1 },
+    { name: 'img-5-2', maxCount: 1 },
+    { name: 'img-5-3', maxCount: 1 },
+];
 
 const uploadFile = multer({
     storage,
@@ -35,7 +53,7 @@ const uploadFile = multer({
             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
         }
     }
-});
+}).fields(arrayOfImg);
 
 
 

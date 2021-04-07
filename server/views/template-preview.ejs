@@ -1,0 +1,98 @@
+<style>
+    .template-wrapper {
+        width: 640px;
+        height: 100%;
+    }
+</style>
+
+<div id="container">
+
+
+    <!-- TEMPLATE EDITING START  -->
+    <div class="template-wrapper">
+        <div class="header-image">
+            <img class="header-img" id="header-img" src="/<%- docs.bg_img %>" />
+        </div>
+        <!-- DROPABLE ZONE START -->
+        <div class="drop-wrapper" id="drop-zone"></div>
+        <!-- DROPABLE ZONE ENDS  -->
+    </div>
+    <!-- TEMPLATE EDITING ENDS  -->
+
+
+</div>
+
+
+<script>
+    let layout = '<%- docs.layout %>';
+    let content = '<%- docs.content %>';
+    let img = '<%- docs.bg_img %>';
+
+    // THIS IS COMMING FROM DATABASE TABLE 
+    // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
+    const layoutArray = JSON.parse(layout);
+    const blockElement = JSON.parse(content);
+
+    console.log(blockElement);
+    console.log("Template");
+
+    const previewDropZone = document.getElementById('drop-zone');
+    const pvTemplateWrapper = document.querySelector('.template-wrapper')
+    const pvTemplateLinks = document.getElementsByTagName('a');
+
+
+
+
+
+
+    // CREATEING HTML ELEMENT 
+    function previewDropZoneTemplate() {
+        // BG COLOR 
+        pvTemplateWrapper.style.background = '<%- docs.bg_color %>';
+        // pvTemplateLinks.forEach((pvTL, i) => pvTL.style.color = '<%- docs.link_color %>');
+        for (let pvTL of pvTemplateLinks) {
+            pvTL.style.color = '<%- docs.link_color %>';
+        }
+
+
+        layoutArray.forEach((el, index) => {
+            const pvRowDiv = document.createElement('div');
+            pvRowDiv.setAttribute('class', 'drop-row');
+            // console.log("el.rowWithColumn : ", el.rowWithColumn);
+
+            for (let i = 0; i < el.rowWithColumn; i++) {
+                const pvColDiv = document.createElement('div');
+                switch (el.rowWithColumn) {
+                    case 1:
+                        pvColDiv.setAttribute('class', 'one-column-div');
+                        // let getBlockRow = blockElement.forEach(br => br.rowNumber === el.rowID);
+                        // console.log(getBlockRow);
+                        // ROW MATCHING 
+                        // if (el.rowID === ) {
+
+                        // }
+                        break;
+                    case 2:
+
+                        pvColDiv.setAttribute('class', 'two-column-div');
+                        break;
+                    case 3:
+                        pvColDiv.setAttribute('class', 'three-column-div');
+                        break;
+
+                    default:
+                        pvColDiv.setAttribute('class', 'one-column-div');
+                        break;
+                }
+                // MAKING COLUMN 
+                pvRowDiv.appendChild(pvColDiv);
+            }
+            // MAKING ROW 
+            previewDropZone.appendChild(pvRowDiv);
+        });
+    }
+
+
+    previewDropZoneTemplate();
+    // let layout =
+</script>
