@@ -31,10 +31,10 @@
     // THIS IS COMMING FROM DATABASE TABLE 
     // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
     const layoutArray = JSON.parse(layout);
-    const blockElement = JSON.parse(content);
+    const pvBlockElement = JSON.parse(content);
 
-    console.log(blockElement);
-    console.log("Template");
+    console.log("Layout: ", layoutArray);
+    console.log("Content: ", pvBlockElement);
 
     const previewDropZone = document.getElementById('drop-zone');
     const pvTemplateWrapper = document.querySelector('.template-wrapper')
@@ -42,6 +42,64 @@
 
 
 
+
+    // NO NEED FUNCTION - ALREADY DECLARED 
+    function setAttributes(el, attrs) {
+        for (let key in attrs) {
+            el.setAttribute(key, attrs[key]);
+        }
+    }
+
+
+
+    // HELPING FUNCTION 10 
+    function invalidToValidHtml(invalidString) {
+        let blockElementString = invalidString.toString();
+        let newHtmlBlock = blockElementString.replace(/~_/g, "'");
+        let validString = newHtmlBlock;
+        return validString;
+    }
+    // HELPING FUNCTION 11
+    function rowIdToNum(rowId) {
+        // 'two-col-0'
+        let rowIdNum = null;
+        const findId = rowId.split('-');
+        switch (findId[0]) {
+            case 'one':
+                rowIdNum = 1;
+                break;
+            case 'two':
+                rowIdNum = 2;
+                break;
+            case 'three':
+                rowIdNum = 3;
+                break;
+
+            default:
+                break;
+        }
+        return rowIdNum;
+    }
+    // HELPING FUNCTION 12
+    function rowNumToStr(rowIdInNum) {
+        // 'two-col-0'
+        let rowIdStr = null;
+        switch (rowIdInNum) {
+            case 1:
+                rowIdStr = 'one';
+                break;
+            case 2:
+                rowIdStr = 'two';
+                break;
+            case 3:
+                rowIdStr = 'three';
+                break;
+
+            default:
+                break;
+        }
+        return rowIdStr;
+    }
 
 
 
@@ -55,44 +113,108 @@
         }
 
 
+        let rowID = 1;
         layoutArray.forEach((el, index) => {
             const pvRowDiv = document.createElement('div');
-            pvRowDiv.setAttribute('class', 'drop-row');
-            // console.log("el.rowWithColumn : ", el.rowWithColumn);
+            if (el.rowID) {
+                setAttributes(pvRowDiv, { 'class': 'drop-row', "id": `row-${rowID}` });
+                // console.log("el.rowWithColumn : ", el.rowWithColumn);
 
-            for (let i = 0; i < el.rowWithColumn; i++) {
-                const pvColDiv = document.createElement('div');
-                switch (el.rowWithColumn) {
-                    case 1:
-                        pvColDiv.setAttribute('class', 'one-column-div');
-                        // let getBlockRow = blockElement.forEach(br => br.rowNumber === el.rowID);
-                        // console.log(getBlockRow);
-                        // ROW MATCHING 
-                        // if (el.rowID === ) {
+                for (let i = 0; i < el.rowWithColumn; i++) {
+                    const pvColDiv = document.createElement('div');
+                    switch (el.rowWithColumn) {
+                        case 1:
+                            setAttributes(pvColDiv, { 'class': 'one-column-div', 'id': `one-col-${i}` });
 
-                        // }
-                        break;
-                    case 2:
+                            // let getBlockRow = pvBlockElement.forEach(br => br.rowNumber === el.rowID);
+                            // console.log(getBlockRow);
+                            // ROW MATCHING 
+                            // if (el.rowID === ) {
 
-                        pvColDiv.setAttribute('class', 'two-column-div');
-                        break;
-                    case 3:
-                        pvColDiv.setAttribute('class', 'three-column-div');
-                        break;
+                            // }
+                            break;
+                        case 2:
 
-                    default:
-                        pvColDiv.setAttribute('class', 'one-column-div');
-                        break;
+                            // pvColDiv.setAttribute('class', 'two-column-div');
+                            setAttributes(pvColDiv, { 'class': 'two-column-div', 'id': `two-col-${i}` });
+                            break;
+                        case 3:
+                            setAttributes(pvColDiv, { 'class': 'three-column-div', 'id': `three-col-${i}` });
+
+                            break;
+
+                        default:
+                            pvColDiv.setAttribute('class', 'one-column-div');
+                            break;
+                    }
+
+
+
+
+
+                    // MAKING COLUMN 
+                    pvRowDiv.appendChild(pvColDiv);
                 }
-                // MAKING COLUMN 
-                pvRowDiv.appendChild(pvColDiv);
+                rowID++;
             }
+
+
+
+            // ADD  SPACE 
+            if (el.afterRow) {
+                // ADDING SPACE 
+                const pvSpaceDiv = document.createElement('div');
+                const pvPreviousRow = document.getElementById(`row-${el.afterRow}`);
+
+                setAttributes(pvSpaceDiv, { "id": `spx-${el.afterRow}-after` });
+                pvSpaceDiv.className = 'space space-row-grid';
+                pvSpaceDiv.style.height = `${el.spaceRow}px`;
+                pvPreviousRow.after(pvSpaceDiv);
+            }
+
+
+
             // MAKING ROW 
             previewDropZone.appendChild(pvRowDiv);
         });
+
+
+
+
+        // const pvOneColDiv = document.getElementById('two-col-0');
+        // // console.log(pvOneColDiv);
+        // console.log(layoutArray.rowID);
+
+        let blockRowId = 1;
+        layoutArray.forEach((lAr, rIdx) => {
+
+            if (!lAr.afterRow) {
+                if (lAr.rowID === blockRowId) {
+                    console.log(lAr.rowWithColumn);
+                    let colNum = 0;
+                    pvBlockElement.forEach((bEl, bIdx) => {
+                        if (lAr.rowID === bEl.rowNumber) {
+                            let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${colNum}`);
+                            // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
+                            pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
+                            colNum++;
+                        }
+                    });
+                    blockRowId++;
+                }
+            }
+        });
+
     }
 
-
     previewDropZoneTemplate();
+    console.log("docs ", document.getElementById('img-2-2'));
+
+
+
+
+    // console.log(rowIdToNum('two-col-0'));
+
+
     // let layout =
 </script>

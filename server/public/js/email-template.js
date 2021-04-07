@@ -342,7 +342,7 @@ function columnDragAndDrop() {
             // DROPPING THE ELEMENT INTO A CURRECT POSITION 
             let spxID = rowID - 1;
             setAttributes(newDiv, { "id": "spx-" + spxID + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
-            newDiv.className = 'space space-row-grid'
+            newDiv.className = 'space space-row-grid';
             dropColumnZone.appendChild(newDiv);
             rowList.push({ afterRow: spxID, spaceRow: 12 });
         }

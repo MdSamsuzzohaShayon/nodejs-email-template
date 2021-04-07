@@ -102,6 +102,14 @@
  - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑
  - When droping space creating a extra block element col for database
  - Html is not saving in json field so We need to save in another row
+ - MySql problem fixing - run those query
+
+    ```
+    show variables like 'max_allowed_packet'
+    set global max_allowed_packet=33554432
+    ```
+
+ - https://www.youtube.com/watch?v=zDaaG8hFYlk
 
 
 
@@ -117,3 +125,7 @@
  - __https://www.opentechguides.com/how-to/article/nodejs/124/express-mysql-json.html__
  - __https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp__
  - __https://www.digitalocean.com/community/tutorials/working-with-json-in-mysql__
+
+ - __https://dev.mysql.com/doc/refman/8.0/en/packet-too-large.html__
+ - __https://dev.mysql.com/doc/refman/8.0/en/blob.html__
+
