@@ -46,11 +46,37 @@ const arrayOfImg = [
 
 
 
-router.post('/add', uploadFile.fields(arrayOfImg), (req, res, next) => {
-    console.log(req.files);
-    console.log(req.body);
-    console.log(req.body.layout);
-    console.log(req.body.element);
+router.post('/add', uploadFile.fields(arrayOfImg), async (req, res, next) => {
+    // JSON TO JS OBJECT 
+    let layout = await JSON.parse(req.body.layout);
+    let elementObject = await JSON.parse(req.body.element);
+
+    // console.log(layout);
+    // console.log(elementObject);
+
+
+    // CHANGE IMAGE URL 
+    const changeImgUrl = await elementObject.forEach((eo, index) => {
+        // console.log("Block element name: ", eo.blockElement.name);
+        if (eo.blockElement.name === "imgBlockContent") {
+            // console.log("button", eo.blockElement.siblingButton); //WORKING
+            // console.log("Requested files", req.files[`img-${eo.rowNumber}-${eo.columnNumber}`]);
+            const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
+            findImg.forEach((img, idx) => {
+                if (img.fieldname === `img-${eo.rowNumber}-${eo.columnNumber}`) {
+                    eo.blockElement.imgUrl = `./uploads/${img.filename}`;
+                }
+            });
+        }
+    });
+    console.log("Layout: ", layout);
+    console.log("Element Object: ", elementObject);
+    console.log("Whole Body: ", req.body);
+
+
+
+
+
     res.status(200).json({ request: 'Success' });
 });
 

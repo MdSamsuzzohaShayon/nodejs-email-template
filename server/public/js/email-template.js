@@ -920,9 +920,13 @@ const backendAndDataBase = () => {
         title = await inputTitle.value;
         console.log(title);
         await formData.append("title", title);
+        await formData.append('bgColor', templateBGColorInput.value);
+        await formData.append('linkColor', templateLinkColorInput.value);
         // inputTitle.nodeValue = title;
         console.log("Row list: ", rowList);
         // Object.assign({}, ['a','b','c']); // {0:"a", 1:"b", 2:"c"}
+        // json = Object.assign({}, my_array);
+        // const rowListArray = { obj1: 'row-1', obj2: 'row-2', obj4: 'row-3' };
         await formData.append('layout', JSON.stringify(rowList));
         console.log("Position Element: ", positionElement);
         await formData.append('element', JSON.stringify(positionElement));
@@ -933,7 +937,7 @@ const backendAndDataBase = () => {
             body: formData
         })
             .then(response => {
-                console.log(response);
+                console.log(response.json());
             })
             .catch(err => {
                 console.log(err);
