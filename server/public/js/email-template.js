@@ -449,7 +449,7 @@ function blockDragAndDrop() {
                             const newBlockCol = document.createElement('div');
                             setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
                             newBlockCol.className = 'content txt-content-block';
-                            newBlockCol.textContent = '😊Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
+                            newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
                             // CHANGING TEXT EVENT 
                             newBlockCol.addEventListener('input', e => {
                                 txtBlockElement = e.target.outerHTML;
@@ -457,7 +457,7 @@ function blockDragAndDrop() {
                             });
                             e.toElement.appendChild(newBlockCol);
                             // THIS IS ONLY FOR DATABASE 
-                            text = "😊Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
+                            text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
                             txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
                             blockElement = dropableBlock;
                             positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement, siblingButton: null } });

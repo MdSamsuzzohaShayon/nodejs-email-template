@@ -101,6 +101,7 @@
  - When deleting a row item from middle the attribute is is not setting properly ☑️
  - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑
  - When droping space creating a extra block element col for database
+ - Html is not saving in json field so We need to save in another row
 
 
 
@@ -112,3 +113,7 @@
  - __https://stackoverflow.com/questions/36067767/how-do-i-upload-a-file-with-the-js-fetch-api__
  - __https://flaviocopes.com/how-to-upload-files-fetch/__
  - __https://stackoverflow.com/questions/6667291/javascript-error-cannot-convert-object-to-primitive-value__
+
+ - __https://www.opentechguides.com/how-to/article/nodejs/124/express-mysql-json.html__
+ - __https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp__
+ - __https://www.digitalocean.com/community/tutorials/working-with-json-in-mysql__
