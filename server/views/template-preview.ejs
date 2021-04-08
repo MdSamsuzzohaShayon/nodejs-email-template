@@ -27,264 +27,274 @@
 
 
 <script>
-    let layout = '<%- docs.layout %>';
-    let content = '<%- docs.content %>';
-    let img = '<%- docs.bg_img %>';
+    // PREVIEW START 
+    // THIS CODE WILL WORK ONLY IN PREVIEW TEMPLATE
+    const findPath = window.location.pathname.toString().split('/');
+    const currentPath = findPath[2];
 
-    // THIS IS COMMING FROM DATABASE TABLE 
-    // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
-    const layoutArray = JSON.parse(layout);
-    const pvBlockElement = JSON.parse(content);
+    if (currentPath === "preview") {
+        let layout = '<%- docs.layout %>';
+        let content = '<%- docs.content %>';
+        let img = '<%- docs.bg_img %>';
 
-    console.log("Layout: ", layoutArray);
-    console.log("Content: ", pvBlockElement);
+        // THIS IS COMMING FROM DATABASE TABLE 
+        // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
+        const layoutArray = JSON.parse(layout);
+        const pvBlockElement = JSON.parse(content);
 
-    const previewDropZone = document.getElementById('drop-zone');
-    const pvTemplateWrapper = document.querySelector('.template-wrapper')
-    const pvTemplateLinks = document.getElementsByTagName('a');
+        console.log("Layout: ", layoutArray);
+        console.log("Content: ", pvBlockElement);
 
-
-
-
-    // NO NEED FUNCTION - ALREADY DECLARED 
-    function setAttributes(el, attrs) {
-        for (let key in attrs) {
-            el.setAttribute(key, attrs[key]);
-        }
-    }
+        const previewDropZone = document.getElementById('drop-zone');
+        const pvTemplateWrapper = document.querySelector('.template-wrapper')
+        const pvTemplateLinks = document.getElementsByTagName('a');
 
 
 
-    // HELPING FUNCTION 10 
-    function invalidToValidHtml(invalidString) {
-        let blockElementString = invalidString.toString();
-        let newHtmlBlock = blockElementString.replace(/~_/g, "'");
-        let validString = newHtmlBlock;
-        return validString;
-    }
-    // HELPING FUNCTION 11
-    function rowIdToNum(rowId) {
-        // 'two-col-0'
-        let rowIdNum = null;
-        const findId = rowId.split('-');
-        switch (findId[0]) {
-            case 'one':
-                rowIdNum = 1;
-                break;
-            case 'two':
-                rowIdNum = 2;
-                break;
-            case 'three':
-                rowIdNum = 3;
-                break;
-
-            default:
-                break;
-        }
-        return rowIdNum;
-    }
-    // HELPING FUNCTION 12
-    function rowNumToStr(rowIdInNum) {
-        // 'two-col-0'
-        let rowIdStr = null;
-        switch (rowIdInNum) {
-            case 1:
-                rowIdStr = 'one';
-                break;
-            case 2:
-                rowIdStr = 'two';
-                break;
-            case 3:
-                rowIdStr = 'three';
-                break;
-
-            default:
-                break;
-        }
-        return rowIdStr;
-    }
 
 
-
-    // CREATEING HTML ELEMENT 
-    function previewDropZoneTemplate() {
-        // BG COLOR 
-        pvTemplateWrapper.style.background = '<%- docs.bg_color %>';
-        // pvTemplateLinks.forEach((pvTL, i) => pvTL.style.color = '<%- docs.link_color %>');
-        for (let pvTL of pvTemplateLinks) {
-            pvTL.style.color = '<%- docs.link_color %>';
+        // NO NEED FUNCTION - ALREADY DECLARED 
+        function setAttributes(el, attrs) {
+            for (let key in attrs) {
+                el.setAttribute(key, attrs[key]);
+            }
         }
 
 
-        let rowID = 1;
-        layoutArray.forEach((el, index) => {
-            const pvRowDiv = document.createElement('div');
-            if (el.rowID) {
-                setAttributes(pvRowDiv, { 'class': 'drop-row', "id": `row-${rowID}` });
-                // console.log("el.rowWithColumn : ", el.rowWithColumn);
 
-                for (let i = 0; i < el.rowWithColumn; i++) {
-                    const pvColDiv = document.createElement('div');
-                    switch (el.rowWithColumn) {
-                        case 1:
-                            setAttributes(pvColDiv, { 'class': 'one-column-div', 'id': `one-col-${i}` });
+        // HELPING FUNCTION 10 
+        function invalidToValidHtml(invalidString) {
+            let blockElementString = invalidString.toString();
+            let newHtmlBlock = blockElementString.replace(/~_/g, "'");
+            let validString = newHtmlBlock;
+            return validString;
+        }
+        // HELPING FUNCTION 11
+        function rowIdToNum(rowId) {
+            // 'two-col-0'
+            let rowIdNum = null;
+            const findId = rowId.split('-');
+            switch (findId[0]) {
+                case 'one':
+                    rowIdNum = 1;
+                    break;
+                case 'two':
+                    rowIdNum = 2;
+                    break;
+                case 'three':
+                    rowIdNum = 3;
+                    break;
 
-                            // let getBlockRow = pvBlockElement.forEach(br => br.rowNumber === el.rowID);
-                            // console.log(getBlockRow);
-                            // ROW MATCHING 
-                            // if (el.rowID === ) {
+                default:
+                    break;
+            }
+            return rowIdNum;
+        }
+        // HELPING FUNCTION 12
+        function rowNumToStr(rowIdInNum) {
+            // 'two-col-0'
+            let rowIdStr = null;
+            switch (rowIdInNum) {
+                case 1:
+                    rowIdStr = 'one';
+                    break;
+                case 2:
+                    rowIdStr = 'two';
+                    break;
+                case 3:
+                    rowIdStr = 'three';
+                    break;
 
-                            // }
-                            break;
-                        case 2:
+                default:
+                    break;
+            }
+            return rowIdStr;
+        }
 
-                            // pvColDiv.setAttribute('class', 'two-column-div');
-                            setAttributes(pvColDiv, { 'class': 'two-column-div', 'id': `two-col-${i}` });
-                            break;
-                        case 3:
-                            setAttributes(pvColDiv, { 'class': 'three-column-div', 'id': `three-col-${i}` });
 
-                            break;
 
-                        default:
-                            pvColDiv.setAttribute('class', 'one-column-div');
-                            break;
+        // CREATEING HTML ELEMENT 
+        function previewDropZoneTemplate() {
+            // BG COLOR 
+            pvTemplateWrapper.style.background = '<%- docs.bg_color %>';
+            // pvTemplateLinks.forEach((pvTL, i) => pvTL.style.color = '<%- docs.link_color %>');
+            for (let pvTL of pvTemplateLinks) {
+                pvTL.style.color = '<%- docs.link_color %>';
+            }
+
+
+            let rowID = 1;
+            layoutArray.forEach((el, index) => {
+                const pvRowDiv = document.createElement('div');
+                if (el.rowID) {
+                    setAttributes(pvRowDiv, { 'class': 'drop-row', "id": `row-${rowID}` });
+                    // console.log("el.rowWithColumn : ", el.rowWithColumn);
+
+                    for (let i = 0; i < el.rowWithColumn; i++) {
+                        const pvColDiv = document.createElement('div');
+                        switch (el.rowWithColumn) {
+                            case 1:
+                                setAttributes(pvColDiv, { 'class': 'one-column-div', 'id': `one-col-${i}` });
+
+                                // let getBlockRow = pvBlockElement.forEach(br => br.rowNumber === el.rowID);
+                                // console.log(getBlockRow);
+                                // ROW MATCHING 
+                                // if (el.rowID === ) {
+
+                                // }
+                                break;
+                            case 2:
+
+                                // pvColDiv.setAttribute('class', 'two-column-div');
+                                setAttributes(pvColDiv, { 'class': 'two-column-div', 'id': `two-col-${i}` });
+                                break;
+                            case 3:
+                                setAttributes(pvColDiv, { 'class': 'three-column-div', 'id': `three-col-${i}` });
+
+                                break;
+
+                            default:
+                                pvColDiv.setAttribute('class', 'one-column-div');
+                                break;
+                        }
+
+
+
+
+
+                        // MAKING COLUMN 
+                        pvRowDiv.appendChild(pvColDiv);
                     }
-
-
-
-
-
-                    // MAKING COLUMN 
-                    pvRowDiv.appendChild(pvColDiv);
+                    rowID++;
                 }
-                rowID++;
-            }
 
 
 
-            // ADD  SPACE 
-            if (el.afterRow) {
-                // ADDING SPACE 
-                const pvSpaceDiv = document.createElement('div');
-                const pvPreviousRow = document.getElementById(`row-${el.afterRow}`);
+                // ADD  SPACE 
+                if (el.afterRow) {
+                    // ADDING SPACE 
+                    const pvSpaceDiv = document.createElement('div');
+                    const pvPreviousRow = document.getElementById(`row-${el.afterRow}`);
 
-                setAttributes(pvSpaceDiv, { "id": `spx-${el.afterRow}-after` });
-                pvSpaceDiv.className = 'space space-row-grid';
-                pvSpaceDiv.style.height = `${el.spaceRow}px`;
-                pvPreviousRow.after(pvSpaceDiv);
-            }
+                    setAttributes(pvSpaceDiv, { "id": `spx-${el.afterRow}-after` });
+                    pvSpaceDiv.className = 'space space-row-grid';
+                    pvSpaceDiv.style.height = `${el.spaceRow}px`;
+                    pvPreviousRow.after(pvSpaceDiv);
+                }
 
 
 
-            // MAKING ROW 
-            previewDropZone.appendChild(pvRowDiv);
-        });
+                // MAKING ROW 
+                previewDropZone.appendChild(pvRowDiv);
+            });
 
 
 
 
-        // const pvOneColDiv = document.getElementById('two-col-0');
-        // // console.log(pvOneColDiv);
-        // console.log(layoutArray.rowID);
+            // const pvOneColDiv = document.getElementById('two-col-0');
+            // // console.log(pvOneColDiv);
+            // console.log(layoutArray.rowID);
 
-        let blockRowId = 1;
-        layoutArray.forEach((lAr, rIdx) => {
+            let blockRowId = 1;
+            layoutArray.forEach((lAr, rIdx) => {
 
-            if (!lAr.afterRow) {
-                if (lAr.rowID === blockRowId) {
-                    // console.log(lAr.rowWithColumn);
-                    let colNum = 0;
-                    pvBlockElement.forEach((bEl, bIdx) => {
-                        if (lAr.rowID === bEl.rowNumber) {
+                if (!lAr.afterRow) {
+                    if (lAr.rowID === blockRowId) {
+                        // console.log(lAr.rowWithColumn);
+                        let colNum = 0;
+                        pvBlockElement.forEach((bEl, bIdx) => {
+                            if (lAr.rowID === bEl.rowNumber) {
 
-                            // SETUP COLUMN NUMBER PROPERLY 
-                            // if (bEl.columnNumber === (colNum + 1)) {
-                            // }
+                                // SETUP COLUMN NUMBER PROPERLY 
+                                // if (bEl.columnNumber === (colNum + 1)) {
+                                // }
 
-                            let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${colNum}`);
-                            // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
-                            if (bEl.blockElement.name === "txtBlockContent") {
-                                pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
-                            } else if (bEl.blockElement.name === "imgBlockContent") {
-                                console.log(bEl.columnNumber);
-                                const pvImgHyerLink = document.createElement('a');
-                                if (bEl.blockElement.imgNewTab === true) {
-                                    setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}`, "target": "_blank" });
-                                } else {
-                                    setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}` });
+                                let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${colNum}`);
+                                // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
+                                if (bEl.blockElement.name === "txtBlockContent") {
+                                    pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
+                                } else if (bEl.blockElement.name === "imgBlockContent") {
+                                    console.log(bEl.columnNumber);
+                                    const pvImgHyerLink = document.createElement('a');
+                                    if (bEl.blockElement.imgNewTab === true) {
+                                        setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}`, "target": "_blank" });
+                                    } else {
+                                        setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}` });
+                                    }
+
+                                    const pvImgElement = document.createElement('img');
+                                    setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${colNum + 1}`, "src": `/${bEl.blockElement.imgUrl}` });
+                                    pvImgElement.className = "content img-content-block";
+                                    pvImgHyerLink.appendChild(pvImgElement);
+                                    pvSelectedElement.appendChild(pvImgHyerLink);
+                                } else if (bEl.blockElement.name === "socialBlockContent") {
+                                    // blockHtml: "<div class=~_content icon-content-block~_ id=~_icon-3-1~_ ><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/facebook.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/twitter.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/instagram.png~_ ></a><div />"
+                                    // name: "socialBlockContent"
+                                    // socialFbHyperlink: "fb.com"
+                                    // socialInstagramHyperlink: "i.com"
+                                    // socialTwitterHyperlink: "t.com"
+
+                                    const pvIcons = document.createElement("div");
+                                    setAttributes(pvIcons, { "id": "icon-3-1" });
+                                    pvIcons.className = "content icon-content-block";
+
+                                    const pvFbLink = document.createElement('a');
+                                    setAttributes(pvFbLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialFbHyperlink}` });
+                                    const pvFbIconImg = document.createElement('img');
+                                    setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
+                                    pvFbLink.appendChild(pvFbIconImg);
+                                    pvIcons.appendChild(pvFbLink);
+
+                                    const pvTwiterLink = document.createElement('a');
+                                    setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialTwitterHyperlink}` });
+                                    const pvTwitterIconImg = document.createElement('img');
+                                    setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
+                                    pvTwiterLink.appendChild(pvTwitterIconImg);
+                                    pvIcons.appendChild(pvTwiterLink);
+
+
+                                    const pvInstaLink = document.createElement('a');
+                                    setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialInstagramHyperlink}` });
+                                    const pvInstaIconImg = document.createElement('img');
+                                    setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
+                                    pvInstaLink.appendChild(pvInstaIconImg);
+
+                                    pvIcons.appendChild(pvInstaLink);
+
+
+                                    // for (let k = 0; k < 2; k++) {
+                                    // }
+                                    pvSelectedElement.append(pvIcons);
+
+
                                 }
 
-                                const pvImgElement = document.createElement('img');
-                                setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${colNum + 1}`, "src": `/${bEl.blockElement.imgUrl}` });
-                                pvImgElement.className = "content img-content-block";
-                                pvImgHyerLink.appendChild(pvImgElement);
-                                pvSelectedElement.appendChild(pvImgHyerLink);
-                            } else if (bEl.blockElement.name === "socialBlockContent") {
-                                // blockHtml: "<div class=~_content icon-content-block~_ id=~_icon-3-1~_ ><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/facebook.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/twitter.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/instagram.png~_ ></a><div />"
-                                // name: "socialBlockContent"
-                                // socialFbHyperlink: "fb.com"
-                                // socialInstagramHyperlink: "i.com"
-                                // socialTwitterHyperlink: "t.com"
-
-                                const pvIcons = document.createElement("div");
-                                setAttributes(pvIcons, { "id": "icon-3-1" });
-                                pvIcons.className = "content icon-content-block";
-
-                                const pvFbLink = document.createElement('a');
-                                setAttributes(pvFbLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialFbHyperlink}` });
-                                const pvFbIconImg = document.createElement('img');
-                                setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
-                                pvFbLink.appendChild(pvFbIconImg);
-                                pvIcons.appendChild(pvFbLink);
-
-                                const pvTwiterLink = document.createElement('a');
-                                setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialTwitterHyperlink}` });
-                                const pvTwitterIconImg = document.createElement('img');
-                                setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
-                                pvTwiterLink.appendChild(pvTwitterIconImg);
-                                pvIcons.appendChild(pvTwiterLink);
-
-
-                                const pvInstaLink = document.createElement('a');
-                                setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialInstagramHyperlink}` });
-                                const pvInstaIconImg = document.createElement('img');
-                                setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
-                                pvInstaLink.appendChild(pvInstaIconImg);
-
-                                pvIcons.appendChild(pvInstaLink);
-
-
-                                // for (let k = 0; k < 2; k++) {
-                                // }
-                                pvSelectedElement.append(pvIcons);
-
-
+                                // pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
+                                colNum++;
                             }
-
-                            // pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
-                            colNum++;
-                        }
-                    });
-                    blockRowId++;
+                        });
+                        blockRowId++;
+                    }
                 }
-            }
-        });
+            });
 
 
-        // TEXT CONTENT EXIT FALSE FOR PREVIEW 
-        const pvTextContent = document.querySelectorAll('.txt-content-block');
-        pvTextContent.forEach(txtCnt => { txtCnt.setAttribute("contenteditable", false) });
+            // TEXT CONTENT EXIT FALSE FOR PREVIEW 
+            const pvTextContent = document.querySelectorAll('.txt-content-block');
+            pvTextContent.forEach(txtCnt => { txtCnt.setAttribute("contenteditable", false) });
+        }
+
+        previewDropZoneTemplate();
+        console.log("docs ", document.getElementById('img-2-2'));
+
+
+
+
+        // console.log(rowIdToNum('two-col-0'));
+
+
+        // let layout =
     }
 
-    previewDropZoneTemplate();
-    console.log("docs ", document.getElementById('img-2-2'));
-
-
-
-
-    // console.log(rowIdToNum('two-col-0'));
-
-
-    // let layout =
+// PREVIEW ENDS 
 </script>

@@ -245,6 +245,24 @@ const getNextAllElement = element => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // MAIN FUNCTION 1
 function columnDragAndDrop() {
     let dropableColumn = null;
