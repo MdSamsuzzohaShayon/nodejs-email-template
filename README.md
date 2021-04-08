@@ -101,8 +101,10 @@
  - When deleting a row item from middle the attribute is is not setting properly ☑️
  - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑
  - When droping space creating a extra block element col for database
- - Html is not saving in json field so We need to save in another row
+ - Html is not saving in json field so We need to save in another row ☑
  - MySql problem fixing - run those query
+ 
+ - In preview element is not appending into the right column order
 
     ```
     show variables like 'max_allowed_packet'

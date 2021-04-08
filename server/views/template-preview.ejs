@@ -20,6 +20,9 @@
     <!-- TEMPLATE EDITING ENDS  -->
 
 
+
+
+
 </div>
 
 
@@ -190,13 +193,76 @@
 
             if (!lAr.afterRow) {
                 if (lAr.rowID === blockRowId) {
-                    console.log(lAr.rowWithColumn);
+                    // console.log(lAr.rowWithColumn);
                     let colNum = 0;
                     pvBlockElement.forEach((bEl, bIdx) => {
                         if (lAr.rowID === bEl.rowNumber) {
+
+                            // SETUP COLUMN NUMBER PROPERLY 
+                            // if (bEl.columnNumber === (colNum + 1)) {
+                            // }
+
                             let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${colNum}`);
                             // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
-                            pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
+                            if (bEl.blockElement.name === "txtBlockContent") {
+                                pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
+                            } else if (bEl.blockElement.name === "imgBlockContent") {
+                                console.log(bEl.columnNumber);
+                                const pvImgHyerLink = document.createElement('a');
+                                if (bEl.blockElement.imgNewTab === true) {
+                                    setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}`, "target": "_blank" });
+                                } else {
+                                    setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}` });
+                                }
+
+                                const pvImgElement = document.createElement('img');
+                                setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${colNum + 1}`, "src": `/${bEl.blockElement.imgUrl}` });
+                                pvImgElement.className = "content img-content-block";
+                                pvImgHyerLink.appendChild(pvImgElement);
+                                pvSelectedElement.appendChild(pvImgHyerLink);
+                            } else if (bEl.blockElement.name === "socialBlockContent") {
+                                // blockHtml: "<div class=~_content icon-content-block~_ id=~_icon-3-1~_ ><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/facebook.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/twitter.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/instagram.png~_ ></a><div />"
+                                // name: "socialBlockContent"
+                                // socialFbHyperlink: "fb.com"
+                                // socialInstagramHyperlink: "i.com"
+                                // socialTwitterHyperlink: "t.com"
+
+                                const pvIcons = document.createElement("div");
+                                setAttributes(pvIcons, { "id": "icon-3-1" });
+                                pvIcons.className = "content icon-content-block";
+
+                                const pvFbLink = document.createElement('a');
+                                setAttributes(pvFbLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialFbHyperlink}` });
+                                const pvFbIconImg = document.createElement('img');
+                                setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
+                                pvFbLink.appendChild(pvFbIconImg);
+                                pvIcons.appendChild(pvFbLink);
+
+                                const pvTwiterLink = document.createElement('a');
+                                setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialTwitterHyperlink}` });
+                                const pvTwitterIconImg = document.createElement('img');
+                                setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
+                                pvTwiterLink.appendChild(pvTwitterIconImg);
+                                pvIcons.appendChild(pvTwiterLink);
+
+
+                                const pvInstaLink = document.createElement('a');
+                                setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `http://${bEl.blockElement.socialInstagramHyperlink}` });
+                                const pvInstaIconImg = document.createElement('img');
+                                setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
+                                pvInstaLink.appendChild(pvInstaIconImg);
+
+                                pvIcons.appendChild(pvInstaLink);
+
+
+                                // for (let k = 0; k < 2; k++) {
+                                // }
+                                pvSelectedElement.append(pvIcons);
+
+
+                            }
+
+                            // pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
                             colNum++;
                         }
                     });
@@ -205,6 +271,10 @@
             }
         });
 
+
+        // TEXT CONTENT EXIT FALSE FOR PREVIEW 
+        const pvTextContent = document.querySelectorAll('.txt-content-block');
+        pvTextContent.forEach(txtCnt => { txtCnt.setAttribute("contenteditable", false) });
     }
 
     previewDropZoneTemplate();
