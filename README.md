@@ -133,5 +133,6 @@
  - __https://dev.mysql.com/doc/refman/8.0/en/blob.html__
  - __https://stackoverflow.com/questions/38617467/sorting-an-object-ascending-order-in-javascript__
  - __https://www.codegrepper.com/code-examples/javascript/arrange+an+array+of+object+in+ascending+order__
+ - __https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort__
 
 

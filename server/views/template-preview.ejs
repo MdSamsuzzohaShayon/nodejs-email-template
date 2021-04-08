@@ -128,7 +128,7 @@
                 const pvRowDiv = document.createElement('div');
                 if (el.rowID) {
                     setAttributes(pvRowDiv, { 'class': 'drop-row', "id": `row-${rowID}` });
-                    // console.log("el.rowWithColumn : ", el.rowWithColumn);
+                    // console.log("el.rowWithColumn : ", el);
 
                     for (let i = 0; i < el.rowWithColumn; i++) {
                         const pvColDiv = document.createElement('div');
@@ -195,21 +195,21 @@
             // // console.log(pvOneColDiv);
             // console.log(layoutArray.rowID);
 
+            // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+            const assendingColArray = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
+            console.log("After assending: ", assendingColArray);
             let blockRowId = 1;
             layoutArray.forEach((lAr, rIdx) => {
 
                 if (!lAr.afterRow) {
                     if (lAr.rowID === blockRowId) {
                         // console.log(lAr.rowWithColumn);
-                        let colNum = 0;
+                        let blockColNum = 0;
                         pvBlockElement.forEach((bEl, bIdx) => {
                             if (lAr.rowID === bEl.rowNumber) {
-
-                                // SETUP COLUMN NUMBER PROPERLY 
-                                // if (bEl.columnNumber === (colNum + 1)) {
-                                // }
-
-                                let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${colNum}`);
+                                console.log("After assending: ", bEl);
+                                let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${blockColNum}`);
                                 // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
                                 if (bEl.blockElement.name === "txtBlockContent") {
                                     pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
@@ -223,7 +223,7 @@
                                     }
 
                                     const pvImgElement = document.createElement('img');
-                                    setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${colNum + 1}`, "src": `/${bEl.blockElement.imgUrl}` });
+                                    setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${blockColNum + 1}`, "src": `/${bEl.blockElement.imgUrl}` });
                                     pvImgElement.className = "content img-content-block";
                                     pvImgHyerLink.appendChild(pvImgElement);
                                     pvSelectedElement.appendChild(pvImgHyerLink);
@@ -235,7 +235,7 @@
                                     // socialTwitterHyperlink: "t.com"
 
                                     const pvIcons = document.createElement("div");
-                                    setAttributes(pvIcons, { "id": "icon-3-1" });
+                                    setAttributes(pvIcons, { "id": `icon-${lAr.rowID}-${blockColNum + 1}` });
                                     pvIcons.className = "content icon-content-block";
 
                                     const pvFbLink = document.createElement('a');
@@ -270,7 +270,7 @@
                                 }
 
                                 // pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
-                                colNum++;
+                                blockColNum++;
                             }
                         });
                         blockRowId++;
