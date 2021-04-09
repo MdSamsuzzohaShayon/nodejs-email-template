@@ -103,6 +103,7 @@
  - When droping space creating a extra block element col for database
  - Html is not saving in json field so We need to save in another row ☑
  - MySql problem fixing - run those query
+ - When we check or uncheck any property it does't change
  
  - In preview element is not appending into the right column order
  - Sibling button is not storing as json (storing as object)

@@ -79,11 +79,14 @@ let websiteDomain = "http://localhost:4000", defaultFbLink = 'fb.com/md.shayon.1
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
 // TITLE OF THE TEMPLATE 
 let title = null;
+let submitted = false;
 // THIS ROW LIST WOULD BE ANOTHER DATABASE TABLE 
 let rowList = []; // THIS IS FOR TRACKING ROW DETAIL - FOR EXAMPLE - FIRST ROW WITH 3 COLUMN, 2ND ROW WITH ONE COLUMN, 3RD COLUMN WITH 2 COLUMN
 let rowID = 1; // AUTO INCREMENT
 let rowWithColumn;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3 COLUMN ROW
 let positionElement = [];   // THIS IS FOR TRACKING WHICH WHICH BLOCK ELEMENT IS HOLDING WHICH POSITION - FOR EXAMPLE IMAGE HOLDER IS TAKING ROW-2 AND COLUMN 2
+let siblingButtonList = new Array();
+
 // FORM DATA 
 const formData = new FormData();
 // DATABASE DESIGN ENDS 
@@ -456,7 +459,7 @@ function blockDragAndDrop() {
                             e.toElement.innerHTML = imageBlockElment;
                             // DATABASE AND VARIABLE 
                             blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: imageBlockElment, imgHyperlink: websiteDomain, imgNewTab: false, siblingButton: null } });
+                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: imageBlockElment, imgHyperlink: websiteDomain, imgNewTab: false } });
                         }
                     } else if (dropableBlock === "txt-holder") {
                         if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
@@ -478,7 +481,7 @@ function blockDragAndDrop() {
                             text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
                             txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
                             blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement, siblingButton: null } });
+                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement } });
                         }
                     } else if (dropableBlock === "btn-holder") {
                         // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
@@ -517,11 +520,12 @@ function blockDragAndDrop() {
                                 insertButtonElement(e.toElement.childNodes[0]);
                             }
                             btnBlockElement = `<button class="content btn-content-block" id="btn-${rowNumber + '-' + columnNumber}" >${btnDefaultTxt}</button>`;
-                            positionElement.forEach((pl, index) => {
-                                if (pl.rowNumber === rowNumber && pl.columnNumber == columnNumber) {
-                                    positionElement[index].blockElement.siblingButton = { blockHtml: btnBlockElement, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 };
-                                }
-                            });
+                            // positionElement.forEach((pl, index) => {
+                            //     if (pl.rowNumber === rowNumber && pl.columnNumber == columnNumber) {
+                            //         positionElement[index].blockElement.siblingButton = { blockHtml: btnBlockElement, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 };
+                            //     }
+                            // });
+                            siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
                             // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
                         } else {
                             alert('this button is not dropable here');
@@ -704,46 +708,52 @@ const rightBarProps = async () => {
         btnFontSizeInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.fontSize = e.target.value + 'px';
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnFontSize = e.target.value } });
+
+            // const siblingBtnObj = JSON.parse(positionElement[index].blockElement.siblingButton);
+            // siblingBtnObj.btnFontSize = e.target.value 
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnFontSize = e.target.value } });
         });
         btnFontFamilyInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.fontFamily = e.target.value;
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnFontFamily = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnFontFamily = e.target.value } });
         });
         btnBGColorInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.backgroundColor = e.target.value;
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnBgColor = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnBgColor = e.target.value } });
         });
         btnTxtColorInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.color = e.target.value;
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnTextColor = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnTextColor = e.target.value } });
         });
         btnTextContentInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.textContent = e.target.value;
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnContent = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnContent = e.target.value } });
         });
         btnHyperlinkInput.addEventListener('change', e => {
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnHyperlink = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnHyperlink = e.target.value } });
         });
         btnNewTabInput.addEventListener('change', e => {
             if (e.target.value == 'on') btnNewTab = true;
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnOpenNewTab = btnNewTab } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnOpenNewTab = btnNewTab } });
         });
         btnShapeInput.addEventListener('change', e => {
-            if (e.target.value == 'on') btnRoundShape = true;
+            if (e.target.value === 'on') btnRoundShape = true;
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
-            cngBtn.style.borderRadius = '5px';
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnRound = btnRoundShape } });
+            if (btnRoundShape === true) {
+                cngBtn.style.borderRadius = '8px';
+            }
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnRound = btnRoundShape } });
         });
         btnAlignElement.forEach((bae, i) => {
             bae.addEventListener('click', e => {
                 const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
                 cngBtn.style.float = e.target.value + 'px';
-                positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnAlign = e.target.outerText.toLowerCase().trim(); } });
+                siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnAlign = e.target.value } });
+                // positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnAlign = e.target.outerText.toLowerCase().trim(); } });
             });
         });
     }
@@ -776,6 +786,9 @@ const rightBarProps = async () => {
     }
     spaceBtnRowUpdate();
 
+
+
+    // NEED TO CHANGE DB PROPERTIES OF SIBLING BUTTON 
     function rowUpDownDelete() {
         // DELETE AN ROW 
         rowDelete.addEventListener('click', e => {
@@ -931,27 +944,47 @@ templatePropsCng();
 
 // MAIN FUNCTION 6
 const backendAndDataBase = () => {
-    // CHANGING TITLE 
+
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        title = await inputTitle.value;
-        console.log(title);
-        await formData.append("title", title);
+        console.log(siblingButtonList);
+
+        // CHANGING TITLE 
+        await formData.append("title", inputTitle.value);
         await formData.append('bgColor', templateBGColorInput.value);
         await formData.append('linkColor', templateLinkColorInput.value);
-        // inputTitle.nodeValue = title;
-        console.log("Row list: ", rowList);
-        // Object.assign({}, ['a','b','c']); // {0:"a", 1:"b", 2:"c"}
-        // json = Object.assign({}, my_array);
-        // const rowListArray = { obj1: 'row-1', obj2: 'row-2', obj4: 'row-3' };
-        await formData.append('layout', JSON.stringify(rowList));
-        console.log("Position Element: ", positionElement);
-        await formData.append('element', JSON.stringify(positionElement));
 
+
+        // const positionObj = await new Map(positionElement);
+        // const newPositionObject = await Object.fromEntries(positionObj);
+        // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
+
+        await formData.append('layout', JSON.stringify(rowList));
+        await formData.append('element', JSON.stringify(positionElement));
+        await formData.append('sibling', JSON.stringify(siblingButtonList));
+
+        // inputTitle.nodeValue = title;
+        // console.log("Row list: ", rowList);
+        // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
+        // await positionElement.forEach(pEl => {
+        //     if (pEl.blockElement.name === "imgBlockContent" || pEl.blockElement.name === "txtBlockContent") {
+        //         if (pEl.blockElement.siblingButton !== null) {
+        //             pEl.blockElement.siblingButton == JSON.stringify(pEl.blockElement.siblingButton);
+        //             // console.log(pEl.blockElement.siblingButton);
+        //         }
+        //     }
+        // });
+
+        // JSON.stringify(positionElement, function replacer(key, value) { return value})    
+        // await formData.append('layout', JSON.stringify(rowList));
+        // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
+        console.log(positionElement);
+
+
+        // //SUBMITTING DATATO THE SERVER 
         fetch(`${websiteDomain}/template/add`, {
             method: "POST",
-            // headers: { "Content-Type": "application/json" },
             body: formData
         })
             .then(response => {
@@ -960,13 +993,23 @@ const backendAndDataBase = () => {
             .catch(err => {
                 console.log(err);
             });
+
+
+        // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
+        submitted = true;
+        // window.location.replace(websiteDomain + "/template/preview");
     });
 }
 backendAndDataBase();
 
-window.addEventListener('beforeunload', function (e) {
-    // Cancel the event
-    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-    // Chrome requires returnValue to be set
-    e.returnValue = 'Save it and leave otherwise it can be undone';
-});
+
+
+// if (submitted === false) {
+//     // PREVENT TO SET 
+//     window.addEventListener('beforeunload', function (e) {
+//         // Cancel the event
+//         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+//         // Chrome requires returnValue to be set
+//         e.returnValue = 'Save it and leave otherwise it can be undone';
+//     });
+// }

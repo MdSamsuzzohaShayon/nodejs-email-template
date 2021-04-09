@@ -42,8 +42,8 @@
         const layoutArray = JSON.parse(layout);
         const pvBlockElement = JSON.parse(content);
 
-        console.log("Layout: ", layoutArray);
-        console.log("Content: ", pvBlockElement);
+        // console.log("Layout: ", layoutArray);
+        // console.log("Content: ", pvBlockElement);
 
         const previewDropZone = document.getElementById('drop-zone');
         const pvTemplateWrapper = document.querySelector('.template-wrapper')
@@ -208,13 +208,13 @@
                         let blockColNum = 0;
                         pvBlockElement.forEach((bEl, bIdx) => {
                             if (lAr.rowID === bEl.rowNumber) {
-                                console.log("After assending: ", bEl);
+                                // console.log("After assending: ", bEl);
                                 let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${blockColNum}`);
                                 // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
                                 if (bEl.blockElement.name === "txtBlockContent") {
                                     pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
                                 } else if (bEl.blockElement.name === "imgBlockContent") {
-                                    console.log(bEl.columnNumber);
+                                    // console.log(bEl.columnNumber);
                                     const pvImgHyerLink = document.createElement('a');
                                     if (bEl.blockElement.imgNewTab === true) {
                                         setAttributes(pvImgHyerLink, { "href": `${bEl.blockElement.imgHyperlink}`, "target": "_blank" });
@@ -285,7 +285,7 @@
         }
 
         previewDropZoneTemplate();
-        console.log("docs ", document.getElementById('img-2-2'));
+        // console.log("docs ", document.getElementById('img-2-2'));
 
 
 

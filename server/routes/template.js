@@ -40,23 +40,45 @@ function invalidToValidStr(invalidString) {
 
 router.post('/add', uploadFile, (req, res, next) => {
 
-    const { title, bgColor, linkColor, layout, element } = req.body;
-    const bgImg = req.files['header-img'][0].filename;
+    const { title, bgColor, linkColor, layout, element, sibling } = req.body;
+    let bgImg = "header-img-20191215_-3.jpg";
+    if (req.files['header-img']) {
+        bgImg = req.files['header-img'][0].filename;
+    }
 
 
-    let layoutObj = JSON.parse(layout);
+
+    console.log("Element object Before parse: ", element);
+
+
+
+    // let layoutObj = JSON.parse(layout);
     let elementObject = JSON.parse(element);
+    // let siblingObject = JSON.parse(sibling);
+
+
+    // console.log("Element object: ", elementObject);
+    // console.log("Sibling object: ", siblingObject);
+
+
+
+
+
+
 
 
     // CHANGE IMAGE URL 
     elementObject.forEach((eo, index) => {
+        // CHANGING HTML AS VALID HTML 
         eo.blockElement.blockHtml = invalidToValidStr(eo.blockElement.blockHtml);
-        if (eo.blockElement.name === "imgBlockContent" || eo.blockElement.name === "txtBlockContent") {
-            if (eo.blockElement.siblingButton !== null) {
-                eo.blockElement.siblingButton = invalidToValidStr(eo.blockElement.siblingButton);
-            }
-        }
+        // STRINGIFYING BUTTON ELEMENT 
+        // if (eo.blockElement.name === "imgBlockContent" || eo.blockElement.name === "txtBlockContent") {
+        //     if (eo.blockElement.siblingButton !== null) {
+        //         eo.blockElement.siblingButton = JSON.stringify(invalidToValidStr(eo.blockElement.siblingButton));
+        //     }
+        // }
         // eo.blockElement.imgHyperlink = null;
+
         if (eo.blockElement.name === "imgBlockContent") {
             const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
             if (findImg) {
@@ -70,6 +92,10 @@ router.post('/add', uploadFile, (req, res, next) => {
     });
 
 
+    // console.log(elementObject);
+
+
+
 
 
 
@@ -81,15 +107,15 @@ router.post('/add', uploadFile, (req, res, next) => {
 
 
     const sql = `INSERT INTO nodejs_story 
-                        (title,  bg_img, bg_color, link_color, layout, content) VALUES 
-                        ('${title}', '${bgImg}', '${bgColor}', '${linkColor}', '${JSON.stringify(layoutObj)}', '${JSON.stringify(elementObject)}')`;
+                        (title,  bg_img, bg_color, link_color, layout, content, sibling) VALUES 
+                        ('${title}', '${bgImg}', '${bgColor}', '${linkColor}', '${layout}', '${JSON.stringify(elementObject)}', '${sibling}')`;
 
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, (err, result, fields) => {
         if (err) throw err;
         console.log("The result is: ", result);
     });
-    // conn.end();
+    //conn.end();
 });
 
 
@@ -111,6 +137,9 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 
+router.get('/preview', (req, res, next) => {
+    res.json({ "msg": "preview" });
+});
 
 router.get('/preview/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
