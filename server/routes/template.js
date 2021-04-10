@@ -143,7 +143,7 @@ router.get('/preview', (req, res, next) => {
 
 router.get('/preview/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
-    const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content FROM nodejs_story WHERE id=?`;
+    const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
 
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, [req.params.id], (err, result, fields) => {

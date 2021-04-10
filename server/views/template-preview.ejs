@@ -23,10 +23,13 @@
 
 
 
+
+
 </div>
 
 
 <script>
+    // window.open('http://google.com');
     // PREVIEW START 
     // THIS CODE WILL WORK ONLY IN PREVIEW TEMPLATE
     const findPath = window.location.pathname.toString().split('/');
@@ -36,13 +39,16 @@
         let layout = '<%- docs.layout %>';
         let content = '<%- docs.content %>';
         let img = '<%- docs.bg_img %>';
+        let sibling = '<%- docs.sibling %>';
+        // console.log(sibling);
 
         // THIS IS COMMING FROM DATABASE TABLE 
         // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
         const layoutArray = JSON.parse(layout);
         const pvBlockElement = JSON.parse(content);
+        const pvSibling = JSON.parse(sibling);
 
-        // console.log("Layout: ", layoutArray);
+        console.log("Sibling: ", pvSibling);
         // console.log("Content: ", pvBlockElement);
 
         const previewDropZone = document.getElementById('drop-zone');
@@ -112,62 +118,48 @@
         }
 
 
+        // HELPING FUNCTION 13 
+        const stringToNodes = html => new DOMParser().parseFromString(html, 'text/html').body.childNodes[0]
+
+
 
         // CREATEING HTML ELEMENT 
         function previewDropZoneTemplate() {
             // BG COLOR 
             pvTemplateWrapper.style.background = '<%- docs.bg_color %>';
-            // pvTemplateLinks.forEach((pvTL, i) => pvTL.style.color = '<%- docs.link_color %>');
+            // LINK COLOR CHANGE 
             for (let pvTL of pvTemplateLinks) {
                 pvTL.style.color = '<%- docs.link_color %>';
             }
 
 
+            // MAKING ALL ROW AND COLUMN DIV 
             let rowID = 1;
             layoutArray.forEach((el, index) => {
                 const pvRowDiv = document.createElement('div');
                 if (el.rowID) {
                     setAttributes(pvRowDiv, { 'class': 'drop-row', "id": `row-${rowID}` });
-                    // console.log("el.rowWithColumn : ", el);
-
                     for (let i = 0; i < el.rowWithColumn; i++) {
                         const pvColDiv = document.createElement('div');
                         switch (el.rowWithColumn) {
                             case 1:
                                 setAttributes(pvColDiv, { 'class': 'one-column-div', 'id': `one-col-${i}` });
-
-                                // let getBlockRow = pvBlockElement.forEach(br => br.rowNumber === el.rowID);
-                                // console.log(getBlockRow);
-                                // ROW MATCHING 
-                                // if (el.rowID === ) {
-
-                                // }
                                 break;
                             case 2:
-
-                                // pvColDiv.setAttribute('class', 'two-column-div');
                                 setAttributes(pvColDiv, { 'class': 'two-column-div', 'id': `two-col-${i}` });
                                 break;
                             case 3:
                                 setAttributes(pvColDiv, { 'class': 'three-column-div', 'id': `three-col-${i}` });
-
                                 break;
-
                             default:
                                 pvColDiv.setAttribute('class', 'one-column-div');
                                 break;
                         }
-
-
-
-
-
                         // MAKING COLUMN 
                         pvRowDiv.appendChild(pvColDiv);
                     }
                     rowID++;
                 }
-
 
 
                 // ADD  SPACE 
@@ -182,34 +174,28 @@
                     pvPreviousRow.after(pvSpaceDiv);
                 }
 
-
-
                 // MAKING ROW 
                 previewDropZone.appendChild(pvRowDiv);
             });
 
 
 
-
-            // const pvOneColDiv = document.getElementById('two-col-0');
-            // // console.log(pvOneColDiv);
-            // console.log(layoutArray.rowID);
-
             // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-            const assendingColArray = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
-            console.log("After assending: ", assendingColArray);
+            const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
             let blockRowId = 1;
             layoutArray.forEach((lAr, rIdx) => {
-
+                // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
+                // CHECK IT THERE IS NO SPACE 
                 if (!lAr.afterRow) {
+                    // MATCHING ROW ID 
                     if (lAr.rowID === blockRowId) {
                         // console.log(lAr.rowWithColumn);
                         let blockColNum = 0;
-                        pvBlockElement.forEach((bEl, bIdx) => {
+                        assendingBlockCol.forEach((bEl, bIdx) => {
                             if (lAr.rowID === bEl.rowNumber) {
                                 // console.log("After assending: ", bEl);
-                                let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${blockColNum}`);
+                                let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${bEl.columnNumber - 1}`);
                                 // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
                                 if (bEl.blockElement.name === "txtBlockContent") {
                                     pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
@@ -279,22 +265,109 @@
             });
 
 
+
+
+
+
+
+
+
+
+
+            const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
+            // ADD BUTTON 
+            let siblingRowId = 1;
+            layoutArray.forEach((lAr, rIdx) => {
+                // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
+                // CHECK IT THERE IS NO SPACE 
+                if (!lAr.afterRow) {
+                    // MATCHING ROW ID 
+                    if (lAr.rowID === siblingRowId) {
+                        // console.log(lAr.rowWithColumn);
+                        let blockColNum = 0;
+                        // console.log("layout sibling row ", siblingRowId);// result 1, 2, 3
+
+                        // console.log("layout sibling row ", siblingRowId);// result 1, 2, 3
+                        assendingSibling.forEach((sEl, bIdx) => {
+                            if (lAr.rowID === sEl.rowNum) {
+                                // console.log("sibling col: " + sEl.colNum + ' in row: ' + lAr.rowID); // sibling col: 1 in row: 1, sibling col: 2 in row: 1, sibling col: 2 in row: 2
+                                // console.log("Row num: " + lAr.rowWithColumn + " in column number: " + blockColNum); //RESULT - Row num: 2 in column number: 0, Row num: 2 in column number: 1, Row num: 3 in column number: 0
+                                let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${sEl.colNum - 1}`);
+                                // btnAlign: null, btnBgColor: "#0d5415", btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 btnHyperlink: "http://localhost:4000", btnOpenNewTab: false, btnRound: true, btnTextColor: "#942e2e"
+                                let pvSBtnRound;
+                                sEl.btnRound == true ? pvSBtnRound = "border-radius: 8px;" : pvSBtnRound = "";
+                                let pvBtnTab;
+                                // ON CLICK EVENT FOR JAVASCRIPT
+                                let pvCorrectHyperlink = null;
+                                if (sEl.btnHyperlink !== null) {
+                                    const pvProtocol = sEl.btnHyperlink.toString().trim().substring(0, 7);
+                                    if (pvProtocol === "http://" || pvProtocol === "https://") {
+                                        pvCorrectHyperlink = sEl.btnHyperlink;
+                                    } else {
+                                        pvCorrectHyperlink = "http://" + sEl.btnHyperlink;
+                                    }
+                                    console.log(pvCorrectHyperlink);
+                                } else {
+                                    pvCorrectHyperlink = "#";
+                                }
+
+
+                                // let pvOnClickEvent = window.open(`${pvCorrectHyperlink}`);
+                                if (sEl.btnOpenNewTab === true) {
+                                    pvOnClickEvent = `${pvCorrectHyperlink}, _blink`;
+                                }
+
+
+                                if (sEl.btnOpenNewTab == true) {
+                                    // OPEN IN NEW TAB 
+                                    pvBtnTab = "border-radius: 8px;";
+                                } else {
+                                    pvBtnTab = ""
+                                }
+
+                                const pvSiblingBtn = `<button calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound}" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</button>`;
+
+                                // const pvSiblingBtn = document.createElement('button');
+                                // pvSiblingBtn.textContent = "Preview";
+                                pvSelectedElement.appendChild(stringToNodes(pvSiblingBtn));
+                                blockColNum++;
+                            }
+                        });
+                        siblingRowId++;
+                    }
+                }
+            });
+
+
+
+            /*
+            // let siblingRow = 1;
+            // let siblingCol = 0;
+            assendingSibling.forEach((pVs, sI) => {
+                console.log(pVs);
+                if (pVs.rowNum === lAr.rowID) {
+                    console.log(lAr.rowWithColumn);
+                    // const selectedBlock = document.getElementById(`${rowNumToStr(lAr.)}-col-${siblingCol}`);
+                    // console.log(selectedBlock);
+                    // console.log(pVs.length);
+                    // console.log("Sibling col: ", siblingCol);
+                    // siblingCol++;
+                }
+            });
+            */
+
+
+
+
+
             // TEXT CONTENT EXIT FALSE FOR PREVIEW 
             const pvTextContent = document.querySelectorAll('.txt-content-block');
             pvTextContent.forEach(txtCnt => { txtCnt.setAttribute("contenteditable", false) });
         }
 
         previewDropZoneTemplate();
-        // console.log("docs ", document.getElementById('img-2-2'));
-
-
-
-
-        // console.log(rowIdToNum('two-col-0'));
-
-
-        // let layout =
     }
 
-// PREVIEW ENDS 
+
+// PREVIEW ENDS
 </script>

@@ -948,7 +948,14 @@ const backendAndDataBase = () => {
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        console.log(siblingButtonList);
+        // console.log(siblingButtonList);
+        // FOR CHANGING TEXT CONTENT 
+        await positionElement.forEach(pEl => {
+            if (pEl.blockElement.name === "txtBlockContent") {
+                console.log(pEl.rowNumber);
+                pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
+            }
+        });
 
         // CHANGING TITLE 
         await formData.append("title", inputTitle.value);
@@ -956,30 +963,30 @@ const backendAndDataBase = () => {
         await formData.append('linkColor', templateLinkColorInput.value);
 
 
-        // const positionObj = await new Map(positionElement);
-        // const newPositionObject = await Object.fromEntries(positionObj);
-        // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
+        // // const positionObj = await new Map(positionElement);
+        // // const newPositionObject = await Object.fromEntries(positionObj);
+        // // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
 
         await formData.append('layout', JSON.stringify(rowList));
         await formData.append('element', JSON.stringify(positionElement));
         await formData.append('sibling', JSON.stringify(siblingButtonList));
 
+
+
         // inputTitle.nodeValue = title;
         // console.log("Row list: ", rowList);
         // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
-        // await positionElement.forEach(pEl => {
-        //     if (pEl.blockElement.name === "imgBlockContent" || pEl.blockElement.name === "txtBlockContent") {
-        //         if (pEl.blockElement.siblingButton !== null) {
-        //             pEl.blockElement.siblingButton == JSON.stringify(pEl.blockElement.siblingButton);
-        //             // console.log(pEl.blockElement.siblingButton);
-        //         }
-        //     }
-        // });
+
+        // console.log(positionElement);
+
+
+
 
         // JSON.stringify(positionElement, function replacer(key, value) { return value})    
         // await formData.append('layout', JSON.stringify(rowList));
         // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
-        console.log(positionElement);
+        // console.log(positionElement);
+
 
 
         // //SUBMITTING DATATO THE SERVER 
@@ -993,6 +1000,7 @@ const backendAndDataBase = () => {
             .catch(err => {
                 console.log(err);
             });
+
 
 
         // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 

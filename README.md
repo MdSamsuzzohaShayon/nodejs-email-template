@@ -107,6 +107,7 @@
  
  - In preview element is not appending into the right column order
  - Sibling button is not storing as json (storing as object)
+ - Problem with button opening in new tab
 
     ```
     show variables like 'max_allowed_packet'
