@@ -19,12 +19,14 @@
                     <!-- TEMPLATE EDITING START  -->
                     <div class="col col-10">
                         <header class="title-bar">
-                            <form class="h-form">
-                                <input type="text" id="title" placeholder="Newslatter title" />
-                            </form>
-                            <div class="h-btn">
-                                <button class="btn cancel">Cancel</button>
-                                <button id="save-btn" class="btn save">Save</button>
+                            <div class="form-btn">
+                                <form class="h-form">
+                                    <input type="text" id="title" placeholder="Newslatter title" />
+                                </form>
+                                <div class="h-btn">
+                                    <button class="btn cancel">Cancel</button>
+                                    <button id="save-btn" class="btn save">Save</button>
+                                </div>
                             </div>
                         </header>
 
@@ -218,11 +220,18 @@
                                 </div>
                                 <div class="props row-props">
                                     <h4 class="row-options">Row</h4>
-                                    <div class="row-color-props row-move">
+                                    <div class="row-color-props row-move  props-with-label ">
                                         <label for="row-move">Row Move</label>
-                                        <button class="row-move" id="row-move-up">Move up</button>
-                                        <button class="row-move" id="row-move-down">Move Down</button>
-                                        <button class="row-move" id="row-delete">Delete</button>
+                                        <br>
+                                        <button class="row-move btn-icon" id="row-move-up">
+                                            <img src="./icon/up.svg" alt="">
+                                        </button>
+                                        <button class="row-move btn-icon" id="row-move-down">
+                                            <img src="./icon/down.svg" alt="">
+                                        </button>
+                                        <button class="row-move btn-icon" id="row-delete">
+                                            <img src="./icon/trash.svg" alt="">
+                                        </button>
                                     </div>
                                 </div>
                             </div>
