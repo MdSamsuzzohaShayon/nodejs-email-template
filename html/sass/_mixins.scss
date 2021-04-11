@@ -28,8 +28,9 @@
     border-right: 1px solid $s-color;
 }
 
-@mixin btn_general($clr, $bgClr){
-    padding: 10px 20px;
+@mixin btn_general($clr, $bgClr, $py, $px, $fz){
+    font-size: $fz;
+    padding: $py $px;
     margin-left: 5px;
     border: none;
     outline: none;

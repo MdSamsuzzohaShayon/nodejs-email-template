@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
 .wrapper .template-builder {
   width: 80%;
   margin-left: 10%;
@@ -15,14 +16,15 @@
 .wrapper .template-builder .workpace .col-6 {
   width: 37.5%;
 }
-.wrapper .template-builder .workpace .title-bar {
+
+.title-bar {
   height: 60px;
   background-color: #7aa6ce;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.wrapper .template-builder .workpace .title-bar input[type=text] {
+.title-bar input[type=text] {
   height: 25px;
   padding: 5px;
   width: 300px;
@@ -30,14 +32,15 @@
   background: #b5d5f3;
   color: #7aa6ce;
 }
-.wrapper .template-builder .workpace .title-bar input[type=text]::placeholder {
+.title-bar input[type=text]::placeholder {
   color: #7aa6ce;
 }
-.wrapper .template-builder .workpace .title-bar input[type=text]:focus {
+.title-bar input[type=text]:focus {
   outline: none;
   color: #4685c0;
 }
-.wrapper .template-builder .workpace .title-bar .btn {
+.title-bar .btn {
+  font-size: 0.7rem;
   padding: 10px 20px;
   margin-left: 5px;
   border: none;
@@ -45,30 +48,31 @@
   color: #4685c0;
   background: #0f3050;
 }
-.wrapper .template-builder .workpace .template-wrapper {
+
+.template-wrapper {
   width: 90%;
   margin-left: 5%;
   margin-top: 3%;
-  background: #4685c0;
+  background: #e6f2ff;
 }
-.wrapper .template-builder .workpace .template-wrapper .header-image {
+.template-wrapper .header-image {
   height: 60px;
   width: 100%;
 }
-.wrapper .template-builder .workpace .template-wrapper .header-image img {
+.template-wrapper .header-image img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   object-position: center;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper {
+.template-wrapper .drop-wrapper {
   width: 80%;
   margin-left: 10%;
   margin-top: 2%;
   border: 1px solid #7aa6ce;
   height: 50em;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row {
+.template-wrapper .drop-wrapper .drop-row {
   background: #0f3050;
   color: #4685c0;
   width: 100%;
@@ -77,46 +81,47 @@
   border: 1px solid #b5d5f3;
   display: flex;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .one-column-div {
+.template-wrapper .drop-wrapper .drop-row .one-column-div {
   width: 100%;
   height: 100%;
   background: #7aa6ce;
   border-right: 1px solid #b5d5f3;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .two-column-div {
+.template-wrapper .drop-wrapper .drop-row .two-column-div {
   width: 50%;
   height: 100%;
   background: #7aa6ce;
   border-right: 1px solid #b5d5f3;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .three-column-div {
+.template-wrapper .drop-wrapper .drop-row .three-column-div {
   width: 33.99%;
   height: 100%;
   background: #7aa6ce;
   border-right: 1px solid #b5d5f3;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .content {
+.template-wrapper .drop-wrapper .drop-row .content {
   width: 96%;
   margin-left: 2%;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .img-content-block {
+.template-wrapper .drop-wrapper .drop-row .img-content-block {
   width: 70%;
   margin-left: 15%;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block {
+.template-wrapper .drop-wrapper .drop-row .icon-content-block {
   display: flex;
   width: 100%;
   justify-content: space-around;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block a {
+.template-wrapper .drop-wrapper .drop-row .icon-content-block a {
   padding: 20px 20px;
   border-radius: 50%;
   background-color: #0f3050;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .icon-content-block a img {
+.template-wrapper .drop-wrapper .drop-row .icon-content-block a img {
   width: 20px;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .drop-row .btn-content-block {
+.template-wrapper .drop-wrapper .drop-row .btn-content-block {
+  font-size: 0.7rem;
   padding: 10px 20px;
   margin-left: 5px;
   border: none;
@@ -124,107 +129,127 @@
   color: #4685c0;
   background: #0f3050;
 }
-.wrapper .template-builder .workpace .template-wrapper .drop-wrapper .space-row-grid {
+.template-wrapper .drop-wrapper .space-row-grid {
   height: 40px;
   background: #b5d5f3;
 }
-.wrapper .template-builder .workpace .right-bar {
+
+.right-bar {
   color: #7aa6ce;
   background: #0f3050;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper {
+.right-bar h2 {
+  text-transform: uppercase;
+  margin-bottom: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.right-bar h4 {
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  margin: 0;
+}
+.right-bar h3 {
+  font-size: 1rem;
+}
+.right-bar .content-header {
+  margin-top: 10%;
+}
+.right-bar .rb-wrapper {
   width: 90%;
   height: 100%;
   margin-left: 5%;
   display: flex;
   flex-direction: column;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements {
+.right-bar .rb-wrapper .rb-block-elements {
   height: 100%;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .block-col {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .block-col {
   background: #b5d5f3;
   width: 90%;
-  margin: 0 3%;
-  height: 150px;
+  height: 9em;
   border: 1px solid #b5d5f3;
   align-items: center;
-  margin-top: 5px;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-1-grid .content-holder {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-1-grid {
+  margin-right: 3%;
+}
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-1-grid .content-holder {
   margin-left: 20%;
   width: 60%;
   height: 60%;
-  margin-top: 25%;
+  margin-top: 18%;
   background: #4685c0;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-2-grid {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-2-grid {
   display: flex;
   justify-content: space-around;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-2-grid .content-holder {
-  width: 40%;
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-2-grid .content-holder {
+  width: 35%;
   height: 60%;
   margin-top: 0;
   background: #4685c0;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-3-grid {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-3-grid {
+  margin-left: 3%;
   display: flex;
   justify-content: space-around;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-3-grid .content-holder {
-  width: 30%;
+.right-bar .rb-wrapper .rb-block-elements .rb-block .column-block .col-3-grid .content-holder {
+  width: 20%;
   height: 60%;
   margin-top: 0;
   background: #4685c0;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .content-block {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .content-block {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   flex-wrap: wrap;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .content-block .content-block-col {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .content-block .content-block-col {
   width: 30%;
-  height: 150px;
-  margin-top: 15px;
+  height: 9em;
+  margin-bottom: 1rem;
   border: #b5d5f3 solid 1px;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .content-block .content-block-col img {
-  width: 80%;
+.right-bar .rb-wrapper .rb-block-elements .rb-block .content-block .content-block-col img {
+  width: 70%;
   margin-left: 10%;
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .rb-block .content-block .content-block-col p {
+.right-bar .rb-wrapper .rb-block-elements .rb-block .content-block .content-block-col p {
   text-align: center;
   margin-top: 2%;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .elements {
-  width: 90%;
-  margin-left: 5%;
-}
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-block-elements .elements img {
+.right-bar .rb-wrapper .rb-block-elements .elements img {
   height: 60px;
   object-position: center;
   object-fit: cover;
   width: 100%;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props {
-  display: none;
+.right-bar .rb-wrapper .rb-block-elements .elements .row {
+  display: block;
+  width: 100%;
+  margin-bottom: 2%;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props {
-  display: none;
+.right-bar .rb-wrapper .rb-block-elements .elements .row input {
+  float: right;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props .img-wrap input[type=file] {
-  margin-bottom: 5px;
+.right-bar .rb-wrapper .rb-block-elements .elements .elements-header img {
+  margin-top: 3%;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props .img-wrap input[type=file]::-webkit-file-upload-button {
+.right-bar .rb-wrapper .rb-block-elements .elements .elements-header input[type=file]::-webkit-file-upload-button {
+  font-size: 0.7rem;
   padding: 10px 20px;
   margin-left: 5px;
   border: none;
@@ -232,8 +257,80 @@
   color: #0f3050;
   background: #7aa6ce;
 }
-.wrapper .template-builder .workpace .right-bar .rb-wrapper .rb-props .props .img-wrap img {
+.right-bar .rb-wrapper .rb-props {
+  display: none;
+}
+.right-bar .rb-wrapper .rb-props .props {
+  display: none;
+}
+.right-bar .rb-wrapper .rb-props .props .img-wrap input[type=file] {
+  margin-bottom: 5px;
+}
+.right-bar .rb-wrapper .rb-props .props .img-wrap input[type=file]::-webkit-file-upload-button {
+  font-size: 0.7rem;
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: #0f3050;
+  background: #7aa6ce;
+}
+.right-bar .rb-wrapper .rb-props .props .img-wrap img {
   width: 80%;
 }
 
-/*# sourceMappingURL=style.css.map */
+/* Using SCSS variables to store breakpoints */
+@media (max-width: 1080px) {
+  .title-bar {
+    height: 2.8rem;
+  }
+  .title-bar input[type=text] {
+    height: 1rem;
+    padding: 3px;
+    width: 14rem;
+  }
+  .title-bar input[type=text]::placeholder {
+    font-size: 0.7rem;
+  }
+  .title-bar .btn {
+    font-size: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    margin-left: 5px;
+    border: none;
+    outline: none;
+    color: #4685c0;
+    background: #0f3050;
+  }
+
+  .template-wrapper {
+    margin-top: 2%;
+  }
+  .template-wrapper .header-image {
+    height: 3rem;
+  }
+  .template-wrapper .drop-wrapper {
+    height: 35em;
+  }
+  .template-wrapper .drop-wrapper .drop-row {
+    height: 8em;
+    padding: 5px 0;
+  }
+}
+@media (max-width: 768px) {
+  .title-bar input[type=text] {
+    height: 0.8rem;
+    padding: 2px;
+    width: 10rem;
+  }
+  .title-bar .btn {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.5rem;
+    margin-left: 5px;
+    border: none;
+    outline: none;
+    color: #4685c0;
+    background: #0f3050;
+  }
+}
+
+/*# sourceMappingURL=email-template.css.map */

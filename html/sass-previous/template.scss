@@ -1,0 +1,52 @@
+@import "./variables";
+@import "./function";
+
+// 612.88
+// 794.25
+#et-container{
+    width: 612.88px;
+    height: 794.25px;
+    background: $f-color;
+
+
+
+    .et-template-wrapper{
+        width: 100%;
+        // margin-left: 5%;
+        margin-top: 3%;
+        background: $f-color;
+
+
+        .et-header-image{
+            @include header_image(60px);
+        }
+        // DROPZONE START 
+        .et-drop-wrapper{
+            width: 80%;
+            margin-left: 10%;
+            margin-top: 2%;
+            border: 1px solid $p-color;
+            height: 45em;
+
+            .et-drop-row{
+                background: $t-color;
+                color: $f-color;
+                width: 100%;
+                height: 15em;
+                border: 1px solid $s-color;
+                display: flex;
+                .et-one-column-div{
+                    @include drop_column(100%);
+                }
+                
+                .et-two-column-div {
+                    @include drop_column(50%);
+                }
+                .et-three-column-div{
+                    @include drop_column(33.99%);
+                }
+            }
+        }
+        // DROPZONE ENDS 
+    }
+}

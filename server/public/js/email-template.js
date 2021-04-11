@@ -1445,7 +1445,7 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     previewDropZoneTemplate();
 
 } else if (currentPath === "editor") {
-    // console.log("Preview page");
+    // console.log("Editor page");
     columnDragAndDrop();
     blockDragAndDrop();
     rightBarElementShowHide();

@@ -109,6 +109,7 @@
  - Sibling button is not storing as json (storing as object) ☑
  - Problem with button opening in new tab
  - Problem with button content, in 8 number template both button content are showing same  in row 3- this happen because we need to clean input value
+ - Remove image html content from drop event and position element
 
     ```
     show variables like 'max_allowed_packet'
