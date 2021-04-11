@@ -38,3 +38,16 @@
     background: $bgClr;
 }
 
+
+
+
+// height: 25px; // padding: 5px; // width: 300px; // border: none; // background: $s-color; // color: $p-color;
+@mixin input_style($h, $w, $p, $bg, $c){
+    height: $h;
+    padding: $p;
+    width: $w;
+    border: none;
+    background: $bg;
+    color: $c;
+}
+

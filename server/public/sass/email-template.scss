@@ -5,6 +5,7 @@
 
 
     .wrapper{
+        background: #000;
         // font-family: $caslon;
         // TEMPLATE BUILDER START 
         .template-builder{
@@ -312,7 +313,7 @@
                         @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem);
                     }
                     img{
-                        width: 80%;
+                        width: 60%;
                     }
                 }
             }
@@ -363,55 +364,9 @@ $breakpoint-sm-laptop: 1080px;
     
             .drop-row{
                 height: 8em;
-                padding: 5px 0;
-                // .one-column-div{
-                //     @include drop_column(100%);
-                // }
-                
-                // .two-column-div {
-                //     @include drop_column(50%);
-                // }
-                // .three-column-div{
-                //     @include drop_column(33.99%);
-                // }
-                
-    
-                // .content{
-                //     width: 96%;
-                //     margin-left: 2%;                                   
-                    
-                // }
-                // // THIS SHOULD BE SET BY JS 
-                // .img-content-block{
-                //     width: 70%;
-                //     margin-left: 15%;
-                // }
-                // .icon-content-block{
-                //     display: flex;
-                //     width: 100%;
-                //     justify-content: space-around;
-                //     a{
-                //         padding: 20px 20px;
-                //         // padding-top: 40px;
-                //         // height: 60px !important;
-                //         // width: 60px;
-                //         border-radius: 50%;
-                //         background-color: $t-color;
-                //         img{
-                //             width: 20px;
-                //         }
-                //     }
-                // }  
-                // .btn-content-block{
-                //     @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem);
-    
-                // }                              
+                padding: 5px 0;             
                 
             }
-            // .space-row-grid{
-            //     height: 40px;
-            //     background: $s-color;
-            // }
         }
         // DROPZONE ENDS 
     }

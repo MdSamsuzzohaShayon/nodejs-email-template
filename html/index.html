@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/email-template.css">
 
 </head>
 
@@ -50,17 +51,16 @@
                             </div>
                             <!-- PROPERTY BAR START  -->
                             <div class="rb-props" id="rb-props">
-                                <h3>Properties</h3>
                                 <div class="props img-props">
                                     <div class="img-props-1 img-wrap">
                                         <input type="file" name="img-input" id="img-input">
                                         <img class="img" id="img-preview" src="img/empty-image.png" alt="Image">
                                     </div>
-                                    <div class="img-props-2 img-link-wrap">
+                                    <div class="img-props-2 props-with-label img-link-wrap">
                                         <label for="img-link">Hyperlink</label>
                                         <input type="text" name="img-link" id="img-link">
                                     </div>
-                                    <div class="img-props-2 img-link-wrap">
+                                    <div class="img-props-3 props-with-label img-link-tab">
                                         <label for="img-new-tab">Open in new tab</label>
                                         <input type="checkbox" name="new-tab" id="img-new-tab">
                                     </div>
@@ -69,12 +69,14 @@
                                     <!-- https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand -->
                                     <h4 class="txt-options">Pragraph</h4>
                                     <div class="txt-pragraph">
-                                        <button class="txt-align-btn" data-align="justifyLeft"
-                                            id="txt-align-left">Left</button>
-                                        <button class="txt-align-btn" data-align="justifyCenter"
-                                            id="txt-align-center">Center</button>
-                                        <button class="txt-align-btn" data-align="justifyRight"
-                                            id="txt-align-right">Right</button>
+                                        <button class="txt-align-btn btn-icon" data-align="justifyLeft"
+                                            id="txt-align-left">
+                                            <img src="./icon/align-left.svg" alt="">
+                                        </button>
+                                        <button class="txt-align-btn btn-icon" data-align="justifyCenter"
+                                            id="txt-align-center"><img src="./icon/align-center.svg" alt=""></button>
+                                        <button class="txt-align-btn btn-icon" data-align="justifyRight"
+                                            id="txt-align-right"><img src="./icon/align-right.svg" alt=""></button>
                                     </div>
                                     <h4 class="txt-options">Fonts</h4>
                                     <div class="txt-fonts-family">
@@ -99,14 +101,15 @@
                                         </select>
                                     </div>
                                     <div class="txt-font-style">
-                                        <button class="txt-btn-style" data-style="bold" id="txt-bold">Bold</button>
-                                        <button class="txt-btn-style" data-style="italic"
-                                            id="txt-italic">Italic</button>
-                                        <button class="txt-btn-style" data-style="underline"
-                                            id="txt-underline">Underline</button>
+                                        <button class="txt-btn-style btn-icon" data-style="bold" id="txt-bold"><img
+                                                src="./icon/text-bold.svg" alt=""></button>
+                                        <button class="txt-btn-style btn-icon" data-style="italic" id="txt-italic"><img
+                                                src="./icon/text-italic.svg" alt=""></button>
+                                        <button class="txt-btn-style btn-icon" data-style="underline"
+                                            id="txt-underline"><img src="./icon/text-underline.svg" alt=""></button>
                                     </div>
                                     <div class="txt-link">
-                                        <div class="txt-props-2 txt-link-wrap">
+                                        <div class="txt-props-2 props-with-label txt-link-wrap">
                                             <label for="txt-link">Hyperlink</label>
                                             <input type="text" name="txt-link" id="txt-link">
                                         </div>
@@ -118,11 +121,11 @@
                                 </div>
                                 <div class="props btn-props">
                                     <h3 class="props-header">Button Properties</h3>
-                                    <div class="btn-color-props bg-btn-color">
+                                    <div class="btn-color-props props-with-label bg-btn-color ">
                                         <label for="btn-color">Button Color</label>
                                         <input type="color" name="btn-color" id="btn-color">
                                     </div>
-                                    <div class="btn-color-props text-color">
+                                    <div class="btn-color-props props-with-label text-color">
                                         <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color -->
                                         <label for="btn-text-color">Text Color</label>
                                         <input type="color" name="text-color" id="btn-font-color">
@@ -151,29 +154,33 @@
                                             <option value="30">30</option>
                                         </select>
                                     </div>
-                                    <div class="btn-color-props btn-text">
-                                        <label for="btn-text-color">Button Text</label>
+                                    <div class="btn-text-props props-with-label btn-text">
+                                        <label for="btn-text">Button Text</label>
                                         <input type="text" name="btn-text" id="btn-text">
                                     </div>
 
-                                    <div class="btn-color-props btn-hyperlink">
+                                    <div class="btn-color-props props-with-label btn-hyperlink">
                                         <label for="btn-hyperlink">Button Hyperlink</label>
                                         <input type="text" name="btn-hyperlink" id="btn-hyperlink">
                                     </div>
-                                    <div class="btn-shape-props btn-shape">
+                                    <div class="btn-shape-props props-with-label btn-shape">
                                         <label for="btn-shape">Button Round</label>
                                         <input type="checkbox" name="btn-shape" id="btn-shape">
                                     </div>
-                                    <div class="btn-color-props btn-new-tab">
+                                    <div class="btn-color-props props-with-label btn-new-tab">
                                         <label for="btn-new-tab">Open in new tab</label>
                                         <input type="checkbox" name="btn-new-tab" id="btn-new-tab">
                                     </div>
 
-                                    <div class="btn-color-props btn-alignment">
+                                    <div class="btn-color-props props-with-label btn-alignment">
                                         <label for="btn-alignment">Button Allignment</label>
-                                        <button class="btn-align" id="btn-align-left">Left</button>
-                                        <button class="btn-align" id="btn-align-center">Center</button>
-                                        <button class="btn-align" id="btn-align-right">Right</button>
+                                        <br>
+                                        <button class="btn-align btn-icon" id="btn-align-left"><img
+                                                src="./icon/align-left.svg" alt=""></button>
+                                        <button class="btn-align btn-icon" id="btn-align-center"><img
+                                                src="./icon/align-center.svg" alt=""></button></button>
+                                        <button class="btn-align btn-icon" id="btn-align-right"><img
+                                                src="./icon/align-right.svg" alt=""></button>
                                     </div>
 
 
@@ -181,15 +188,15 @@
                                 <div class="props social-props">
                                     <!-- The Social Media Icons can only be dragged to a one-column or a two-column layout. -->
                                     <h3 class="props-header">Social Media Link</h3>
-                                    <div class="social-link fb-sl">
+                                    <div class="social-link props-with-label fb-sl">
                                         <label for="fb-link">Facebook</label>
                                         <input type="text" name="fb-link" id="fb-link">
                                     </div>
-                                    <div class="social-link twitter-sl">
+                                    <div class="social-link props-with-label twitter-sl">
                                         <label for="twitter-link">Twitter</label>
                                         <input type="text" name="twitter-link" id="twitter-link">
                                     </div>
-                                    <div class="social-link instagram-sl">
+                                    <div class="social-link props-with-label instagram-sl">
                                         <label for="instagram-link">Instagram</label>
                                         <input type="text" name="instagram-link" id="instagram-link">
                                     </div>
@@ -276,11 +283,11 @@
                                     <form>
                                         <div class="row">
                                             <label for="favcolor">Background color</label>
-                                            <input type="color" id="t-bg-color" name="favcolor" />
+                                            <input type="color" id="t-bg-color" name="favcolor" value="#e6f2ff" />
                                         </div>
                                         <div class="row">
                                             <label for="favcolor">Text Link Color</label>
-                                            <input type="color" id="t-link-color" name="favcolor" />
+                                            <input type="color" id="t-link-color" name="favcolor" value="#000066" />
                                         </div>
                                     </form>
                                     <div class="elements-header">
