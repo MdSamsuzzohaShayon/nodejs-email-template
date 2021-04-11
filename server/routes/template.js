@@ -17,7 +17,7 @@ router.get('/editor', (req, res, next) => {
     // });
 
     // conn.end();
-    res.render('email-template');
+    res.render('template/email-template');
 });
 
 
@@ -138,8 +138,18 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 // PREVIEW ALL TEMPLATE 
-router.get('/preview', (req, res, next) => {
-    res.json({ "msg": "preview" });
+router.get('/', (req, res, next) => {
+    const sql = `SELECT id, title FROM nodejs_story`;
+
+    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
+    conn.query(sql, [req.params.id], (err, result, fields) => {
+        if (err) throw err;
+        // console.log("The result is: ", result[0].layout);
+        // res.render('template/template-preview', { docs: result[0] });
+        // console.log(result);
+        res.render('template/index', { docs: result });
+        // conn.end();
+    });
 });
 
 router.get('/preview/:id', (req, res, next) => {
@@ -150,7 +160,7 @@ router.get('/preview/:id', (req, res, next) => {
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
         // console.log("The result is: ", result[0].layout);
-        res.render('template-preview', { docs: result[0] });
+        res.render('template/template-preview', { docs: result[0] });
         // conn.end();
     });
 });

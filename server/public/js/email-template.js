@@ -1440,7 +1440,7 @@ function previewDropZoneTemplate() {
 
 
 
-if (currentPath === "preview") {
+if (currentPath === "preview" && window.location.pathname !== "/template") {
     // console.log("Preview page");
     previewDropZoneTemplate();
 
@@ -1464,6 +1464,8 @@ if (currentPath === "preview") {
 
 } else if (currentPath === "edit") {
     console.log("EDIT");
+} else if (findPath[1] === "template") {
+    console.log("index");
 } else {
     console.log("Not a template ");
 }

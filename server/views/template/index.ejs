@@ -1,0 +1,49 @@
+<header class="menu">
+    <div class="left-menu">
+        <div class="icon">Icon</div>
+    </div>
+    <div class="right-menu">
+        <ul>
+            <li><a href="/template/preview">Home</a></li>
+            <li><a href="/template/editor">Editor</a></li>
+        </ul>
+    </div>
+</header>
+
+<br><br><br>
+
+<div class="preview-all">
+    <table class="pv-table">
+        <thead>
+            <tr>
+                <th>SL#</th>
+                <th>ID</th>
+                <th>Template Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <% if (docs) { %>
+            <tbody>
+                <% docs.forEach(function(template , tIdx){ %>
+                    <tr>
+                        <td>
+                            <%- tIdx+1 %>
+                        </td>
+                        <td>
+                            <%- template.id %>
+                        </td>
+                        <td>
+                            <%- template.title %>
+                        </td>
+                        <td>
+                            <a href="/template/delete/<%- template.id %>" class="btn del-btn">Delete</a>
+                            <a href="/template/preview/<%- template.id %>" class="btn pv-btn">Preview</a>
+                            <a href="/template/edit/<%- template.id %>" class="btn edit-btn">Edit</a>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+            <% } %>
+
+    </table>
+</div>
