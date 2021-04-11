@@ -41,14 +41,14 @@ function invalidToValidStr(invalidString) {
 router.post('/add', uploadFile, (req, res, next) => {
 
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
-    let bgImg = "header-img-20191215_-3.jpg";
+    let bgImg = "default-header.jpg";
     if (req.files['header-img']) {
         bgImg = req.files['header-img'][0].filename;
     }
 
 
 
-    console.log("Element object Before parse: ", element);
+    // console.log("Element object Before parse: ", element);
 
 
 
@@ -137,6 +137,7 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 
+// PREVIEW ALL TEMPLATE 
 router.get('/preview', (req, res, next) => {
     res.json({ "msg": "preview" });
 });

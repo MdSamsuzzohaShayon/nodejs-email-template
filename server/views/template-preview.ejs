@@ -29,6 +29,19 @@
 
 
 <script>
+    // PREVIEW PAGE VARIABLES START 
+    let layout = '<%- docs.layout %>';
+    let content = '<%- docs.content %>';
+    let headerImg = '<%- docs.bg_img %>';
+    let sibling = '<%- docs.sibling %>';
+    let pvBgColor = '<%- docs.bg_color %>';
+    let pvlinkColors = '<%- docs.link_color %>';
+
+
+</script>
+
+
+<!-- <script>
     // window.open('http://google.com');
     // PREVIEW START 
     // THIS CODE WILL WORK ONLY IN PREVIEW TEMPLATE
@@ -36,36 +49,35 @@
     const currentPath = findPath[2];
 
     if (currentPath === "preview") {
-        let layout = '<%- docs.layout %>';
-        let content = '<%- docs.content %>';
-        let img = '<%- docs.bg_img %>';
-        let sibling = '<%- docs.sibling %>';
-        // console.log(sibling);
-
-        // THIS IS COMMING FROM DATABASE TABLE 
-        // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
-        const layoutArray = JSON.parse(layout);
-        const pvBlockElement = JSON.parse(content);
-        const pvSibling = JSON.parse(sibling);
-
-        console.log("Sibling: ", pvSibling);
-        // console.log("Content: ", pvBlockElement);
-
-        const previewDropZone = document.getElementById('drop-zone');
-        const pvTemplateWrapper = document.querySelector('.template-wrapper')
-        const pvTemplateLinks = document.getElementsByTagName('a');
-
-
-
-
-
-        // NO NEED FUNCTION - ALREADY DECLARED 
+        // HELPING FUNCTION 3
         function setAttributes(el, attrs) {
             for (let key in attrs) {
                 el.setAttribute(key, attrs[key]);
             }
         }
+        // HELPING FUNCTION 8 
+        const stringIdToIdNum = (stringText, arrNum) => {
+            let rowNumString = stringText.toString();
+            let findFromArr = rowNumString.split('-');
+            let numVal = parseInt(findFromArr[arrNum]);
+            return numVal;
+        }
 
+        // HELPING FUNCTION 9 
+        const getNextAllElement = element => {
+            const nextAllFound = [];
+            const getAll = element => {
+                if (element !== null) {
+                    nextAllFound.push(element);
+                    const nextFound = element.nextElementSibling;
+                    if (nextFound !== null) {
+                        getAll(nextFound);
+                    }
+                }
+            };
+            getAll(element.nextElementSibling);
+            return nextAllFound;
+        };
 
 
         // HELPING FUNCTION 10 
@@ -119,18 +131,47 @@
 
 
         // HELPING FUNCTION 13 
-        const stringToNodes = html => new DOMParser().parseFromString(html, 'text/html').body.childNodes[0]
-
-
-
-        // CREATEING HTML ELEMENT 
+        const stringToNodes = html => new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+        // MAIN FUNCTION 7
         function previewDropZoneTemplate() {
+            // WE HAVE TO USE FETCH API 
+            /*
+            fetch(`${websiteDomain}/template/preview/6`)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            */
+
+            // PREVIEW PAGE VARIABLES START 
+            let layout = '<%- docs.layout %>';
+            let content = '<%- docs.content %>';
+            let img = '<%- docs.bg_img %>';
+            let sibling = '<%- docs.sibling %>';
+
+
+            // THIS IS COMMING FROM DATABASE TABLE 
+            // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
+            const layoutArray = JSON.parse(layout);
+            const pvBlockElement = JSON.parse(content);
+            const pvSibling = JSON.parse(sibling);
+
+            console.log("Sibling: ", pvSibling);
+            // console.log("Content: ", pvBlockElement);
+
+            const previewDropZone = document.getElementById('drop-zone');
+            const pvTemplateWrapper = document.querySelector('.template-wrapper')
+            const pvTemplateLinks = document.getElementsByTagName('a');
+            // PREVIEW PAGE VARIABLES START 
             // BG COLOR 
             pvTemplateWrapper.style.background = '<%- docs.bg_color %>';
             // LINK COLOR CHANGE 
             for (let pvTL of pvTemplateLinks) {
                 pvTL.style.color = '<%- docs.link_color %>';
             }
+
 
 
             // MAKING ALL ROW AND COLUMN DIV 
@@ -180,12 +221,12 @@
 
 
 
+            // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
             // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
             const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
             let blockRowId = 1;
             layoutArray.forEach((lAr, rIdx) => {
-                // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
                 // CHECK IT THERE IS NO SPACE 
                 if (!lAr.afterRow) {
                     // MATCHING ROW ID 
@@ -370,4 +411,4 @@
 
 
 // PREVIEW ENDS
-</script>
+</script> -->
