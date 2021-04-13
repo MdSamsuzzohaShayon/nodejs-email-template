@@ -98,20 +98,40 @@
 .drop-wrapper .drop-row {
   width: 100%;
   height: 15em;
+  border-bottom: 1px solid #b5d5f3;
   display: flex;
   overflow: hidden;
 }
 .drop-wrapper .drop-row .one-column-div {
   width: 100%;
   height: 100%;
+  border-right: 1px solid #b5d5f3;
+}
+.drop-wrapper .drop-row .one-column-div .btn-content-block {
+  width: 15%;
+  float: left;
+  margin-left: 2%;
 }
 .drop-wrapper .drop-row .two-column-div {
   width: 50%;
   height: 100%;
+  border-right: 1px solid #b5d5f3;
+}
+.drop-wrapper .drop-row .two-column-div .btn-content-block {
+  width: 30%;
+  float: right;
+  margin-right: 5%;
 }
 .drop-wrapper .drop-row .three-column-div {
   width: 33.99%;
   height: 100%;
+  border-right: 1px solid #b5d5f3;
+}
+.drop-wrapper .drop-row .three-column-div .btn-content-block {
+  width: 35%;
+}
+.drop-wrapper .drop-row .three-column-div .btn-content-block ::before {
+  text-align: center;
 }
 .drop-wrapper .drop-row .content {
   width: 96%;
@@ -123,6 +143,10 @@
   margin-left: 15%;
   object-position: center;
   object-fit: cover;
+}
+.drop-wrapper .drop-row .txt-content-block {
+  padding: 2% 0;
+  outline: none;
 }
 .drop-wrapper .drop-row .icon-content-block {
   display: flex;
@@ -138,6 +162,7 @@
   width: 20px;
 }
 .drop-wrapper .drop-row .btn-content-block {
+  text-align: center;
   font-size: 0.7rem;
   padding: 10px 20px;
   margin-left: 5px;
@@ -343,6 +368,10 @@
 
 .border-bottom {
   border-bottom: 1px solid #0f3050;
+}
+
+.add-bg {
+  background-color: #4685c0;
 }
 
 /* Using SCSS variables to store breakpoints */

@@ -561,17 +561,25 @@ function blockDragAndDrop() {
     });
     document.addEventListener('dragover', e => {
         // console.log(e.target);
-        e.preventDefault();
+        // e.preventDefault();
+        if (e.target.className === "two-column-div" || e.target.className === "three-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "rgb(122, 166, 206)";
+        }
     });
     document.addEventListener('drop', (e) => {
+
         // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
         if (e.toElement.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
             // console.log(e.toElement.id);
             let dropableColumn = e.target.className;
             let dropInsideImgTxt = e.target.classList[1];
             try {
+
                 // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
                 if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div" || dropInsideImgTxt == "img-content-block" || dropInsideImgTxt == "txt-content-block") {
+                    document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
+
                     // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
                     if (dropableBlock === "img-holder") {
                         if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
@@ -1140,6 +1148,23 @@ function backendAndDataBase() {
 
 
 
+// MAIN FUNCTIONS 7
+function stylingElements() {
+    // document.addEventListener('mouseover', e => {
+    //     // e.preventDefault();
+    //     console.log("Event e: ", e.target);
+    //     if (e.target.className === "two-column-div" || e.target.className === "three-column-div" || e.target.className === "three-column-div") {
+    //         e.target.classList.add('add-bg');
+    //     }
+    // });
+    // document.addEventListener('mouseout', e => {
+    //     // e.preventDefault();
+    //     if (e.target.className === "two-column-div" || e.target.className === "three-column-div" || e.target.className === "three-column-div") {
+    //         e.target.classList.remove('add-bg');
+    //     }
+    // });
+}
+
 
 
 
@@ -1158,7 +1183,9 @@ blockDragAndDrop();
 rightBarElementShowHide();
 rightBarProps();
 templatePropsCng();
+stylingElements();
 backendAndDataBase();
+
 
 
 

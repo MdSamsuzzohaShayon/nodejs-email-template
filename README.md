@@ -108,22 +108,35 @@
 
 
 ### Referances
+
+#### Text Editors
  - __https://w3c.github.io/input-events/__
  - __https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API__
  - __https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard__
  - __*[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility__
+
+#### Upload files
  - __https://stackoverflow.com/questions/36067767/how-do-i-upload-a-file-with-the-js-fetch-api__
  - __https://flaviocopes.com/how-to-upload-files-fetch/__
  - __https://stackoverflow.com/questions/6667291/javascript-error-cannot-convert-object-to-primitive-value__
 
+#### Node.js MySql JSON
  - __https://www.opentechguides.com/how-to/article/nodejs/124/express-mysql-json.html__
  - __https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp__
  - __https://www.digitalocean.com/community/tutorials/working-with-json-in-mysql__
-
  - __https://dev.mysql.com/doc/refman/8.0/en/packet-too-large.html__
  - __https://dev.mysql.com/doc/refman/8.0/en/blob.html__
+
+#### JS, Objects, Array, JSON
  - __https://stackoverflow.com/questions/38617467/sorting-an-object-ascending-order-in-javascript__
  - __https://www.codegrepper.com/code-examples/javascript/arrange+an+array+of+object+in+ascending+order__
  - __https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort__
+
+#### Styling elements / Checkbox
+ - __https://stackoverflow.com/questions/12251750/can-media-queries-resize-based-on-a-div-element-instead-of-the-screen__
+ - __https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver__
+ - __https://stackoverflow.com/questions/56549700/can-sass-recognise-a-size-and-apply-a-condition__
+ - __https://stackoverflow.com/questions/6492683/how-to-detect-divs-dimension-changed__
+ - __https://github.com/w3c/csswg-drafts/issues/3852__
 
 

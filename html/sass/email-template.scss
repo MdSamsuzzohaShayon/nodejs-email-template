@@ -125,18 +125,34 @@
         width: 100%;
         height: 15em;
         // padding: 10px 0;
-        // border-bottom: 1px solid $s-color;  // SET THIS BORDER USING JAVASCRIPT 
+        border-bottom: 1px solid $s-color;  // SET THIS BORDER USING JAVASCRIPT 
         display: flex;
         overflow: hidden;
         .one-column-div{
             @include drop_column(100%);
+            .btn-content-block{
+                width: 15%;
+                float: left;
+                margin-left: 2%;
+            }
         }
         
         .two-column-div {
             @include drop_column(50%);
+            .btn-content-block{
+                width: 30%;
+                float: right;
+                margin-right: 5%;
+            }
         }
         .three-column-div{
             @include drop_column(33.99%);
+            .btn-content-block{
+                width: 35%;
+                ::before{
+                    text-align: center;
+                }
+            }
         }
         
 
@@ -153,6 +169,14 @@
             object-position: center;
             object-fit: cover;
         }
+        .txt-content-block{
+            padding: 2% 0;
+            outline: none;
+        }
+
+        
+       
+
         .icon-content-block{
             display: flex;
             width: 100%;
@@ -171,6 +195,7 @@
         }  
         
         .btn-content-block{
+            text-align: center;
             @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem);
 
         }                              
@@ -400,6 +425,9 @@
 .border-bottom{
     border-bottom: 1px solid $t-color;
 }
+.add-bg{
+    background-color: $f-color;
+}
 
 
 
@@ -411,6 +439,7 @@
 /* Using SCSS variables to store breakpoints */
 $breakpoint-tablet: 768px;
 $breakpoint-sm-laptop: 1080px;
+
 @media (max-width: $breakpoint-sm-laptop) {
     // TEMPLATE START 
     .title-bar{
