@@ -97,6 +97,8 @@
  - Problem with button opening in new tab
  - Problem with button content, in 8 number template both button content are showing same  in row 3- this happen because we need to clean input value
  - Remove image html content from drop event and position element
+ - Multiple content adding in one block- Prevent to add multiple content in same block 
+ - Error with selecting text content by click
 
     ```
     show variables like 'max_allowed_packet'

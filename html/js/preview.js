@@ -309,8 +309,15 @@ function previewDropZoneTemplate() {
     // STYLING ELEMENTS INSIDE DROP ZONE 
     // TEXT CONTENT EXIT FALSE FOR PREVIEW 
     const pvTextContent = document.querySelectorAll('.txt-content-block');
-    pvTextContent.forEach(txtCnt => { txtCnt.setAttribute("contenteditable", false) });
-    dropColumnZone.style.height = "100%"; // IN PREVIEW
+    const droppedRow = document.querySelector('.drop-row');
+    pvTextContent.forEach(txtCnt => {
+        txtCnt.setAttribute("contenteditable", false);
+        if (txtCnt.getBoundingClientRect().height > 172) {
+            droppedRow.style.height = "fit-content"; // IN PREVIEW
+        }
+    });
+    dropColumnZone.style.height = "fit-content"; // IN PREVIEW
+
 }
 
 previewDropZoneTemplate();

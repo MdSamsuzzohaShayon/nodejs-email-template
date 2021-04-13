@@ -351,6 +351,18 @@ const protocalValidate = (hyperlink) => {
     }
     return validatedLink;
 }
+
+
+// HELPING CLASS 
+const resizeObserver = new ResizeObserver(e => {
+    // console.log("E: ", e);
+    // console.log("target: ", e[0].target);
+    // console.log("target.parentElement.parentElement : ", e[0].target.parentElement.parentElement);
+    // console.log("Content Reactangle: ", e[0].contentRect);
+    if (e[0].contentRect.height > 172) {
+        e[0].target.parentElement.parentElement.style.height = `fit-content`;
+    }
+});
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -576,107 +588,140 @@ function blockDragAndDrop() {
             let dropInsideImgTxt = e.target.classList[1];
             try {
 
-                // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
-                if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div" || dropInsideImgTxt == "img-content-block" || dropInsideImgTxt == "txt-content-block") {
-                    document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
+                // PREVENT TO ADD MORE THAN 2 BLOCK IN A ROW 
+                if (e.target.children.length >= 2) {
+                    alert("You can't add more than 2 content inside a row");
+                } else {
+                    // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
+                    if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div" || dropInsideImgTxt == "img-content-block" || dropInsideImgTxt == "txt-content-block") {
+                        document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
 
-                    // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
-                    if (dropableBlock === "img-holder") {
-                        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
-                            //VARIABLE
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-                            // CREATING IMAGE 
-                            let imgID = `"img-${rowNumber + '-' + columnNumber}"`;
-                            imageBlockElment = `<img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id=${imgID}>`;
-                            e.toElement.innerHTML = imageBlockElment;
-                            // DATABASE AND VARIABLE 
-                            blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: imageBlockElment, imgHyperlink: websiteDomain, imgNewTab: false } });
-                        }
-                    } else if (dropableBlock === "txt-holder") {
-                        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
-                            // CREATING REXT 
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-                            let txtBlockElement = null;
-                            const newBlockCol = document.createElement('div');
-                            setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
-                            newBlockCol.className = 'content txt-content-block';
-                            newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
-                            // CHANGING TEXT EVENT 
-                            newBlockCol.addEventListener('input', e => {
-                                txtBlockElement = e.target.outerHTML;
-                                positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
-                            });
-                            e.toElement.appendChild(newBlockCol);
-                            // THIS IS ONLY FOR DATABASE 
-                            text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
-                            txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
-                            blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement } });
-                        }
-                    } else if (dropableBlock === "btn-holder") {
-                        // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
-                        if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block" || e.toElement.children[0].classList[1] === "img-content-block" || e.toElement.children[0].classList[1] === "txt-content-block") {
-                            // INSERT A SIBLING AFTER 
-                            const newBlockCol = document.createElement('button');
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-
-                            function insertButtonElement(elementAfter) {
-                                if (e.target.parentElement.className === 'one-column-div' || dropableColumn === "one-column-div") {
-                                    // LEFT POSITION ELEMENT FROM HERE 
-                                    setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                    newBlockCol.className = "content btn-content-block";
-                                    newBlockCol.textContent = btnDefaultTxt;
-                                    elementAfter.after(newBlockCol)
-                                } else if (e.target.parentElement.className === 'two-column-div' || dropableColumn === "two-column-div") {
-                                    // RIGHT POSITION ELEMENT FROM HERE 
-                                    setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                    newBlockCol.textContent = btnDefaultTxt;
-                                    newBlockCol.className = "content btn-content-block";
-                                    elementAfter.after(newBlockCol)
-                                } else if (e.target.parentElement.className === 'three-column-div' || dropableColumn === "three-column-div") {
-                                    // CENTER POSITION ELEMENT FROM HERE  
-                                    setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                    newBlockCol.textContent = btnDefaultTxt;
-                                    newBlockCol.className = "content btn-content-block";
-                                    elementAfter.after(newBlockCol)
+                        // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
+                        if (dropableBlock === "img-holder") {
+                            if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
+                                // PREVENT TO DROP MULTIPLE IMG OR TXT BLOCK INTO ONE BLOCK 
+                                if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
+                                    if (e.target.children[0].classList[1] === "img-content-block" || e.target.classList[1] === "img-content-block") {
+                                        // console.log("E: don't add ", e.target.children[0].classList[1]);
+                                        alert("You can't add multiple image block in a column");
+                                    }
                                 } else {
-                                    console.log(e.target);
+                                    // console.log("Undefined- add element", e.target);
+                                    //VARIABLE
+                                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    // CREATING IMAGE 
+                                    let imgID = `"img-${rowNumber + '-' + columnNumber}"`;
+                                    imageBlockElment = `<img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id=${imgID}>`;
+                                    e.toElement.innerHTML = imageBlockElment;
+                                    // DATABASE AND VARIABLE 
+                                    blockElement = dropableBlock;
+                                    positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: "<img />", imgHyperlink: websiteDomain, imgNewTab: false } });
                                 }
                             }
-                            if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block") {
-                                insertButtonElement(e.toElement);
-                            } else {
-                                insertButtonElement(e.toElement.childNodes[0]);
-                            }
-                            btnBlockElement = `<button class="content btn-content-block" id="btn-${rowNumber + '-' + columnNumber}" >${btnDefaultTxt}</button>`;
-                            siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
-                            // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
-                        } else {
-                            alert('this button is not dropable here');
-                        }
+                        } else if (dropableBlock === "txt-holder") {
+                            if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
+                                // PREVENT TO DROP MULTIPLE IMG OR TXT BLOCK INTO ONE BLOCK 
+                                if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
+                                    if (e.target.children[0].classList[1] === "txt-content-block" || e.target.classList[1] === "txt-content-block") {
+                                        // console.log("E: don't add ", e.target.children[0].classList[1]);
+                                        alert("You can't add multiple text block in a column");
+                                    }
+                                } else {
+                                    // CREATING REXT 
+                                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    let txtBlockElement = null;
+                                    const newBlockCol = document.createElement('div');
+                                    setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                    newBlockCol.className = 'content txt-content-block';
+                                    newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
+                                    // CHANGING TEXT EVENT 
+                                    newBlockCol.addEventListener('input', e => {
+                                        txtBlockElement = e.target.outerHTML;
+                                        positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
+                                    });
+                                    e.toElement.appendChild(newBlockCol);
+                                    // THIS IS ONLY FOR DATABASE 
+                                    text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
+                                    txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
+                                    blockElement = dropableBlock;
+                                    positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement } });
+                                }
 
-                    } else if (dropableBlock === "social-holder") {
-                        // The Social Media Icons can only be dragged to a one - column or a two - column layout
-                        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-                            // CREATING THREE SOCIAL ICON 
-                            iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
-                            e.toElement.innerHTML = (iconBlockElement);
-                            blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: iconBlockElement, socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
+
+
+                            }
+
+
+
+
+
+                        } else if (dropableBlock === "btn-holder") {
+                            // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
+                            if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block" || e.toElement.children[0].classList[1] === "img-content-block" || e.toElement.children[0].classList[1] === "txt-content-block") {
+                                // INSERT A SIBLING AFTER 
+                                const newBlockCol = document.createElement('button');
+                                rowNumber = convertRowIdToNumber(e.path[1].id);
+                                columnNumber = convertColIdToNumber(e.toElement.id);
+
+                                function insertButtonElement(elementAfter) {
+                                    if (e.target.parentElement.className === 'one-column-div' || dropableColumn === "one-column-div") {
+                                        // LEFT POSITION ELEMENT FROM HERE 
+                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                        newBlockCol.className = "content btn-content-block";
+                                        newBlockCol.textContent = btnDefaultTxt;
+                                        elementAfter.after(newBlockCol)
+                                    } else if (e.target.parentElement.className === 'two-column-div' || dropableColumn === "two-column-div") {
+                                        // RIGHT POSITION ELEMENT FROM HERE 
+                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                        newBlockCol.textContent = btnDefaultTxt;
+                                        newBlockCol.className = "content btn-content-block";
+                                        elementAfter.after(newBlockCol)
+                                    } else if (e.target.parentElement.className === 'three-column-div' || dropableColumn === "three-column-div") {
+                                        // CENTER POSITION ELEMENT FROM HERE  
+                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                        newBlockCol.textContent = btnDefaultTxt;
+                                        newBlockCol.className = "content btn-content-block";
+                                        elementAfter.after(newBlockCol)
+                                    } else {
+                                        console.log(e.target);
+                                    }
+                                }
+                                // console.log("E btn-holder: ", e.target.children.length);
+
+                                if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block") {
+                                    insertButtonElement(e.toElement);
+                                } else {
+                                    insertButtonElement(e.toElement.childNodes[0]);
+                                }
+                                btnBlockElement = `<button class="content btn-content-block" id="btn-${rowNumber + '-' + columnNumber}" >${btnDefaultTxt}</button>`;
+                                siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
+
+                                // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
+                            } else {
+                                alert('this button is not dropable here');
+                            }
+
+                        } else if (dropableBlock === "social-holder") {
+                            // The Social Media Icons can only be dragged to a one - column or a two - column layout
+                            if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
+                                rowNumber = convertRowIdToNumber(e.path[1].id);
+                                columnNumber = convertColIdToNumber(e.toElement.id);
+                                // CREATING THREE SOCIAL ICON 
+                                iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
+                                e.toElement.innerHTML = (iconBlockElement);
+                                blockElement = dropableBlock;
+                                positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: iconBlockElement, socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
+                            } else {
+                                alert("Social icon can't drop into three column!");
+                            }
                         } else {
-                            alert("Social icon can't drop into three column!");
+                            console.log('Not creating CONTENT element');
                         }
                     } else {
-                        console.log('Not creating CONTENT element');
+                        console.log("Not dropable column");
                     }
-                } else {
-                    console.log("Not dropable column");
                 }
             } catch (err) {
                 console.log(err);
@@ -687,12 +732,16 @@ function blockDragAndDrop() {
 
 
 
+
+
+
 // MAIN FUNCTION 3
 function rightBarElementShowHide() {
     document.addEventListener('click', e => {
         let idString = null;
         // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
         if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+            console.log(e.target);
             templateSelected = false;
             if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
                 if (e.toElement.className === 'social-icon-img') {
@@ -704,9 +753,13 @@ function rightBarElementShowHide() {
             } else {
                 idString = e.toElement.id.toString();
             }
+            console.log("ID: ", idString);
             let findRowCol = idString.split('-');
             selectedRow = parseInt(findRowCol[1]);
             selectedCol = parseInt(findRowCol[2]);
+            const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+            resizeObserver.observe(selectedTextContent);
+
 
             propertiesBar.style.display = 'block';
             blockElementBar.style.display = 'none';
@@ -1083,6 +1136,8 @@ function backendAndDataBase() {
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
         // console.log(siblingButtonList);
+        const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+        console.log(selectedTextContent);
         // FOR CHANGING TEXT CONTENT 
         await positionElement.forEach(pEl => {
             if (pEl.blockElement.name === "txtBlockContent") {
@@ -1148,22 +1203,7 @@ function backendAndDataBase() {
 
 
 
-// MAIN FUNCTIONS 7
-function stylingElements() {
-    // document.addEventListener('mouseover', e => {
-    //     // e.preventDefault();
-    //     console.log("Event e: ", e.target);
-    //     if (e.target.className === "two-column-div" || e.target.className === "three-column-div" || e.target.className === "three-column-div") {
-    //         e.target.classList.add('add-bg');
-    //     }
-    // });
-    // document.addEventListener('mouseout', e => {
-    //     // e.preventDefault();
-    //     if (e.target.className === "two-column-div" || e.target.className === "three-column-div" || e.target.className === "three-column-div") {
-    //         e.target.classList.remove('add-bg');
-    //     }
-    // });
-}
+
 
 
 
@@ -1183,7 +1223,7 @@ blockDragAndDrop();
 rightBarElementShowHide();
 rightBarProps();
 templatePropsCng();
-stylingElements();
+// stylingElements();
 backendAndDataBase();
 
 
