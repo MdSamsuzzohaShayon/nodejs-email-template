@@ -125,7 +125,9 @@ function previewDropZoneTemplate() {
                             const pvIcons = document.createElement("div");
                             setAttributes(pvIcons, { "id": `icon-${lAr.rowID}-${blockColNum + 1}` });
                             pvIcons.className = "content icon-content-block";
+                            /*
 
+                            
                             const pvFbLink = document.createElement('a');
                             setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialFbHyperlink)}` });
                             const pvFbIconImg = document.createElement('img');
@@ -146,13 +148,17 @@ function previewDropZoneTemplate() {
                             const pvInstaIconImg = document.createElement('img');
                             setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
                             pvInstaLink.appendChild(pvInstaIconImg);
-
                             pvIcons.appendChild(pvInstaLink);
+                            */
 
 
                             // for (let k = 0; k < 2; k++) {
                             // }
-                            pvSelectedElement.append(pvIcons);
+                            const iconHolder = createSocialIcons(pvIcons, `${protocalValidate(bEl.blockElement.socialFbHyperlink)}`, `${protocalValidate(bEl.blockElement.socialTwitterHyperlink)}`, `${protocalValidate(bEl.blockElement.socialInstagramHyperlink)}`);
+                            pvSelectedElement.append(iconHolder);
+                            if (lAr.rowWithColumn === 1) {
+                                pvSelectedElement.style.height = "8em";
+                            }
 
 
                         }

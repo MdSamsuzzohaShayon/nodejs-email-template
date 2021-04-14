@@ -118,9 +118,9 @@ let btnDefaultTxt = "Preview";
 let btnBlockElement = null;
 
 //SOCIAL
-let fb_icon = '/icon/facebook.png';
-let twitter_icon = '/icon/twitter.png';
-let instagram_icon = '/icon/instagram.png';
+let fb_icon = './icon/facebook.png';
+let twitter_icon = './icon/twitter.png';
+let instagram_icon = './icon/instagram.png';
 let iconLink = '#';
 let iconBlockElement = null;
 let currentUploadedImageUrl = null;
@@ -355,14 +355,63 @@ const protocalValidate = (hyperlink) => {
 
 // HELPING CLASS 
 const resizeObserver = new ResizeObserver(e => {
-    // console.log("E: ", e);
-    // console.log("target: ", e[0].target);
+    console.log("E: ", e);
+    console.log("target: ", e[0].target);
     // console.log("target.parentElement.parentElement : ", e[0].target.parentElement.parentElement);
     // console.log("Content Reactangle: ", e[0].contentRect);
-    if (e[0].contentRect.height > 172) {
-        e[0].target.parentElement.parentElement.style.height = `fit-content`;
+    try {
+        if (e[0].contentRect.height > 172) {
+            e[0].target.parentElement.parentElement.style.height = `fit-content`;
+        }
+        // if (e[0].target.classList[1] === "icon-content-block") {
+        //     e[0].target.parentElement.parentElement.style.height = '8em';
+        // }
+
+        // icon-content-block
+    } catch (err) {
+        console.log(err);
     }
+
 });
+
+
+// HELPING FUNCTIONS 16
+const createSocialIcons = (pvIcons, socialFbHyperlink, socialTwitterHyperlink, socialInstagramHyperlink) => {
+    const iconLinkList = [socialFbHyperlink, socialTwitterHyperlink, socialInstagramHyperlink];
+    const srcList = new Array("./icon/facebook.png", "./icon/twitter.png", "./icon/instagram.png");
+    for (let i = 0; i < 3; i++) {
+        const pvFbLink = document.createElement('a');
+        setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${iconLinkList[i]}` });
+        const pvFbIconImg = document.createElement('img');
+        setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": `${srcList[i]}` });
+        pvFbLink.appendChild(pvFbIconImg);
+        pvIcons.appendChild(pvFbLink);
+    }
+    /*
+    const pvFbLink = document.createElement('a');
+    setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${socialFbHyperlink}` });
+    const pvFbIconImg = document.createElement('img');
+    setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "./icon/facebook.png" });
+    pvFbLink.appendChild(pvFbIconImg);
+    pvIcons.appendChild(pvFbLink);
+
+    const pvTwiterLink = document.createElement('a');
+    setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `${socialTwitterHyperlink}` });
+    const pvTwitterIconImg = document.createElement('img');
+    setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "./icon/twitter.png" });
+    pvTwiterLink.appendChild(pvTwitterIconImg);
+    pvIcons.appendChild(pvTwiterLink);
+
+
+    const pvInstaLink = document.createElement('a');
+    setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `${socialInstagramHyperlink}` });
+    const pvInstaIconImg = document.createElement('img');
+    setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "./icon/instagram.png" });
+    pvInstaLink.appendChild(pvInstaIconImg);
+    pvIcons.appendChild(pvInstaLink);
+    */
+    return pvIcons;
+}
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -540,6 +589,7 @@ function blockDragAndDrop() {
     let columnNumber;
     let blockElement = null;
 
+    // DRAGSTART - SET VARIABLE TO BE SURE WHICH ELEMENT IS DRAGGING 
     contentBlockCol.forEach((blockCol, index) => {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
@@ -574,12 +624,36 @@ function blockDragAndDrop() {
     document.addEventListener('dragover', e => {
         // console.log(e.target);
         // e.preventDefault();
-        if (e.target.className === "two-column-div" || e.target.className === "three-column-div" || e.target.className === "three-column-div") {
+
+    });
+    document.addEventListener("dragenter", function (e) {
+        // highlight potential drop target when the draggable element enters it
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
             e.target.style.backgroundColor = "rgb(122, 166, 206)";
         }
-    });
+
+    }, false);
+
+    document.addEventListener("dragleave", function (e) {
+        // reset background of potential drop target when the draggable element leaves it
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "#e6f2ff";
+        }
+
+    }, false);
     document.addEventListener('drop', (e) => {
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "#e6f2ff";
+        }
+        // if (e.target.parentElement.childNodes !== undefined) {
+        //     console.log(e.target.parentElement.childNode);
+        //     e.target.parentElement.childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff");
+        // }
+        // document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
+
 
         // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
         if (e.toElement.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
@@ -594,7 +668,6 @@ function blockDragAndDrop() {
                 } else {
                     // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
                     if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div" || dropInsideImgTxt == "img-content-block" || dropInsideImgTxt == "txt-content-block") {
-                        document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
 
                         // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
                         if (dropableBlock === "img-holder") {
@@ -704,17 +777,40 @@ function blockDragAndDrop() {
                             }
 
                         } else if (dropableBlock === "social-holder") {
-                            // The Social Media Icons can only be dragged to a one - column or a two - column layout
-                            if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
-                                rowNumber = convertRowIdToNumber(e.path[1].id);
-                                columnNumber = convertColIdToNumber(e.toElement.id);
-                                // CREATING THREE SOCIAL ICON 
-                                iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
-                                e.toElement.innerHTML = (iconBlockElement);
-                                blockElement = dropableBlock;
-                                positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: iconBlockElement, socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
+                            if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
+                                if (e.target.children[0].classList[1] === "icon-content-block" || e.target.classList[1] === "icon-content-block") {
+                                    // console.log("E: don't add ", e.target.children[0].classList[1]);
+                                    alert("You can't add multiple social icon block in a column");
+                                }
                             } else {
-                                alert("Social icon can't drop into three column!");
+                                // The Social Media Icons can only be dragged to a one - column or a two - column layout
+                                if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
+                                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    // CREATING THREE SOCIAL ICON 
+                                    // iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
+                                    // iconBlockElement = `<div  >Social<div />`;
+                                    // const newEl = document.createElement("div");
+                                    // newEl.textContent = "Social";
+                                    // e.toElement.innerHTML = iconBlockElement;
+                                    // const newEl = stringToNodes(iconBlockElement);
+                                    // e.toElement.appendChild(newEl);
+                                    const iconContainer = document.createElement("div");
+                                    setAttributes(iconContainer, { "id": `icon-${rowNumber}-${columnNumber}` });
+                                    iconContainer.className = "content icon-content-block";
+                                    const iconHolder = createSocialIcons(iconContainer, iconLink, iconLink, iconLink);
+                                    e.toElement.appendChild(iconHolder);
+                                    // console.log(e.toElement);
+                                    // CHANGING HEIGHT OF ROW 
+                                    if (dropableColumn === "one-column-div") e.target.parentElement.style.height = "8em";
+
+
+                                    // console.log(pvIcons);
+                                    blockElement = dropableBlock;
+                                    positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: "<div>social</div>", socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
+                                } else {
+                                    alert("Social icon can't drop into three column!");
+                                }
                             }
                         } else {
                             console.log('Not creating CONTENT element');
@@ -741,7 +837,6 @@ function rightBarElementShowHide() {
         let idString = null;
         // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
         if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-            console.log(e.target);
             templateSelected = false;
             if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
                 if (e.toElement.className === 'social-icon-img') {
@@ -753,12 +848,11 @@ function rightBarElementShowHide() {
             } else {
                 idString = e.toElement.id.toString();
             }
-            console.log("ID: ", idString);
             let findRowCol = idString.split('-');
             selectedRow = parseInt(findRowCol[1]);
             selectedCol = parseInt(findRowCol[2]);
-            const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-            resizeObserver.observe(selectedTextContent);
+
+
 
 
             propertiesBar.style.display = 'block';
@@ -768,6 +862,8 @@ function rightBarElementShowHide() {
                 imgProps.style.display = 'block';
                 // txt-content-block
             } else if (e.toElement.classList[1] === "txt-content-block") {
+                const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+                resizeObserver.observe(selectedTextContent);
                 allProperties.forEach(ap => { ap.style.display = 'none' });
                 txtProps.style.display = 'block';
             } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
@@ -1135,7 +1231,11 @@ function backendAndDataBase() {
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        // console.log(siblingButtonList);
+        console.log("Sibling Button: ", siblingButtonList);
+        console.log("Row list: ", rowList);
+        console.log("Elements: ", positionElement);
+
+
         const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
         console.log(selectedTextContent);
         // FOR CHANGING TEXT CONTENT 
@@ -1163,10 +1263,8 @@ function backendAndDataBase() {
 
 
         // inputTitle.nodeValue = title;
-        console.log("Row list: ", rowList);
         // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
 
-        // console.log(positionElement);
 
 
 

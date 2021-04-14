@@ -11,6 +11,10 @@
             /* height: unset; */
             min-height: fit-content;
         }
+
+        .content-holder {
+            content: "Some content";
+        }
     </style>
 </head>
 
@@ -18,6 +22,16 @@
     <div class="elem-1" id="prev-e">
         <div id="prev-e-child">Child element</div>
     </div>
+    <div class="content-holder" id="ch"></div>
+    <script>
+        const contentHolder = document.getElementById('ch');
+        const innerElement = `<div> This is a div, 
+            <p>This is p tag</p> 
+            <br> 
+            <ul><ol>List one</ol><ol>List two</ol><ol>List three</ol></ul>
+            </div>`;
+        contentHolder.innerHTML = innerElement;
+    </script>
 </body>
 
 </html>

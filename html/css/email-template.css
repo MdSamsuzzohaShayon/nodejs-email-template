@@ -149,6 +149,8 @@
   outline: none;
 }
 .drop-wrapper .drop-row .icon-content-block {
+  margin-top: 4%;
+  margin-left: 0;
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -407,7 +409,7 @@
     height: 35em;
   }
   .template-wrapper .drop-wrapper .drop-row {
-    height: 8em;
+    min-height: 8em;
     padding: 5px 0;
   }
 }
