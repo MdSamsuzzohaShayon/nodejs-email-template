@@ -1046,7 +1046,7 @@ function rightBarProps() {
                         alignBtn = "right";
                         break;
                     case "btn-align-center":
-                        alignBtn = "none";
+                        alignBtn = "inherit";
                         // cngBtn.style.float = `inherit`;
                         // cngBtn.style.position = `relative`;
                         // cngBtn.style.marginLeft = `50%`;
