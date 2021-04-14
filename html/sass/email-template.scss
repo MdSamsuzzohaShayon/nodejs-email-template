@@ -69,7 +69,7 @@
     }
 
     .btn{
-        @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem);
+        @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 5px);
         // @include btn_general($f-color, $t-color);
     }
 }
@@ -130,28 +130,42 @@
         overflow: hidden;
         .one-column-div{
             @include drop_column(100%);
+            text-align: center;
             .btn-content-block{
-                width: 15%;
+                // width: 15%;
                 float: left;
-                margin-left: 2%;
+                // margin-left: 2%;
+            }
+            .txt-content-block{
+                text-align: left;
             }
         }
         
         .two-column-div {
             @include drop_column(50%);
+            text-align: center;
             .btn-content-block{
-                width: 30%;
+                // width: 30%;
                 float: right;
-                margin-right: 5%;
+                // margin-right: 5%;
+            }
+            .txt-content-block{
+                text-align: left;
             }
         }
         .three-column-div{
             @include drop_column(33.99%);
+            text-align: center;
+            margin-left: 0;
             .btn-content-block{
-                width: 35%;
-                ::before{
-                    text-align: center;
-                }
+                // width: 35%;
+                // text-align: center;
+                // ::before{
+                //     text-align: center;
+                // }
+            }
+            .txt-content-block{
+                text-align: left;
             }
         }
         
@@ -163,6 +177,7 @@
         }
         // THIS SHOULD BE SET BY JS 
         .img-content-block{
+            display: block;
             width:70%;
             height: 70%;
             margin-left: 15%;
@@ -172,6 +187,9 @@
         .txt-content-block{
             padding: 2% 0;
             outline: none;
+        }
+        .btn-content-block{
+            margin: 4%;
         }
 
         
@@ -198,8 +216,8 @@
         
         .btn-content-block{
             text-align: center;
-            @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem);
-
+            width: fit-content;
+            @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 3%);
         }                              
         
     }
@@ -332,7 +350,7 @@
                 margin-top: 3%;
             }
             input[type="file"]::-webkit-file-upload-button{
-                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem);
+                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem, 5px);
             }
         }
 
@@ -374,7 +392,7 @@
             }
             input[type="file"]::-webkit-file-upload-button{
                 // @include btn_general($t-color, $p-color);
-                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem);
+                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem, 5px);
             }
         
             img{
@@ -385,8 +403,9 @@
 
         .btn-icon{
             margin: 10px 0;
-            @include btn_general($t-color, $p-color, 3px, 20px, 1.5rem);
+            @include btn_general($t-color, $p-color, 3px, 20px, 1.5rem, 5px);
             margin-left: 0;
+            cursor: pointer;
         }
 
         select{
@@ -456,7 +475,7 @@ $breakpoint-sm-laptop: 1080px;
             font-size: 0.7rem;    
         }
         .btn{
-            @include btn_general($f-color, $t-color, 0.5rem, 0.9rem, 0.5rem);
+            @include btn_general($f-color, $t-color, 0.5rem, 0.9rem, 0.5rem, 5px);
             // @include btn_general($f-color, $t-color);
         }
     }
@@ -499,7 +518,7 @@ $breakpoint-sm-laptop: 1080px;
         }
 
         .btn{
-            @include btn_general($f-color, $t-color, 0.3rem, 0.5rem, 0.6rem);
+            @include btn_general($f-color, $t-color, 0.3rem, 0.5rem, 0.6rem, 3px);
         }
     }
 

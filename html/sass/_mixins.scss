@@ -29,10 +29,10 @@
     border-right: 1px solid $s-color; 
 }
 
-@mixin btn_general($clr, $bgClr, $py, $px, $fz){
+@mixin btn_general($clr, $bgClr, $py, $px, $fz, $ml){
     font-size: $fz;
     padding: $py $px;
-    margin-left: 5px;
+    margin-left: $ml;
     border: none;
     outline: none;
     color: $clr;
