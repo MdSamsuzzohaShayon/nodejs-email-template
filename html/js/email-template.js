@@ -412,6 +412,16 @@ const createSocialIcons = (pvIcons, socialFbHyperlink, socialTwitterHyperlink, s
     */
     return pvIcons;
 }
+// HELPING FUNCTION 17
+function replaceAt(str, index, newChar) {
+    function replacer(origChar, strIndex) {
+        if (strIndex === index)
+            return newChar;
+        else
+            return origChar;
+    }
+    return str.replace(/./g, replacer);
+}
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -839,79 +849,83 @@ function blockDragAndDrop() {
 // MAIN FUNCTION 3
 function rightBarElementShowHide() {
     document.addEventListener('click', e => {
-        let idString = null;
-        // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
-        if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-            templateSelected = false;
-            if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-                if (e.toElement.className === 'social-icon-img') {
-                    idString = e.toElement.parentElement.parentElement.id;
+        try {
+            let idString = null;
+            // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
+            if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                templateSelected = false;
+                if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                    if (e.toElement.className === 'social-icon-img') {
+                        idString = e.toElement.parentElement.parentElement.id;
+                    }
+                    if (e.toElement.className === 'social-icon-content') {
+                        idString = e.toElement.parentElement.id;
+                    }
+                } else {
+                    idString = e.toElement.id.toString();
                 }
-                if (e.toElement.className === 'social-icon-content') {
-                    idString = e.toElement.parentElement.id;
+                let findRowCol = idString.split('-');
+                selectedRow = parseInt(findRowCol[1]);
+                selectedCol = parseInt(findRowCol[2]);
+
+
+
+
+                propertiesBar.style.display = 'block';
+                blockElementBar.style.display = 'none';
+                if (e.toElement.classList[1] === "img-content-block") {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    imgProps.style.display = 'block';
+                    // txt-content-block
+                } else if (e.toElement.classList[1] === "txt-content-block") {
+                    const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+                    resizeObserver.observe(selectedTextContent);
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    txtProps.style.display = 'block';
+                } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    socialProps.style.display = 'block';
+                } else if (e.toElement.classList[1] === "btn-content-block") {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    btnProps.style.display = 'block';
+                } else {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
                 }
-            } else {
-                idString = e.toElement.id.toString();
             }
-            let findRowCol = idString.split('-');
-            selectedRow = parseInt(findRowCol[1]);
-            selectedCol = parseInt(findRowCol[2]);
 
-
-
-
-            propertiesBar.style.display = 'block';
-            blockElementBar.style.display = 'none';
-            if (e.toElement.classList[1] === "img-content-block") {
+            // IF SOMEONE CLICK ON SPACE HE WILL BE ABLE TO CHANGE SPACE PROPS 
+            if (e.toElement.classList[1] === "space-row-grid") {
+                propertiesBar.style.display = 'block';
+                blockElementBar.style.display = 'none';
                 allProperties.forEach(ap => { ap.style.display = 'none' });
-                imgProps.style.display = 'block';
-                // txt-content-block
-            } else if (e.toElement.classList[1] === "txt-content-block") {
-                const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-                resizeObserver.observe(selectedTextContent);
-                allProperties.forEach(ap => { ap.style.display = 'none' });
-                txtProps.style.display = 'block';
-            } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
-                socialProps.style.display = 'block';
-            } else if (e.toElement.classList[1] === "btn-content-block") {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
-                btnProps.style.display = 'block';
-            } else {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
+                spxProps.style.display = 'block';
+                selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
             }
-        }
 
-        // IF SOMEONE CLICK ON SPACE HE WILL BE ABLE TO CHANGE SPACE PROPS 
-        if (e.toElement.classList[1] === "space-row-grid") {
-            propertiesBar.style.display = 'block';
-            blockElementBar.style.display = 'none';
-            allProperties.forEach(ap => { ap.style.display = 'none' });
-            spxProps.style.display = 'block';
-            selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
-        }
+            // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
+            if (e.target.parentElement.className === 'drop-row') {
+                propertiesBar.style.display = 'block';
+                blockElementBar.style.display = 'none';
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                rowProps.style.display = 'block';
+                // if (e.target.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.id, 1);
+                // if (e.target.parentElement.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                // console.log(selectedRow);
+            }
 
-        // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
-        if (e.target.parentElement.className === 'drop-row') {
-            propertiesBar.style.display = 'block';
-            blockElementBar.style.display = 'none';
-            allProperties.forEach(ap => { ap.style.display = 'none' });
-            rowProps.style.display = 'block';
-            // if (e.target.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.id, 1);
-            // if (e.target.parentElement.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
-            selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
-            console.log(selectedRow);
-        }
-
-        // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
-        if (e.target.className === 'template-wrapper' || e.target.className === 'header-image' || e.target.classList[0] === 'col') {
-            templateSelected = true;
-            allProperties.forEach(ap => { ap.style.display = 'none' });
-            propertiesBar.style.display = 'none';
-            blockElementBar.style.display = 'block';
-            selectedAfterRow = null;
-            selectedRow = null;
-            selectedCol = null;
+            // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
+            if (e.target.className === 'template-wrapper' || e.target.className === 'header-image' || e.target.classList[0] === 'col') {
+                templateSelected = true;
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                propertiesBar.style.display = 'none';
+                blockElementBar.style.display = 'block';
+                selectedAfterRow = null;
+                selectedRow = null;
+                selectedCol = null;
+            }
+        } catch (err) {
+            console.log(err);
         }
     });
 
@@ -1090,25 +1104,58 @@ function rightBarProps() {
 
 
 
+    // SUB FUNCTION 6
     // NEED TO CHANGE DB PROPERTIES OF SIBLING BUTTON 
     function rowUpDownDelete() {
+
+
         // DELETE AN ROW 
         rowDelete.addEventListener('click', e => {
             const selectedRowElement = document.getElementById('row-' + selectedRow);
             const allNextEl = getNextAllElement(selectedRowElement);
             const allRowEl = document.querySelectorAll('.drop-row');
             try {
+
+                // DELETE FROM DOW LIST 
                 const rowIdx = rowList.findIndex(rl => rl.rowID === selectedRow);
                 rowList.splice(rowIdx, 1);
                 // UPDATING DATABASE 
                 rowList.forEach((rl, i) => {
                     if (rl.rowID > rowIdx) {
                         if (rl.rowID > 1) {
-                            rl.rowID = rl.rowID - 1;
+                            rl.rowID--;
                         }
                         // CHANGE THE ID OF NEXT SIBLINGS 
                     }
                 });
+
+
+
+                positionElement = positionElement.filter((pEl, elIdx, arr) => pEl.rowNumber !== selectedRow);
+                // console.log("Element index: ", elementIndex);
+                // positionElement.splice(elementIndex);
+                // console.log("position element Before row change: ", positionElement);
+                // let afterSelectedRow = selectedRow + 1;
+                positionElement.forEach((pEl, pIdx) => { if (pEl.rowNumber > selectedRow) { pEl.rowNumber--; } });
+
+
+                // WORK WITH BUTTONS
+                siblingButtonList = siblingButtonList.filter((sBL, sIdx) => sBL.rowNum !== selectedRow);
+                siblingButtonList.forEach((sEl, sIdx) => { if (sEl.rowNum > selectedRow) { sEl.rowNum--; } });
+                // console.log("------- 🤔 🤭 🤫 🤥 😶 😐 😑-------------");
+                // console.log("Row List After: ", positionElement);
+                // console.log("position element After: ", positionElement);
+                // console.log("Sibling Button After: ", siblingButtonList);
+
+
+
+
+                // SETTING ATTRIBUTES - CLASS NAME AND IDES 
+
+
+
+
+
                 selectedRowElement.remove();
 
                 // SETTING ROW ID DYNAMICALLY 
@@ -1117,9 +1164,34 @@ function rightBarProps() {
                 let i = 0;
                 while (i < allNextEl.length) {
                     allNextEl[i].setAttribute('id', `row-${idNum}`);
+                    // CHANGE ALL CHILD ELEMENT ID AND CLASS 
+                    if (allNextEl[i].hasChildNodes()) {
+                        // console.log("Has Child Nodes: ", allNextEl[i].childNodes);
+                        allNextEl[i].childNodes.forEach((ncEl, ncIdx) => {
+                            if (ncEl.hasChildNodes()) {
+                                ncEl.childNodes.forEach((nccEl, nccIdx) => {
+                                    // console.log("looping nodes: ", nccEl);
+                                    if (nccEl.classList[1] === "icon-content-block") {
+                                        // index 4 should be change
+                                        // nccEl.id = `txt-${idNum}-${}`;
+                                        // const rowIndex = nccEl.id.toString().substring(4, 5);
+                                        nccEl.id = replaceAt(nccEl.id, 5, idNum);
+                                    } else {
+                                        nccEl.id = replaceAt(nccEl.id, 4, idNum);   // replace a charecter of index 4
+                                    }
+                                });
+                            }
+                        });
+                    }
                     idNum++;
                     i++
                 }
+
+
+
+                propertiesBar.style.display = 'none';
+                blockElementBar.style.display = 'block';
+
             } catch (err) {
                 console.log(err);
             }
@@ -1132,11 +1204,13 @@ function rightBarProps() {
         // ROW MOVE UP 
         rowMoveUp.addEventListener('click', (e) => {
             const selectedRowElement = document.getElementById(`row-${selectedRow}`);
+            // console.log("Selected Row: ", selectedRowElement);
             // CHECK IF THE SELECTED ELEMENT IS FIRST ELEMENT OR LAST ELEMENT 
             if (dropColumnZone.firstChild.id === selectedRowElement.id) {
                 alert("First row can't be move up")
             } else {
                 try {
+
                     if (selectedRowElement.previousSibling.classList[0] === 'space') {
                         // THIS IS FOR SKIPPING SPACE 
                         dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.previousSibling.previousSibling);
@@ -1148,39 +1222,133 @@ function rightBarProps() {
                         selectedRowElement.setAttribute('id', `row-${selectedRow - 1}`);
                         selectedRowElement.nextSibling.setAttribute('id', `row-${selectedRow}`);
                     }
-                    // CHANGING ID 
+
+
+                    // CHANGING ID OF CHILDS 
                     if (selectedRowElement.hasChildNodes()) {
+
+                        let selectedColNum = 1;
+                        let nextColNum = 1;
+                        selectedRowElement.childNodes.forEach((acn, acnIdx) => {
+                            // console.log("All child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    // let currentRowId = stringIdToIdNum(acocn.id, 1);
+                                    // let currentColId = stringIdToIdNum(acocn.id, 2);
+                                    // let currentElementId = stringIdToIdNum(acocn.id, 0);
+                                    // console.log("Current Row: " + currentRowId + "Current Col: " + currentColId + "Current Element: " + currentElementId);
+                                    // console.log("All child of child: ", acocn);
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) - 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+                        selectedRowElement.nextSibling.childNodes.forEach((acn, acnIdx) => {
+                            console.log("All child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    // let currentRowId = stringIdToIdNum(acocn.id, 1);
+                                    // let currentColId = stringIdToIdNum(acocn.id, 2);
+                                    // let currentElementId = stringIdToIdNum(acocn.id, 0);
+                                    // console.log(currentElementId);
+                                    // console.log("Next Row: " + currentRowId + "Next Col: " + currentColId + "Next Element: " + currentElementId);
+
+                                    // console.log("All child of child: ", acocn);
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) + 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+                        /*
                         let i = 0;
                         let colNum = 1;
+
                         while (selectedRowElement.children.length > i) {
                             if (selectedRowElement.children[i].hasChildNodes()) {
+                                console.log("All child nodes", selectedRowElement.childNodes);
                                 selectedRowElement.children[i].childNodes.forEach((be, idx) => {
                                     let contentId = be.id.toString().substring(0, 3);
                                     if (contentId === 'ico') contentId = 'icon';
                                     be.setAttribute('id', `${contentId}-${selectedRow - 1}-${colNum}`);
+                                    // console.log("Element: ", be);
+                                    // console.log("be Selected Row is: ", selectedRow);
                                 });
+
+                                // SOME PROBLEM IN HERE 
+                                console.log("All next child nodes", selectedRowElement.nextSibling.childNodes);
                                 selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
                                     let contentId = nbe.id.toString().substring(0, 3);
                                     if (contentId === 'ico') contentId = 'icon';
-                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);
+                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);    // SOME PROBLEM IN HERE
+                                    // console.log("Next Element: ", be);
+                                    // console.log("nBe Selected Row is: ", selectedRow);
                                 });
                                 colNum++;
                                 i++;
                             }
                         }
+                        */
                     }
+
+
+
+
+                    // WORKING WITH DATABASE 
+                    let previousRow = selectedRow - 1;
+                    positionElement.forEach((pEl, index) => {
+                        if (pEl.rowNumber === previousRow) {
+                            pEl.rowNumber = `${selectedRow}`.toString();
+                        } else if (pEl.rowNumber === selectedRow) {
+                            // console.log('match');
+                            pEl.rowNumber = `${previousRow}`.toString();
+                        }
+                        pEl.rowNumber = parseInt(pEl.rowNumber);
+                    });
+                    // const previousElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === previousRow);
+                    // const currentElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === selectedRow);
+
+
+                    siblingButtonList.forEach((bEl, blIdx) => {
+                        if (bEl.rowNum === previousRow) {
+                            bEl.rowNum = `${selectedRow}`.toString();
+                        } else if (bEl.rowNum === selectedRow) {
+                            bEl.rowNum = `${previousRow}`.toString();
+                        }
+                        bEl.rowNum = parseInt(bEl.rowNum);
+                    });
+
+                    rowList.forEach((rl, rlIdx) => {
+                        // console.log("Boolean: ", rl.hasOwnProperty("afterRow"));
+                        if (!rl.hasOwnProperty("afterRow")) {
+                            if (rl.rowID === previousRow) {
+                                rl.rowID = `${selectedRow}`.toString();
+                            } else if (rl.rowID === selectedRow) {
+                                rl.rowID = `${previousRow}`.toString();
+                            }
+                            rl.rowID = parseInt(rl.rowID);
+                        } else {
+                            if (rl.afterRow === previousRow) {
+                                rl.afterRow++;
+                            }
+                        }
+                    });
+
+                    // console.log("Move Down - \nRow List: ", rowList, "\nSibling Button: ", siblingButtonList, "\nPosition Element: ", positionElement);
+
+
+
+                    propertiesBar.style.display = 'none';
+                    blockElementBar.style.display = 'block';
+
                 } catch (err) {
                     console.log(err);
                 }
-                let previousRow = selectedRow - 1;
-                positionElement.forEach((pl, index) => {
-                    if (pl.rowNumber === previousRow) {
-                        positionElement[index].rowNumber = selectedRow;
-                    } else if (pl.rowNumber === selectedRow) {
-                        console.log('match');
-                        positionElement[index].rowNumber = selectedRow - 1;
-                    }
-                });
+
+
             }
         });
 
@@ -1191,29 +1359,106 @@ function rightBarProps() {
                 alert("Last row can't be move down")
             } else {
                 try {
-                    console.log(selectedRowElement.id);
+
                     if (selectedRowElement.nextSibling.classList[0] === 'space') {
-                        selectedRowElement.nextSibling.nextSibling.after(selectedRowElement);
+                        // console.log("selectedRowElement.nextSibling.nextSibling: ", selectedRowElement.nextSibling.nextSibling);
+                        // THIS IS FOR SKIPPING SPACE 
+                        // dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.nextSibling.nextSibling);
+                        selectedRowElement.nextSibling.nextSibling.after(selectedRowElement)
                     } else {
+                        // console.log("selectedRowElement.nextSibling: ", selectedRowElement.nextSibling);
+                        // THERE IS NO SPACE IN NEXT SIBLING 
+                        // dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.nextSibling);
                         selectedRowElement.nextSibling.after(selectedRowElement);
                     }
-                    if (selectedRowElement.id !== dropColumnZone.lastChild.id) {
-                        console.log("Selected id: ", selectedRow);
-                        selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
-                        console.log("prev element: ", selectedRowElement.previousSibling);
-                        selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+
+
+                    console.log("Last child: ", dropColumnZone.lastChild);
+                    selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
+                    selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+
+
+
+                    // CHANGING ID OF CHILDS 
+                    if (selectedRowElement.hasChildNodes()) {
+                        selectedRowElement.childNodes.forEach((acn, acnIdx) => {
+                            // console.log("All child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) + 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+                        selectedRowElement.previousSibling.childNodes.forEach((acn, acnIdx) => {
+                            // console.log("All Previous child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) - 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+
                     }
+
+                    // CHANGE ID OF SPACE DIV 
+
+
+
+
+                    // WORKING WITH DATABASE 
+                    let nextRow = selectedRow + 1;
+                    positionElement.forEach((pEl, index) => {
+                        if (pEl.rowNumber === nextRow) {
+                            pEl.rowNumber = `${selectedRow}`.toString();
+                        } else if (pEl.rowNumber === selectedRow) {
+                            // console.log('match');
+                            pEl.rowNumber = `${nextRow}`.toString();
+                        }
+                        pEl.rowNumber = parseInt(pEl.rowNumber);
+                    });
+                    // const previousElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === nextRow);
+                    // const currentElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === selectedRow);
+
+
+                    siblingButtonList.forEach((bEl, blIdx) => {
+                        if (bEl.rowNum === nextRow) {
+                            bEl.rowNum = `${selectedRow}`.toString();
+                        } else if (bEl.rowNum === selectedRow) {
+                            bEl.rowNum = `${nextRow}`.toString();
+                        }
+                        bEl.rowNum = parseInt(bEl.rowNum);
+                    });
+
+                    rowList.forEach((rl, rlIdx) => {
+                        // console.log("Boolean: ", rl.hasOwnProperty("afterRow"));
+                        if (!rl.hasOwnProperty("afterRow")) {
+                            if (rl.rowID === nextRow) {
+                                rl.rowID = `${selectedRow}`.toString();
+                            } else if (rl.rowID === selectedRow) {
+                                rl.rowID = `${nextRow}`.toString();
+                            }
+                            rl.rowID = parseInt(rl.rowID);
+                        } else {
+                            if (rl.afterRow === nextRow) {
+                                rl.afterRow--;
+                            }
+                        }
+                    });
+                    // console.log("Move Down - \nRow List: ", rowList, "\nSibling Button: ", siblingButtonList, "\nPosition Element: ", positionElement);
+
+
+
+                    propertiesBar.style.display = 'none';
+                    blockElementBar.style.display = 'block';
                 } catch (err) {
                     console.log(err);
                 }
-                let nextRow = selectedRow + 1;
-                positionElement.forEach((pl, index) => {
-                    if (pl.rowNumber === nextRow) {
-                        positionElement[index].rowNumber = selectedRow;
-                    } else if (pl.rowNumber === selectedRow) {
-                        positionElement[index].rowNumber = selectedRow + 1;
-                    }
-                });
             }
         });
     }
@@ -1258,65 +1503,69 @@ function backendAndDataBase() {
         console.log("Elements: ", positionElement);
 
 
-        const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-        console.log(selectedTextContent);
-        // FOR CHANGING TEXT CONTENT 
-        await positionElement.forEach(pEl => {
-            if (pEl.blockElement.name === "txtBlockContent") {
-                // console.log(pEl.rowNumber);
-                pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
-            }
-        });
-
-        // CHANGING TITLE 
-        await formData.append("title", inputTitle.value);
-        await formData.append('bgColor', templateBGColorInput.value);
-        await formData.append('linkColor', templateLinkColorInput.value);
-
-
-        // // const positionObj = await new Map(positionElement);
-        // // const newPositionObject = await Object.fromEntries(positionObj);
-        // // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
-
-        await formData.append('layout', JSON.stringify(rowList));
-        await formData.append('element', JSON.stringify(positionElement));
-        await formData.append('sibling', JSON.stringify(siblingButtonList));
-
-
-
-        // inputTitle.nodeValue = title;
-        // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
-
-
-
-
-
-        // JSON.stringify(positionElement, function replacer(key, value) { return value})    
-        // await formData.append('layout', JSON.stringify(rowList));
-        // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
-        // console.log(positionElement);
-
-
-
-        // //SUBMITTING DATATO THE SERVER 
-        /*
-        fetch(`${websiteDomain}/template/add`, {
-            method: "POST",
-            body: formData
-        })
-            .then(response => {
-                console.log(response.json());
-            })
-            .catch(err => {
-                console.log(err);
+        try {
+            const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+            console.log(selectedTextContent);
+            // FOR CHANGING TEXT CONTENT 
+            await positionElement.forEach(pEl => {
+                if (pEl.blockElement.name === "txtBlockContent") {
+                    // console.log(pEl.rowNumber);
+                    pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
+                }
             });
-        */
+
+            // CHANGING TITLE 
+            await formData.append("title", inputTitle.value);
+            await formData.append('bgColor', templateBGColorInput.value);
+            await formData.append('linkColor', templateLinkColorInput.value);
+
+
+            // // const positionObj = await new Map(positionElement);
+            // // const newPositionObject = await Object.fromEntries(positionObj);
+            // // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
+
+            await formData.append('layout', JSON.stringify(rowList));
+            await formData.append('element', JSON.stringify(positionElement));
+            await formData.append('sibling', JSON.stringify(siblingButtonList));
 
 
 
-        // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
-        submitted = true;
-        // window.location.replace(websiteDomain + "/template/preview");
+            // inputTitle.nodeValue = title;
+            // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
+
+
+
+
+
+            // DIDN'T WORK 
+            // JSON.stringify(positionElement, function replacer(key, value) { return value})    
+            // await formData.append('layout', JSON.stringify(rowList));
+            // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
+            // console.log(positionElement);
+
+
+
+
+            /*
+            // //SUBMITTING DATATO THE SERVER 
+            const response = await fetch(`${websiteDomain}/template/add`, {
+                method: "POST",
+                body: formData
+            });
+            console.log(response);
+            */
+
+
+
+            // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
+            submitted = true;
+            // window.location.replace(websiteDomain + "/template/preview");
+        } catch (err) {
+            console.log(err);
+        }
+
+
+
     });
 }
 

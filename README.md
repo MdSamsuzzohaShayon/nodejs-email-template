@@ -69,11 +69,11 @@
 
 ### STYLING INSTRUCTIONS 
  - MAKE IT RESPONSIVE
- - DEFAULT BUTTON ALIGNMENT
- - BUTTON ALIGNMENT IS NOT WORKING PROPERLY IS JS
+ - DEFAULT BUTTON ALIGNMENT ☑️
+ - BUTTON ALIGNMENT IS NOT WORKING PROPERLY IS JS ☑️
  - MAKE A BORDER FOR ALL ELEMENT ON HOVER  ☑️
  - DO SOME STYLING FOR TEXT EDITOR FONT WHICH HAS 1 TO 7 INDEX (FIND THE 1 MEANS HOW MUCH PX AND SET THE VALUE)
- - BUTTON POSITION SET 
+ - BUTTON POSITION SET ☑️
  - RESIZE ROW ACCORDING TO SOCIAL ICON  ☑️
 
 
@@ -85,22 +85,25 @@
  - social  icon props hide and show ☑️
  - space show and hide problem  ☑️
  - Image content ☑️
- - Bugs TypeError: Cannot read property 'classList' of undefined at HTMLDocument.<anonymous> (main.js:597)
+ - Bugs TypeError: Cannot read property 'classList' of undefined at HTMLDocument.<anonymous> (main.js:597) ☑️
  - When dragging row div with an block element and droping it, it's creating a duplicate of text content block ☑️
  - When deleting a row item from middle the attribute is is not setting properly ☑️
- - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑
+ - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑️
  - When droping space creating a extra block element col for database
- - Html is not saving in json field so We need to save in another row ☑
+ - Html is not saving in json field so We need to save in another row  ☑️
  - MySql problem fixing - run those query
  - When we check or uncheck any property it does't change
  
- - In preview element is not appending into the right column order 
- - Sibling button is not storing as json (storing as object) ☑
- - Problem with button opening in new tab
+ - In preview element is not appending into the right column order ☑️
+ - Sibling button is not storing as json (storing as object)  ☑️
+ - Problem with button opening in new tab - (text content has more problem)
  - Problem with button content, in 8 number template both button content are showing same  in row 3- this happen because we need to clean input value
- - Remove image html content from drop event and position element
- - Multiple content adding in one block- Prevent to add multiple content in same block 
- - Error with selecting text content by click
+ - Remove image html content from drop event and position element  ☑️
+ - Multiple content adding in one block- Prevent to add multiple content in same block ☑️
+ - Error with selecting text content by click - THIS IS EDITABLE CONTENT DEFAULT BEHAVIOUR
+ - When click any element it's setting the variable for selectedrow and col but for moving up and down second time selected element value won't be changed - we can display block from here
+ - all button element property is same in the array we need to change 
+ - Change button tag to a tags
 
     ```
     show variables like 'max_allowed_packet'
@@ -143,4 +146,10 @@
  - __https://stackoverflow.com/questions/6492683/how-to-detect-divs-dimension-changed__
  - __https://github.com/w3c/csswg-drafts/issues/3852__
 
-
+#### Array of ojects
+ - __https://stackoverflow.com/questions/3396088/how-do-i-remove-an-object-from-an-array-with-javascript__
+ - __https://stackoverflow.com/questions/30640771/i-want-to-replace-all-values-with-another-array-values-both-arrays-are-in-same__
+ - __https://stackoverflow.com/questions/9425009/remove-multiple-elements-from-array-in-javascript-jquery__
+ - __https://stackoverflow.com/questions/48269545/javascript-remove-multiple-values-of-array-of-objects/48269610__
+ - __https://stackoverflow.com/questions/4689856/how-to-change-value-of-object-which-is-inside-an-array-using-javascript-or-jquer__
+ - __https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find__

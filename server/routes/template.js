@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 
-
+// EDITOR VIEWS 
 router.get('/editor', (req, res, next) => {
     // conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     //     if (error) throw error;
@@ -37,7 +37,7 @@ function invalidToValidStr(invalidString) {
 
 
 
-
+// ADD A TEMPLATE TO DATABASE 
 router.post('/add', uploadFile, (req, res, next) => {
 
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
@@ -121,6 +121,8 @@ router.post('/add', uploadFile, (req, res, next) => {
 
 
 
+
+// EDIT A TEMPLATE 
 router.get('/edit/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
     // const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content FROM nodejs_story WHERE id=?`;
@@ -133,7 +135,10 @@ router.get('/edit/:id', (req, res, next) => {
     //     res.render('template-preview', { docs: result[0] });
     //     conn.end();
     // });
+    res.status(200).json({ "id": req.params.id });
 });
+
+
 
 
 
@@ -163,6 +168,14 @@ router.get('/preview/:id', (req, res, next) => {
         res.render('template/template-preview', { docs: result[0] });
         // conn.end();
     });
+});
+
+
+
+
+router.delete('/delete/:id', (req, res, next) => {
+    console.log("Delete request is called - ID: " + req.params.id);
+    res.redirect('/template');
 });
 
 

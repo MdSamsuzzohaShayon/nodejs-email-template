@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const logger = require('morgan');
 const expressLayouts = require('express-ejs-layouts');
+const methodOverride = require('method-override');
+const colors = require('colors');
 
 
 const conn = require('./config/mysql-config');
@@ -45,6 +47,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(methodOverride('_method'));
+// app.use()
+colors.setTheme({
+    info: 'bgGreen',
+    help: 'cyan',
+    warn: 'yellow',
+    success: 'bgBlue',
+    error: 'red'
+});
 
 
 app.use('/', indexRouter);

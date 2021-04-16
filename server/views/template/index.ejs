@@ -36,7 +36,9 @@
                             <%- template.title %>
                         </td>
                         <td>
-                            <a href="/template/delete/<%- template.id %>" class="btn del-btn">Delete</a>
+                            <form method="POST" action="/template/delete/<%- template.id %>?_method=DELETE">
+                                <button type="submit" class="btn del-btn">Delete ID</button>
+                            </form>
                             <a href="/template/preview/<%- template.id %>" class="btn pv-btn">Preview</a>
                             <a href="/template/edit/<%- template.id %>" class="btn edit-btn">Edit</a>
                         </td>
