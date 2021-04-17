@@ -140,6 +140,10 @@
   width: 96%;
   margin-left: 2%;
 }
+.drop-wrapper .drop-row a {
+  text-decoration: none;
+  font-size: 0.8rem;
+}
 .drop-wrapper .drop-row .img-content-block {
   display: block;
   width: 70%;

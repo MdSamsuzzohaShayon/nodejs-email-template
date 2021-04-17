@@ -104,6 +104,7 @@
  - When click any element it's setting the variable for selectedrow and col but for moving up and down second time selected element value won't be changed - we can display block from here
  - all button element property is same in the array we need to change 
  - Change button tag to a tags
+ - Dropping button is not working
 
     ```
     show variables like 'max_allowed_packet'
@@ -153,3 +154,6 @@
  - __https://stackoverflow.com/questions/48269545/javascript-remove-multiple-values-of-array-of-objects/48269610__
  - __https://stackoverflow.com/questions/4689856/how-to-change-value-of-object-which-is-inside-an-array-using-javascript-or-jquer__
  - __https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find__
+
+#### HTML CSS
+ - __https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox__

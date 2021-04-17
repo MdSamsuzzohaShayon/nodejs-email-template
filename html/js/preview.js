@@ -195,19 +195,18 @@ function previewDropZoneTemplate() {
 
 
                         // let pvOnClickEvent = window.open(`${pvCorrectHyperlink}`);
-                        if (sEl.btnOpenNewTab === true) {
-                            pvOnClickEvent = `${pvCorrectHyperlink}, _blink`;
-                        }
+                        let pvOnClickEvent = null;
+                        sEl.btnOpenNewTab === true ? pvOnClickEvent = `target="_blink"` : pvOnClickEvent = "";
 
 
-                        if (sEl.btnOpenNewTab == true) {
-                            // OPEN IN NEW TAB 
-                            pvBtnTab = "border-radius: 8px;";
-                        } else {
-                            pvBtnTab = ""
-                        }
+                        // if (sEl.btnOpenNewTab == true) {
+                        //     // OPEN IN NEW TAB 
+                        //     pvBtnTab = "border-radius: 8px;";
+                        // } else {
+                        //     pvBtnTab = ""
+                        // }
 
-                        const pvSiblingBtn = `<button calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</button>`;
+                        const pvSiblingBtn = `<a href="${pvCorrectHyperlink}" ${pvOnClickEvent} calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</a>`;
 
                         // const pvSiblingBtn = document.createElement('button');
                         // pvSiblingBtn.textContent = "Preview";
