@@ -147,6 +147,16 @@ if (currentPath === "preview") {
 
 
 
+
+
+// DYNAMIC STYLING START
+let increaseDZHeight = 200;
+// DYNAMIC STYLING ENDS 
+
+
+
+
+
 // EXTRA HELPING FUNCTIONS START
 // HELPING FUNCTION 2
 const imgUploadHandler = (imgFile, imgSrcUrl) => {
@@ -158,7 +168,7 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                 const reader = new FileReader();
                 reader.addEventListener('load', function (le) {
                     imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
-                    positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgUrl = "le.target.result"; } });
+                    positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { pl.blockElement.imgUrl = le.target.result; } });
                 });
                 reader.readAsDataURL(imgFile);
                 formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
@@ -341,6 +351,77 @@ const protocalValidate = (hyperlink) => {
     }
     return validatedLink;
 }
+
+
+// HELPING CLASS 
+const resizeObserver = new ResizeObserver(e => {
+    // console.log("E: ", e);
+    // console.log("target: ", e[0].target);
+    // console.log("target.parentElement.parentElement : ", e[0].target.parentElement.parentElement);
+    // console.log("Content Reactangle: ", e[0].contentRect);
+    try {
+        if (e[0].contentRect.height > 172) {
+            e[0].target.parentElement.parentElement.style.height = `fit-content`;
+        }
+        // if (e[0].target.classList[1] === "icon-content-block") {
+        //     e[0].target.parentElement.parentElement.style.height = '8em';
+        // }
+
+        // icon-content-block
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+
+// HELPING FUNCTIONS 16
+const createSocialIcons = (pvIcons, socialFbHyperlink, socialTwitterHyperlink, socialInstagramHyperlink) => {
+    const iconLinkList = [socialFbHyperlink, socialTwitterHyperlink, socialInstagramHyperlink];
+    const srcList = new Array("/icon/facebook.png", "/icon/twitter.png", "/icon/instagram.png");
+    for (let i = 0; i < 3; i++) {
+        const pvFbLink = document.createElement('a');
+        setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${iconLinkList[i]}` });
+        const pvFbIconImg = document.createElement('img');
+        setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": `${srcList[i]}` });
+        pvFbLink.appendChild(pvFbIconImg);
+        pvIcons.appendChild(pvFbLink);
+    }
+    /*
+    const pvFbLink = document.createElement('a');
+    setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${socialFbHyperlink}` });
+    const pvFbIconImg = document.createElement('img');
+    setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
+    pvFbLink.appendChild(pvFbIconImg);
+    pvIcons.appendChild(pvFbLink);
+
+    const pvTwiterLink = document.createElement('a');
+    setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `${socialTwitterHyperlink}` });
+    const pvTwitterIconImg = document.createElement('img');
+    setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
+    pvTwiterLink.appendChild(pvTwitterIconImg);
+    pvIcons.appendChild(pvTwiterLink);
+
+
+    const pvInstaLink = document.createElement('a');
+    setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `${socialInstagramHyperlink}` });
+    const pvInstaIconImg = document.createElement('img');
+    setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
+    pvInstaLink.appendChild(pvInstaIconImg);
+    pvIcons.appendChild(pvInstaLink);
+    */
+    return pvIcons;
+}
+// HELPING FUNCTION 17
+function replaceAt(str, index, newChar) {
+    function replacer(origChar, strIndex) {
+        if (strIndex === index)
+            return newChar;
+        else
+            return origChar;
+    }
+    return str.replace(/./g, replacer);
+}
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -405,14 +486,24 @@ function columnDragAndDrop() {
 
     // DROPZONE EVENTS START 
     dropColumnZone.addEventListener("dragover", function (e) {
+        // dropColumnZone
+        if (e.toElement.className === "drop-wrapper") {
+            e.toElement.classList.add('add-border'); // ADD BORDER
+        }
         e.preventDefault();
     }, false);
     dropColumnZone.addEventListener('drop', e => {
         let newDiv = document.createElement('div');
         // COLUMN ARE ONLY ABLE TO DROP INTO DROP ZONE (ID)
         if (e.toElement.id === 'drop-zone' && dropableColumn !== "space-row-grid") {
-            // PREVENT TO ADD MORE THAN 3 ROW 
-            if (rowList.length < 5) {
+            e.toElement.classList.remove('add-border'); // REMOVE BORDER
+            // PREVENT TO ADD MORE THAN 4 ROW 
+            if (rowID <= 5) {
+                // INCREASE HEIGHT OF WHOLE DROP ZONE 
+                if (rowList.length >= 2) {
+                    dropColumnZone.style.height = `${dropColumnZone.clientHeight + increaseDZHeight}px`;
+                }
+                // dropColumnZone.style.height = "100%"; // IN PREVIEW
                 if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid" || dropableColumn === "space-row-grid") {
                     setAttributes(newDiv, { "class": "drop-row", "id": `row-${rowID}` });
                     // ADD DEFFERENT TYPE OF STYLING FOR DEFFERENT TYPE OF COLUMN ELEMENT 
@@ -457,6 +548,8 @@ function columnDragAndDrop() {
                     // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
                     dropableColumn = null;
                 }
+            } else {
+                alert("You can't add more than 5 row");
             }
         } else {
             console.log("outside of drop zone");
@@ -506,6 +599,7 @@ function blockDragAndDrop() {
     let columnNumber;
     let blockElement = null;
 
+    // DRAGSTART - SET VARIABLE TO BE SURE WHICH ELEMENT IS DRAGGING 
     contentBlockCol.forEach((blockCol, index) => {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
@@ -538,115 +632,284 @@ function blockDragAndDrop() {
         });
     });
     document.addEventListener('dragover', e => {
-        // console.log(e.target);
+        // console.log("Drag over: ", e.target);
         e.preventDefault();
+
     });
+    document.addEventListener("dragenter", function (e) {
+        // highlight potential drop target when the draggable element enters it
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "rgb(122, 166, 206)";
+        }
+
+    }, false);
+
+    document.addEventListener("dragleave", function (e) {
+        // reset background of potential drop target when the draggable element leaves it
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "#e6f2ff";
+        }
+
+    }, false);
     document.addEventListener('drop', (e) => {
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "#e6f2ff";
+        }
+        // if (e.target.parentElement.childNodes !== undefined) {
+        //     console.log(e.target.parentElement.childNode);
+        //     e.target.parentElement.childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff");
+        // }
+        // document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
+
+
         // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
         if (e.toElement.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
             // console.log(e.toElement.id);
             let dropableColumn = e.target.className;
             let dropInsideImgTxt = e.target.classList[1];
-            try {
-                // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
-                if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div" || dropInsideImgTxt == "img-content-block" || dropInsideImgTxt == "txt-content-block") {
-                    // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
-                    if (dropableBlock === "img-holder") {
-                        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
-                            //VARIABLE
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-                            // CREATING IMAGE 
-                            let imgID = `"img-${rowNumber + '-' + columnNumber}"`;
-                            imageBlockElment = `<img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id=${imgID}>`;
-                            e.toElement.innerHTML = imageBlockElment;
-                            // DATABASE AND VARIABLE 
-                            blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: imageBlockElment, imgHyperlink: websiteDomain, imgNewTab: false } });
-                        }
-                    } else if (dropableBlock === "txt-holder") {
-                        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
-                            // CREATING REXT 
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-                            let txtBlockElement = null;
-                            const newBlockCol = document.createElement('div');
-                            setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
-                            newBlockCol.className = 'content txt-content-block';
-                            newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
-                            // CHANGING TEXT EVENT 
-                            newBlockCol.addEventListener('input', e => {
-                                txtBlockElement = e.target.outerHTML;
-                                positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
-                            });
-                            e.toElement.appendChild(newBlockCol);
-                            // THIS IS ONLY FOR DATABASE 
-                            text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
-                            txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
-                            blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement } });
-                        }
-                    } else if (dropableBlock === "btn-holder") {
-                        // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
-                        if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block" || e.toElement.children[0].classList[1] === "img-content-block" || e.toElement.children[0].classList[1] === "txt-content-block") {
-                            // INSERT A SIBLING AFTER 
-                            const newBlockCol = document.createElement('button');
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
+            // console.log(e.target.classList[1]); // txt-content-block
+            // console.log("Drop - E: ", e.target); // two-column-div
+            // console.log("Drop - E: ", e.target); // img-content-block
 
-                            function insertButtonElement(elementAfter) {
-                                if (e.target.parentElement.className === 'one-column-div' || dropableColumn === "one-column-div") {
-                                    // LEFT POSITION ELEMENT FROM HERE 
-                                    setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                    newBlockCol.className = "content btn-content-block";
-                                    newBlockCol.textContent = btnDefaultTxt;
-                                    elementAfter.after(newBlockCol)
-                                } else if (e.target.parentElement.className === 'two-column-div' || dropableColumn === "two-column-div") {
-                                    // RIGHT POSITION ELEMENT FROM HERE 
-                                    setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                    newBlockCol.textContent = btnDefaultTxt;
-                                    newBlockCol.className = "content btn-content-block";
-                                    elementAfter.after(newBlockCol)
-                                } else if (e.target.parentElement.className === 'three-column-div' || dropableColumn === "three-column-div") {
-                                    // CENTER POSITION ELEMENT FROM HERE  
-                                    setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                    newBlockCol.textContent = btnDefaultTxt;
-                                    newBlockCol.className = "content btn-content-block";
-                                    elementAfter.after(newBlockCol)
+
+
+            try {
+
+                // PREVENT TO ADD MORE THAN 2 BLOCK IN A ROW 
+                if (e.target.children.length >= 2) {
+                    alert("You can't add more than 2 content inside a row");
+                } else {
+                    // ONLY DROP WHEN DROPABLE ELEMENT IS COLUMN 
+                    if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div" || e.target.classList[1] == "img-content-block" || e.target.classList[1] == "txt-content-block") {
+
+                        // CHECK FOR WHICH COLUMN WE ARE DROPING THE BLOCK ELEMENT 
+                        if (dropableBlock === "img-holder") {
+                            if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
+                                // PREVENT TO DROP MULTIPLE IMG OR TXT BLOCK INTO ONE BLOCK 
+                                if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
+                                    if (e.target.children[0].classList[1] === "img-content-block" || e.target.classList[1] === "img-content-block") {
+                                        // console.log("E: don't add ", e.target.children[0].classList[1]);
+                                        alert("You can't add multiple image block in a column");
+                                    }
                                 } else {
-                                    console.log(e.target);
+                                    // console.log("Undefined- add element", e.target);
+                                    //VARIABLE
+                                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    // CREATING IMAGE 
+                                    let imgID = `"img-${rowNumber + '-' + columnNumber}"`;
+                                    imageBlockElment = `<a href="#" class="img-block-href"><img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id=${imgID}></a>`;
+                                    e.toElement.innerHTML = imageBlockElment;
+                                    // DATABASE AND VARIABLE 
+                                    blockElement = dropableBlock;
+                                    positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: "<a><img /></a>", imgHyperlink: websiteDomain, imgNewTab: false, imgUrl: '/img/empty-image.png' } });
                                 }
                             }
-                            if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block") {
-                                insertButtonElement(e.toElement);
-                            } else {
-                                insertButtonElement(e.toElement.childNodes[0]);
-                            }
-                            btnBlockElement = `<button class="content btn-content-block" id="btn-${rowNumber + '-' + columnNumber}" >${btnDefaultTxt}</button>`;
-                            siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
-                            // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
-                        } else {
-                            alert('this button is not dropable here');
-                        }
+                        } else if (dropableBlock === "txt-holder") {
+                            if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div" || dropableColumn === "three-column-div") {
+                                // PREVENT TO DROP MULTIPLE IMG OR TXT BLOCK INTO ONE BLOCK 
+                                if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
+                                    if (e.target.children[0].classList[1] === "txt-content-block" || e.target.classList[1] === "txt-content-block") {
+                                        // console.log("E: don't add ", e.target.children[0].classList[1]);
+                                        alert("You can't add multiple text block in a column");
+                                    }
+                                } else {
+                                    // CREATING REXT 
+                                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    let txtBlockElement = null;
+                                    const newBlockCol = document.createElement('div');
+                                    setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                    newBlockCol.className = 'content txt-content-block';
+                                    newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
+                                    // CHANGING TEXT EVENT 
+                                    newBlockCol.addEventListener('input', e => {
+                                        txtBlockElement = e.target.outerHTML;
+                                        positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
+                                    });
+                                    e.toElement.appendChild(newBlockCol);
+                                    // THIS IS ONLY FOR DATABASE 
+                                    text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
+                                    txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
+                                    blockElement = dropableBlock;
+                                    positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement } });
+                                }
 
-                    } else if (dropableBlock === "social-holder") {
-                        // The Social Media Icons can only be dragged to a one - column or a two - column layout
-                        if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
-                            rowNumber = convertRowIdToNumber(e.path[1].id);
-                            columnNumber = convertColIdToNumber(e.toElement.id);
-                            // CREATING THREE SOCIAL ICON 
-                            iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
-                            e.toElement.innerHTML = (iconBlockElement);
-                            blockElement = dropableBlock;
-                            positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: iconBlockElement, socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
+
+
+                            }
+
+
+
+
+
+                        } else if (dropableBlock === "btn-holder") {
+                            // console.log(e.target.hasChildNodes());
+                            // console.log("Drop - E: button holder ", e.target); // txt-content-block 
+                            // console.log("Drop - E: button holder ", e.target); // two-column-div // HAS CHILD NODES
+                            // console.log("Drop - E: button holder ", e.target); // img-content-block
+                            // console.log("Drop - E: button holder ", e.target); // img-content-block
+
+
+
+
+                            function insertButtonElement(getColID, getRowID) {
+                                // console.log(e);
+                                const newBlockCol = document.createElement('a');
+                                rowNumber = convertRowIdToNumber(getRowID);
+                                columnNumber = convertColIdToNumber(getColID);
+                                setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                newBlockCol.textContent = btnDefaultTxt;
+                                newBlockCol.className = "content btn-content-block";
+                                return newBlockCol;
+                            }
+
+                            // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
+                            if (e.toElement.classList[1] === "txt-content-block" || e.toElement.classList[1] === "img-content-block") {
+                                // console.log("Exact Nodes: ", e.target.parentElement); // img-content-block
+                                if (e.target.classList[1] === "txt-content-block") {
+
+                                    e.target.after(insertButtonElement(e.target.parentElement.id, e.target.parentElement.parentElement.id))
+                                }
+                                if (e.toElement.classList[1] === "img-content-block") {
+                                    // console.log("Img content ", e.target.parentElement.parentElement);
+                                    // console.log("Img content ", e.target);
+                                    e.target.parentElement.after(insertButtonElement(e.target.parentElement.parentElement.id, e.target.parentElement.parentElement.parentElement.id))
+                                }
+                                btnBlockElement = `<a >button</a>`;
+                                siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
+
+                                // e.target.parentElement.after(newBlockCol);
+                            } else {
+                                // console.log("Drop into the row: ", e.target.parentElement); // drop-row
+                                if (e.target.hasChildNodes()) {
+                                    // img-block-href // txt-content-block
+                                    if (e.target.childNodes[0].classList[1] === "txt-content-block" || e.target.childNodes[0].className === "img-block-href") {
+                                        // console.log("Has a child nodes", e.target.childNodes[0]);
+                                        e.target.appendChild(insertButtonElement(e.target.id, e.target.parentElement.id));
+                                        btnBlockElement = `<a >button</a>`;
+                                        siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
+                                    }
+                                    // if (e.target.childNodes[0].hasChildNodes()) {
+                                    //     console.log("Child of child Nodes: ", e.target.childNodes[0].classList[1]);
+                                    //     if (e.target.childNodes[0].childNodes[0].classList[1] === "img-content-block") {
+                                    //         e.target.appendChild(insertButtonElement(e.target.id, e.target.parentElement.id));
+                                    //     }
+                                    // } else {
+                                    //     console.log("Child Nodes: ", e.target.childNodes[0].classList[1]);
+
+                                    // }
+                                    // if (e.target.childNodes[0].hasChildNodes()) {
+                                    //     console.log("Child of child Nodes: ", e.target); // img-content-block
+                                    // } else {
+                                    //     console.log("Child Nodes: ", e.target); // img-content-block
+
+                                    // }
+                                } else {
+                                    alert("Add  a text or image block to add button");
+                                }
+
+                            }
+                            // console.log(`Row Num: ${rowNumber} \n Col Num: ${columnNumber}`);
+                            // if (e.target.hasChildNodes() === true) {
+
+
+
+                            /*
+                            if (e.toElement.classList[1] === "img-content-block" || dropInsideImgTxt === "txt-content-block" || e.toElement.classList[1] === "img-content-block" || e.toElement.children[0].classList[1] === "txt-content-block") {
+                                // INSERT A SIBLING AFTER 
+                                const newBlockCol = document.createElement('a');
+                                rowNumber = convertRowIdToNumber(e.path[1].id);
+                                columnNumber = convertColIdToNumber(e.toElement.id);
+
+                                function insertButtonElement(elementAfter) {
+                                    if (e.target.parentElement.className === 'one-column-div' || dropableColumn === "one-column-div") {
+                                        // LEFT POSITION ELEMENT FROM HERE 
+                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                        newBlockCol.className = "content btn-content-block";
+                                        newBlockCol.textContent = btnDefaultTxt;
+                                        elementAfter.after(newBlockCol)
+                                    } else if (e.target.parentElement.className === 'two-column-div' || dropableColumn === "two-column-div") {
+                                        // RIGHT POSITION ELEMENT FROM HERE 
+                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                        newBlockCol.textContent = btnDefaultTxt;
+                                        newBlockCol.className = "content btn-content-block";
+                                        elementAfter.after(newBlockCol)
+                                    } else if (e.target.parentElement.className === 'three-column-div' || dropableColumn === "three-column-div") {
+                                        // CENTER POSITION ELEMENT FROM HERE  
+                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
+                                        newBlockCol.textContent = btnDefaultTxt;
+                                        newBlockCol.className = "content btn-content-block";
+                                        elementAfter.after(newBlockCol)
+                                    } else {
+                                        console.log(e.target);
+                                    }
+                                }
+                                // console.log("E btn-holder: ", e.target.children.length);
+
+                                if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block") {
+                                    insertButtonElement(e.toElement);
+                                } else {
+                                    insertButtonElement(e.toElement.childNodes[0]);
+                                }
+                                btnBlockElement = `<a >button</a>`;
+                                siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
+
+                                // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
+                            } else {
+                                alert('this button is not dropable here');
+                            }
+                            */
+
+                            // } else {
+                            //     alert('Add text or image to add a button withen a column');
+                            // }
+
+                        } else if (dropableBlock === "social-holder") {
+                            if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
+                                if (e.target.children[0].classList[1] === "icon-content-block" || e.target.classList[1] === "icon-content-block") {
+                                    // console.log("E: don't add ", e.target.children[0].classList[1]);
+                                    alert("You can't add multiple social icon block in a column");
+                                }
+                            } else {
+                                // The Social Media Icons can only be dragged to a one - column or a two - column layout
+                                if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
+                                    rowNumber = convertRowIdToNumber(e.path[1].id);
+                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    // CREATING THREE SOCIAL ICON 
+                                    // iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
+                                    // iconBlockElement = `<div  >Social<div />`;
+                                    // const newEl = document.createElement("div");
+                                    // newEl.textContent = "Social";
+                                    // e.toElement.innerHTML = iconBlockElement;
+                                    // const newEl = stringToNodes(iconBlockElement);
+                                    // e.toElement.appendChild(newEl);
+                                    const iconContainer = document.createElement("div");
+                                    setAttributes(iconContainer, { "id": `icon-${rowNumber}-${columnNumber}` });
+                                    iconContainer.className = "content icon-content-block";
+                                    const iconHolder = createSocialIcons(iconContainer, iconLink, iconLink, iconLink);
+                                    e.toElement.appendChild(iconHolder);
+                                    // console.log(e.toElement);
+                                    // CHANGING HEIGHT OF ROW 
+                                    if (dropableColumn === "one-column-div") e.target.parentElement.style.height = "8em";
+
+
+                                    // console.log(pvIcons);
+                                    blockElement = dropableBlock;
+                                    positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: "<div>social</div>", socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
+                                } else {
+                                    alert("Social icon can't drop into three column!");
+                                }
+                            }
                         } else {
-                            alert("Social icon can't drop into three column!");
+                            console.log('Not creating CONTENT element');
                         }
                     } else {
-                        console.log('Not creating CONTENT element');
+                        console.log("Not dropable column");
                     }
-                } else {
-                    console.log("Not dropable column");
                 }
             } catch (err) {
                 console.log(err);
@@ -657,74 +920,123 @@ function blockDragAndDrop() {
 
 
 
+
+
+
 // MAIN FUNCTION 3
 function rightBarElementShowHide() {
     document.addEventListener('click', e => {
-        let idString = null;
-        // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
-        if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-            templateSelected = false;
-            if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-                if (e.toElement.className === 'social-icon-img') {
-                    idString = e.toElement.parentElement.parentElement.id;
+        // e.preventDefault();
+        try {
+            // CLEAN UP DEFAULT VALUE FOR ALL INPUT FIELD 
+            let idString = null;
+            // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
+            if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                templateSelected = false;
+                if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                    if (e.toElement.className === 'social-icon-img') {
+                        idString = e.toElement.parentElement.parentElement.id;
+                    }
+                    if (e.toElement.className === 'social-icon-content') {
+                        idString = e.toElement.parentElement.id;
+                    }
+                } else {
+                    idString = e.toElement.id.toString();
                 }
-                if (e.toElement.className === 'social-icon-content') {
-                    idString = e.toElement.parentElement.id;
+                let findRowCol = idString.split('-');
+                selectedRow = parseInt(findRowCol[1]);
+                selectedCol = parseInt(findRowCol[2]);
+
+
+
+
+                propertiesBar.style.display = 'block';
+                blockElementBar.style.display = 'none';
+                if (e.toElement.classList[1] === "img-content-block") {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    imgProps.style.display = 'block';
+                    const previousProps = positionElement.filter((pEl, pelIxd) => pEl.rowNumber === selectedRow && pEl.columnNumber === selectedCol);
+                    // console.log("Previous Props: ", previousProps);
+                    // SET ALL DEFAULT VALUE 
+                    // inputImg.addEventListener('change', e => {
+                    //     // const previewTempImg = document.querySelector('.img-content-block');
+                    //     const templateImgPreview = document.getElementById(`img-${selectedRow}-${selectedCol}`);
+                    //     imgUploadHandler(e.target.files[0], [previewImg, templateImgPreview]);  // Working but need to save in db
+                    // });
+                    // imgUrl: "/img/empty-image.png"
+                    // inputImg.defaultValue = previousProps[0].blockElement.imgUrl;
+                    // let setImgNewTab = false;
+                    // console.log(previousProps[0].blockElement.imgHyperlink);
+                    imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
+                    imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
+                    previewImg.src = previousProps[0].blockElement.imgUrl;
+                    // txt-content-block
+                } else if (e.toElement.classList[1] === "txt-content-block") {
+                    const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+                    resizeObserver.observe(selectedTextContent);
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    txtProps.style.display = 'block';
+
+                } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    socialProps.style.display = 'block';
+                    const previousProps = positionElement.filter((pEl, pelIxd) => pEl.rowNumber === selectedRow && pEl.columnNumber === selectedCol);
+                    // console.log("Previous Props: ", previousProps);
+                    fbLinkInput.value = previousProps[0].blockElement.socialFbHyperlink;
+                    twitterLinkInput.value = previousProps[0].blockElement.socialTwitterHyperlink;
+                    instagramLinkInput.value = previousProps[0].blockElement.socialInstagramHyperlink;
+                } else if (e.toElement.classList[1] === "btn-content-block") {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
+                    btnProps.style.display = 'block';
+                    const previousProps = siblingButtonList.filter((sBl, sblIxd) => sBl.rowNum === selectedRow && sBl.colNum === selectedCol);
+                    // console.log("Previous Props: ", previousProps);
+                    btnFontSizeInput.value = previousProps[0].btnFontSize;
+                    btnFontFamilyInput.value = previousProps[0].btnFontFamily;
+                    btnBGColorInput.value = previousProps[0].btnBgColor;
+                    btnTxtColorInput.value = previousProps[0].btnTextColor;
+                    btnTextContentInput.value = previousProps[0].btnContent;
+                    btnHyperlinkInput.value = previousProps[0].btnHyperlink;
+                    btnNewTabInput.checked = previousProps[0].btnOpenNewTab;
+                    btnShapeInput.checked = previousProps[0].btnRound;
+
+                } else {
+                    allProperties.forEach(ap => { ap.style.display = 'none' });
                 }
-            } else {
-                idString = e.toElement.id.toString();
             }
-            let findRowCol = idString.split('-');
-            selectedRow = parseInt(findRowCol[1]);
-            selectedCol = parseInt(findRowCol[2]);
 
-            propertiesBar.style.display = 'block';
-            blockElementBar.style.display = 'none';
-            if (e.toElement.classList[1] === "img-content-block") {
+            // IF SOMEONE CLICK ON SPACE HE WILL BE ABLE TO CHANGE SPACE PROPS 
+            if (e.toElement.classList[1] === "space-row-grid") {
+                propertiesBar.style.display = 'block';
+                blockElementBar.style.display = 'none';
                 allProperties.forEach(ap => { ap.style.display = 'none' });
-                imgProps.style.display = 'block';
-                // txt-content-block
-            } else if (e.toElement.classList[1] === "txt-content-block") {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
-                txtProps.style.display = 'block';
-            } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img') {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
-                socialProps.style.display = 'block';
-            } else if (e.toElement.classList[1] === "btn-content-block") {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
-                btnProps.style.display = 'block';
-            } else {
-                allProperties.forEach(ap => { ap.style.display = 'none' });
+                spxProps.style.display = 'block';
+                selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
             }
-        }
 
-        // IF SOMEONE CLICK ON SPACE HE WILL BE ABLE TO CHANGE SPACE PROPS 
-        if (e.toElement.classList[1] === "space-row-grid") {
-            propertiesBar.style.display = 'block';
-            blockElementBar.style.display = 'none';
-            allProperties.forEach(ap => { ap.style.display = 'none' });
-            spxProps.style.display = 'block';
-            selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
-        }
+            // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
+            if (e.target.parentElement.className === 'drop-row') {
+                propertiesBar.style.display = 'block';
+                blockElementBar.style.display = 'none';
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                rowProps.style.display = 'block';
+                // if (e.target.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.id, 1);
+                // if (e.target.parentElement.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                // console.log(selectedRow);
+            }
 
-        // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
-        if (e.target.className === 'drop-row') {
-            propertiesBar.style.display = 'block';
-            blockElementBar.style.display = 'none';
-            allProperties.forEach(ap => { ap.style.display = 'none' });
-            rowProps.style.display = 'block';
-            selectedRow = stringIdToIdNum(e.toElement.id, 1);
-        }
-
-        // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
-        if (e.target.className === 'template-wrapper' || e.target.className === 'header-image' || e.target.classList[0] === 'col') {
-            templateSelected = true;
-            allProperties.forEach(ap => { ap.style.display = 'none' });
-            propertiesBar.style.display = 'none';
-            blockElementBar.style.display = 'block';
-            selectedAfterRow = null;
-            selectedRow = null;
-            selectedCol = null;
+            // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
+            if (e.target.className === 'template-wrapper' || e.target.className === 'header-image' || e.target.classList[0] === 'col') {
+                templateSelected = true;
+                allProperties.forEach(ap => { ap.style.display = 'none' });
+                propertiesBar.style.display = 'none';
+                blockElementBar.style.display = 'block';
+                selectedAfterRow = null;
+                selectedRow = null;
+                selectedCol = null;
+            }
+        } catch (err) {
+            console.log(err);
         }
     });
 
@@ -741,14 +1053,14 @@ function rightBarProps() {
             const templateImgPreview = document.getElementById(`img-${selectedRow}-${selectedCol}`);
             imgUploadHandler(e.target.files[0], [previewImg, templateImgPreview]);  // Working but need to save in db
         });
-        let setImgNewTab = false;
+        // let setImgNewTab = false;
         imgLink.addEventListener('change', (e) => {
             // BY USING SELECTED ROW AND COL SEARCH ITEM FROM POSITION ELEMENT AND UPDATE 
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgHyperlink = e.target.value; } });
         });
         imgNewTab.addEventListener('change', async e => {
-            if (e.target.value == 'on') setImgNewTab = true;
-            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgNewTab = setImgNewTab; } });
+            // if (e.target.value == 'on') setImgNewTab = true;
+            positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgNewTab = e.target.checked; } });
         });
     }
     imgPropertiesUpdate();
@@ -801,7 +1113,7 @@ function rightBarProps() {
     function btnPropertiesUpdate() {
         // BUTTON PROPERTIES 
         // let btnBGColor = 'green', btnFontSize = 12;
-        let btnNewTab = false, btnRoundShape = false;
+        // let btnNewTab = false, btnRoundShape = false;
 
         btnFontSizeInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
@@ -809,48 +1121,75 @@ function rightBarProps() {
 
             // const siblingBtnObj = JSON.parse(positionElement[index].blockElement.siblingButton);
             // siblingBtnObj.btnFontSize = e.target.value 
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnFontSize = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnFontSize = e.target.value } });
         });
         btnFontFamilyInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.fontFamily = e.target.value;
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnFontFamily = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnFontFamily = e.target.value } });
         });
         btnBGColorInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.backgroundColor = e.target.value;
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnBgColor = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnBgColor = e.target.value } });
         });
         btnTxtColorInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.color = e.target.value;
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnTextColor = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnTextColor = e.target.value } });
         });
         btnTextContentInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.textContent = e.target.value;
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnContent = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnContent = e.target.value } });
         });
         btnHyperlinkInput.addEventListener('change', e => {
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnHyperlink = e.target.value } });
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnHyperlink = e.target.value } });
         });
         btnNewTabInput.addEventListener('change', e => {
-            if (e.target.value == 'on') btnNewTab = true;
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnOpenNewTab = btnNewTab } });
+            // let checkBox = null;
+            // btnNewTab.checked ? checkBox = "checked" : checkBox = "not checked";
+            // console.log("checkobx: ", e.target.checked);
+            // alert(checkBox);
+            // if (e.target.value == 'on') btnNewTab = true;
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnOpenNewTab = e.target.checked } });
         });
         btnShapeInput.addEventListener('change', e => {
-            if (e.target.value === 'on') btnRoundShape = true;
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
-            if (btnRoundShape === true) {
+            if (e.target.checked === true) {
                 cngBtn.style.borderRadius = '8px';
             }
-            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnRound = btnRoundShape } });
+            if (e.target.checked === false) {
+                cngBtn.style.borderRadius = '0';
+            }
+            // if (e.target.value === 'on') btnRoundShape = true;
+            // const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
+            // if (btnRoundShape === true) {
+            // }
+            siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnRound = e.target.checked } });
         });
         btnAlignElement.forEach((bae, i) => {
             bae.addEventListener('click', e => {
                 const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
-                cngBtn.style.float = e.target.value + 'px';
-                siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow) { sBl.btnAlign = e.target.value } });
+                // console.log("e: ", e.target.parentElement.id);
+                let alignBtn = null;
+                switch (e.target.parentElement.id) {
+                    case "btn-align-left":
+                        alignBtn = "left";
+                        break;
+                    case "btn-align-right":
+                        alignBtn = "right";
+                        break;
+                    case "btn-align-center":
+                        alignBtn = "inherit";
+                        // cngBtn.style.float = `inherit`;
+                        // cngBtn.style.position = `relative`;
+                        // cngBtn.style.marginLeft = `50%`;
+
+                        break;
+                }
+                cngBtn.style.float = `${alignBtn}`;
+                siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnAlign = alignBtn } });
                 // positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnAlign = e.target.outerText.toLowerCase().trim(); } });
             });
         });
@@ -886,25 +1225,58 @@ function rightBarProps() {
 
 
 
+    // SUB FUNCTION 6
     // NEED TO CHANGE DB PROPERTIES OF SIBLING BUTTON 
     function rowUpDownDelete() {
+
+
         // DELETE AN ROW 
         rowDelete.addEventListener('click', e => {
             const selectedRowElement = document.getElementById('row-' + selectedRow);
             const allNextEl = getNextAllElement(selectedRowElement);
             const allRowEl = document.querySelectorAll('.drop-row');
             try {
+
+                // DELETE FROM DOW LIST 
                 const rowIdx = rowList.findIndex(rl => rl.rowID === selectedRow);
                 rowList.splice(rowIdx, 1);
                 // UPDATING DATABASE 
                 rowList.forEach((rl, i) => {
                     if (rl.rowID > rowIdx) {
                         if (rl.rowID > 1) {
-                            rl.rowID = rl.rowID - 1;
+                            rl.rowID--;
                         }
                         // CHANGE THE ID OF NEXT SIBLINGS 
                     }
                 });
+
+
+
+                positionElement = positionElement.filter((pEl, elIdx, arr) => pEl.rowNumber !== selectedRow);
+                // console.log("Element index: ", elementIndex);
+                // positionElement.splice(elementIndex);
+                // console.log("position element Before row change: ", positionElement);
+                // let afterSelectedRow = selectedRow + 1;
+                positionElement.forEach((pEl, pIdx) => { if (pEl.rowNumber > selectedRow) { pEl.rowNumber--; } });
+
+
+                // WORK WITH BUTTONS
+                siblingButtonList = siblingButtonList.filter((sBL, sIdx) => sBL.rowNum !== selectedRow);
+                siblingButtonList.forEach((sEl, sIdx) => { if (sEl.rowNum > selectedRow) { sEl.rowNum--; } });
+                // console.log("------- 🤔 🤭 🤫 🤥 😶 😐 😑-------------");
+                // console.log("Row List After: ", positionElement);
+                // console.log("position element After: ", positionElement);
+                // console.log("Sibling Button After: ", siblingButtonList);
+
+
+
+
+                // SETTING ATTRIBUTES - CLASS NAME AND IDES 
+
+
+
+
+
                 selectedRowElement.remove();
 
                 // SETTING ROW ID DYNAMICALLY 
@@ -913,9 +1285,34 @@ function rightBarProps() {
                 let i = 0;
                 while (i < allNextEl.length) {
                     allNextEl[i].setAttribute('id', `row-${idNum}`);
+                    // CHANGE ALL CHILD ELEMENT ID AND CLASS 
+                    if (allNextEl[i].hasChildNodes()) {
+                        // console.log("Has Child Nodes: ", allNextEl[i].childNodes);
+                        allNextEl[i].childNodes.forEach((ncEl, ncIdx) => {
+                            if (ncEl.hasChildNodes()) {
+                                ncEl.childNodes.forEach((nccEl, nccIdx) => {
+                                    // console.log("looping nodes: ", nccEl);
+                                    if (nccEl.classList[1] === "icon-content-block") {
+                                        // index 4 should be change
+                                        // nccEl.id = `txt-${idNum}-${}`;
+                                        // const rowIndex = nccEl.id.toString().substring(4, 5);
+                                        nccEl.id = replaceAt(nccEl.id, 5, idNum);
+                                    } else {
+                                        nccEl.id = replaceAt(nccEl.id, 4, idNum);   // replace a charecter of index 4
+                                    }
+                                });
+                            }
+                        });
+                    }
                     idNum++;
                     i++
                 }
+
+
+
+                propertiesBar.style.display = 'none';
+                blockElementBar.style.display = 'block';
+
             } catch (err) {
                 console.log(err);
             }
@@ -928,11 +1325,13 @@ function rightBarProps() {
         // ROW MOVE UP 
         rowMoveUp.addEventListener('click', (e) => {
             const selectedRowElement = document.getElementById(`row-${selectedRow}`);
+            // console.log("Selected Row: ", selectedRowElement);
             // CHECK IF THE SELECTED ELEMENT IS FIRST ELEMENT OR LAST ELEMENT 
             if (dropColumnZone.firstChild.id === selectedRowElement.id) {
                 alert("First row can't be move up")
             } else {
                 try {
+
                     if (selectedRowElement.previousSibling.classList[0] === 'space') {
                         // THIS IS FOR SKIPPING SPACE 
                         dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.previousSibling.previousSibling);
@@ -944,39 +1343,133 @@ function rightBarProps() {
                         selectedRowElement.setAttribute('id', `row-${selectedRow - 1}`);
                         selectedRowElement.nextSibling.setAttribute('id', `row-${selectedRow}`);
                     }
-                    // CHANGING ID 
+
+
+                    // CHANGING ID OF CHILDS 
                     if (selectedRowElement.hasChildNodes()) {
+
+                        let selectedColNum = 1;
+                        let nextColNum = 1;
+                        selectedRowElement.childNodes.forEach((acn, acnIdx) => {
+                            // console.log("All child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    // let currentRowId = stringIdToIdNum(acocn.id, 1);
+                                    // let currentColId = stringIdToIdNum(acocn.id, 2);
+                                    // let currentElementId = stringIdToIdNum(acocn.id, 0);
+                                    // console.log("Current Row: " + currentRowId + "Current Col: " + currentColId + "Current Element: " + currentElementId);
+                                    // console.log("All child of child: ", acocn);
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) - 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+                        selectedRowElement.nextSibling.childNodes.forEach((acn, acnIdx) => {
+                            console.log("All child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    // let currentRowId = stringIdToIdNum(acocn.id, 1);
+                                    // let currentColId = stringIdToIdNum(acocn.id, 2);
+                                    // let currentElementId = stringIdToIdNum(acocn.id, 0);
+                                    // console.log(currentElementId);
+                                    // console.log("Next Row: " + currentRowId + "Next Col: " + currentColId + "Next Element: " + currentElementId);
+
+                                    // console.log("All child of child: ", acocn);
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) + 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+                        /*
                         let i = 0;
                         let colNum = 1;
+
                         while (selectedRowElement.children.length > i) {
                             if (selectedRowElement.children[i].hasChildNodes()) {
+                                console.log("All child nodes", selectedRowElement.childNodes);
                                 selectedRowElement.children[i].childNodes.forEach((be, idx) => {
                                     let contentId = be.id.toString().substring(0, 3);
                                     if (contentId === 'ico') contentId = 'icon';
                                     be.setAttribute('id', `${contentId}-${selectedRow - 1}-${colNum}`);
+                                    // console.log("Element: ", be);
+                                    // console.log("be Selected Row is: ", selectedRow);
                                 });
+
+                                // SOME PROBLEM IN HERE 
+                                console.log("All next child nodes", selectedRowElement.nextSibling.childNodes);
                                 selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
                                     let contentId = nbe.id.toString().substring(0, 3);
                                     if (contentId === 'ico') contentId = 'icon';
-                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);
+                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);    // SOME PROBLEM IN HERE
+                                    // console.log("Next Element: ", be);
+                                    // console.log("nBe Selected Row is: ", selectedRow);
                                 });
                                 colNum++;
                                 i++;
                             }
                         }
+                        */
                     }
+
+
+
+
+                    // WORKING WITH DATABASE 
+                    let previousRow = selectedRow - 1;
+                    positionElement.forEach((pEl, index) => {
+                        if (pEl.rowNumber === previousRow) {
+                            pEl.rowNumber = `${selectedRow}`.toString();
+                        } else if (pEl.rowNumber === selectedRow) {
+                            // console.log('match');
+                            pEl.rowNumber = `${previousRow}`.toString();
+                        }
+                        pEl.rowNumber = parseInt(pEl.rowNumber);
+                    });
+                    // const previousElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === previousRow);
+                    // const currentElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === selectedRow);
+
+
+                    siblingButtonList.forEach((bEl, blIdx) => {
+                        if (bEl.rowNum === previousRow) {
+                            bEl.rowNum = `${selectedRow}`.toString();
+                        } else if (bEl.rowNum === selectedRow) {
+                            bEl.rowNum = `${previousRow}`.toString();
+                        }
+                        bEl.rowNum = parseInt(bEl.rowNum);
+                    });
+
+                    rowList.forEach((rl, rlIdx) => {
+                        // console.log("Boolean: ", rl.hasOwnProperty("afterRow"));
+                        if (!rl.hasOwnProperty("afterRow")) {
+                            if (rl.rowID === previousRow) {
+                                rl.rowID = `${selectedRow}`.toString();
+                            } else if (rl.rowID === selectedRow) {
+                                rl.rowID = `${previousRow}`.toString();
+                            }
+                            rl.rowID = parseInt(rl.rowID);
+                        } else {
+                            if (rl.afterRow === previousRow) {
+                                rl.afterRow++;
+                            }
+                        }
+                    });
+
+                    // console.log("Move Down - \nRow List: ", rowList, "\nSibling Button: ", siblingButtonList, "\nPosition Element: ", positionElement);
+
+
+
+                    propertiesBar.style.display = 'none';
+                    blockElementBar.style.display = 'block';
+
                 } catch (err) {
                     console.log(err);
                 }
-                let previousRow = selectedRow - 1;
-                positionElement.forEach((pl, index) => {
-                    if (pl.rowNumber === previousRow) {
-                        positionElement[index].rowNumber = selectedRow;
-                    } else if (pl.rowNumber === selectedRow) {
-                        console.log('match');
-                        positionElement[index].rowNumber = selectedRow - 1;
-                    }
-                });
+
+
             }
         });
 
@@ -987,29 +1480,106 @@ function rightBarProps() {
                 alert("Last row can't be move down")
             } else {
                 try {
-                    console.log(selectedRowElement.id);
+
                     if (selectedRowElement.nextSibling.classList[0] === 'space') {
-                        selectedRowElement.nextSibling.nextSibling.after(selectedRowElement);
+                        // console.log("selectedRowElement.nextSibling.nextSibling: ", selectedRowElement.nextSibling.nextSibling);
+                        // THIS IS FOR SKIPPING SPACE 
+                        // dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.nextSibling.nextSibling);
+                        selectedRowElement.nextSibling.nextSibling.after(selectedRowElement)
                     } else {
+                        // console.log("selectedRowElement.nextSibling: ", selectedRowElement.nextSibling);
+                        // THERE IS NO SPACE IN NEXT SIBLING 
+                        // dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.nextSibling);
                         selectedRowElement.nextSibling.after(selectedRowElement);
                     }
-                    if (selectedRowElement.id !== dropColumnZone.lastChild.id) {
-                        console.log("Selected id: ", selectedRow);
-                        selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
-                        console.log("prev element: ", selectedRowElement.previousSibling);
-                        selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+
+
+                    console.log("Last child: ", dropColumnZone.lastChild);
+                    selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
+                    selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+
+
+
+                    // CHANGING ID OF CHILDS 
+                    if (selectedRowElement.hasChildNodes()) {
+                        selectedRowElement.childNodes.forEach((acn, acnIdx) => {
+                            // console.log("All child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) + 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+                        selectedRowElement.previousSibling.childNodes.forEach((acn, acnIdx) => {
+                            // console.log("All Previous child Nodes: ", acn);
+                            if (acn.hasChildNodes()) {
+                                // ALL CHILD OF CHILD NODES 
+                                acn.childNodes.forEach((acocn, acocnIdx) => {
+                                    let contentId = acocn.id.toString().substring(0, 3);
+                                    if (contentId === 'ico') contentId = 'icon';
+                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) - 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                });
+                            }
+                        });
+
                     }
+
+                    // CHANGE ID OF SPACE DIV 
+
+
+
+
+                    // WORKING WITH DATABASE 
+                    let nextRow = selectedRow + 1;
+                    positionElement.forEach((pEl, index) => {
+                        if (pEl.rowNumber === nextRow) {
+                            pEl.rowNumber = `${selectedRow}`.toString();
+                        } else if (pEl.rowNumber === selectedRow) {
+                            // console.log('match');
+                            pEl.rowNumber = `${nextRow}`.toString();
+                        }
+                        pEl.rowNumber = parseInt(pEl.rowNumber);
+                    });
+                    // const previousElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === nextRow);
+                    // const currentElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === selectedRow);
+
+
+                    siblingButtonList.forEach((bEl, blIdx) => {
+                        if (bEl.rowNum === nextRow) {
+                            bEl.rowNum = `${selectedRow}`.toString();
+                        } else if (bEl.rowNum === selectedRow) {
+                            bEl.rowNum = `${nextRow}`.toString();
+                        }
+                        bEl.rowNum = parseInt(bEl.rowNum);
+                    });
+
+                    rowList.forEach((rl, rlIdx) => {
+                        // console.log("Boolean: ", rl.hasOwnProperty("afterRow"));
+                        if (!rl.hasOwnProperty("afterRow")) {
+                            if (rl.rowID === nextRow) {
+                                rl.rowID = `${selectedRow}`.toString();
+                            } else if (rl.rowID === selectedRow) {
+                                rl.rowID = `${nextRow}`.toString();
+                            }
+                            rl.rowID = parseInt(rl.rowID);
+                        } else {
+                            if (rl.afterRow === nextRow) {
+                                rl.afterRow--;
+                            }
+                        }
+                    });
+                    // console.log("Move Down - \nRow List: ", rowList, "\nSibling Button: ", siblingButtonList, "\nPosition Element: ", positionElement);
+
+
+
+                    propertiesBar.style.display = 'none';
+                    blockElementBar.style.display = 'block';
                 } catch (err) {
                     console.log(err);
                 }
-                let nextRow = selectedRow + 1;
-                positionElement.forEach((pl, index) => {
-                    if (pl.rowNumber === nextRow) {
-                        positionElement[index].rowNumber = selectedRow;
-                    } else if (pl.rowNumber === selectedRow) {
-                        positionElement[index].rowNumber = selectedRow + 1;
-                    }
-                });
             }
         });
     }
@@ -1040,72 +1610,91 @@ function templatePropsCng() {
 }
 
 
+
+
+
 // MAIN FUNCTION 6
 function backendAndDataBase() {
 
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        // console.log(siblingButtonList);
-        // FOR CHANGING TEXT CONTENT 
-        await positionElement.forEach(pEl => {
-            if (pEl.blockElement.name === "txtBlockContent") {
-                console.log(pEl.rowNumber);
-                pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
-            }
-        });
-
-        // CHANGING TITLE 
-        await formData.append("title", inputTitle.value);
-        await formData.append('bgColor', templateBGColorInput.value);
-        await formData.append('linkColor', templateLinkColorInput.value);
+        console.log("Sibling Button: ", siblingButtonList);
+        console.log("Row list: ", rowList);
+        console.log("Elements: ", positionElement);
 
 
-        // // const positionObj = await new Map(positionElement);
-        // // const newPositionObject = await Object.fromEntries(positionObj);
-        // // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
-
-        await formData.append('layout', JSON.stringify(rowList));
-        await formData.append('element', JSON.stringify(positionElement));
-        await formData.append('sibling', JSON.stringify(siblingButtonList));
-
-
-
-        // inputTitle.nodeValue = title;
-        // console.log("Row list: ", rowList);
-        // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
-
-        // console.log(positionElement);
-
-
-
-
-        // JSON.stringify(positionElement, function replacer(key, value) { return value})    
-        // await formData.append('layout', JSON.stringify(rowList));
-        // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
-        // console.log(positionElement);
-
-
-
-        // //SUBMITTING DATATO THE SERVER 
-        fetch(`${websiteDomain}/template/add`, {
-            method: "POST",
-            body: formData
-        })
-            .then(response => {
-                console.log(response.json());
-            })
-            .catch(err => {
-                console.log(err);
+        try {
+            const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+            console.log(selectedTextContent);
+            // FOR CHANGING TEXT CONTENT 
+            await positionElement.forEach(pEl => {
+                if (pEl.blockElement.name === "txtBlockContent") {
+                    // console.log(pEl.rowNumber);
+                    pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
+                }
+                if (pEl.blockElement.name === "imgBlockContent") {
+                    // console.log(pEl.rowNumber);
+                    pEl.blockElement.imgUrl = "/img/empty-image.png";
+                    // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
+                }
             });
 
+            // CHANGING TITLE 
+            await formData.append("title", inputTitle.value);
+            await formData.append('bgColor', templateBGColorInput.value);
+            await formData.append('linkColor', templateLinkColorInput.value);
 
 
-        // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
-        submitted = true;
-        window.location.replace(websiteDomain + "/template/preview");
+            // // const positionObj = await new Map(positionElement);
+            // // const newPositionObject = await Object.fromEntries(positionObj);
+            // // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
+
+            await formData.append('layout', JSON.stringify(rowList));
+            await formData.append('element', JSON.stringify(positionElement));
+            await formData.append('sibling', JSON.stringify(siblingButtonList));
+
+
+
+            // inputTitle.nodeValue = title;
+            // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
+
+
+
+
+
+            // DIDN'T WORK 
+            // JSON.stringify(positionElement, function replacer(key, value) { return value})    
+            // await formData.append('layout', JSON.stringify(rowList));
+            // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
+            // console.log(positionElement);
+
+
+
+
+
+            // //SUBMITTING DATATO THE SERVER 
+            const response = await fetch(`${websiteDomain}/template/add`, {
+                method: "POST",
+                body: formData
+            });
+            console.log(response);
+
+
+
+
+            // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
+            submitted = true;
+            window.location.replace(websiteDomain + "/template/preview");
+        } catch (err) {
+            console.log(err);
+        }
+
+
+
     });
 }
+
 
 
 
@@ -1237,7 +1826,9 @@ function previewDropZoneTemplate() {
                             const pvIcons = document.createElement("div");
                             setAttributes(pvIcons, { "id": `icon-${lAr.rowID}-${blockColNum + 1}` });
                             pvIcons.className = "content icon-content-block";
+                            /*
 
+                            
                             const pvFbLink = document.createElement('a');
                             setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialFbHyperlink)}` });
                             const pvFbIconImg = document.createElement('img');
@@ -1258,13 +1849,17 @@ function previewDropZoneTemplate() {
                             const pvInstaIconImg = document.createElement('img');
                             setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
                             pvInstaLink.appendChild(pvInstaIconImg);
-
                             pvIcons.appendChild(pvInstaLink);
+                            */
 
 
                             // for (let k = 0; k < 2; k++) {
                             // }
-                            pvSelectedElement.append(pvIcons);
+                            const iconHolder = createSocialIcons(pvIcons, `${protocalValidate(bEl.blockElement.socialFbHyperlink)}`, `${protocalValidate(bEl.blockElement.socialTwitterHyperlink)}`, `${protocalValidate(bEl.blockElement.socialInstagramHyperlink)}`);
+                            pvSelectedElement.append(iconHolder);
+                            if (lAr.rowWithColumn === 1) {
+                                pvSelectedElement.style.height = "8em";
+                            }
 
 
                         }
@@ -1301,19 +1896,18 @@ function previewDropZoneTemplate() {
 
 
                         // let pvOnClickEvent = window.open(`${pvCorrectHyperlink}`);
-                        if (sEl.btnOpenNewTab === true) {
-                            pvOnClickEvent = `${pvCorrectHyperlink}, _blink`;
-                        }
+                        let pvOnClickEvent = null;
+                        sEl.btnOpenNewTab === true ? pvOnClickEvent = `target="_blink"` : pvOnClickEvent = "";
 
 
-                        if (sEl.btnOpenNewTab == true) {
-                            // OPEN IN NEW TAB 
-                            pvBtnTab = "border-radius: 8px;";
-                        } else {
-                            pvBtnTab = ""
-                        }
+                        // if (sEl.btnOpenNewTab == true) {
+                        //     // OPEN IN NEW TAB 
+                        //     pvBtnTab = "border-radius: 8px;";
+                        // } else {
+                        //     pvBtnTab = ""
+                        // }
 
-                        const pvSiblingBtn = `<button calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound}" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</button>`;
+                        const pvSiblingBtn = `<a href="${pvCorrectHyperlink}" ${pvOnClickEvent} calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</a>`;
 
                         // const pvSiblingBtn = document.createElement('button');
                         // pvSiblingBtn.textContent = "Preview";
@@ -1416,12 +2010,23 @@ function previewDropZoneTemplate() {
 
 
 
+
+
+    // STYLING ELEMENTS INSIDE DROP ZONE 
     // TEXT CONTENT EXIT FALSE FOR PREVIEW 
     const pvTextContent = document.querySelectorAll('.txt-content-block');
-    pvTextContent.forEach(txtCnt => { txtCnt.setAttribute("contenteditable", false) });
+    const droppedRow = document.querySelector('.drop-row');
+    pvTextContent.forEach(txtCnt => {
+        txtCnt.setAttribute("contenteditable", false);
+        if (txtCnt.getBoundingClientRect().height > 172) {
+            droppedRow.style.height = "fit-content"; // IN PREVIEW
+        }
+    });
+    dropColumnZone.style.height = "fit-content"; // IN PREVIEW
+
 }
 
-// previewDropZoneTemplate();
+
 
 
 
@@ -1470,6 +2075,15 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     console.log("Not a template ");
 }
 
+
+
+
+
+
+
+// if (document.querySelectorAll('.txt-content-block').clientHeight > 262) {
+//     console.log(document.querySelectorAll('.txt-content-block'));
+// }
 
 
 
