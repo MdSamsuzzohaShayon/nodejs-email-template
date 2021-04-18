@@ -2046,11 +2046,11 @@ function previewDropZoneTemplate() {
 
 
 if (currentPath === "preview" && window.location.pathname !== "/template") {
-    // console.log("Preview page");
+    console.log("Preview page");
     previewDropZoneTemplate();
 
 } else if (currentPath === "editor") {
-    // console.log("Editor page");
+    console.log("Editor page");
     columnDragAndDrop();
     blockDragAndDrop();
     rightBarElementShowHide();

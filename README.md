@@ -105,6 +105,8 @@
  - all button element property is same in the array we need to change 
  - Change button tag to a tags
  - Dropping button is not working
+ - FIle validation (2mb)
+ - Text editor (insert link)
 
     ```
     show variables like 'max_allowed_packet'
@@ -157,3 +159,24 @@
 
 #### HTML CSS
  - __https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox__
+
+#### AWS S3
+ - __https://www.zeolearn.com/magazine/uploading-files-to-aws-s3-using-nodejs__
+ - __https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property__
+ - __https://medium.com/@salonimalhotra1ind/uploading-a-file-multiple-to-amazon-web-services-aws-s3-bucket-with-node-js-in-express-8e268ab12422__
+ - __https://medium.com/codebase/using-aws-s3-buckets-in-a-nodejs-app-74da2fc547a6__
+ - __https://stackoverflow.com/questions/48296569/how-to-retrieve-image-from-s3-with-nodejs/48297282__
+ - __https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html__
+ - __https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property__
+ - __https://stackabuse.com/uploading-files-to-aws-s3-with-node-js/__
+ - __https://stackoverflow.com/questions/28018855/upload-a-file-to-amazon-s3-with-nodejs__
+ - __https://levelup.gitconnected.com/file-upload-express-mongodb-multer-s3-7fad4dfb3789__
+ - __https://docs.aws.amazon.com/code-samples/latest/catalog/javascript-s3-s3_listobjects.js.html__
+
+#### Digital Ocean
+ - __https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04__
+ - __https://medium.com/@haxzie/deploying-node-js-application-to-digitalocean-setting-up-the-server-99e1d65fa291__
+ - __https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04__
+ - __https://dev.to/ileriayo/connect-nodejs-app-with-mysql-database-hosted-on-a-digital-ocean-droplet-server-3bfb__
+
+ ### Docker
