@@ -1,19 +1,36 @@
 @import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
+button, .btn {
+  border-radius: 0;
+}
+
 .wrapper .template-builder {
-  width: 80%;
-  margin-left: 10%;
-  margin-top: 2%;
-  background-color: #b5d5f3;
+  width: 80% !important;
+  margin-left: 10% !important;
+  background-color: #b5d5f3 !important;
 }
 .wrapper .template-builder .workpace {
   display: flex;
   width: 100%;
 }
 .wrapper .template-builder .workpace .col-10 {
-  width: 62.5%;
+  width: 62.5% !important;
 }
 .wrapper .template-builder .workpace .col-6 {
-  width: 37.5%;
+  width: 37.5% !important;
+}
+.wrapper .template-builder h2 {
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.wrapper .template-builder h4 {
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  margin: 0;
+}
+.wrapper .template-builder h3 {
+  margin-top: 2rem;
+  font-size: 1rem;
 }
 
 .title-bar {
@@ -21,30 +38,34 @@
   width: 100%;
   background-color: #7aa6ce;
 }
-.title-bar .form-btn {
+.title-bar .title-input-submit {
   height: 100%;
+  text-align: center;
   width: 90%;
   margin-left: 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.title-bar input[type=text] {
-  height: 1.5rem;
+.title-bar .title-input-submit input[type=text] {
+  vertical-align: middle;
+  height: 2rem;
   padding: 2%;
-  width: 200%;
+  width: 150%;
   border: none;
   background: #b5d5f3;
   color: #7aa6ce;
 }
-.title-bar input[type=text]::placeholder {
+.title-bar .title-input-submit input[type=text]::placeholder {
+  font-size: 0.8rem;
   color: #7aa6ce;
 }
-.title-bar input[type=text]:focus {
+.title-bar .title-input-submit input[type=text]:focus {
   outline: none;
   color: #4685c0;
 }
-.title-bar .btn {
+.title-bar .title-input-submit .btn {
+  vertical-align: middle;
   font-size: 0.7rem;
   padding: 10px 20px;
   margin-left: 5px;
@@ -59,20 +80,6 @@
   margin-left: 5%;
   margin-top: 3%;
   background: #e6f2ff;
-}
-.template-wrapper h2 {
-  text-transform: uppercase;
-  margin-bottom: 0;
-  font-size: 2rem;
-  font-weight: bold;
-}
-.template-wrapper h4 {
-  font-size: 0.8rem;
-  text-transform: capitalize;
-  margin: 0;
-}
-.template-wrapper h3 {
-  font-size: 1rem;
 }
 .template-wrapper .content-header {
   margin-top: 10%;
@@ -371,75 +378,6 @@
   margin-top: 5%;
 }
 
-.add-border {
-  border: 1px solid #0f3050;
-}
-
-.border-right {
-  border-right: 1px solid #0f3050;
-}
-
-.border-bottom {
-  border-bottom: 1px solid #0f3050;
-}
-
-.add-bg {
-  background-color: #4685c0;
-}
-
 /* Using SCSS variables to store breakpoints */
-@media (max-width: 1080px) {
-  .title-bar {
-    height: 2.8rem;
-  }
-  .title-bar input[type=text] {
-    height: 1rem;
-    padding: 3px;
-    width: 14rem;
-  }
-  .title-bar input[type=text]::placeholder {
-    font-size: 0.7rem;
-  }
-  .title-bar .btn {
-    font-size: 0.5rem;
-    padding: 0.5rem 0.9rem;
-    margin-left: 5px;
-    border: none;
-    outline: none;
-    color: #4685c0;
-    background: #0f3050;
-  }
-
-  .template-wrapper {
-    margin-top: 2%;
-  }
-  .template-wrapper .header-image {
-    height: 3rem;
-  }
-  .template-wrapper .drop-wrapper {
-    height: 35em;
-  }
-  .template-wrapper .drop-wrapper .drop-row {
-    min-height: 8em;
-    padding: 5px 0;
-  }
-}
-@media (max-width: 768px) {
-  .title-bar input[type=text] {
-    height: 0.8rem;
-    padding: 2px;
-    width: 10rem;
-  }
-  .title-bar .btn {
-    font-size: 0.6rem;
-    padding: 0.3rem 0.5rem;
-    margin-left: 3px;
-    border: none;
-    outline: none;
-    color: #4685c0;
-    background: #0f3050;
-  }
-}
-
 
 /*# sourceMappingURL=email-template.css.map */

@@ -6,18 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/email-template.css">
     <link rel="stylesheet" href="/css/style.css">
 
 </head>
 
 <body>
+
     <div class="whole-body">
-        <%- body %>
+        <%- include('./partials/navbar') ; %>
+            <%- body %>
     </div>
 
 
 
+    <script src="/js/bootstrap.min.js"></script>
     <script src="/js/email-template.js"></script>
     <script src="/js/main.js"></script>
 </body>

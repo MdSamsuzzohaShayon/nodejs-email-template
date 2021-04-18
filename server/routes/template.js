@@ -174,7 +174,7 @@ router.get('/preview/:id', (req, res, next) => {
 
 
 router.delete('/delete/:id', (req, res, next) => {
-    console.log("Delete request is called - ID: " + req.params.id);
+    console.log("Delete request is called - ID: ".info + req.params.id);
     res.redirect('/template');
 });
 

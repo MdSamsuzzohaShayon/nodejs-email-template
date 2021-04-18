@@ -2057,15 +2057,15 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     rightBarProps();
     templatePropsCng();
     backendAndDataBase();
-    if (submitted === false) {
-        // PREVENT TO SET 
-        window.addEventListener('beforeunload', function (e) {
-            // Cancel the event
-            e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-            // Chrome requires returnValue to be set
-            e.returnValue = 'Save it and leave otherwise it can be undone';
-        });
-    }
+    // if (submitted === false) {
+    //     // PREVENT TO SET 
+    //     window.addEventListener('beforeunload', function (e) {
+    //         // Cancel the event
+    //         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    //         // Chrome requires returnValue to be set
+    //         e.returnValue = 'Save it and leave otherwise it can be undone';
+    //     });
+    // }
 
 } else if (currentPath === "edit") {
     console.log("EDIT");
