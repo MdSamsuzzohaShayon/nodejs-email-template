@@ -26,4 +26,7 @@
 #### Docker commands
 
  - Check version client and server `sudo docker version`
+ - Make **[Dockerfile](https://docs.docker.com/get-started/02_our_app/)** and [pull essential images](https://hub.docker.com/_/node) from [dockerhub](https://hub.docker.com/search?q=node&type=image) - check supported tags - **alpine** is small linux distro 
+ - [Build an docker image](https://docs.docker.com/engine/reference/commandline/build/) `sudo docker build -t email-template .`
+ - See the image we installed `sudo docker image ls`
  - 
