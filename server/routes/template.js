@@ -1,6 +1,7 @@
 const express = require('express');
 const conn = require('../config/mysql-config');
-const multer = require('multer');
+// const multer = require('multer');
+const path = require('path');
 const fs = require('fs');
 const uploadFile = require('../config/file-upload-config');
 
@@ -173,9 +174,55 @@ router.get('/preview/:id', (req, res, next) => {
 
 
 
+// DELETE FROM `nodejs_story` WHERE 0
 router.delete('/delete/:id', (req, res, next) => {
     console.log("Delete request is called - ID: ".info + req.params.id);
-    res.redirect('/template');
+    // FIND FOR IMAGES AND DELETE IMAGES
+    // const findSql = "SELECT bg_img, content from nodejs_story WHERE id=?";
+    //     const findImgResult = await conn.query(findSql, [req.params.id]);
+    //     const blockContent = JSON.parse(findImgResult[0].content);
+    const findSql = "SELECT bg_img, content from nodejs_story WHERE id=?";
+    conn.query(findSql, [req.params.id], (findErr, findResult, findFields) => {
+        if (findErr) throw findErr;
+        const blockContent = JSON.parse(findResult[0].content);
+        // console.log(findResult);
+        // blockElement: {
+        //     name: 'imgBlockContent',
+        //     imgUrl: 'img-1-2-151979801-.jpeg'
+        //   } 
+        // DELETE BACKGROUND IMAGE  
+        if (findResult[0].bg_img !== "default-header.jpg") {
+            if (fs.existsSync(path.join(__dirname, "../uploads/" + bCt.bg_img))) {
+                // console.log(path.join(__dirname, "../uploads/" + bCt.bg_img));
+                fs.unlinkSync(path.join(__dirname, "../uploads/" + bCt.bg_img));
+            }
+        }
+
+
+        // console.log(blockContent);
+        // DELETE IMAGES 
+        blockContent.forEach((bCt, bctIdx) => {
+            if (bCt.blockElement.name === "imgBlockContent" && bCt.blockElement.imgUrl !== "empty-image.png") {
+                if (fs.existsSync(path.join(__dirname, "../uploads/" + bCt.blockElement.imgUrl))) {
+                    // console.log(path.join(__dirname, "../uploads/" + bCt.blockElement.imgUrl));
+                    fs.unlinkSync(path.join(__dirname, "../uploads/" + bCt.blockElement.imgUrl));
+                } else {
+                    console.log("file doesn't exist".red, path.join(__dirname, "../uploads"));
+                }
+                // console.log(bCt);
+            }
+        });
+        // // DELETE FROM DATABASE 
+        const sql = "DELETE FROM nodejs_story WHERE id=?";
+        conn.query(sql, [req.params.id], (err, result, fields) => {
+            if (err) throw err;
+            console.log("A record is beed deleted successfully".white, result);
+            res.redirect('/template');
+        });
+    });
+
+
+
 });
 
 

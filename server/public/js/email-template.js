@@ -1810,9 +1810,10 @@ function previewDropZoneTemplate() {
 
                             const pvImgElement = document.createElement('img');
                             let defaultImg = bEl.blockElement.imgUrl;
-                            if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null) defaultImg = "img/empty-image.png";
+                            console.log("Default image: ", bEl.blockElement.imgUrl);
+                            if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null) defaultImg = "/img/empty-image.png";
 
-                            setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${blockColNum + 1}`, "src": `/${defaultImg}` });
+                            setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${blockColNum + 1}`, "src": `${defaultImg === "/img/empty-image.png" ? defaultImg : "/" + defaultImg}` });
                             pvImgElement.className = "content img-content-block";
                             pvImgHyerLink.appendChild(pvImgElement);
                             pvSelectedElement.appendChild(pvImgHyerLink);

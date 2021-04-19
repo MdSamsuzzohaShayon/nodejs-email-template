@@ -98,7 +98,7 @@
         .btn{
             // margin-top: 2.5%;
             vertical-align: middle;
-            @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 5px);
+            @include btn_general($f-color, $t-color, 10px, 20px, 0.85rem, 5px);
             // @include btn_general($f-color, $t-color);
         }
     }
@@ -233,10 +233,14 @@
         }  
         
         .btn-content-block{
-            margin: 4%;
+            // margin: 2rem 0;
             text-align: center;
             width: fit-content;
-            @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 3%);
+            @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 1rem);
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            // margin-top: 1rem;
+            // margin: 5rem;
         }                              
         
     }
@@ -273,6 +277,9 @@
 
 // BLOCK START 
 .rb-block{
+    h4{
+        margin-top: 2rem;
+    }
                 
     // COLUMN BLOCK START 
     .column-block{
@@ -356,10 +363,10 @@
             width: 100%;
             // margin-left: 10%;
         }
-        .row{
-            display: block;
-            width: 100%;
-            margin-bottom: 2%;
+        .input-row{
+            display: block !important;
+            width: 100% !important;
+            margin-bottom: 2% !important;
             input[type="color"]{
                 float: right;
             }
@@ -387,7 +394,7 @@
     input[type = "text"]{
         float: right;
         // @include input_style($h, $w, $p, $bg, $c);
-        @include input_style(1rem, 60%, 5px, $s-color, $p-color);
+        @include input_style(1rem, 60%, 15px, $s-color, $p-color);
     }
 
     input[type = "text"]::placeholder{
