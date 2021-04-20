@@ -75,6 +75,9 @@
  - DO SOME STYLING FOR TEXT EDITOR FONT WHICH HAS 1 TO 7 INDEX (FIND THE 1 MEANS HOW MUCH PX AND SET THE VALUE)
  - BUTTON POSITION SET ☑️
  - RESIZE ROW ACCORDING TO SOCIAL ICON  ☑️
+ - REMOVE BORDER COLOR FROM PREVIEW
+ - PREVIEW IS NOT STYLING PROPERLY
+ - 
 
 
 
@@ -102,11 +105,14 @@
  - Multiple content adding in one block- Prevent to add multiple content in same block ☑️
  - Error with selecting text content by click - THIS IS EDITABLE CONTENT DEFAULT BEHAVIOUR
  - When click any element it's setting the variable for selectedrow and col but for moving up and down second time selected element value won't be changed - we can display block from here
- - all button element property is same in the array we need to change 
+ - all button element property is same in the array we need to change  ☑️
  - Change button tag to a tags
  - Dropping button is not working
- - FIle validation (2mb)
  - Text editor (insert link)
+ - Image validation
+ - Some problem with preview social (not making more than 3 row)
+ - Problem with social preview
+ - FIle validation (2mb)
 
     ```
     show variables like 'max_allowed_packet'

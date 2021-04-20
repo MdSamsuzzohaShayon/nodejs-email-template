@@ -107,6 +107,10 @@ router.post('/add', uploadFile, (req, res, next) => {
 
 
 
+    console.log("All block Details: ", JSON.stringify(elementObject));
+
+
+
     const sql = `INSERT INTO nodejs_story 
                         (title,  bg_img, bg_color, link_color, layout, content, sibling) VALUES 
                         ('${title}', '${bgImg}', '${bgColor}', '${linkColor}', '${layout}', '${JSON.stringify(elementObject)}', '${sibling}')`;
@@ -115,6 +119,7 @@ router.post('/add', uploadFile, (req, res, next) => {
     conn.query(sql, (err, result, fields) => {
         if (err) throw err;
         console.log("The result is: ", result);
+        res.redirect('/template');
     });
     //conn.end();
 });
@@ -165,7 +170,7 @@ router.get('/preview/:id', (req, res, next) => {
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
-        // console.log("The result is: ", result[0].layout);
+        console.log("The result is: ", JSON.parse(result[0].content));
         res.render('template/template-preview', { docs: result[0] });
         // conn.end();
     });
@@ -192,9 +197,9 @@ router.delete('/delete/:id', (req, res, next) => {
         //   } 
         // DELETE BACKGROUND IMAGE  
         if (findResult[0].bg_img !== "default-header.jpg") {
-            if (fs.existsSync(path.join(__dirname, "../uploads/" + bCt.bg_img))) {
-                // console.log(path.join(__dirname, "../uploads/" + bCt.bg_img));
-                fs.unlinkSync(path.join(__dirname, "../uploads/" + bCt.bg_img));
+            if (fs.existsSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img))) {
+                // console.log(path.join(__dirname, "../uploads/" + findResult[0].bg_img ));
+                fs.unlinkSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img));
             }
         }
 

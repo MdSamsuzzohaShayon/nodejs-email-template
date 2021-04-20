@@ -171,6 +171,7 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                     positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { pl.blockElement.imgUrl = le.target.result; } });
                 });
                 reader.readAsDataURL(imgFile);
+                console.log("img-" + selectedRow + '-' + selectedCol);
                 formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
                 // formData.append("img-1-1", imgFile);
             } else {
@@ -188,6 +189,7 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                     imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                 });
                 reader.readAsDataURL(imgFile);
+                console.log("img-" + selectedRow + '-' + selectedCol);
                 formData.append("header-img", imgFile);
             } else {
                 alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
@@ -217,19 +219,22 @@ function createAllIcon(outerElement) {
 
 // HELPING FUNCTION 5
 function convertRowIdToNumber(rowElementId) {
-    switch (rowElementId) {
-        case 'row-1':
-            rowNumber = 1;
-            break;
-        case 'row-2':
-            rowNumber = 2;
-            break;
-        case 'row-3':
-            rowNumber = 3;
-            break;
-        default:
-            break;
-    }
+    const findRowNum = rowElementId.toString().split('-');
+    let rowNumber = parseInt(findRowNum[1]);
+    console.log("Row number: ", rowNumber);
+    // switch (rowElementId) {
+    //     case 'row-1':
+    //         rowNumber = 1;
+    //         break;
+    //     case 'row-2':
+    //         rowNumber = 2;
+    //         break;
+    //     case 'row-3':
+    //         rowNumber = 3;
+    //         break;
+    //     default:
+    //         break;
+    // }
     return rowNumber;
 }
 // HELPING FUNCTION 6
@@ -264,6 +269,7 @@ function convertColIdToNumber(colElementId) {
 const stringIdToIdNum = (stringText, arrNum) => {
     let rowNumString = stringText.toString();
     let findFromArr = rowNumString.split('-');
+    // console.log("Finding from array: ", findFromArr);
     let numVal = parseInt(findFromArr[arrNum]);
     return numVal;
 }
@@ -511,7 +517,7 @@ function columnDragAndDrop() {
                         case 'col-1-grid':
                             // ADD 1 COLUMN INSIDE A DIV
                             const oneColumnDiv = document.createElement('div');
-                            setAttributes(oneColumnDiv, { "class": "one-column-div", "id": 'one-col-0' });
+                            setAttributes(oneColumnDiv, { "class": "one-column-div", "id": `one-col-0-${rowID}` });
                             newDiv.appendChild(oneColumnDiv);
                             rowWithColumn = 1;
                             break;
@@ -519,7 +525,7 @@ function columnDragAndDrop() {
                             // ADD 2 COLUMN INSIDE A DIV 
                             for (let i = 0; i < 2; i++) {
                                 const twoColumnDiv = document.createElement('div');
-                                setAttributes(twoColumnDiv, { "class": "two-column-div", "id": `two-col-${i}` });
+                                setAttributes(twoColumnDiv, { "class": "two-column-div", "id": `two-col-${i}-${rowID}` });
                                 newDiv.appendChild(twoColumnDiv);
                                 rowWithColumn = 2;
                             }
@@ -529,7 +535,7 @@ function columnDragAndDrop() {
                             for (let i = 0; i < 3; i++) {
                                 rowWithColumn = 3;
                                 const threeColumnDiv = document.createElement('div');
-                                setAttributes(threeColumnDiv, { "class": "three-column-div", "id": `three-col-${i}` });
+                                setAttributes(threeColumnDiv, { "class": "three-column-div", "id": `three-col-${i}-${rowID}` });
                                 newDiv.appendChild(threeColumnDiv);
                             }
                             break;
@@ -697,8 +703,12 @@ function blockDragAndDrop() {
                                 } else {
                                     // console.log("Undefined- add element", e.target);
                                     //VARIABLE
-                                    rowNumber = convertRowIdToNumber(e.path[1].id);
-                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    // rowNumber = convertRowIdToNumber(e.toElement.parentElement.id);
+                                    // columnNumber = convertColIdToNumber(e.toElement.id);
+                                    rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                                    let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                    columnNumber = tempColNum + 1;
+                                    // console.log("E: Target ", e.toElement.id);
                                     // CREATING IMAGE 
                                     let imgID = `"img-${rowNumber + '-' + columnNumber}"`;
                                     imageBlockElment = `<a href="#" class="img-block-href"><img src="${imgDefaultUrl}" class="content img-content-block" alt="Image" id=${imgID}></a>`;
@@ -718,8 +728,9 @@ function blockDragAndDrop() {
                                     }
                                 } else {
                                     // CREATING REXT 
-                                    rowNumber = convertRowIdToNumber(e.path[1].id);
-                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                                    let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                    columnNumber = tempColNum + 1;
                                     let txtBlockElement = null;
                                     const newBlockCol = document.createElement('div');
                                     setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
@@ -759,8 +770,11 @@ function blockDragAndDrop() {
                             function insertButtonElement(getColID, getRowID) {
                                 // console.log(e);
                                 const newBlockCol = document.createElement('a');
-                                rowNumber = convertRowIdToNumber(getRowID);
-                                columnNumber = convertColIdToNumber(getColID);
+                                // rowNumber = convertRowIdToNumber(getRowID);
+                                // columnNumber = convertColIdToNumber(getColID);
+                                rowNumber = stringIdToIdNum(getRowID, 1);
+                                let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                columnNumber = tempColNum + 1;
                                 setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
                                 newBlockCol.textContent = btnDefaultTxt;
                                 newBlockCol.className = "content btn-content-block";
@@ -877,8 +891,9 @@ function blockDragAndDrop() {
                             } else {
                                 // The Social Media Icons can only be dragged to a one - column or a two - column layout
                                 if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
-                                    rowNumber = convertRowIdToNumber(e.path[1].id);
-                                    columnNumber = convertColIdToNumber(e.toElement.id);
+                                    rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                                    let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                    columnNumber = tempColNum + 1;
                                     // CREATING THREE SOCIAL ICON 
                                     // iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
                                     // iconBlockElement = `<div  >Social<div />`;
@@ -1684,8 +1699,8 @@ function backendAndDataBase() {
 
 
             // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
-            submitted = true;
-            window.location.replace(websiteDomain + "/template/preview");
+            // submitted = true;
+            // window.location.replace(websiteDomain + "/template/preview");
         } catch (err) {
             console.log(err);
         }
@@ -1715,7 +1730,7 @@ function previewDropZoneTemplate() {
     const pvSibling = JSON.parse(sibling);
 
     // console.log("Header img: ", headerImg);
-    // console.log("Content: ", pvBlockElement);
+
 
     const previewDropZone = document.getElementById('drop-zone');
     const pvTemplateWrapper = document.querySelector('.template-wrapper')
@@ -1731,22 +1746,40 @@ function previewDropZoneTemplate() {
 
 
     // MAKING ALL ROW AND COLUMN DIV 
-    let rowID = 1;
-    layoutArray.forEach((el, index) => {
+    // let rowID = 1;
+    // layoutArray.forEach((el, index) => {
+
+    // });
+
+
+
+    // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
+    // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+    const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
+    let blockRowId = 1;
+    const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
+    let siblingRowId = 1;
+    // console.log("Content: ", pvBlockElement);
+    // console.log("Layout: ", layoutArray)
+    // console.log("Sibling button: ", assendingSibling);
+    layoutArray.forEach((lAr, rIdx) => {
+
+        // MAKING ROW 
         const pvRowDiv = document.createElement('div');
-        if (el.rowID) {
+        if (lAr.rowID) {
             setAttributes(pvRowDiv, { 'class': 'drop-row', "id": `row-${rowID}` });
-            for (let i = 0; i < el.rowWithColumn; i++) {
+            for (let i = 0; i < lAr.rowWithColumn; i++) {
                 const pvColDiv = document.createElement('div');
-                switch (el.rowWithColumn) {
+                switch (lAr.rowWithColumn) {
                     case 1:
-                        setAttributes(pvColDiv, { 'class': 'one-column-div', 'id': `one-col-${i}` });
+                        setAttributes(pvColDiv, { 'class': 'one-column-div', 'id': `one-col-${i}-${lAr.rowID}` });
                         break;
                     case 2:
-                        setAttributes(pvColDiv, { 'class': 'two-column-div', 'id': `two-col-${i}` });
+                        setAttributes(pvColDiv, { 'class': 'two-column-div', 'id': `two-col-${i}-${lAr.rowID}` });
                         break;
                     case 3:
-                        setAttributes(pvColDiv, { 'class': 'three-column-div', 'id': `three-col-${i}` });
+                        setAttributes(pvColDiv, { 'class': 'three-column-div', 'id': `three-col-${i}-${lAr.rowID}` });
                         break;
                     default:
                         pvColDiv.setAttribute('class', 'one-column-div');
@@ -1760,164 +1793,164 @@ function previewDropZoneTemplate() {
 
 
         // ADD  SPACE 
-        if (el.afterRow) {
+        if (lAr.afterRow) {
             // ADDING SPACE 
             const pvSpaceDiv = document.createElement('div');
-            const pvPreviousRow = document.getElementById(`row-${el.afterRow}`);
+            const pvPreviousRow = document.getElementById(`row-${lAr.afterRow}`);
 
-            setAttributes(pvSpaceDiv, { "id": `spx-${el.afterRow}-after` });
+            setAttributes(pvSpaceDiv, { "id": `spx-${lAr.afterRow}-after` });
             pvSpaceDiv.className = 'space space-row-grid';
-            pvSpaceDiv.style.height = `${el.spaceRow}px`;
+            pvSpaceDiv.style.height = `${lAr.spaceRow}px`;
             pvPreviousRow.after(pvSpaceDiv);
         }
 
         // MAKING ROW 
         previewDropZone.appendChild(pvRowDiv);
-    });
 
 
-
-    // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
-    // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-    const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
-    let blockRowId = 1;
-    const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
-    let siblingRowId = 1;
-    layoutArray.forEach((lAr, rIdx) => {
+        // console.log("Row Id: ", lAr.rowID);
         // CHECK IT THERE IS NO SPACE 
         if (!lAr.afterRow) {
             //  ADDING TEXT AND IMAGE 
             // MATCHING ROW ID 
-            if (lAr.rowID === blockRowId) {
-                // console.log(lAr.rowWithColumn);
-                let blockColNum = 0;
-                assendingBlockCol.forEach((bEl, bIdx) => {
-                    if (lAr.rowID === bEl.rowNumber) {
-                        // console.log("After assending: ", bEl);
-                        let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${bEl.columnNumber - 1}`);
-                        // console.log(invalidToValidHtml(bEl.blockElement.blockHtml));
-                        if (bEl.blockElement.name === "txtBlockContent") {
-                            pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
-                        } else if (bEl.blockElement.name === "imgBlockContent") {
-                            // console.log(bEl.columnNumber);
-                            const pvImgHyerLink = document.createElement('a');
-                            if (bEl.blockElement.imgNewTab === true) {
-                                setAttributes(pvImgHyerLink, { "href": `${protocalValidate(bEl.blockElement.imgHyperlink)}`, "target": "_blank" });
-                            } else {
-                                setAttributes(pvImgHyerLink, { "href": `${protocalValidate(bEl.blockElement.imgHyperlink)}` });
-                            }
+            // if (lAr.rowID === blockRowId) {
+            //     console.log("Row var arr: ", blockRowId);
 
-                            const pvImgElement = document.createElement('img');
-                            let defaultImg = bEl.blockElement.imgUrl;
-                            console.log("Default image: ", bEl.blockElement.imgUrl);
-                            if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null) defaultImg = "/img/empty-image.png";
-
-                            setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${blockColNum + 1}`, "src": `${defaultImg === "/img/empty-image.png" ? defaultImg : "/" + defaultImg}` });
-                            pvImgElement.className = "content img-content-block";
-                            pvImgHyerLink.appendChild(pvImgElement);
-                            pvSelectedElement.appendChild(pvImgHyerLink);
-                        } else if (bEl.blockElement.name === "socialBlockContent") {
-                            // blockHtml: "<div class=~_content icon-content-block~_ id=~_icon-3-1~_ ><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/facebook.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/twitter.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/instagram.png~_ ></a><div />"
-                            // name: "socialBlockContent"
-                            // socialFbHyperlink: "fb.com"
-                            // socialInstagramHyperlink: "i.com"
-                            // socialTwitterHyperlink: "t.com"
-
-                            const pvIcons = document.createElement("div");
-                            setAttributes(pvIcons, { "id": `icon-${lAr.rowID}-${blockColNum + 1}` });
-                            pvIcons.className = "content icon-content-block";
-                            /*
-
-                            
-                            const pvFbLink = document.createElement('a');
-                            setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialFbHyperlink)}` });
-                            const pvFbIconImg = document.createElement('img');
-                            setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
-                            pvFbLink.appendChild(pvFbIconImg);
-                            pvIcons.appendChild(pvFbLink);
-
-                            const pvTwiterLink = document.createElement('a');
-                            setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialTwitterHyperlink)}` });
-                            const pvTwitterIconImg = document.createElement('img');
-                            setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
-                            pvTwiterLink.appendChild(pvTwitterIconImg);
-                            pvIcons.appendChild(pvTwiterLink);
-
-
-                            const pvInstaLink = document.createElement('a');
-                            setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialInstagramHyperlink)}` });
-                            const pvInstaIconImg = document.createElement('img');
-                            setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
-                            pvInstaLink.appendChild(pvInstaIconImg);
-                            pvIcons.appendChild(pvInstaLink);
-                            */
-
-
-                            // for (let k = 0; k < 2; k++) {
-                            // }
-                            const iconHolder = createSocialIcons(pvIcons, `${protocalValidate(bEl.blockElement.socialFbHyperlink)}`, `${protocalValidate(bEl.blockElement.socialTwitterHyperlink)}`, `${protocalValidate(bEl.blockElement.socialInstagramHyperlink)}`);
-                            pvSelectedElement.append(iconHolder);
-                            if (lAr.rowWithColumn === 1) {
-                                pvSelectedElement.style.height = "8em";
-                            }
-
-
+            //     // blockRowId++;
+            // }
+            // console.log("ROW ID: ", lAr.rowID);
+            assendingBlockCol.forEach((bEl, belIdx) => {
+                if (lAr.rowID === bEl.rowNumber) {
+                    // ROW IS LOOPING PERFECTLY 
+                    // console.log("Block ELement row: ", bEl.rowNumber);
+                    let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${bEl.columnNumber - 1}-${bEl.rowNumber}`);
+                    // console.log(pvSelectedElement);
+                    if (bEl.blockElement.name === "txtBlockContent") {
+                        pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
+                    } else if (bEl.blockElement.name === "imgBlockContent") {
+                        const pvImgHyerLink = document.createElement('a');
+                        if (bEl.blockElement.imgNewTab === true) {
+                            setAttributes(pvImgHyerLink, { "href": `${protocalValidate(bEl.blockElement.imgHyperlink)}`, "target": "_blank" });
+                        } else {
+                            setAttributes(pvImgHyerLink, { "href": `${protocalValidate(bEl.blockElement.imgHyperlink)}` });
                         }
 
-                        // pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
-                        blockColNum++;
+                        const pvImgElement = document.createElement('img');
+                        let defaultImg = bEl.blockElement.imgUrl;
+                        // console.log("Default image: ", bEl.blockElement.imgUrl);
+                        if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null || bEl.blockElement.imgUrl === "/img/empty-image.png") {
+                            console.log("Empty img : ", bEl.blockElement.imgUrl);
+                            // empty-image.png
+                            defaultImg = "/img/empty-image.png"
+                        } else {
+                            defaultImg = "/" + bEl.blockElement.imgUrl;
+                        }
+
+                        setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${belIdx + 1}`, "src": `${defaultImg}` });
+                        pvImgElement.className = "content img-content-block";
+                        pvImgHyerLink.appendChild(pvImgElement);
+                        // console.log("Selected element: ", pvSelectedElement);
+                        // console.log("Selected row element: ", pvSelectRow);
+                        pvSelectedElement.appendChild(pvImgHyerLink);
+                    } else if (bEl.blockElement.name === "socialBlockContent") {
+                        // blockHtml: "<div class=~_content icon-content-block~_ id=~_icon-3-1~_ ><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/facebook.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/twitter.png~_ ></a><a href=~_#~_ class=~_social-icon-content~_><img class=~_social-icon-img~_ src=~_/icon/instagram.png~_ ></a><div />"
+                        // name: "socialBlockContent"
+                        // socialFbHyperlink: "fb.com"
+                        // socialInstagramHyperlink: "i.com"
+                        // socialTwitterHyperlink: "t.com"
+
+                        const pvIcons = document.createElement("div");
+                        setAttributes(pvIcons, { "id": `icon-${lAr.rowID}-${belIdx + 1}` });
+                        pvIcons.className = "content icon-content-block";
+                        /*
+
+                        
+                        const pvFbLink = document.createElement('a');
+                        setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialFbHyperlink)}` });
+                        const pvFbIconImg = document.createElement('img');
+                        setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
+                        pvFbLink.appendChild(pvFbIconImg);
+                        pvIcons.appendChild(pvFbLink);
+
+                        const pvTwiterLink = document.createElement('a');
+                        setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialTwitterHyperlink)}` });
+                        const pvTwitterIconImg = document.createElement('img');
+                        setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
+                        pvTwiterLink.appendChild(pvTwitterIconImg);
+                        pvIcons.appendChild(pvTwiterLink);
+
+
+                        const pvInstaLink = document.createElement('a');
+                        setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `${protocalValidate(bEl.blockElement.socialInstagramHyperlink)}` });
+                        const pvInstaIconImg = document.createElement('img');
+                        setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
+                        pvInstaLink.appendChild(pvInstaIconImg);
+                        pvIcons.appendChild(pvInstaLink);
+                        */
+
+
+                        // for (let k = 0; k < 2; k++) {
+                        // }
+                        const iconHolder = createSocialIcons(pvIcons, `${protocalValidate(bEl.blockElement.socialFbHyperlink)}`, `${protocalValidate(bEl.blockElement.socialTwitterHyperlink)}`, `${protocalValidate(bEl.blockElement.socialInstagramHyperlink)}`);
+                        pvSelectedElement.append(iconHolder);
+                        if (lAr.rowWithColumn === 1) {
+                            pvSelectedElement.style.height = "8em";
+                        }
+
+
                     }
-                });
-                blockRowId++;
-            }
+                }
+            });
+
 
 
             // ADDING BUTTON 
             // MATCHING ROW ID 
-            if (lAr.rowID === siblingRowId) {
-                // console.log(lAr.rowWithColumn);
-                // let blockColNum = 0;
-                // console.log("layout sibling row ", siblingRowId);// result 1, 2, 3
 
-                // console.log("layout sibling row ", siblingRowId);// result 1, 2, 3
-                assendingSibling.forEach((sEl, bIdx) => {
-                    if (lAr.rowID === sEl.rowNum) {
-                        // console.log("sibling col: " + sEl.colNum + ' in row: ' + lAr.rowID); // sibling col: 1 in row: 1, sibling col: 2 in row: 1, sibling col: 2 in row: 2
-                        // console.log("Row num: " + lAr.rowWithColumn + " in column number: " + blockColNum); //RESULT - Row num: 2 in column number: 0, Row num: 2 in column number: 1, Row num: 3 in column number: 0
-                        let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${sEl.colNum - 1}`);
-                        // btnAlign: null, btnBgColor: "#0d5415", btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 btnHyperlink: "http://localhost:4000", btnOpenNewTab: false, btnRound: true, btnTextColor: "#942e2e"
-                        let pvSBtnRound;
-                        sEl.btnRound == true ? pvSBtnRound = "border-radius: 8px;" : pvSBtnRound = "";
-                        let pvBtnTab;
-                        // ON CLICK EVENT FOR JAVASCRIPT
-                        let pvCorrectHyperlink = null;
-                        sEl.btnHyperlink !== null ? pvCorrectHyperlink = protocalValidate(sEl.btnHyperlink) : pvCorrectHyperlink = "#";
+            // console.log(lAr.rowWithColumn);
+            // let blockColNum = 0;
+            // console.log("layout sibling row ", siblingRowId);// result 1, 2, 3
 
+            // console.log("layout sibling row ", siblingRowId);// result 1, 2, 3
 
+            assendingSibling.forEach((sEl, bIdx) => {
 
-                        // let pvOnClickEvent = window.open(`${pvCorrectHyperlink}`);
-                        let pvOnClickEvent = null;
-                        sEl.btnOpenNewTab === true ? pvOnClickEvent = `target="_blink"` : pvOnClickEvent = "";
+                if (lAr.rowID === sEl.rowNum) {
+                    // console.log("sibling col: " + sEl.colNum + ' in row: ' + lAr.rowID); // sibling col: 1 in row: 1, sibling col: 2 in row: 1, sibling col: 2 in row: 2
+                    // console.log("Row num: " + lAr.rowWithColumn + " in column number: " + blockColNum); //RESULT - Row num: 2 in column number: 0, Row num: 2 in column number: 1, Row num: 3 in column number: 0
+                    let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${sEl.colNum - 1}-${sEl.rowNum}`);
+                    // btnAlign: null, btnBgColor: "#0d5415", btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 btnHyperlink: "http://localhost:4000", btnOpenNewTab: false, btnRound: true, btnTextColor: "#942e2e"
+                    let pvSBtnRound;
+                    sEl.btnRound == true ? pvSBtnRound = "border-radius: 8px;" : pvSBtnRound = "";
+                    let pvBtnTab;
+                    // ON CLICK EVENT FOR JAVASCRIPT
+                    let pvCorrectHyperlink = null;
+                    sEl.btnHyperlink !== null ? pvCorrectHyperlink = protocalValidate(sEl.btnHyperlink) : pvCorrectHyperlink = "#";
 
 
-                        // if (sEl.btnOpenNewTab == true) {
-                        //     // OPEN IN NEW TAB 
-                        //     pvBtnTab = "border-radius: 8px;";
-                        // } else {
-                        //     pvBtnTab = ""
-                        // }
 
-                        const pvSiblingBtn = `<a href="${pvCorrectHyperlink}" ${pvOnClickEvent} calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</a>`;
+                    // let pvOnClickEvent = window.open(`${pvCorrectHyperlink}`);
+                    let pvOnClickEvent = null;
+                    sEl.btnOpenNewTab === true ? pvOnClickEvent = `target="_blink"` : pvOnClickEvent = "";
 
-                        // const pvSiblingBtn = document.createElement('button');
-                        // pvSiblingBtn.textContent = "Preview";
-                        pvSelectedElement.appendChild(stringToNodes(pvSiblingBtn));
-                        // blockColNum++;
-                    }
-                });
-                siblingRowId++;
-            }
+
+                    // if (sEl.btnOpenNewTab == true) {
+                    //     // OPEN IN NEW TAB 
+                    //     pvBtnTab = "border-radius: 8px;";
+                    // } else {
+                    //     pvBtnTab = ""
+                    // }
+
+                    const pvSiblingBtn = `<a href="${pvCorrectHyperlink}" ${pvOnClickEvent} calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</a>`;
+
+                    // const pvSiblingBtn = document.createElement('button');
+                    // pvSiblingBtn.textContent = "Preview";
+                    pvSelectedElement.appendChild(stringToNodes(pvSiblingBtn));
+                    // blockColNum++;
+                }
+
+            });
+
         }
     });
 
