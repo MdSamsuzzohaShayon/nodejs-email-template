@@ -180,7 +180,6 @@ button, .btn {
 }
 .drop-wrapper .drop-row .btn-content-block {
   text-align: center;
-  width: fit-content;
   font-size: 0.7rem;
   padding: 10px 20px;
   margin-left: 1rem;

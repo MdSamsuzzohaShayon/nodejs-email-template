@@ -67,6 +67,9 @@
 
 
 
+
+
+
 ### STYLING INSTRUCTIONS 
  - MAKE IT RESPONSIVE
  - DEFAULT BUTTON ALIGNMENT ☑️
@@ -120,6 +123,19 @@
     ```
 
  - https://www.youtube.com/watch?v=zDaaG8hFYlk
+ - open in link is not working (button property is not setting properly)
+ - Image hyper link is not setting properly 
+ 
+ *5email-template.js:1073 TypeError: Cannot read property 'blockElement' of undefined
+    at HTMLDocument.<anonymous> (email-template.js:1004)
+email-template.js:580 outside of drop zone
+email-template.js:681 [Violation] 'drop' handler took 1895ms
+2email-template.js:580 outside of drop zone
+email-template.js:681 [Violation] 'drop' handler took 2007ms
+email-template.js:1073 TypeError: Cannot read property 'className' of null
+    at HTMLDocument.<anonymous> (email-template.js:1051)
+email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefined
+    at HTMLDocument.<anonymous> (email-template.js:1027)*
 
 
 

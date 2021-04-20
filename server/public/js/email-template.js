@@ -160,44 +160,63 @@ let increaseDZHeight = 200;
 // EXTRA HELPING FUNCTIONS START
 // HELPING FUNCTION 2
 const imgUploadHandler = (imgFile, imgSrcUrl) => {
-    if (selectedRow !== null && selectedCol !== null && !templateSelected) {
-        if (imgFile) {
-            // console.log("rc: ", selectedRow, selectedCol);
+
+
+    // if (selectedRow !== null && selectedCol !== null && !templateSelected) {
+    // FOR ANY IMAGES INSIDE TEMPLATE 
+    if (imgFile) {
+        // console.log("Imge file: ", imgFile);
+        // console.log("rc: ", selectedRow, selectedCol);
+        if (imgFile.size > 2097152) { // 2 MiB for bytes.
+            alert("File size must under 2MiB!");
+            return;
+        } else {
             if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
-                // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
                 const reader = new FileReader();
-                reader.addEventListener('load', function (le) {
-                    imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
-                    positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { pl.blockElement.imgUrl = le.target.result; } });
-                });
-                reader.readAsDataURL(imgFile);
-                console.log("img-" + selectedRow + '-' + selectedCol);
-                formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
-                // formData.append("img-1-1", imgFile);
+                if (selectedRow !== null && selectedCol !== null && !templateSelected) {
+                    // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+                    reader.addEventListener('load', function (le) {
+                        imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
+                        positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { pl.blockElement.imgUrl = le.target.result; } });
+                    });
+                    reader.readAsDataURL(imgFile);
+                    // console.log("img-" + selectedRow + '-' + selectedCol);
+                    formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
+                    // formData.append("img-1-1", imgFile);
+                } else {
+                    reader.addEventListener('load', function (le) {
+                        imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
+                    });
+                    reader.readAsDataURL(imgFile);
+                    console.log("img-" + selectedRow + '-' + selectedCol);
+                    formData.append("header-img", imgFile);
+                }
             } else {
                 alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
             }
-        } else {
-            console.log('no img');
         }
     } else {
-        if (imgFile) {
-            // console.log("rc: ", selectedRow, selectedCol);
-            if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
-                const reader = new FileReader();
-                reader.addEventListener('load', function (le) {
-                    imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
-                });
-                reader.readAsDataURL(imgFile);
-                console.log("img-" + selectedRow + '-' + selectedCol);
-                formData.append("header-img", imgFile);
-            } else {
-                alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
-            }
-        } else {
-            console.log('no img');
-        }
+        console.log('no img');
     }
+    // } else {
+    //     // FOR HEADER IMAGES  
+    //     if (imgFile) {
+    //         // console.log("rc: ", selectedRow, selectedCol);
+    //         if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
+    //             const reader = new FileReader();
+    //             reader.addEventListener('load', function (le) {
+    //                 imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
+    //             });
+    //             reader.readAsDataURL(imgFile);
+    //             console.log("img-" + selectedRow + '-' + selectedCol);
+    //             formData.append("header-img", imgFile);
+    //         } else {
+    //             alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
+    //         }
+    //     } else {
+    //         console.log('no img');
+    //     }
+    // }
 }
 
 // HELPING FUNCTION 3
@@ -793,8 +812,8 @@ function blockDragAndDrop() {
                                     // console.log("Img content ", e.target);
                                     e.target.parentElement.after(insertButtonElement(e.target.parentElement.parentElement.id, e.target.parentElement.parentElement.parentElement.id))
                                 }
-                                btnBlockElement = `<a >button</a>`;
-                                siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
+                                btnBlockElement = "<a >button</a>";
+                                siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: "inherit", btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
 
                                 // e.target.parentElement.after(newBlockCol);
                             } else {
@@ -1940,12 +1959,27 @@ function previewDropZoneTemplate() {
                     // } else {
                     //     pvBtnTab = ""
                     // }
+                    // console.log(sEl);
+                    const pvSiblingBtn = document.createElement('a');
+                    setAttributes(pvSiblingBtn, { "href": pvCorrectHyperlink, "id": `btn-${sEl.rowNum}-${sEl.colNum}` });
+                    pvSiblingBtn.className = "content btn-content-block";
+                    pvSiblingBtn.textContent = sEl.btnContent;
+                    pvSiblingBtn.style.backgroundColor = sEl.btnBgColor;
+                    pvSiblingBtn.style.fontFamily = sEl.btnFontFamily;
+                    pvSiblingBtn.style.fontSize = sEl.btnFontSize;
+                    pvSiblingBtn.style.color = sEl.btnTextColor;
+                    pvSiblingBtn.style.borderRadius = sEl.pvSBtnRound;
+                    pvSiblingBtn.style.float = sEl.btnAlign;
+                    pvSiblingBtn.style.width = "fit-content";
 
-                    const pvSiblingBtn = `<a href="${pvCorrectHyperlink}" ${pvOnClickEvent} calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</a>`;
+
+                    // const pvSiblingBtn = `<a href="${pvCorrectHyperlink}" ${pvOnClickEvent} calss="content btn-content-block" id="btn-${sEl.rowNum}-${sEl.colNum}" style="background:${sEl.btnBgColor}; font-family:${sEl.btnFontFamily}; font-size:${sEl.btnFontSize}px;color: ${sEl.btnTextColor}; ${pvSBtnRound};float:${sEl.btnAlign};" onclick="window.open('${pvCorrectHyperlink}')">${sEl.btnContent}</a>`;
 
                     // const pvSiblingBtn = document.createElement('button');
                     // pvSiblingBtn.textContent = "Preview";
-                    pvSelectedElement.appendChild(stringToNodes(pvSiblingBtn));
+                    // const pvBtnNodes = stringToNodes(pvSiblingBtn);
+                    // pvSelectedElement.appendChild(stringToNodes(pvSiblingBtn));
+                    pvSelectedElement.appendChild(pvSiblingBtn);
                     // blockColNum++;
                 }
 
@@ -2048,17 +2082,47 @@ function previewDropZoneTemplate() {
 
     // STYLING ELEMENTS INSIDE DROP ZONE 
     // TEXT CONTENT EXIT FALSE FOR PREVIEW 
-    const pvTextContent = document.querySelectorAll('.txt-content-block');
-    const droppedRow = document.querySelector('.drop-row');
-    pvTextContent.forEach(txtCnt => {
-        txtCnt.setAttribute("contenteditable", false);
-        if (txtCnt.getBoundingClientRect().height > 172) {
-            droppedRow.style.height = "fit-content"; // IN PREVIEW
-        }
-    });
-    dropColumnZone.style.height = "fit-content"; // IN PREVIEW
+    // const pvTextContent = document.querySelectorAll('.txt-content-block');
+    const droppedRow = document.querySelectorAll('.drop-row');
+    droppedRow.forEach((dr, dri) => dr.style.height = "fit-content");
+    // droppedRow.style.height = "fit-content";
+    // const twoCols = document.querySelectorAll(".two-column-div");
+    // twoCols.forEach((tc, tci) => tc.style.height = "100%");
+
+    // pvTextContent.forEach(txtCnt => {
+    //     txtCnt.setAttribute("contenteditable", false);
+    //     // if (txtCnt.getBoundingClientRect().height > 172) {
+    //     //     droppedRow.style.height = "fit-content"; // IN PREVIEW
+    //     // }
+    // });
+    dropColumnZone.style.height = "100%"; // IN PREVIEW
 
 }
+
+
+
+
+// MAIN FUNCTIONS 8
+function defaultStyling() {
+    // REMOVING BORDER STYLES 
+    dropColumnZone.style.border = "none";
+    // dropColumnZone.style.height = "100%"; // IN PREVIEW
+    const droppedRow = document.querySelectorAll('.drop-row');
+    droppedRow.forEach((sd, sdi) => sd.style.border = "none");
+    const spaceDiv = document.querySelectorAll('.space');
+    spaceDiv.forEach((sd, sdi) => sd.style.background = "none");
+    const oneCol = document.querySelectorAll('.one-column-div');
+    oneCol.forEach((sd, sdi) => sd.style.border = "none");
+    const twoCol = document.querySelectorAll('.two-column-div');
+    twoCol.forEach((sd, sdi) => sd.style.border = "none");
+    const threeCol = document.querySelectorAll('.three-column-div');
+    threeCol.forEach((sd, sdi) => sd.style.border = "none");
+    const pvTextContent = document.querySelectorAll('.txt-content-block');
+    pvTextContent.forEach(txtCnt => {
+        txtCnt.setAttribute("contenteditable", false);
+    });
+}
+
 
 
 
@@ -2082,6 +2146,7 @@ function previewDropZoneTemplate() {
 if (currentPath === "preview" && window.location.pathname !== "/template") {
     console.log("Preview page");
     previewDropZoneTemplate();
+    defaultStyling();
 
 } else if (currentPath === "editor") {
     console.log("Editor page");

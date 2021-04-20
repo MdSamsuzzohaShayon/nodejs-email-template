@@ -5,6 +5,8 @@
 
 
 
+
+
 .wrapper{
 
     // font-family: $caslon;
@@ -128,6 +130,8 @@
         }
     }
 }
+
+
  // DROPZONE START 
  .drop-wrapper{
     width: 80%;
@@ -235,7 +239,7 @@
         .btn-content-block{
             // margin: 2rem 0;
             text-align: center;
-            width: fit-content;
+            // width: fit-content;
             @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 1rem);
             margin-right: 1rem;
             margin-bottom: 1rem;
