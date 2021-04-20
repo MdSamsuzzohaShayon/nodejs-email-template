@@ -1648,7 +1648,7 @@ function templatePropsCng() {
 
 
 // MAIN FUNCTION 6
-function backendAndDataBase() {
+function backendAndDataBase(reqUrl, method) {
 
 
     saveButton.addEventListener('click', async e => {
@@ -1708,9 +1708,16 @@ function backendAndDataBase() {
 
 
             // //SUBMITTING DATATO THE SERVER 
-            const response = await fetch(`${websiteDomain}/template/add`, {
-                method: "POST",
-                body: formData
+            const response = await fetch(reqUrl, {
+                // method: "POST",
+                method: method,
+                body: formData,
+                // headers: {
+                //     "Content-Type": "application/json"
+                // },
+                // body: {
+                //     data1: "This is some data"
+                // }
             });
             console.log(response);
 
@@ -1719,7 +1726,7 @@ function backendAndDataBase() {
 
             // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
             // submitted = true;
-            // window.location.replace(websiteDomain + "/template/preview");
+            // window.location.replace(websiteDomain + "/template");
         } catch (err) {
             console.log(err);
         }
@@ -2118,9 +2125,40 @@ function defaultStyling() {
     const threeCol = document.querySelectorAll('.three-column-div');
     threeCol.forEach((sd, sdi) => sd.style.border = "none");
     const pvTextContent = document.querySelectorAll('.txt-content-block');
-    pvTextContent.forEach(txtCnt => {
-        txtCnt.setAttribute("contenteditable", false);
-    });
+    pvTextContent.forEach(txtCnt => txtCnt.setAttribute("contenteditable", false));
+}
+
+
+
+
+
+// MAIN FUNCTIONS 9
+function editingELements() {
+    const newRowList = JSON.parse(layout);
+    const newPositionElement = JSON.parse(content);
+    const newBtnSibling = JSON.parse(sibling);
+    // console.log("templateID: ", templateID);
+
+    // Array1.splice(0, Array1.length, ...Array2);
+    // rowList.splice(0, rowList.length, newRowList);
+    // positionElement.splice(0, positionElement.length, newPositionElement);
+    // siblingButtonList.splice(0, siblingButtonList.length, newBtnSibling);
+
+
+
+    rowList = newRowList.slice(0);
+    positionElement = newPositionElement.slice(0);
+    siblingButtonList = newBtnSibling.slice(0);
+
+
+
+    const allLinks = document.getElementsByTagName('a');
+    // allLinks.setAttribute("href", "#");
+    // console.log(allLinks);
+    // allLinks.forEach((al, ali) => al.setAttribute("href", "#"));
+    for (link of allLinks) {
+        link.setAttribute("href", "#");
+    }
 }
 
 
@@ -2155,7 +2193,7 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     rightBarElementShowHide();
     rightBarProps();
     templatePropsCng();
-    backendAndDataBase();
+    backendAndDataBase(`${websiteDomain}/template/add`, "POST");
     // if (submitted === false) {
     //     // PREVENT TO SET 
     //     window.addEventListener('beforeunload', function (e) {
@@ -2167,6 +2205,14 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     // }
 
 } else if (currentPath === "edit") {
+    previewDropZoneTemplate();
+    editingELements();
+    columnDragAndDrop();
+    blockDragAndDrop();
+    rightBarElementShowHide();
+    rightBarProps();
+    templatePropsCng();
+    backendAndDataBase(`${websiteDomain}/template/edit/?_method=PUT`, "PUT");
     console.log("EDIT");
 } else if (findPath[1] === "template") {
     console.log("index");

@@ -8,6 +8,12 @@ const uploadFile = require('../config/file-upload-config');
 const router = express.Router();
 
 
+function invalidToValidStr(invalidString) {
+    let blockElementString = invalidString.toString();
+    let newHtmlBlock = blockElementString.replace(/"/g, "~_");
+    let validString = newHtmlBlock;
+    return validString;
+}
 
 
 // EDITOR VIEWS 
@@ -27,12 +33,7 @@ router.get('/editor', (req, res, next) => {
 
 
 
-function invalidToValidStr(invalidString) {
-    let blockElementString = invalidString.toString();
-    let newHtmlBlock = blockElementString.replace(/"/g, "~_");
-    let validString = newHtmlBlock;
-    return validString;
-}
+
 
 
 
@@ -141,7 +142,21 @@ router.get('/edit/:id', (req, res, next) => {
     //     res.render('template-preview', { docs: result[0] });
     //     conn.end();
     // });
-    res.status(200).json({ "id": req.params.id });
+    const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
+
+    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
+    conn.query(sql, [req.params.id], (err, result, fields) => {
+        if (err) throw err;
+        // console.log("The result is: ", JSON.parse(result[0].content));
+        res.render('template/edit-template', { docs: result[0], templateID: req.params.id });
+        // conn.end();
+    });
+});
+
+
+
+router.put('/edit', (req, res, next) => {
+    console.log("Put Request", req.body);
 });
 
 
