@@ -1,32 +1,32 @@
-/*
+
 // https://www.youtube.com/watch?v=6JR8HI9Ymd8
 
 // INPUT FILES
 const fileInput = document.getElementById('file-input');
 const fileInput2 = document.getElementById('file-input-2');
-const title = document.getElementById('title');
+const fileTitle = document.getElementById('title');
 
 
 const uploadSubmit = document.getElementById('submit-upload');
 const uploadMultipleSubmit = document.getElementById('submit-multiple-upload');
 
 
-const formData = new FormData();
+const fileFormData = new FormData();
 
 fileInput.addEventListener("change", e => {
     // console.log("E: ", e.target.files[0]);
     // formData.append("img1", e.target.files[0], "custom1 name.jpg");
-    formData.append("img1", e.target.files[0]);
+    fileFormData.append("img1", e.target.files[0]);
 });
 
 
 fileInput2.addEventListener("change", e => {
-    formData.append("img2", e.target.files[0]);
+    fileFormData.append("img2", e.target.files[0]);
 });
 
 
-title.addEventListener('change', e => {
-    formData.append("title", e.target.value);
+fileTitle.addEventListener('change', e => {
+    fileFormData.append("title", e.target.value);
 });
 
 
@@ -37,14 +37,20 @@ const someJson = {
     name: "this is name",
     desc: "this is desc"
 };
-formData.append("json", JSON.stringify(someJson));
+fileFormData.append("json", JSON.stringify(someJson));
+
+
+const host = window.location.host;
+
+
+// SINGLE FILE UPLOAD 
 uploadSubmit.addEventListener('click', async e => {
 
 
-    fetch('http://localhost:4000/template/file-upload', {
+    fetch(`http://${host}/template/file-upload`, {
         method: "POST",
         // headers: { "Content-Type": "application/json" },
-        body: formData
+        body: fileFormData
     })
         .then(res => {
             console.log(res);
@@ -59,7 +65,7 @@ uploadSubmit.addEventListener('click', async e => {
 
 
 
-
+// MULTIPLE FILE UPLOADS 
 uploadMultipleSubmit.addEventListener('click', async e => {
 
 
@@ -72,10 +78,11 @@ uploadMultipleSubmit.addEventListener('click', async e => {
 
 
 
-    fetch('http://localhost:4000/template/file-multiple-upload', {
+
+    fetch(`http://${host}/template/file-multiple-upload`, {
         method: "POST",
         // headers: { "Content-Type": "application/json" },
-        body: formData
+        body: fileFormData
     })
         .then(res => {
             console.log("Response: ", res);
@@ -84,4 +91,3 @@ uploadMultipleSubmit.addEventListener('click', async e => {
             console.log(err);
         });
 });
-*/

@@ -1,12 +1,18 @@
-<div class="file-upload">
-    <input class="file-input" id="file-input" type="file">
-</div>
-<div class="file-upload">
-    <input class="file-input" id="file-input-2" type="file">
-</div>
-<div class="file-upload">
-    <input class="title" id="title" type="text">
-</div>
+<div class="container">
+    <h2 class="h2 alert alert-primary">Upload image to aws S3</h2>
+    <div class="file-upload mb-3">
+        <label for="title" class="form-label">Image Title</label>
+        <input class="title form-control" placeholder="Image title" id="title" type="text">
+    </div>
+    <div class="file-upload mb-3">
+        <label for="file-input" class="form-label">Image 1</label>
+        <input class="file-input form-control" id="file-input" type="file">
+    </div>
+    <div class="file-upload mb-3">
+        <label for="file-input-2" class="form-label">Image 2</label>
+        <input class="file-input form-control" id="file-input-2" type="file">
+    </div>
 
-<button class="upload-btn" id="submit-upload">Upload file</button>
-<button class="upload-btn" id="submit-multiple-upload">Upload multiple file</button>
+    <button class="upload-btn btn btn-primary" id="submit-upload">Upload file</button>
+    <button class="upload-btn btn btn-primary" id="submit-multiple-upload">Upload multiple file</button>
+</div>

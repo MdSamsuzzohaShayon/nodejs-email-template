@@ -3,7 +3,11 @@ const conn = require('../config/mysql-config');
 // const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 const uploadFile = require('../config/file-upload-config');
+const fileUploadToS3 = require('../config/file-upload-config-s3');
+const { uploadS3File, getFileStream } = require('../config/s3');
 
 const router = express.Router();
 
@@ -226,9 +230,10 @@ router.delete('/delete/:id', (req, res, next) => {
                 if (fs.existsSync(path.join(__dirname, "../uploads/" + bCt.blockElement.imgUrl))) {
                     // console.log(path.join(__dirname, "../uploads/" + bCt.blockElement.imgUrl));
                     fs.unlinkSync(path.join(__dirname, "../uploads/" + bCt.blockElement.imgUrl));
-                } else {
-                    console.log("file doesn't exist".red, path.join(__dirname, "../uploads"));
                 }
+                // else {
+                //     console.log("file doesn't exist".red, path.join(__dirname, "../uploads"));
+                // }
                 // console.log(bCt);
             }
         });
@@ -247,15 +252,32 @@ router.delete('/delete/:id', (req, res, next) => {
 
 
 // THIS IS FOR EXPIREMENT 
-/*
 // const uploadFile = multer({ storage });
 router.get('/file-upload', (req, res, next) => {
     res.render('file-upload');
 });
-// router.post('/file-upload', uploadFile.single('imgs'), (req, res, next) => {
-//     console.log(req.file);
-//     console.log(req.body);
-// });
+
+
+router.get('/file-fetch-s3/:key', (req, res, next) => {
+    const key = req.params.key;
+    const readStream = getFileStream(key);
+    readStream.pipe(res);
+    res.render('file-upload');
+});
+
+
+
+router.post('/file-upload', fileUploadToS3.single('img1'), async (req, res, next) => {
+    console.log("Hitting post: /template/file-upload".white);
+    console.log(req.file);
+    console.log(req.body.title);
+    const result = await uploadS3File(req.file);
+    console.log("Result of s3: ", result); // RESPONSE - WE WILL GET ETTAG, LOCATION, KEY, KEY, BUCKET
+    console.log(`Make a get request to /timplate/file-fetch-s3/${result.Key}`);
+
+    // REMOVE FILE FROM SERVER 
+    await unlinkFile(req.file.path);
+});
 
 
 
@@ -268,7 +290,8 @@ router.get('/file-upload', (req, res, next) => {
 // });
 
 
-router.post('/file-multiple-upload', uploadFile.fields([{ name: 'img1', maxCount: 1 }, { name: 'img2', maxCount: 1 }]), (req, res, next) => {
+router.post('/file-multiple-upload', fileUploadToS3.fields([{ name: 'img1', maxCount: 1 }, { name: 'img2', maxCount: 1 }]), (req, res, next) => {
+    console.log("Hitting post: /template/file-multiple-upload".white);
     // const files = req.files['img1'][0];
     // if (!files) {
     //     const error = new Error('Please choose files')
@@ -279,7 +302,7 @@ router.post('/file-multiple-upload', uploadFile.fields([{ name: 'img1', maxCount
     console.log(req.files['img1'][0]);
     console.log(req.body.title);
 });
-*/
+
 
 
 
