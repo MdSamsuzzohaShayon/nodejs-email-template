@@ -13,7 +13,7 @@ const secretAccesskey = process.env.AWS_SECRET_KEY;
 const s3 = new S3({
     region,
     accessKeyId,
-    secretAccessKey
+    secretAccesskey
 });
 
 // UPLOADS A FILE TO S3

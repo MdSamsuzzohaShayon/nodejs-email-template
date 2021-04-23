@@ -1786,9 +1786,9 @@ function previewDropZoneTemplate() {
     let blockRowId = 1;
     const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
     let siblingRowId = 1;
-    // console.log("Content: ", pvBlockElement);
+    console.log("Content: ", pvBlockElement);
     // console.log("Layout: ", layoutArray)
-    // console.log("Sibling button: ", assendingSibling);
+    console.log("Sibling button: ", assendingSibling);
     layoutArray.forEach((lAr, rIdx) => {
 
         // MAKING ROW 
@@ -1947,7 +1947,7 @@ function previewDropZoneTemplate() {
                     let pvSelectedElement = document.getElementById(`${rowNumToStr(lAr.rowWithColumn)}-col-${sEl.colNum - 1}-${sEl.rowNum}`);
                     // btnAlign: null, btnBgColor: "#0d5415", btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 btnHyperlink: "http://localhost:4000", btnOpenNewTab: false, btnRound: true, btnTextColor: "#942e2e"
                     let pvSBtnRound;
-                    sEl.btnRound == true ? pvSBtnRound = "border-radius: 8px;" : pvSBtnRound = "";
+                    sEl.btnRound == true ? pvSBtnRound = "8px" : pvSBtnRound = "0";
                     let pvBtnTab;
                     // ON CLICK EVENT FOR JAVASCRIPT
                     let pvCorrectHyperlink = null;
@@ -1975,7 +1975,7 @@ function previewDropZoneTemplate() {
                     pvSiblingBtn.style.fontFamily = sEl.btnFontFamily;
                     pvSiblingBtn.style.fontSize = sEl.btnFontSize;
                     pvSiblingBtn.style.color = sEl.btnTextColor;
-                    pvSiblingBtn.style.borderRadius = sEl.pvSBtnRound;
+                    pvSiblingBtn.style.borderRadius = pvSBtnRound;
                     pvSiblingBtn.style.float = sEl.btnAlign;
                     pvSiblingBtn.style.width = "fit-content";
 
@@ -2092,6 +2092,40 @@ function previewDropZoneTemplate() {
     // const pvTextContent = document.querySelectorAll('.txt-content-block');
     const droppedRow = document.querySelectorAll('.drop-row');
     droppedRow.forEach((dr, dri) => dr.style.height = "fit-content");
+    const oneColDiv = document.querySelectorAll('.one-column-div');
+    const twoColDiv = document.querySelectorAll('.two-column-div');
+    const threeColDiv = document.querySelectorAll('.three-column-div');
+    oneColDiv.forEach((ocd, ocdI) => {
+        // NOT FOR SOCIAL CONTENT 
+        if (ocd.hasChildNodes()) {
+            // console.log(ocd.childNodes[0].className);
+            if (ocd.childNodes[0].classList[1] !== "icon-content-block") {
+                ocd.style.height = "fit-content"
+            }
+        }
+    });
+    twoColDiv.forEach((tcd, tcdI) => tcd.style.height = "fit-content");
+    threeColDiv.forEach((trcd, trcdI) => {
+        if (trcd.hasChildNodes()) {
+            trcd.childNodes[0].parentElement.style.height = "fit-content";
+            console.log(trcd.childNodes[0].parentElement);
+            // trcd.childNodes.forEach((trcdc, trcdcI) => {
+            //     console.log(trcdc.parentElement);
+            //     trcdc.parentElement.style.height = "fit-content";
+            // });
+            // if (trcd.childNodes[0].hasChildNodes()) {
+            //     console.log(trcd.childNodes[0]);
+            // }
+
+            // trcd.childNodes[0].style.height = "fit-content";
+
+        } else {
+            trcd.style.height = "fit-content"
+
+        }
+    });
+    // console.log(oneColDiv);
+
     // droppedRow.style.height = "fit-content";
     // const twoCols = document.querySelectorAll(".two-column-div");
     // twoCols.forEach((tc, tci) => tc.style.height = "100%");

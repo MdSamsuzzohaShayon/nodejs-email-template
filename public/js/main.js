@@ -1,6 +1,8 @@
 
 // https://www.youtube.com/watch?v=6JR8HI9Ymd8
 
+/*
+
 // INPUT FILES
 const fileInput = document.getElementById('file-input');
 const fileInput2 = document.getElementById('file-input-2');
@@ -43,7 +45,7 @@ fileFormData.append("json", JSON.stringify(someJson));
 const host = window.location.host;
 
 
-// SINGLE FILE UPLOAD 
+// SINGLE FILE UPLOAD
 uploadSubmit.addEventListener('click', async e => {
 
 
@@ -65,7 +67,7 @@ uploadSubmit.addEventListener('click', async e => {
 
 
 
-// MULTIPLE FILE UPLOADS 
+// MULTIPLE FILE UPLOADS
 uploadMultipleSubmit.addEventListener('click', async e => {
 
 
@@ -91,3 +93,4 @@ uploadMultipleSubmit.addEventListener('click', async e => {
             console.log(err);
         });
 });
+*/

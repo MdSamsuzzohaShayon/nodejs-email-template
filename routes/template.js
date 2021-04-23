@@ -2,12 +2,12 @@ const express = require('express');
 const conn = require('../config/mysql-config');
 // const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
-const util = require('util');
-const unlinkFile = util.promisify(fs.unlink);
+// const fs = require('fs');
+// const util = require('util');
+// const unlinkFile = util.promisify(fs.unlink);
+// const { uploadS3File, getFileStream } = require('../config/s3');
+// const fileUploadToS3 = require('../config/file-upload-config-s3');
 const uploadFile = require('../config/file-upload-config');
-const fileUploadToS3 = require('../config/file-upload-config-s3');
-const { uploadS3File, getFileStream } = require('../config/s3');
 
 const router = express.Router();
 
@@ -63,9 +63,10 @@ router.post('/add', uploadFile, (req, res, next) => {
     // let siblingObject = JSON.parse(sibling);
 
 
-    // console.log("Element object: ", elementObject);
-    // console.log("Sibling object: ", siblingObject);
 
+
+    // console.log("Element object(Before): ", elementObject);
+    // console.log("Sibling object(Before): ", siblingObject);
 
 
 
@@ -102,6 +103,8 @@ router.post('/add', uploadFile, (req, res, next) => {
 
 
 
+    // console.log("Element object: ", elementObject);
+    // console.log("Sibling object: ", siblingObject);
 
 
 
@@ -251,6 +254,10 @@ router.delete('/delete/:id', (req, res, next) => {
 });
 
 
+
+
+/*
+
 // THIS IS FOR EXPIREMENT 
 // const uploadFile = multer({ storage });
 router.get('/file-upload', (req, res, next) => {
@@ -302,6 +309,7 @@ router.post('/file-multiple-upload', fileUploadToS3.fields([{ name: 'img1', maxC
     console.log(req.files['img1'][0]);
     console.log(req.body.title);
 });
+*/
 
 
 

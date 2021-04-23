@@ -203,9 +203,9 @@
         // THIS SHOULD BE SET BY JS 
         .img-content-block{
             display: block;
-            width:70%;
+            width:90%;
             height: 70%;
-            margin-left: 15%;
+            margin-left: 5%;
             object-position: center;
             object-fit: cover;
         }
@@ -239,8 +239,9 @@
         .btn-content-block{
             // margin: 2rem 0;
             text-align: center;
-            // width: fit-content;
+            width: fit-content;
             @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 1rem);
+            margin-top: 0.5rem;
             margin-right: 1rem;
             margin-bottom: 1rem;
             // margin-top: 1rem;
