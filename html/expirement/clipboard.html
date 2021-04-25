@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipboard</title>
+</head>
+
+<body>
+    <div class="source" contenteditable="true">Try copying text from this box...</div>
+    <div class="target" contenteditable="true">...and pasting it into this one</div>
+    <br>
+    <div contenteditable="true" id="selectText">Try to selectet the text</div>
+    <div id="log"></div>
+    <script>
+        const source = document.querySelector('div.source');
+
+        source.addEventListener('copy', (event) => {
+            const selection = document.getSelection();
+            const selectedText = window.getSelection().toString()
+            console.log(selection);
+            console.log("E: ", event.clipboardData);
+            event.clipboardData.setData('text/plain', selection.toString().toUpperCase());
+            event.preventDefault();
+        });
+
+
+
+
+
+        const input = document.getElementById('selectText');
+        input.addEventListener('select', function logSelection(event) {
+            console.log("E: ", event);
+            const log = document.getElementById('log');
+            const selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
+            log.textContent = `You selected: ${selection}`;
+        });
+    </script>
+</body>
+
+</html>

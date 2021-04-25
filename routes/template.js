@@ -2,11 +2,11 @@ const express = require('express');
 const conn = require('../config/mysql-config');
 // const multer = require('multer');
 const path = require('path');
-// const fs = require('fs');
-// const util = require('util');
-// const unlinkFile = util.promisify(fs.unlink);
-// const { uploadS3File, getFileStream } = require('../config/s3');
-// const fileUploadToS3 = require('../config/file-upload-config-s3');
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
+const { uploadS3File, getFileStream } = require('../config/s3');
+const { uploadFileToS3, uploadMultipleFileToS3 } = require('../config/file-upload-config-s3');
 const uploadFile = require('../config/file-upload-config');
 
 const router = express.Router();
@@ -44,7 +44,8 @@ router.get('/editor', (req, res, next) => {
 
 
 // ADD A TEMPLATE TO DATABASE 
-router.post('/add', uploadFile, (req, res, next) => {
+router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
+
 
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
     let bgImg = "default-header.jpg";
@@ -107,6 +108,9 @@ router.post('/add', uploadFile, (req, res, next) => {
     // console.log("Sibling object: ", siblingObject);
 
 
+    // HERE MAKE A LOOP OF ALL FILE AND UPLOAD IT TO AWS S3 
+
+
 
 
     // https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp
@@ -154,7 +158,7 @@ router.get('/edit/:id', (req, res, next) => {
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
-        // console.log("The result is: ", JSON.parse(result[0].content));
+        // console.log("The result is: ", JSON.parse(result[0].layout));
         res.render('template/edit-template', { docs: result[0], templateID: req.params.id });
         // conn.end();
     });
@@ -162,8 +166,9 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 
-router.put('/edit', (req, res, next) => {
-    console.log("Put Request", req.body);
+router.put('/edit/:id', (req, res, next) => {
+    console.log("Put Request: ".bgWhite, req.body);
+    console.log("Put Request: ".bgWhite, req.params.id);
 });
 
 
@@ -256,13 +261,41 @@ router.delete('/delete/:id', (req, res, next) => {
 
 
 
+
+
+
+
+
+
+
+
 /*
 
 // THIS IS FOR EXPIREMENT 
-// const uploadFile = multer({ storage });
+// MAKING A PUT REQUEST 
 router.get('/file-upload', (req, res, next) => {
     res.render('file-upload');
 });
+
+
+router.put('/file-upload', fileUploadToS3.fields([{ name: 'img1', maxCount: 1 }, { name: 'img2', maxCount: 1 }]), (req, res, next) => {
+    console.log("Hitting post: /template/file-multiple-upload".white);
+    // const files = req.files['img1'][0];
+    // if (!files) {
+    //     const error = new Error('Please choose files')
+    //     error.httpStatusCode = 400
+    //     return next(error)
+    // }
+
+    // console.log(req.files['img1'][0]);
+    console.log(req.body);
+});
+
+
+
+
+
+
 
 
 router.get('/file-fetch-s3/:key', (req, res, next) => {
@@ -278,6 +311,7 @@ router.post('/file-upload', fileUploadToS3.single('img1'), async (req, res, next
     console.log("Hitting post: /template/file-upload".white);
     console.log(req.file);
     console.log(req.body.title);
+    // HERE WE CAN CREATE A LOOP OF PHOTOS WHICH WILL BE UPLOADED
     const result = await uploadS3File(req.file);
     console.log("Result of s3: ", result); // RESPONSE - WE WILL GET ETTAG, LOCATION, KEY, KEY, BUCKET
     console.log(`Make a get request to /timplate/file-fetch-s3/${result.Key}`);
@@ -306,10 +340,13 @@ router.post('/file-multiple-upload', fileUploadToS3.fields([{ name: 'img1', maxC
     //     return next(error)
     // }
 
-    console.log(req.files['img1'][0]);
-    console.log(req.body.title);
+    // console.log(req.files['img1'][0]);
+    console.log(req.body);
 });
 */
+
+
+
 
 
 

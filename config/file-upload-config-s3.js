@@ -17,20 +17,33 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         let newFileName = null;
         if (file.originalname.length > 10) {
-            newFileName = `${file.fieldname}-${file.originalname.substring(0, 9)}-${file.originalname.substring(file.originalname.length - 5)}`
+            newFileName = `${file.fieldname}-${file.originalname.substring(0, 9)}-${new Date().getSeconds()}-${file.originalname.substring(file.originalname.length - 5)}`
         } else {
-            newFileName = `${file.fieldname}-${file.originalname}-${file.originalname.substring(file.originalname.length - 5)}`
+            newFileName = `${file.fieldname}-${file.originalname}-${new Date().getSeconds()}-${file.originalname.substring(file.originalname.length - 5)}`
         }
-        // cb(null, newFileName);
         cb(null, newFileName);
     }
 });
 const arrayOfImg = [
-    { name: 'img1', maxCount: 1 },
-    { name: 'img2', maxCount: 1 }
+    { name: 'header-img', maxCount: 1 },
+    { name: 'img-1-1', maxCount: 1 },
+    { name: 'img-1-2', maxCount: 1 },
+    { name: 'img-1-3', maxCount: 1 },
+    { name: 'img-2-1', maxCount: 1 },
+    { name: 'img-2-2', maxCount: 1 },
+    { name: 'img-2-3', maxCount: 1 },
+    { name: 'img-3-1', maxCount: 1 },
+    { name: 'img-3-2', maxCount: 1 },
+    { name: 'img-3-3', maxCount: 1 },
+    { name: 'img-4-1', maxCount: 1 },
+    { name: 'img-4-2', maxCount: 1 },
+    { name: 'img-4-3', maxCount: 1 },
+    { name: 'img-5-1', maxCount: 1 },
+    { name: 'img-5-2', maxCount: 1 },
+    { name: 'img-5-3', maxCount: 1 },
 ];
 
-const fileUploadToS3 = multer({
+const uploadFileToS3 = multer({
     storage,
     fileFilter: (req, file, cb) => {
         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/gif") {
@@ -40,7 +53,21 @@ const fileUploadToS3 = multer({
             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
         }
     }
-});
+}).any();
+
+
+
+const uploadMultipleFileToS3 = multer({
+    storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/gif") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+    }
+}).fields(arrayOfImg);
 
 
 
@@ -48,4 +75,4 @@ const fileUploadToS3 = multer({
 
 
 // module.exports = { multipleFile: fileUploadToS3.fields(arrayOfImg), singleFile: fileUploadToS3.single('img1') };
-module.exports = fileUploadToS3;
+module.exports = { uploadFileToS3, uploadMultipleFileToS3 };

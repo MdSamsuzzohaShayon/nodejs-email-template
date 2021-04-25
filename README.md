@@ -136,6 +136,8 @@ email-template.js:1073 TypeError: Cannot read property 'className' of null
     at HTMLDocument.<anonymous> (email-template.js:1051)
 email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefined
     at HTMLDocument.<anonymous> (email-template.js:1027)*
+ - Update will be done if we set multer in our route
+ - FOR UPLOADING MULTIPLE FILES IN AWS -> STORE ALL FILES IN A ARRAY AND LOOP THOUGH IT
 
 
 

@@ -1653,9 +1653,9 @@ function backendAndDataBase(reqUrl, method) {
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        console.log("Sibling Button: ", siblingButtonList);
-        console.log("Row list: ", rowList);
-        console.log("Elements: ", positionElement);
+        // console.log("Sibling Button: ", siblingButtonList);
+        // console.log("Row list: ", rowList);
+        // console.log("Elements: ", positionElement);
 
 
         try {
@@ -1707,7 +1707,10 @@ function backendAndDataBase(reqUrl, method) {
 
 
 
-            // //SUBMITTING DATATO THE SERVER 
+            for (let value of formData.values()) {
+                console.log(value);
+            }
+            // //SUBMITTING DATA TO THE SERVER 
             const response = await fetch(reqUrl, {
                 // method: "POST",
                 method: method,
@@ -1724,6 +1727,11 @@ function backendAndDataBase(reqUrl, method) {
 
 
 
+
+
+
+
+
             // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
             // submitted = true;
             // window.location.replace(websiteDomain + "/template");
@@ -1735,6 +1743,8 @@ function backendAndDataBase(reqUrl, method) {
 
     });
 }
+
+
 
 
 
@@ -1786,9 +1796,9 @@ function previewDropZoneTemplate() {
     let blockRowId = 1;
     const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
     let siblingRowId = 1;
-    console.log("Content: ", pvBlockElement);
+    // console.log("Content: ", pvBlockElement);
     // console.log("Layout: ", layoutArray)
-    console.log("Sibling button: ", assendingSibling);
+    // console.log("Sibling button: ", assendingSibling);
     layoutArray.forEach((lAr, rIdx) => {
 
         // MAKING ROW 
@@ -1865,7 +1875,7 @@ function previewDropZoneTemplate() {
                         let defaultImg = bEl.blockElement.imgUrl;
                         // console.log("Default image: ", bEl.blockElement.imgUrl);
                         if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null || bEl.blockElement.imgUrl === "/img/empty-image.png") {
-                            console.log("Empty img : ", bEl.blockElement.imgUrl);
+                            // console.log("Empty img : ", bEl.blockElement.imgUrl);
                             // empty-image.png
                             defaultImg = "/img/empty-image.png"
                         } else {
@@ -2108,7 +2118,7 @@ function previewDropZoneTemplate() {
     threeColDiv.forEach((trcd, trcdI) => {
         if (trcd.hasChildNodes()) {
             trcd.childNodes[0].parentElement.style.height = "fit-content";
-            console.log(trcd.childNodes[0].parentElement);
+            // console.log(trcd.childNodes[0].parentElement);
             // trcd.childNodes.forEach((trcdc, trcdcI) => {
             //     console.log(trcdc.parentElement);
             //     trcdc.parentElement.style.height = "fit-content";
@@ -2171,6 +2181,7 @@ function editingELements() {
     const newRowList = JSON.parse(layout);
     const newPositionElement = JSON.parse(content);
     const newBtnSibling = JSON.parse(sibling);
+    console.log(newRowList);
     // console.log("templateID: ", templateID);
 
     // Array1.splice(0, Array1.length, ...Array2);
@@ -2183,6 +2194,8 @@ function editingELements() {
     rowList = newRowList.slice(0);
     positionElement = newPositionElement.slice(0);
     siblingButtonList = newBtnSibling.slice(0);
+    // console.log("Replaced value: ", rowList);
+
 
 
 
@@ -2191,7 +2204,8 @@ function editingELements() {
     // console.log(allLinks);
     // allLinks.forEach((al, ali) => al.setAttribute("href", "#"));
     for (link of allLinks) {
-        link.setAttribute("href", "#");
+        // link.setAttribute("href", "#");
+        setAttributes(link, { "href": "#", "target": "" });
     }
 }
 
@@ -2246,7 +2260,8 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     rightBarElementShowHide();
     rightBarProps();
     templatePropsCng();
-    backendAndDataBase(`${websiteDomain}/template/edit/?_method=PUT`, "PUT");
+    // /template/delete/<%- template.id %>?_method=DELETE"
+    backendAndDataBase(`${websiteDomain}/template/edit/${templateID}/?_method=PUT`, "PUT");
     console.log("EDIT");
 } else if (findPath[1] === "template") {
     console.log("index");

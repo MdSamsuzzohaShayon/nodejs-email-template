@@ -44,3 +44,5 @@ function getFileStream(fileKey) {
 
     return s3.getObject(donwloadParams).createReadStream();
 }
+
+exports.getFileStream = getFileStream;
