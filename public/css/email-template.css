@@ -3,6 +3,10 @@ button, .btn {
   border-radius: 0;
 }
 
+.navbar a {
+  color: whitesmoke !important;
+}
+
 .wrapper .template-builder {
   width: 80% !important;
   margin-left: 10% !important;

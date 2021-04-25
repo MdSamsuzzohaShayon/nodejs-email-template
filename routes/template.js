@@ -49,6 +49,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
 
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
     let bgImg = "default-header.jpg";
+    console.log("Required files: ".blue, req.files);
     if (req.files['header-img']) {
         bgImg = req.files['header-img'][0].filename;
     }
@@ -153,6 +154,7 @@ router.get('/edit/:id', (req, res, next) => {
     //     res.render('template-preview', { docs: result[0] });
     //     conn.end();
     // });
+
     const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
 
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
@@ -166,9 +168,11 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 
-router.put('/edit/:id', (req, res, next) => {
-    console.log("Put Request: ".bgWhite, req.body);
-    console.log("Put Request: ".bgWhite, req.params.id);
+router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
+    console.log("Req id: ".yellow, req.params.id);
+    console.log("Request body: ".yellow, req.body);
+    console.log("Request Files: ".yellow, req.files);
+
 });
 
 

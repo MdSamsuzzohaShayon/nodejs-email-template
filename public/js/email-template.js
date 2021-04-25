@@ -1,6 +1,10 @@
 // USING THE RIGHT CODE FOR RIGHT PAGE THIS IS VERY IMPORTANT 
 const findPath = window.location.pathname.toString().split('/');
 const currentPath = findPath[2];
+const editPage = "edit",
+    previewPage = "preview",
+    editorPage = "editor",
+    templateIndex = findPath[1];
 
 
 
@@ -85,7 +89,7 @@ let websiteDomain = "http://localhost:4000", defaultFbLink = 'fb.com/md.shayon.1
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
 // TITLE OF THE TEMPLATE 
-let title = null;
+let title = "Untitle";
 let submitted = false;
 // THIS ROW LIST WOULD BE ANOTHER DATABASE TABLE 
 let rowList = []; // THIS IS FOR TRACKING ROW DETAIL - FOR EXAMPLE - FIRST ROW WITH 3 COLUMN, 2ND ROW WITH ONE COLUMN, 3RD COLUMN WITH 2 COLUMN
@@ -958,9 +962,14 @@ function blockDragAndDrop() {
 
 
 // MAIN FUNCTION 3
-function rightBarElementShowHide() {
+function rightBarElementShowHidePreset() {
+
+
+
+
     document.addEventListener('click', e => {
         // e.preventDefault();
+
         try {
             // CLEAN UP DEFAULT VALUE FOR ALL INPUT FIELD 
             let idString = null;
@@ -984,9 +993,13 @@ function rightBarElementShowHide() {
 
 
 
+
+
+
                 propertiesBar.style.display = 'block';
                 blockElementBar.style.display = 'none';
                 if (e.toElement.classList[1] === "img-content-block") {
+                    console.log(e.target);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     imgProps.style.display = 'block';
                     const previousProps = positionElement.filter((pEl, pelIxd) => pEl.rowNumber === selectedRow && pEl.columnNumber === selectedCol);
@@ -1003,7 +1016,7 @@ function rightBarElementShowHide() {
                     // console.log(previousProps[0].blockElement.imgHyperlink);
                     imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
-                    previewImg.src = previousProps[0].blockElement.imgUrl;
+                    currentPath === editPage ? previewImg.src = "/" + previousProps[0].blockElement.imgUrl : previewImg.src = previousProps[0].blockElement.imgUrl;
                     // txt-content-block
                 } else if (e.toElement.classList[1] === "txt-content-block") {
                     const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
@@ -1069,8 +1082,10 @@ function rightBarElementShowHide() {
                 selectedRow = null;
                 selectedCol = null;
             }
+            console.log(`Selected row: ${selectedRow} Selected col : ${selectedCol}`);
+
         } catch (err) {
-            console.log(err);
+            console.log("Error from show hide: ", err);
         }
     });
 
@@ -1630,6 +1645,8 @@ function templatePropsCng() {
         imgUploadHandler(e.target.files[0], [headerImage, headerImgPreview]);
     });
 
+
+
     // TEMPLATE COLOR CHANGE 
     templateBGColorInput.addEventListener('change', (e) => {
         templateWrapper.style.background = e.target.value;
@@ -1675,6 +1692,7 @@ function backendAndDataBase(reqUrl, method) {
             });
 
             // CHANGING TITLE 
+            console.log(inputTitle.value);
             await formData.append("title", inputTitle.value);
             await formData.append('bgColor', templateBGColorInput.value);
             await formData.append('linkColor', templateLinkColorInput.value);
@@ -1711,17 +1729,11 @@ function backendAndDataBase(reqUrl, method) {
                 console.log(value);
             }
             // //SUBMITTING DATA TO THE SERVER 
-            const response = await fetch(reqUrl, {
-                // method: "POST",
-                method: method,
-                body: formData,
-                // headers: {
-                //     "Content-Type": "application/json"
-                // },
-                // body: {
-                //     data1: "This is some data"
-                // }
-            });
+            // const response = await fetch(reqUrl, {
+            //     // method: "POST",
+            //     method: method,
+            //     body: formData,
+            // });
             console.log(response);
 
 
@@ -1856,6 +1868,7 @@ function previewDropZoneTemplate() {
             // }
             // console.log("ROW ID: ", lAr.rowID);
             assendingBlockCol.forEach((bEl, belIdx) => {
+
                 if (lAr.rowID === bEl.rowNumber) {
                     // ROW IS LOOPING PERFECTLY 
                     // console.log("Block ELement row: ", bEl.rowNumber);
@@ -1881,8 +1894,9 @@ function previewDropZoneTemplate() {
                         } else {
                             defaultImg = "/" + bEl.blockElement.imgUrl;
                         }
+                        console.log("txt img: ", bEl.columnNumber);
 
-                        setAttributes(pvImgElement, { "id": `img-${lAr.rowID}-${belIdx + 1}`, "src": `${defaultImg}` });
+                        setAttributes(pvImgElement, { "id": `img-${bEl.rowNumber}-${bEl.columnNumber}`, "src": `${defaultImg}` });
                         pvImgElement.className = "content img-content-block";
                         pvImgHyerLink.appendChild(pvImgElement);
                         // console.log("Selected element: ", pvSelectedElement);
@@ -1896,7 +1910,7 @@ function previewDropZoneTemplate() {
                         // socialTwitterHyperlink: "t.com"
 
                         const pvIcons = document.createElement("div");
-                        setAttributes(pvIcons, { "id": `icon-${lAr.rowID}-${belIdx + 1}` });
+                        setAttributes(pvIcons, { "id": `icon-${bEl.rowNumber}-${bEl.columnNumber}` });
                         pvIcons.className = "content icon-content-block";
                         /*
 
@@ -2154,7 +2168,7 @@ function previewDropZoneTemplate() {
 
 
 // MAIN FUNCTIONS 8
-function defaultStyling() {
+function previewDefaultStyling() {
     // REMOVING BORDER STYLES 
     dropColumnZone.style.border = "none";
     // dropColumnZone.style.height = "100%"; // IN PREVIEW
@@ -2177,10 +2191,21 @@ function defaultStyling() {
 
 
 // MAIN FUNCTIONS 9
-function editingELements() {
+function exitorPagePreset() {
     const newRowList = JSON.parse(layout);
     const newPositionElement = JSON.parse(content);
     const newBtnSibling = JSON.parse(sibling);
+    try {
+        // PRESET FROM DATABASE
+        headerImage.setAttribute("src", "/" + headerImg);
+        headerImgPreview.setAttribute("src", "/" + headerImg);
+        typeof templateTitle !== 'undefined' ? inputTitle.value = templateTitle : inputTitle.value = title;
+        templateBGColorInput.value = pvBgColor;
+        // console.log(templateBGColorInput.value);
+        // console.log("BG color: ", pvBgColor);
+    } catch (pageErr) {
+        console.log(pageErr)
+    }
     console.log(newRowList);
     // console.log("templateID: ", templateID);
 
@@ -2229,16 +2254,16 @@ function editingELements() {
 
 
 
-if (currentPath === "preview" && window.location.pathname !== "/template") {
+if (currentPath === previewPage && window.location.pathname !== "/template") {
     console.log("Preview page");
     previewDropZoneTemplate();
-    defaultStyling();
+    previewDefaultStyling();
 
-} else if (currentPath === "editor") {
+} else if (currentPath === editorPage) {
     console.log("Editor page");
     columnDragAndDrop();
     blockDragAndDrop();
-    rightBarElementShowHide();
+    rightBarElementShowHidePreset();
     rightBarProps();
     templatePropsCng();
     backendAndDataBase(`${websiteDomain}/template/add`, "POST");
@@ -2252,18 +2277,18 @@ if (currentPath === "preview" && window.location.pathname !== "/template") {
     //     });
     // }
 
-} else if (currentPath === "edit") {
+} else if (currentPath === editPage) {
     previewDropZoneTemplate();
-    editingELements();
+    exitorPagePreset();
     columnDragAndDrop();
     blockDragAndDrop();
-    rightBarElementShowHide();
+    rightBarElementShowHidePreset();
     rightBarProps();
     templatePropsCng();
     // /template/delete/<%- template.id %>?_method=DELETE"
     backendAndDataBase(`${websiteDomain}/template/edit/${templateID}/?_method=PUT`, "PUT");
     console.log("EDIT");
-} else if (findPath[1] === "template") {
+} else if (currentPath === templateIndex) {
     console.log("index");
 } else {
     console.log("Not a template ");
