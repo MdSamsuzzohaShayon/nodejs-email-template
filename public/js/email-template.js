@@ -1729,11 +1729,11 @@ function backendAndDataBase(reqUrl, method) {
                 console.log(value);
             }
             // //SUBMITTING DATA TO THE SERVER 
-            // const response = await fetch(reqUrl, {
-            //     // method: "POST",
-            //     method: method,
-            //     body: formData,
-            // });
+            const response = await fetch(reqUrl, {
+                // method: "POST",
+                method: method,
+                body: formData,
+            });
             console.log(response);
 
 

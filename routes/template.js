@@ -20,6 +20,39 @@ function invalidToValidStr(invalidString) {
 }
 
 
+
+// PREVIEW ALL TEMPLATE 
+router.get('/', (req, res, next) => {
+    const sql = `SELECT id, title FROM nodejs_story`;
+
+    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
+    conn.query(sql, [req.params.id], (err, result, fields) => {
+        if (err) throw err;
+        // console.log("The result is: ", result[0].layout);
+        // res.render('template/template-preview', { docs: result[0] });
+        // console.log(result);
+        res.render('template/index', { docs: result });
+        // conn.end();
+    });
+});
+
+router.get('/preview/:id', (req, res, next) => {
+    // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
+    const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
+
+    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
+    conn.query(sql, [req.params.id], (err, result, fields) => {
+        if (err) throw err;
+        console.log("The result is: ", JSON.parse(result[0].content));
+        res.render('template/template-preview', { docs: result[0] });
+        // conn.end();
+    });
+});
+
+
+
+
+
 // EDITOR VIEWS 
 router.get('/editor', (req, res, next) => {
     // conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
@@ -124,9 +157,8 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
-    const sql = `INSERT INTO nodejs_story 
-                        (title,  bg_img, bg_color, link_color, layout, content, sibling) VALUES 
-                        ('${title}', '${bgImg}', '${bgColor}', '${linkColor}', '${layout}', '${JSON.stringify(elementObject)}', '${sibling}')`;
+    const sql = `INSERT INTO nodejs_story (title,  bg_img, bg_color, link_color, layout, content, sibling) VALUES ('${title}', '${bgImg}', '${bgColor}', '${linkColor}', '${layout}', '${JSON.stringify(elementObject)}', '${sibling}')`;
+    // const sql = `INSERT INTO nodejs_story (title,  bg_img, bg_color, link_color, layout, content, sibling) VALUES ('?', '?', '?', '?', '?', '?', '?')`;
 
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, (err, result, fields) => {
@@ -170,42 +202,113 @@ router.get('/edit/:id', (req, res, next) => {
 
 router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
     console.log("Req id: ".yellow, req.params.id);
-    console.log("Request body: ".yellow, req.body);
+    // console.log("Request body: ".yellow, req.body);
     console.log("Request Files: ".yellow, req.files);
 
+    const { title, bgColor, linkColor, layout, element, sibling } = req.body;
+
+
+
+
+
+    try {
+        const findSql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
+
+        // FIND THE EMPLATE BY USING ID 
+        conn.query(findSql, [req.params.id], (findErr, findResult, findFields) => {
+            if (findErr) throw findErr;
+            console.log("find result content: ", JSON.parse(findResult[0].content));
+            let updatedBgImg = null;
+            if (req.files['header-img']) {
+                updatedBgImg = req.files['header-img'].filename;
+            }
+            console.log("Update image: ", updatedBgImg);
+            // DELETE PREVIOUS HEADER IMAGE 
+            if (req.files['header-img'] && req.files['header-img'] !== findResult[0].bg_img) {
+                if (fs.existsSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img))) {
+                    console.log("File exist");
+                    // console.log(path.join(__dirname, "../uploads/" + findResult[0].bg_img ));
+                    fs.unlinkSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img));
+                }
+            }
+
+
+
+
+            // const updateSql = `UPDATE `nodejs_story` SET `id`='[value-1]',`title`='[value-2]',`updated_at`='[value-5]',`bg_img`='[value-12]',`bg_color`='[value-13]',`link_color`='[value-14]',`layout`='[value-15]',`content`='[value-16]',`sibling`='[value-17]' WHERE id=?`;
+
+            // title,  bg_img, bg_color, link_color, layout, content, sibling
+
+            // console.log("Req.Body.Element- Updated: ".blue, JSON.parse(element));
+            let elementObject = JSON.parse(element);
+            elementObject.forEach((eo, eoI) => {
+                eo.blockElement.blockHtml = invalidToValidStr(eo.blockElement.blockHtml);
+                // STRINGIFYING BUTTON ELEMENT 
+                if (eo.blockElement.name === "imgBlockContent") {
+                    const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
+                    if (findImg !== undefined && findImg) {
+                        // MATCH ROW NUMBER ANC COL NUMBER 
+                        // DELETE PREVIOUS IMAGE 
+                        console.log("Image file name: ".white, findImg[0].filename);
+                        // if (fs.existsSync(path.join(__dirname, "../uploads/" + eo.blockElement.imgUrl))) {
+                        //     console.log("File exist");
+                        //     fs.unlinkSync(path.join(__dirname, "../uploads/" + eo.blockElement.imgUrl));
+                        // }
+                        eo.blockElement.imgUrl = findImg[0].filename;
+                        console.log("Imge urls: ".blue, eo.blockElement.imgUrl);
+
+                    }
+                }
+            });
+
+            // const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${element}', sibling='${sibling}' WHERE id=?`;
+            const updateSql = `UPDATE nodejs_story SET title='${title}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
+            conn.query(updateSql, [req.params.id], (updateErr, updateResult, updateFields) => {
+                if (updateErr) throw updateErr;
+                console.log("Update result: ", updateResult);
+                // DELETE PREVIOUS HEADER IMAGE 
+            });
+
+
+
+        });
+
+
+        // console.log("The result is: ", JSON.parse(result[0].layout));
+        // CHECK THERE IS ANY UPDATED HEADER IMAGE 
+        // if (req.files['header-img']) {
+        //     let updatedBgImg = req.files['header-img'][0].filename;
+        //     console.log("Update header image name: ", updatedBgImg);
+        //     console.log("Previous Header image name(Delete this image): ", result[0].bg_img);
+
+
+
+
+        //     // const updateSql = `UPDATE `nodejs_story` SET `id`='[value-1]',`title`='[value-2]',`updated_at`='[value-5]',`bg_img`='[value-12]',`bg_color`='[value-13]',`link_color`='[value-14]',`layout`='[value-15]',`content`='[value-16]',`sibling`='[value-17]' WHERE id=?`;
+        //     const updateSql = `UPDATE nodejs_story SET title=${req.body.title}, bg_img=${updatedBgImg}`;
+        //     conn.query(updateSql, [req.params.id], (updateErr, updateResult, updateFields) => {
+        //         console.log("Update result: ", updateResult);
+        //         // DELETE PREVIOUS HEADER IMAGE 
+        //         // if (updatedBgImg !== result[0].bg_img) {
+        //         //     if (fs.existsSync(path.join(__dirname, "../uploads/" + updateResult[0].bg_img)) || fs.existsSync(path.join(__dirname, "../aws/" + updateResult[0].bg_img))) {
+        //         //         // console.log(path.join(__dirname, "../uploads/" + updateResult[0].bg_img ));
+        //         //         fs.unlinkSync(path.join(__dirname, "../uploads/" + updateResult[0].bg_img));
+        //         //     }
+        //         // }
+        //     });
+        // }
+    } catch (err) {
+        console.log(err);
+    }
+
+
 });
 
 
 
 
 
-// PREVIEW ALL TEMPLATE 
-router.get('/', (req, res, next) => {
-    const sql = `SELECT id, title FROM nodejs_story`;
 
-    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
-    conn.query(sql, [req.params.id], (err, result, fields) => {
-        if (err) throw err;
-        // console.log("The result is: ", result[0].layout);
-        // res.render('template/template-preview', { docs: result[0] });
-        // console.log(result);
-        res.render('template/index', { docs: result });
-        // conn.end();
-    });
-});
-
-router.get('/preview/:id', (req, res, next) => {
-    // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
-    const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
-
-    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
-    conn.query(sql, [req.params.id], (err, result, fields) => {
-        if (err) throw err;
-        console.log("The result is: ", JSON.parse(result[0].content));
-        res.render('template/template-preview', { docs: result[0] });
-        // conn.end();
-    });
-});
 
 
 
