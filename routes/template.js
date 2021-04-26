@@ -217,19 +217,26 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
         // FIND THE EMPLATE BY USING ID 
         conn.query(findSql, [req.params.id], (findErr, findResult, findFields) => {
             if (findErr) throw findErr;
-            console.log("find result content: ", JSON.parse(findResult[0].content));
+            // console.log("find result content: ", findResult[0]);
             let updatedBgImg = null;
+
             if (req.files['header-img']) {
-                updatedBgImg = req.files['header-img'].filename;
-            }
-            console.log("Update image: ", updatedBgImg);
-            // DELETE PREVIOUS HEADER IMAGE 
-            if (req.files['header-img'] && req.files['header-img'] !== findResult[0].bg_img) {
-                if (fs.existsSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img))) {
-                    console.log("File exist");
-                    // console.log(path.join(__dirname, "../uploads/" + findResult[0].bg_img ));
-                    fs.unlinkSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img));
+                // console.log("Update image: ", updatedBgImg);
+                // DELETE PREVIOUS HEADER IMAGE 
+                if (req.files['header-img']) {
+                    updatedBgImg = req.files['header-img'][0].filename;
+                    // console.log("Header image: ".white, req.files['header-img'][0].filename);
+                    if (fs.existsSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img)) && req.files['header-img'][0].filename !== "default-header.jpg") {
+                        // console.log("File exist".red);
+                        // console.log(path.join(__dirname, "../uploads/" + findResult[0].bg_img ));
+                        fs.unlinkSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img));
+                    }
                 }
+            }
+            else {
+                // IF HEADER IS NOT UPDATED 
+                updatedBgImg = findResult[0].bg_img;
+                // console.log("Update bg image: ", updatedBgImg);
             }
 
 
@@ -248,24 +255,50 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                     const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
                     if (findImg !== undefined && findImg) {
                         // MATCH ROW NUMBER ANC COL NUMBER 
+                        console.log("Uploaded files: ".green, req.files[`img-${eo.rowNumber}-${eo.columnNumber}`]);
                         // DELETE PREVIOUS IMAGE 
-                        console.log("Image file name: ".white, findImg[0].filename);
-                        // if (fs.existsSync(path.join(__dirname, "../uploads/" + eo.blockElement.imgUrl))) {
-                        //     console.log("File exist");
-                        //     fs.unlinkSync(path.join(__dirname, "../uploads/" + eo.blockElement.imgUrl));
-                        // }
-                        eo.blockElement.imgUrl = findImg[0].filename;
-                        console.log("Imge urls: ".blue, eo.blockElement.imgUrl);
+                        // console.log("Upload image url: ".white, findImg[0].filename);
+                        const foundContent = JSON.parse(findResult[0].content);
+                        console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
+                        const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber === eo.rowNumber && fc.columnNumber === eo.columnNumber);
+                        console.log("Deletable item: ".red, deleteImg[0].blockElement.imgUrl);
+                        // Deletable item:  img-3-2-158502216-53-o.jpg
+                        // File exist img-3-2-158502216-53-o.jpg
+                        if (fs.existsSync(path.join(__dirname, `../uploads/${deleteImg[0].blockElement.imgUrl}`))) {
+                            console.log("File exist".red, deleteImg[0].blockElement.imgUrl);
+                            fs.unlinkSync(path.join(__dirname, "../uploads/" + deleteImg[0].blockElement.imgUrl));
+                        }
 
+                        eo.blockElement.imgUrl = findImg[0].filename;
+                        // console.log("Imge urls: ".blue, eo.blockElement.imgUrl);
+
+                        // console.log("Element after updating image: ".blue, elementObject);
                     }
+                    // else {
+                    //     console.log("findResult[0].content: ", findResult[0].content);
+                    //     const findResultContent = JSON.parse(findResult[0].content);
+                    //     findResultContent.forEach((frc, frcI) => {
+                    //         if (frc.blockElement.name === "imgBlockContent") {
+                    //             if (frc.rowNumber !== eo.rowNumber && frc.columnNumber !== eo.columnNumber) {
+
+                    //                 eo.blockElement.imgUrl = frc.blockElement.imgUrl;
+                    //                 console.log("frc.blockElement.imgUrl: ", frc.blockElement.imgUrl);
+                    //             }
+                    //         }
+                    //     });
+                    //     // if (findResult[0].content.blockElement.name === "imgBlockContent") {
+                    //     //     eo.blockElement.imgUrl = findResult[0].content.blockElement;
+                    //     // }
+                    // } //img-3-2-144651217-10-o.jpg
                 }
             });
+            // console.log("Element object: ", elementObject);
 
-            // const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${element}', sibling='${sibling}' WHERE id=?`;
-            const updateSql = `UPDATE nodejs_story SET title='${title}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
+            // const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
+            const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}' WHERE id=?`;
             conn.query(updateSql, [req.params.id], (updateErr, updateResult, updateFields) => {
                 if (updateErr) throw updateErr;
-                console.log("Update result: ", updateResult);
+                // console.log("Update result: ", updateResult);
                 // DELETE PREVIOUS HEADER IMAGE 
             });
 

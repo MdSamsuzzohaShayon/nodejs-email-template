@@ -1678,16 +1678,19 @@ function backendAndDataBase(reqUrl, method) {
         try {
             const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
             console.log(selectedTextContent);
+
             // FOR CHANGING TEXT CONTENT 
             await positionElement.forEach(pEl => {
                 if (pEl.blockElement.name === "txtBlockContent") {
                     // console.log(pEl.rowNumber);
                     pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
                 }
-                if (pEl.blockElement.name === "imgBlockContent") {
-                    // console.log(pEl.rowNumber);
-                    pEl.blockElement.imgUrl = "/img/empty-image.png";
-                    // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
+                if (currentPath === editorPage) {
+                    if (pEl.blockElement.name === "imgBlockContent") {
+                        // console.log(pEl.rowNumber);
+                        pEl.blockElement.imgUrl = "/img/empty-image.png";
+                        // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
+                    }
                 }
             });
 
