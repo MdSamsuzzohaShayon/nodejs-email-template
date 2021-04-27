@@ -1413,7 +1413,7 @@ function rightBarProps() {
                             }
                         });
                         selectedRowElement.nextSibling.childNodes.forEach((acn, acnIdx) => {
-                            console.log("All child Nodes: ", acn);
+                            // console.log("All child Nodes: ", acn);
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
@@ -1739,7 +1739,7 @@ function backendAndDataBase(reqUrl, method) {
             // });
             // console.log(response);
 
-            console.log("Sibling Button: ", siblingButtonList);
+            // console.log("Sibling Button: ", siblingButtonList);
             // console.log("Row list: ", rowList);
             // console.log("Elements: ", positionElement);
 
@@ -1819,11 +1819,11 @@ function previewDropZoneTemplate() {
     // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
     const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
-    console.log("Assending block elment: ", assendingBlockCol);
-    let blockRowId = 1;
+    // console.log("Assending block elment: ", assendingBlockCol);
+    // let blockRowId = 1;
     const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
-    console.log("All button: ", assendingSibling);
-    let siblingRowId = 1;
+    // console.log("All button: ", assendingSibling);
+    // let siblingRowId = 1;
     const assendingLayout = layoutArray.sort((a, b) => a.rowID - b.rowID);
     // console.log("Content: ", pvBlockElement);
     // console.log("Layout: ", layoutArray)
@@ -1899,7 +1899,7 @@ function previewDropZoneTemplate() {
                         if (bEl.blockElement.name === "txtBlockContent") {
                             pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
                         } else if (bEl.blockElement.name === "imgBlockContent") {
-                            console.log(pvSelectedElement);
+                            // console.log(pvSelectedElement);
 
 
                             const pvImgHyerLink = document.createElement('a');
@@ -2165,7 +2165,7 @@ function exitorPagePreset() {
     } catch (pageErr) {
         console.log(pageErr)
     }
-    console.log(newRowList);
+    // console.log(newRowList);
     // console.log("templateID: ", templateID);
 
     // Array1.splice(0, Array1.length, ...Array2);

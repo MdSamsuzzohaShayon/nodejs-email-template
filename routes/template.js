@@ -314,7 +314,8 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
 
 
             // const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
-            const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}' WHERE id=?`;
+            const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
+
             conn.query(updateSql, [req.params.id], (updateErr, updateResult, updateFields) => {
                 if (updateErr) throw updateErr;
                 console.log("Update result: ".green, updateResult);
