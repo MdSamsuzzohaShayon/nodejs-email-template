@@ -256,6 +256,7 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
+                console.log("Element object: ".maganta, eo);
 
 
 
@@ -266,13 +267,13 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                     if (findImg !== undefined && findImg) {
                         // console.log("all non updated img element: ".white, eo);
                         // MATCH ROW NUMBER ANC COL NUMBER 
-                        console.log("Uploaded files: ".green, req.files[`img-${eo.rowNumber}-${eo.columnNumber}`]);
+                        // console.log("Uploaded files: ".green, req.files[`img-${eo.rowNumber}-${eo.columnNumber}`]);
                         // DELETE PREVIOUS IMAGE 
                         // console.log("Upload image url: ".white, findImg[0].filename);
                         // console.log("Element: ".white, eo);
                         // console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
                         const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber === eo.rowNumber && fc.columnNumber === eo.columnNumber);
-                        console.log("Deletable previous image: ".red, deleteImg[0]);
+                        // console.log("Deletable previous image: ".red, deleteImg[0]);
                         // Deletable item:  img-3-2-158502216-53-o.jpg
 
                         if (fs.existsSync(path.join(__dirname, `../uploads/${deleteImg[0].blockElement.imgUrl}`))) {
@@ -288,10 +289,10 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                     if (!findImg) {
 
                         const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber !== eo.rowNumber && fc.columnNumber !== eo.columnNumber); // DON'T NEED TO FILTER
-                        console.log("all non updated img element: ".white, eo);
+                        // console.log("all non updated img element: ".white, eo);
                         const findResultContent = JSON.parse(findResult[0].content);
                         findResultContent.forEach((frc, frcI) => {
-                            console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
+                            // console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
 
                             if (eo.rowNumber === frc.rowNumber && eo.columnNumber === frc.columnNumber) {
 
