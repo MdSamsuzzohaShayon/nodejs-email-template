@@ -36,6 +36,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// PREVIEW SINGLE TEMPLATE 
 router.get('/preview/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
     const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
@@ -201,9 +202,9 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
-    console.log("Req id: ".yellow, req.params.id);
+    // console.log("Req id: ".yellow, req.params.id);
     // console.log("Request body: ".yellow, req.body);
-    console.log("Request Files: ".yellow, req.files);
+    // console.log("Request Files: ".yellow, req.files);
 
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
 
@@ -233,6 +234,7 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                     }
                 }
             }
+
             else {
                 // IF HEADER IS NOT UPDATED 
                 updatedBgImg = findResult[0].bg_img;
@@ -249,21 +251,30 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
             // console.log("Req.Body.Element- Updated: ".blue, JSON.parse(element));
             let elementObject = JSON.parse(element);
             elementObject.forEach((eo, eoI) => {
-                eo.blockElement.blockHtml = invalidToValidStr(eo.blockElement.blockHtml);
                 // STRINGIFYING BUTTON ELEMENT 
+                eo.blockElement.blockHtml = invalidToValidStr(eo.blockElement.blockHtml);
+
+
+
+
+
+
                 if (eo.blockElement.name === "imgBlockContent") {
+                    const foundContent = JSON.parse(findResult[0].content);
+
                     const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
                     if (findImg !== undefined && findImg) {
+                        // console.log("all non updated img element: ".white, eo);
                         // MATCH ROW NUMBER ANC COL NUMBER 
                         console.log("Uploaded files: ".green, req.files[`img-${eo.rowNumber}-${eo.columnNumber}`]);
                         // DELETE PREVIOUS IMAGE 
                         // console.log("Upload image url: ".white, findImg[0].filename);
-                        const foundContent = JSON.parse(findResult[0].content);
-                        console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
+                        // console.log("Element: ".white, eo);
+                        // console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
                         const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber === eo.rowNumber && fc.columnNumber === eo.columnNumber);
-                        console.log("Deletable item: ".red, deleteImg[0].blockElement.imgUrl);
+                        console.log("Deletable previous image: ".red, deleteImg[0]);
                         // Deletable item:  img-3-2-158502216-53-o.jpg
-                        // File exist img-3-2-158502216-53-o.jpg
+
                         if (fs.existsSync(path.join(__dirname, `../uploads/${deleteImg[0].blockElement.imgUrl}`))) {
                             console.log("File exist".red, deleteImg[0].blockElement.imgUrl);
                             fs.unlinkSync(path.join(__dirname, "../uploads/" + deleteImg[0].blockElement.imgUrl));
@@ -272,35 +283,43 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                         eo.blockElement.imgUrl = findImg[0].filename;
                         // console.log("Imge urls: ".blue, eo.blockElement.imgUrl);
 
-                        // console.log("Element after updating image: ".blue, elementObject);
+                        // console.log("Element after updating image: ".blue, eo);
                     }
-                    // else {
-                    //     console.log("findResult[0].content: ", findResult[0].content);
-                    //     const findResultContent = JSON.parse(findResult[0].content);
-                    //     findResultContent.forEach((frc, frcI) => {
-                    //         if (frc.blockElement.name === "imgBlockContent") {
-                    //             if (frc.rowNumber !== eo.rowNumber && frc.columnNumber !== eo.columnNumber) {
+                    if (!findImg) {
 
-                    //                 eo.blockElement.imgUrl = frc.blockElement.imgUrl;
-                    //                 console.log("frc.blockElement.imgUrl: ", frc.blockElement.imgUrl);
-                    //             }
-                    //         }
-                    //     });
-                    //     // if (findResult[0].content.blockElement.name === "imgBlockContent") {
-                    //     //     eo.blockElement.imgUrl = findResult[0].content.blockElement;
-                    //     // }
-                    // } //img-3-2-144651217-10-o.jpg
+                        const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber !== eo.rowNumber && fc.columnNumber !== eo.columnNumber); // DON'T NEED TO FILTER
+                        console.log("all non updated img element: ".white, eo);
+                        const findResultContent = JSON.parse(findResult[0].content);
+                        findResultContent.forEach((frc, frcI) => {
+                            console.log(`Element num ${eoI} - row number: ${eo.rowNumber} and col number: ${eo.rowNumber}`.yellow);
+
+                            if (eo.rowNumber === frc.rowNumber && eo.columnNumber === frc.columnNumber) {
+
+                                eo.blockElement.imgUrl = frc.blockElement.imgUrl;
+                                console.log("frc.blockElement.imgUrl: ", frc.blockElement.imgUrl);
+                            }
+                        });
+                        // if (findResult[0].content.blockElement.name === "imgBlockContent") {
+                        //     eo.blockElement.imgUrl = findResult[0].content.blockElement;
+                        // }
+                    }
+
+
+
                 }
+
             });
             // console.log("Element object: ", elementObject);
+
 
             // const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
             const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}' WHERE id=?`;
             conn.query(updateSql, [req.params.id], (updateErr, updateResult, updateFields) => {
                 if (updateErr) throw updateErr;
-                // console.log("Update result: ", updateResult);
+                console.log("Update result: ".green, updateResult);
                 // DELETE PREVIOUS HEADER IMAGE 
             });
+
 
 
 

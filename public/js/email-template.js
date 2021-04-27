@@ -1685,13 +1685,13 @@ function backendAndDataBase(reqUrl, method) {
                     // console.log(pEl.rowNumber);
                     pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
                 }
-                if (currentPath === editorPage) {
-                    if (pEl.blockElement.name === "imgBlockContent") {
-                        // console.log(pEl.rowNumber);
-                        pEl.blockElement.imgUrl = "/img/empty-image.png";
-                        // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
-                    }
+                if (pEl.blockElement.name === "imgBlockContent") {
+                    // console.log(pEl.rowNumber);
+                    pEl.blockElement.imgUrl = "/img/empty-image.png";
+                    // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
                 }
+                // if (currentPath === editorPage) {
+                // }
             });
 
             // CHANGING TITLE 
