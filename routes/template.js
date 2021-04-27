@@ -193,7 +193,7 @@ router.get('/edit/:id', (req, res, next) => {
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
-        // console.log("The result is: ", JSON.parse(result[0].layout));
+        console.log("The result is: ", JSON.parse(result[0].layout));
         res.render('template/edit-template', { docs: result[0], templateID: req.params.id });
         // conn.end();
     });
@@ -256,7 +256,7 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
-                console.log("Element object: ".maganta, eo);
+                // console.log("Element object: ".maganta, eo);
 
 
 
