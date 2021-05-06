@@ -6,8 +6,7 @@ const fs = require('fs');
 const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
 const { uploadS3File, getFileStream } = require('../config/s3');
-const { uploadFileToS3, uploadMultipleFileToS3 } = require('../config/file-upload-config-s3');
-const uploadFile = require('../config/file-upload-config');
+const { uploadFileToS3, uploadMultipleFileToS3, deleteImages, getImages } = require('../config/file-upload-config-s3');
 
 const router = express.Router();
 
@@ -45,6 +44,8 @@ router.get('/preview/:id', (req, res, next) => {
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
         console.log("The result is: ", JSON.parse(result[0].content));
+        const blockContent = JSON.parse(result[0].content);
+        getImages(result[0].bg_img, blockContent);
         res.render('template/template-preview', { docs: result[0] });
         // conn.end();
     });
@@ -90,7 +91,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
-    
+
 
 
 
@@ -387,6 +388,7 @@ router.delete('/delete/:id', (req, res, next) => {
         //     name: 'imgBlockContent',
         //     imgUrl: 'img-1-2-151979801-.jpeg'
         //   } 
+        /*
         // DELETE BACKGROUND IMAGE  
         if (findResult[0].bg_img !== "default-header.jpg") {
             if (fs.existsSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img))) {
@@ -394,6 +396,7 @@ router.delete('/delete/:id', (req, res, next) => {
                 fs.unlinkSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img));
             }
         }
+
 
 
         // console.log(blockContent);
@@ -410,6 +413,8 @@ router.delete('/delete/:id', (req, res, next) => {
                 // console.log(bCt);
             }
         });
+        */
+        deleteImages(findResult[0].bg_img, blockContent);
         // // DELETE FROM DATABASE 
         const sql = "DELETE FROM nodejs_story WHERE id=?";
         conn.query(sql, [req.params.id], (err, result, fields) => {

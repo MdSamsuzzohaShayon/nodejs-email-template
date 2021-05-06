@@ -1732,12 +1732,12 @@ function backendAndDataBase(reqUrl, method) {
 
 
             // //SUBMITTING DATA TO THE SERVER 
-            // const response = await fetch(reqUrl, {
-            //     // method: "POST",
-            //     method: method,
-            //     body: formData,
-            // });
-            // console.log(response);
+            const response = await fetch(reqUrl, {
+                // method: "POST",
+                method: method,
+                body: formData,
+            });
+            console.log(response);
 
             // console.log("Sibling Button: ", siblingButtonList);
             // console.log("Row list: ", rowList);
