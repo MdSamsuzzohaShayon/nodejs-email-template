@@ -1,4 +1,4 @@
-require('dotenv').config({ path: "./config/.env" });
+require('dotenv').config({ path: "../../../.env" });
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -72,4 +72,4 @@ app.use('/', indexRouter);
 
 
 // app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT.success));
-app.listen(4000, () => console.log("Server is connected to: " + 4000));
+app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT));
