@@ -69,6 +69,7 @@ app.use('/', indexRouter);
 
 
 
+console.log("env", process.env.PORT);
 
 
 // app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT.success));
