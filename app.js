@@ -12,8 +12,8 @@ const colors = require('colors');
 const conn = require('./config/mysql-config');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const emailTemplate = require('./routes/template');
+// const usersRouter = require('./routes/users');
+// const emailTemplate = require('./routes/template');
 
 const app = express();
 
@@ -62,8 +62,8 @@ colors.setTheme({
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/template', emailTemplate);
+// app.use('/users', usersRouter);
+// app.use('/template', emailTemplate);
 
 
 
