@@ -27,5 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm run build --if-present
+# SET THIS EMAILTEMPLATE NAME FROM THE SERVER USING COMMAND: PM2 START APP.JS --NAME=EMAILTEMPLATE
     - run: pm2 restart EmailTemplate
 #    - run: npm start
