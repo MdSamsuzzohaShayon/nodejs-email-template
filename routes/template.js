@@ -22,17 +22,17 @@ function invalidToValidStr(invalidString) {
 
 // PREVIEW ALL TEMPLATE 
 router.get('/', (req, res, next) => {
-    // const sql = `SELECT id, title FROM nodejs_story`;
+    const sql = `SELECT id, title FROM nodejs_story`;
 
-    // // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
-    // conn.query(sql, [req.params.id], (err, result, fields) => {
-    //     if (err) throw err;
+    // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
+    conn.query(sql, [req.params.id], (err, result, fields) => {
+        if (err) throw err;
         // console.log("The result is: ", result[0].layout);
         // res.render('template/template-preview', { docs: result[0] });
         // console.log(result);
         res.render('template/index', { docs: result });
         // conn.end();
-    // });
+    });
 });
 
 // PREVIEW SINGLE TEMPLATE 
