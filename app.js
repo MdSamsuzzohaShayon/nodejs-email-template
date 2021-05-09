@@ -12,7 +12,6 @@ const colors = require('colors');
 const conn = require('./config/mysql-config');
 
 const indexRouter = require('./routes/index');
-// const usersRouter = require('./routes/users');
 const emailTemplate = require('./routes/template');
 
 const app = express();
@@ -31,7 +30,7 @@ conn.connect((err, res) => {
 
 
 
-// not working 
+
 
 
 
@@ -53,7 +52,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'aws')));
 app.use(methodOverride('_method'));
-// app.use()
 colors.setTheme({
     info: 'bgGreen',
     help: 'cyan',
@@ -64,15 +62,7 @@ colors.setTheme({
 
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/template', emailTemplate);
 
-//  
 
-
-
-// console.log("env", process.env.PORT);
-
-
-// app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT.success));
 app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT));
