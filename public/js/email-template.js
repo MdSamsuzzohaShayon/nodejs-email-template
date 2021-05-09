@@ -81,7 +81,7 @@ const inputImg = document.getElementById('img-input'),
     imgNewTab = document.getElementById('img-new-tab');
 
 // WEBSITE DEFAULT URL OPERATION 
-let websiteDomain = "http://localhost:4000", defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
+let websiteDomain = window.location.host , defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
 
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
@@ -1754,7 +1754,7 @@ function backendAndDataBase(reqUrl, method) {
 
             // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
             // submitted = true;
-            // window.location.replace(websiteDomain + "/template");
+            window.location.replace(websiteDomain + "/");
         } catch (err) {
             console.log(err);
         }

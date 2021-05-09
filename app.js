@@ -1,4 +1,4 @@
-require('dotenv').config({ path: "../../../.env" });
+require('dotenv').config({ path: "./config/.env" });
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -13,14 +13,13 @@ const conn = require('./config/mysql-config');
 
 const indexRouter = require('./routes/index');
 // const usersRouter = require('./routes/users');
-// const emailTemplate = require('./routes/template');
+const emailTemplate = require('./routes/template');
 
 const app = express();
 
 
 
 // DATABASE CONNECTION 
-/*
 conn.connect((err, res) => {
     if (err) {
         console.error('error connecting: ' + err.stack);
@@ -29,7 +28,7 @@ conn.connect((err, res) => {
 
     console.log('connected as id ' + conn.threadId);
 });
-*/
+
 
 
 // not working 
@@ -66,13 +65,13 @@ colors.setTheme({
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
-// app.use('/template', emailTemplate);
+app.use('/template', emailTemplate);
 
 //  
 
 
 
-console.log("env", process.env.PORT);
+// console.log("env", process.env.PORT);
 
 
 // app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT.success));
