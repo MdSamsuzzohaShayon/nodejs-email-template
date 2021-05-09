@@ -30,6 +30,7 @@ const app = express();
 
 
 // THIS TIME IT SHOULD WORK
+// git pull --rebase origin
 
 
 
