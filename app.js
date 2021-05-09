@@ -19,14 +19,14 @@ const app = express();
 
 
 // DATABASE CONNECTION 
-conn.connect((err, res) => {
-    if (err) {
-        console.error('error connecting: ' + err.stack);
-        return;
-    }
+// conn.connect((err, res) => {
+//     if (err) {
+//         console.error('error connecting: ' + err.stack);
+//         return;
+//     }
 
-    console.log('connected as id ' + conn.threadId);
-});
+//     console.log('connected as id ' + conn.threadId);
+// });
 
 
 // THIS TIME IT SHOULD WORK
