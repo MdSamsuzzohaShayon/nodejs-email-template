@@ -9,3 +9,22 @@ button, .btn{
         color: whitesmoke !important;
     }
 }
+
+.spinner-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(11, 0, 26, 0.527);
+}
+
+#submit-spinner{
+    // display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+}
+#submit-spinner::before{
+}

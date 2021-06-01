@@ -5,7 +5,6 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
-const { uploadS3File, getFileStream } = require('../config/s3');
 const { uploadFileToS3, uploadMultipleFileToS3, deleteImages, getImages } = require('../config/file-upload-config-s3');
 
 const router = express.Router();
@@ -86,7 +85,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
     let bgImg = "default-header.jpg";
     console.log("Required files: ".blue, req.files);
     if (req.files['header-img']) {
-        bgImg = req.files['header-img'][0].filename;
+        bgImg = req.files['header-img'][0].key;
     }
 
 
@@ -111,6 +110,26 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
+    // {
+    //     fieldname: 'header-img',
+    //     originalname: 'bayern.png',
+    //     encoding: '7bit',
+    //     mimetype: 'image/png',
+    //     size: 15616,
+    //     bucket: 'email-template-nodejs',
+    //     key: 'header-img-bayern.png-41-n.png',
+    //     acl: 'private',
+    //     contentType: 'application/octet-stream',
+    //     contentDisposition: null,
+    //     storageClass: 'STANDARD',
+    //     serverSideEncryption: null,
+    //     metadata: [Object],
+    //     location: 'https://email-template-nodejs.s3.ca-central-1.amazonaws.com/header-img-bayern.png-41-n.png',
+    //     etag: '"b94e2fded8e5e7d548a1674daa866dd1"',
+    //     versionId: undefined
+    //   }
+  
+
 
 
 
@@ -132,7 +151,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
             if (findImg) {
                 findImg.forEach((img, idx) => {
                     if (img.fieldname === `img-${eo.rowNumber}-${eo.columnNumber}`) {
-                        eo.blockElement.imgUrl = img.filename;
+                        eo.blockElement.imgUrl = img.key;
                     }
                 });
             }

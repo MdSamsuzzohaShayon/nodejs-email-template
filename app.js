@@ -19,7 +19,6 @@ const app = express();
 
 
 // DATABASE CONNECTION 
-/*
 conn.connect((err, res) => {
     if (err) {
         console.error('error connecting: ' + err.stack);
@@ -28,7 +27,7 @@ conn.connect((err, res) => {
 
     console.log('connected as id ' + conn.threadId);
 });
-*/
+
 
 
 // Let's try

@@ -5,7 +5,10 @@ const editPage = "edit", previewPage = "preview", editorPage = "editor", templat
 
 
 
+
+
 // EDITOR PAGE VARIABLES START 
+const submitSpinner = document.getElementById('submit-spinner');
 // TITLE 
 const inputTitle = document.getElementById('title');
 const saveButton = document.getElementById('save-btn');
@@ -81,7 +84,7 @@ const inputImg = document.getElementById('img-input'),
     imgNewTab = document.getElementById('img-new-tab');
 
 // WEBSITE DEFAULT URL OPERATION 
-let websiteDomain = window.location.host , defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
+let websiteDomain = "http://"+window.location.host , defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
 
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
@@ -1661,6 +1664,7 @@ function templatePropsCng() {
 
 
 
+
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
 
@@ -1670,7 +1674,7 @@ function backendAndDataBase(reqUrl, method) {
         // console.log("Sibling Button: ", siblingButtonList);
         // console.log("Row list: ", rowList);
         // console.log("Elements: ", positionElement);
-
+        submitSpinner.style.display = "block";
 
         try {
             const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
@@ -1749,12 +1753,14 @@ function backendAndDataBase(reqUrl, method) {
 
 
 
+// PROCEEDING 
 
 
 
             // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
             // submitted = true;
-            window.location.replace(websiteDomain + "/");
+            submitSpinner.style.display = "block";
+            window.location.replace(websiteDomain + "/template");
         } catch (err) {
             console.log(err);
         }
