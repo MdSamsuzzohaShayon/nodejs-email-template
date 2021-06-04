@@ -197,6 +197,11 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - __https://levelup.gitconnected.com/file-upload-express-mongodb-multer-s3-7fad4dfb3789__
  - __https://docs.aws.amazon.com/code-samples/latest/catalog/javascript-s3-s3_listobjects.js.html__
 
+#### Show images
+ - __https://stackoverflow.com/questions/51021920/send-all-image-files-from-node-js-to-frontend__
+ - __https://dev.to/dnature/convert-a-base64-data-into-an-image-in-node-js-3f88__
+ - __https://docs.aws.amazon.com/cli/latest/reference/s3api/get-object.html__
+
 #### Digital Ocean
  - __https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04__
  - __https://medium.com/@haxzie/deploying-node-js-application-to-digitalocean-setting-up-the-server-99e1d65fa291__

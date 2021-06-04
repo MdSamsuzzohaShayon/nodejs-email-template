@@ -16,7 +16,7 @@ button, .btn {
   background: rgba(11, 0, 26, 0.527);
 }
 
-#submit-spinner {
+.spinner-border {
   position: absolute;
   top: 50%;
   left: 50%;

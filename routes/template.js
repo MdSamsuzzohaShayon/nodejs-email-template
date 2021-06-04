@@ -2,10 +2,12 @@ const express = require('express');
 const conn = require('../config/mysql-config');
 // const multer = require('multer');
 const path = require('path');
+const Jimp = require('jimp');
 const fs = require('fs');
 const util = require('util');
+const s3 = require('../config/s3');
 const unlinkFile = util.promisify(fs.unlink);
-const { uploadFileToS3, uploadMultipleFileToS3, deleteImages, getImages } = require('../config/file-upload-config-s3');
+const { uploadFileToS3, uploadMultipleFileToS3, deleteImages, getImage } = require('../config/file-upload-config-s3');
 
 const router = express.Router();
 
@@ -34,6 +36,9 @@ router.get('/', (req, res, next) => {
     });
 });
 
+
+
+
 // PREVIEW SINGLE TEMPLATE 
 router.get('/preview/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
@@ -42,11 +47,36 @@ router.get('/preview/:id', (req, res, next) => {
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
-        console.log("The result is: ", JSON.parse(result[0].content));
-        const blockContent = JSON.parse(result[0].content);
-        getImages(result[0].bg_img, blockContent);
-        res.render('template/template-preview', { docs: result[0] });
-        // conn.end();
+        console.log("The result is: ", result);
+        // const blockContent =  JSON.parse(result[0].content);
+
+
+        try {
+            // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property
+
+            // const tempImage =  getImage(result[0].bg_img, blockContent, res);
+            /*
+            const tempImage =  getImage("header-img-H1-U3_ALE-32-3.jpg", blockContent, res);
+            fs.writeFile("test.jpg", tempImage.Body, function(writeFileerr) {
+                if(writeFileerr) throw writeFileerr;
+            });
+            // fs.readFileSync(Buffer.from(tempImage.Body) ).pipe(res);
+            // tempImage.Body.pipe(res);
+    
+            console.log("Temp image: ", tempImage);
+            */
+            // Reads file in form buffer => <Buffer ff d8 ff db 00 43 00 ...
+            // const buffer = await fs.readFileSync ( Buffer.from(tempImage.Body));
+            // Pipes an image with "new-path.jpg" as the name.
+            // fs.writeFileSync("new-path.jpg", buffer);
+
+
+            res.render('template/template-preview', { docs: result[0] });
+            // conn.end();
+        } catch (readFileErr) {
+            console.log(readFileErr);
+        }
+
     });
 });
 
@@ -128,7 +158,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
     //     etag: '"b94e2fded8e5e7d548a1674daa866dd1"',
     //     versionId: undefined
     //   }
-  
+
 
 
 
@@ -451,8 +481,58 @@ router.delete('/delete/:id', (req, res, next) => {
 
 
 
+// header-img-Screensho-31-1.png
+function getFileStream(imgKey) {
+    let tempImage = null;
+    if (imgKey !== "default-header.jpg") {
+        tempImage = s3.getObject({ Key: imgKey, Bucket: process.env.AWS_BUCKET_NAME }).promise();
+        //    console.log("Temp image: ", tempImage);
+    }
+
+    return tempImage;
+}
 
 
+function encode(data) {
+    let buf = Buffer.from(data);
+    let base64 = buf.toString('base64');
+    return base64
+}
+
+
+// Convert from Buffer to base64.
+// Convert from Buffer into an actual image.
+router.get('/get-image', async (req, res, next) => {
+    const tempImage = await getFileStream("header-img-Screensho-31-1.png");
+    // console.log("TempImage: ", tempImage);
+    // fs.writeFile("test.jpg", tempImage.Body, function (writeFileerr) {
+    //     if (writeFileerr) throw writeFileerr;
+    // });
+    // let imageUrl = encode(tempImage.Body);
+
+    const data =tempImage.Body;
+    // Convert base64 to buffer => <Buffer ff d8 ff db 00 43 00 ...
+    const imageUrl = Buffer.from(data).toString("base64"); // 
+    console.log("Image url : ", imageUrl);
+    // console.log("Read stream : ",readStream);
+    let src = `data:image/png;base64,${imageUrl}` ; 
+
+    res.render("file-upload", { src });
+    // res.status(200).json({ request: 'Success' });
+    // let image = "<img src='data:image/jpeg;base64," + encode(tempImage.Body) + "'" + "/>";
+    // let startHTML = "<html><body></body>";
+    // let endHTML = "</body></html>";
+    // let html = startHTML + image + endHTML;
+    // res.send(html);
+
+
+
+
+    // Jimp.read(buffer, (err, res) => {
+    //     if (err) throw new Error(err);
+    //     res.quality(5).write("resized.jpg");
+    // });
+});
 
 
 

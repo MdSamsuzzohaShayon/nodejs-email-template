@@ -1665,16 +1665,18 @@ function templatePropsCng() {
 
 
 
+
+// console.log(submitSpinner);
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
 
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
+        submitSpinner.classList.remove("d-none");
         // console.log("Sibling Button: ", siblingButtonList);
         // console.log("Row list: ", rowList);
         // console.log("Elements: ", positionElement);
-        submitSpinner.style.display = "block";
 
         try {
             const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
@@ -1759,7 +1761,7 @@ function backendAndDataBase(reqUrl, method) {
 
             // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
             // submitted = true;
-            submitSpinner.style.display = "block";
+            submitSpinner.classList.add("d-none");
             window.location.replace(websiteDomain + "/template");
         } catch (err) {
             console.log(err);
