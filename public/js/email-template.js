@@ -1919,15 +1919,17 @@ function previewDropZoneTemplate() {
                             }
 
                             const pvImgElement = document.createElement('img');
-                            let defaultImg = bEl.blockElement.imgUrl;
+                            // https://email-template-nodejs.s3.ca-central-1.amazonaws.com/header-img-Screensho-31-1.png
+                            let defaultImg = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${bEl.blockElement.imgUrl}`;
                             // console.log("Default image: ", bEl.blockElement.imgUrl);
                             if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null || bEl.blockElement.imgUrl === "/img/empty-image.png") {
                                 // console.log("Empty img : ", bEl.blockElement.imgUrl);
                                 // empty-image.png
                                 defaultImg = "/img/empty-image.png"
-                            } else {
-                                defaultImg = "/" + bEl.blockElement.imgUrl;
-                            }
+                            } 
+                            // else {
+                            //     defaultImg = "/" + bEl.blockElement.imgUrl;
+                            // }
                             // console.log("txt img: ", bEl.columnNumber);
 
                             setAttributes(pvImgElement, { "id": `img-${bEl.rowNumber}-${bEl.columnNumber}`, "src": `${defaultImg}` });
@@ -2063,6 +2065,8 @@ function previewDropZoneTemplate() {
 
 
         });
+        let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
+        headerImage.setAttribute("src", headerImgUrl);
     } catch (err) {
         console.log(err);
     }
@@ -2158,7 +2162,7 @@ function previewDefaultStyling() {
 
 
 // MAIN FUNCTIONS 9
-function exitorPagePreset() {
+function editorPagePreset() {
     const newRowList = JSON.parse(layout);
     const newPositionElement = JSON.parse(content);
     const newBtnSibling = JSON.parse(sibling);
@@ -2246,7 +2250,7 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
 
 } else if (currentPath === editPage) {
     previewDropZoneTemplate();
-    exitorPagePreset();
+    editorPagePreset();
     columnDragAndDrop();
     blockDragAndDrop();
     rightBarElementShowHidePreset();

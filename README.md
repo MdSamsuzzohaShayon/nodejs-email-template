@@ -184,6 +184,12 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
 #### HTML CSS
  - __https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox__
 
+#### JS Async, Await and promise
+ - __https://stackabuse.com/promises-in-node-js__
+ - __https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise__
+ - __https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all__
+ - __https://stackoverflow.com/questions/18983138/callback-after-all-asynchronous-foreach-callbacks-are-completed__
+
 #### AWS S3
  - __https://www.zeolearn.com/magazine/uploading-files-to-aws-s3-using-nodejs__
  - __https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property__

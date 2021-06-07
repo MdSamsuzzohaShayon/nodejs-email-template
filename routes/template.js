@@ -12,12 +12,42 @@ const { uploadFileToS3, uploadMultipleFileToS3, deleteImages, getImage } = requi
 const router = express.Router();
 
 
+// HELPING FUNCTION 1
 function invalidToValidStr(invalidString) {
     let blockElementString = invalidString.toString();
     let newHtmlBlock = blockElementString.replace(/"/g, "~_");
     let validString = newHtmlBlock;
     return validString;
 }
+
+
+const bufferToImage = (bufferFile) => {
+    const imageUrl = Buffer.from(bufferFile).toString("base64");
+    return imageUrl;
+}
+
+
+// HELPING FUNCTION 2 
+// const loopAllImageAndAddToList = (blockContent) => {
+//     console.log("Data fetching please wait");
+//     let imgList = new Array();
+//     return new Promise((resolve, reject) => {
+//         blockContent.forEach(async (bc, bcIdx, arrNum) => {
+//             console.log("index: " + bcIdx + " Array Length: ", arrNum.length);
+//             if (bcIdx === arrNum.length) {
+//                 reject("There is not item left");
+//             } else {
+//                 if (bc.blockElement.name === "imgBlockContent") {
+//                     const tempImage = await getImage(bc.blockElement.imgUrl);
+//                     // console.log("Temp image: ", tempImage);
+//                     imgList.push({ key: bc.blockElement.imgUrl, binaryImg: tempImage.Body });
+//                     // resolve(imgList);
+//                 }
+//                 resolve(imgList);
+//             }
+//         });
+//     });
+// }
 
 
 
@@ -44,37 +74,37 @@ router.get('/preview/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
     const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
 
+    // let imgList = new Array();
+
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
-    conn.query(sql, [req.params.id], (err, result, fields) => {
+    conn.query(sql, [req.params.id], async (err, result, fields) => {
         if (err) throw err;
-        console.log("The result is: ", result);
-        // const blockContent =  JSON.parse(result[0].content);
+        // console.log("The result is: ", result);
+        const blockContent = await JSON.parse(result[0].content);
 
 
         try {
             // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property
-
-            // const tempImage =  getImage(result[0].bg_img, blockContent, res);
-            /*
-            const tempImage =  getImage("header-img-H1-U3_ALE-32-3.jpg", blockContent, res);
-            fs.writeFile("test.jpg", tempImage.Body, function(writeFileerr) {
-                if(writeFileerr) throw writeFileerr;
-            });
-            // fs.readFileSync(Buffer.from(tempImage.Body) ).pipe(res);
-            // tempImage.Body.pipe(res);
-    
-            console.log("Temp image: ", tempImage);
-            */
-            // Reads file in form buffer => <Buffer ff d8 ff db 00 43 00 ...
-            // const buffer = await fs.readFileSync ( Buffer.from(tempImage.Body));
-            // Pipes an image with "new-path.jpg" as the name.
-            // fs.writeFileSync("new-path.jpg", buffer);
-
+            // console.log("Blcok content: ", blockContent);
+            // const headerImage = await getImage(result[0].bg_img);
+            // console.log("Temp image: ", tempImage);
+            // blockElement: { name: 'imgBlockContent'}
+            // loopAllImageAndAddToList(blockContent)
+            //     .then(result => {
+            //         console.log("Image List: ", result);
+            //         res.render('template/example-preview', { imgList: result });
+            //         // res.render('template/template-preview', { docs: result[0], imgList: result, headerImage });
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     });
 
             res.render('template/template-preview', { docs: result[0] });
+
+
             // conn.end();
         } catch (readFileErr) {
-            console.log(readFileErr);
+            console.log("Read file error: ".red, readFileErr);
         }
 
     });
@@ -481,138 +511,54 @@ router.delete('/delete/:id', (req, res, next) => {
 
 
 
-// header-img-Screensho-31-1.png
-function getFileStream(imgKey) {
-    let tempImage = null;
-    if (imgKey !== "default-header.jpg") {
-        tempImage = s3.getObject({ Key: imgKey, Bucket: process.env.AWS_BUCKET_NAME }).promise();
-        //    console.log("Temp image: ", tempImage);
-    }
-
-    return tempImage;
-}
 
 
-function encode(data) {
-    let buf = Buffer.from(data);
-    let base64 = buf.toString('base64');
-    return base64
-}
-
-
+/*
+// THIS IS FOR EXPIREMENT 
 // Convert from Buffer to base64.
 // Convert from Buffer into an actual image.
 router.get('/get-image', async (req, res, next) => {
-    const tempImage = await getFileStream("header-img-Screensho-31-1.png");
+
+    // BY THIS METHOD WE ARE DWONLOADING IMAGE AND SHOWING IT 
+    const tempImage = await getImage("header-img-Screensho-31-1.png");
+
+
     // console.log("TempImage: ", tempImage);
-    // fs.writeFile("test.jpg", tempImage.Body, function (writeFileerr) {
+    // fs.writeFile("./uploads/header.jpg", tempImage.Body, function (writeFileerr) {
     //     if (writeFileerr) throw writeFileerr;
     // });
-    // let imageUrl = encode(tempImage.Body);
+    // res.render("file-upload", {src: "default-header.jpg"});
 
-    const data =tempImage.Body;
-    // Convert base64 to buffer => <Buffer ff d8 ff db 00 43 00 ...
-    const imageUrl = Buffer.from(data).toString("base64"); // 
-    console.log("Image url : ", imageUrl);
-    // console.log("Read stream : ",readStream);
-    let src = `data:image/png;base64,${imageUrl}` ; 
 
-    res.render("file-upload", { src });
+
+
+    // RENDERING FILE AND SENDING IMAGE TO THE CLIENT - IT'S WORKING PERFECTLY
+    // // Convert base64 to buffer => <Buffer ff d8 ff db 00 43 00 ...
+    // const imageUrl = Buffer.from(tempImage.Body).toString("base64"); 
+    // console.log("Image url : ", imageUrl);
+    // // console.log("Read stream : ",readStream);
+    // let src = `data:image/png;base64,${imageUrl}` ; 
+    // res.render("file-upload", { src });
+
+
+
+
+    // ANOTHER WAY BY SENDING HTML AS RESPINSE - AND IT'S WORKING PERFECTLY 
+    // let buf = Buffer.from(tempImage.Body);
+    // let base64 = buf.toString('base64');
     // res.status(200).json({ request: 'Success' });
-    // let image = "<img src='data:image/jpeg;base64," + encode(tempImage.Body) + "'" + "/>";
+    // let image = "<img src='data:image/jpeg;base64," + base64 + "'" + "/>";
     // let startHTML = "<html><body></body>";
     // let endHTML = "</body></html>";
     // let html = startHTML + image + endHTML;
     // res.send(html);
 
-
-
-
-    // Jimp.read(buffer, (err, res) => {
-    //     if (err) throw new Error(err);
-    //     res.quality(5).write("resized.jpg");
-    // });
-});
-
-
-
-
-
-/*
-
-// THIS IS FOR EXPIREMENT 
-// MAKING A PUT REQUEST 
-router.get('/file-upload', (req, res, next) => {
-    res.render('file-upload');
-});
-
-
-router.put('/file-upload', fileUploadToS3.fields([{ name: 'img1', maxCount: 1 }, { name: 'img2', maxCount: 1 }]), (req, res, next) => {
-    console.log("Hitting post: /template/file-multiple-upload".white);
-    // const files = req.files['img1'][0];
-    // if (!files) {
-    //     const error = new Error('Please choose files')
-    //     error.httpStatusCode = 400
-    //     return next(error)
-    // }
-
-    // console.log(req.files['img1'][0]);
-    console.log(req.body);
-});
-
-
-
-
-
-
-
-
-router.get('/file-fetch-s3/:key', (req, res, next) => {
-    const key = req.params.key;
-    const readStream = getFileStream(key);
-    readStream.pipe(res);
-    res.render('file-upload');
-});
-
-
-
-router.post('/file-upload', fileUploadToS3.single('img1'), async (req, res, next) => {
-    console.log("Hitting post: /template/file-upload".white);
-    console.log(req.file);
-    console.log(req.body.title);
-    // HERE WE CAN CREATE A LOOP OF PHOTOS WHICH WILL BE UPLOADED
-    const result = await uploadS3File(req.file);
-    console.log("Result of s3: ", result); // RESPONSE - WE WILL GET ETTAG, LOCATION, KEY, KEY, BUCKET
-    console.log(`Make a get request to /timplate/file-fetch-s3/${result.Key}`);
-
-    // REMOVE FILE FROM SERVER 
-    await unlinkFile(req.file.path);
-});
-
-
-
-
-// router.post('/file-multiple-upload', uploadFile.any(), (req, res, next) => {
-//     console.log(req.files);
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.end("Done");
-//     // console.log(req.body);
-// });
-
-
-router.post('/file-multiple-upload', fileUploadToS3.fields([{ name: 'img1', maxCount: 1 }, { name: 'img2', maxCount: 1 }]), (req, res, next) => {
-    console.log("Hitting post: /template/file-multiple-upload".white);
-    // const files = req.files['img1'][0];
-    // if (!files) {
-    //     const error = new Error('Please choose files')
-    //     error.httpStatusCode = 400
-    //     return next(error)
-    // }
-
-    // console.log(req.files['img1'][0]);
-    console.log(req.body);
 });
 */
+
+
+
+
 
 
 

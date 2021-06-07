@@ -169,7 +169,7 @@ function deleteImages(bg_img, blockContent) {
 
 
 
-const getImage = async (imgKay, blockContent, response) => {
+const getImage = async (imgKay) => {
     let tempImage = null;
     if (imgKay !== "default-header.jpg") {
        tempImage = await s3.getObject({Key: imgKay, Bucket: process.env.AWS_BUCKET_NAME}).promise();
