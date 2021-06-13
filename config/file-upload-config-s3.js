@@ -1,46 +1,8 @@
-// https://www.youtube.com/watch?v=NZElg91l_ms&t=1085s
 const multer = require('multer');
-// var aws = require('aws-sdk');
 const multerS3 = require('multer-s3');
-const path = require('path');
 const s3 = require('./s3');
 
 
-// aws.config.update({
-//     secretAccessKey: process.env.AWS_SECRET_KEY,
-//     accessKeyId: process.env.AWS_ACCESS_KEY,
-//     region: process.env.AWS_BUCKET_REGION,
-
-// });
-// const s3 = new aws.S3();
-
-
-// console.log(path.join(__dirname, '../uploads/'));
-
-
-
-
-
-
-
-
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        // fs.mkdir('./uploads/', (err) => {
-        cb(null, path.join(__dirname, '../uploads/'));
-        // });
-    },
-    filename: function (req, file, cb) {
-        let newFileName = null;
-        if (file.originalname.length > 10) {
-            newFileName = `${file.fieldname}-${file.originalname.substring(0, 9)}-${new Date().getSeconds()}-${file.originalname.substring(file.originalname.length - 5)}`
-        } else {
-            newFileName = `${file.fieldname}-${file.originalname}-${new Date().getSeconds()}-${file.originalname.substring(file.originalname.length - 5)}`
-        }
-        cb(null, newFileName);
-    }
-});
 
 
 const arrayOfImg = [
@@ -61,32 +23,6 @@ const arrayOfImg = [
     { name: 'img-5-2', maxCount: 1 },
     { name: 'img-5-3', maxCount: 1 },
 ];
-
-const uploadFile = multer({
-    storage,
-    fileFilter: function (req, file, cb) {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/gif") {
-            cb(null, true);
-        } else {
-            cb(null, false);
-            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-        }
-    }
-}).any();
-
-
-
-const uploadMultipleFile = multer({
-    storage,
-    fileFilter: function (req, file, cb) {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/gif") {
-            cb(null, true);
-        } else {
-            cb(null, false);
-            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-        }
-    }
-}).fields(arrayOfImg);
 
 
 
@@ -125,117 +61,5 @@ const uploadMultipleFileToS3 = multer({
 
 
 
-function deleteImages(bg_img, blockContent) {
-    // DELETE BACKGROUND IMAGE  
-    if (bg_img !== "default-header.jpg") {
-        s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            // Key: 'some/subfolders/nameofthefile1.extension',
-            Key: bg_img,
-        }, function (err, data) {
-            if (err) throw err;
-            console.log("AWS S3 Object Data: ", data);
-        });
-    }
 
-
-
-
-    // DELETE IMAGES 
-    blockContent.forEach((bCt, bctIdx) => {
-        if (bCt.blockElement.name === "imgBlockContent" && bCt.blockElement.imgUrl !== "empty-image.png") {
-            s3.getObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: bCt.blockElement.imgUrl, }, function (err, data) {
-                if (err) throw err;
-                console.log("AWS S3 Object Data: ", data);
-            });
-        }
-    });
-}
-
-
-
-
-
-// Data - Images:  {
-//     AcceptRanges: 'bytes',
-//     LastModified: 2021-06-01T20:00:36.000Z,
-//     ContentLength: 61488,
-//     ETag: '"c0a4498360cc0d21f9e6615c10a64303"',
-//     ContentType: 'application/octet-stream',
-//     Metadata: { fieldname: 'header-img' },
-//     Body: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 02 00 00 01 00 01 00 00 ff db 00 43 00 06 04 05 06 05 04 06 06 05 06 07 07 06 08 0a 10 0a 0a 09 09 0a 14 0e 0f 0c ... 61438 more bytes>
-//   }
-
-
-
-const getImage = async (imgKay) => {
-    let tempImage = null;
-    if (imgKay !== "default-header.jpg") {
-       tempImage = await s3.getObject({Key: imgKay, Bucket: process.env.AWS_BUCKET_NAME}).promise();
-    //    console.log("Temp image: ", tempImage);
-    }
-    return tempImage;
-}
-
-
-// const imgKeys = ['header-img-Screensho-31-1.png', 'img-1-1-131299444-31-0.jpg', 'img-3-2-126719613-31-0.jpg'];
-
-// https://stackoverflow.com/questions/67960345/getting-multiple-object-in-aws-s3-with-js-promise-all-nodejs-and-express/67960573#67960573
-// HELPING FUNCTION 2 
-
-const loopAllImageAndAddToList = async (blockContent) => {
-    // return Promise.all(imgKeys.map((img, index) => {
-    //     console.log("Image: ", img);
-    //     return getImage(img)
-    //         .then(imgUrl => {
-    //             // console.log("Returning from get image: ", imgUrl);
-    //             return {
-    //                 imgId: index + 1,
-    //                 imgBfr: imgUrl
-    //             }
-    //         })
-    // }));
-
-
-
-
-
-
-    // console.log("Data fetching please wait");
-    // const imgList = new Array();
-
-    // const allImage = await blockContent.map(async (bc, bcIdx, arrNum) => {
-    //     console.log("index: " + bcIdx + " Array Length: ", arrNum.length);
-    //     if (bc.blockElement.name === "imgBlockContent") {
-    //         const tempImage = await getImage(bc.blockElement.imgUrl);
-    //         // console.log("Temp image: ", tempImage);
-    //         imgList.push({ key: bc.blockElement.imgUrl, binaryImg: tempImage.Body });
-    //         // resolve(imgList);
-            
-    //         return tempImage;
-    //     }
-    // });
-
-
-    // return Promise.all(allImage);
-
-
-        // console.log("Data fetching please wait");
-    const imgList = new Array();
-    for (const bc of blockContent) {
-        if (bc.blockElement.name === "imgBlockContent") {
-            const tempImage = await getImage(bc.blockElement.imgUrl);
-            imgList.push({ key: bc.blockElement.imgUrl, binaryImg: tempImage.Body });
-        }
-    }
-
-
-    return imgList;
-}
-
-
-
-
-
-
-module.exports = { uploadFile, uploadMultipleFile, uploadMultipleFileToS3, deleteImages, loopAllImageAndAddToList, getImage };
+module.exports = { uploadMultipleFileToS3 };

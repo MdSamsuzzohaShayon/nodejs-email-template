@@ -30,13 +30,6 @@ conn.connect((err, res) => {
 
 
 
-// Let's try
-// git pull --rebase origin
-
-
-
-
-
 
 
 
