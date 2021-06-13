@@ -2,12 +2,8 @@ const express = require('express');
 const conn = require('../config/mysql-config');
 // const multer = require('multer');
 const path = require('path');
-const Jimp = require('jimp');
 const fs = require('fs');
-const util = require('util');
-const s3 = require('../config/s3');
-const unlinkFile = util.promisify(fs.unlink);
-const { uploadFileToS3, uploadMultipleFileToS3, deleteImages, getImage } = require('../config/file-upload-config-s3');
+const { uploadMultipleFileToS3, deleteImages, loopAllImageAndAddToList, getImage } = require('../config/file-upload-config-s3');
 
 const router = express.Router();
 
@@ -27,27 +23,16 @@ const bufferToImage = (bufferFile) => {
 }
 
 
-// HELPING FUNCTION 2 
-// const loopAllImageAndAddToList = (blockContent) => {
-//     console.log("Data fetching please wait");
-//     let imgList = new Array();
-//     return new Promise((resolve, reject) => {
-//         blockContent.forEach(async (bc, bcIdx, arrNum) => {
-//             console.log("index: " + bcIdx + " Array Length: ", arrNum.length);
-//             if (bcIdx === arrNum.length) {
-//                 reject("There is not item left");
-//             } else {
-//                 if (bc.blockElement.name === "imgBlockContent") {
-//                     const tempImage = await getImage(bc.blockElement.imgUrl);
-//                     // console.log("Temp image: ", tempImage);
-//                     imgList.push({ key: bc.blockElement.imgUrl, binaryImg: tempImage.Body });
-//                     // resolve(imgList);
-//                 }
-//                 resolve(imgList);
-//             }
-//         });
-//     });
-// }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -67,8 +52,8 @@ router.get('/', (req, res, next) => {
 });
 
 
-
-
+// https://stackoverflow.com/questions/11488014/asynchronous-process-inside-a-javascript-for-loop
+// https://zellwk.com/blog/async-await-in-loops/
 // PREVIEW SINGLE TEMPLATE 
 router.get('/preview/:id', (req, res, next) => {
     // SELECT `id`, `title`, `bg_img`, `bg_color`, `link_color`, `layout`, `content` FROM `nodejs_story` WHERE 1
@@ -77,29 +62,28 @@ router.get('/preview/:id', (req, res, next) => {
     // let imgList = new Array();
 
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
-    conn.query(sql, [req.params.id], async (err, result, fields) => {
+    conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
         // console.log("The result is: ", result);
-        const blockContent = await JSON.parse(result[0].content);
 
 
         try {
+            /*
+            // IT'S WORKING PERFECTLY BUT I WILL NOT USE THIS METHOD 
+            const blockContent = await JSON.parse(result[0].content);
             // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property
             // console.log("Blcok content: ", blockContent);
-            // const headerImage = await getImage(result[0].bg_img);
-            // console.log("Temp image: ", tempImage);
+            const headerImageBinary = await getImage(result[0].bg_img);
+            console.log("Header image binary: ", headerImageBinary);
+            const headerImg = await bufferToImage(headerImageBinary.Body);
+            console.log("Header Image: ", headerImg);
             // blockElement: { name: 'imgBlockContent'}
-            // loopAllImageAndAddToList(blockContent)
-            //     .then(result => {
-            //         console.log("Image List: ", result);
-            //         res.render('template/example-preview', { imgList: result });
-            //         // res.render('template/template-preview', { docs: result[0], imgList: result, headerImage });
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     });
+            const allImgList = await loopAllImageAndAddToList(blockContent);
+            console.log("All Img List: ", allImgList);
+            */
 
-            res.render('template/template-preview', { docs: result[0] });
+
+            res.render('template/template-preview', { docs: result[0], headerImg: result[0].bg_img });
 
 
             // conn.end();

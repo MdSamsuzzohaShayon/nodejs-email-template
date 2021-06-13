@@ -2,7 +2,6 @@
 const multer = require('multer');
 // var aws = require('aws-sdk');
 const multerS3 = require('multer-s3');
-const fs = require('fs');
 const path = require('path');
 const s3 = require('./s3');
 
@@ -178,16 +177,65 @@ const getImage = async (imgKay) => {
     return tempImage;
 }
 
-// function getFileStream(fileKey) {
-//     const donwloadParams = {
-//         Key: fileKey,
-//         Bucket: bucketName
-//     };
 
-//     return s3.getObject(donwloadParams).createReadStream();
-// }
+// const imgKeys = ['header-img-Screensho-31-1.png', 'img-1-1-131299444-31-0.jpg', 'img-3-2-126719613-31-0.jpg'];
+
+// https://stackoverflow.com/questions/67960345/getting-multiple-object-in-aws-s3-with-js-promise-all-nodejs-and-express/67960573#67960573
+// HELPING FUNCTION 2 
+
+const loopAllImageAndAddToList = async (blockContent) => {
+    // return Promise.all(imgKeys.map((img, index) => {
+    //     console.log("Image: ", img);
+    //     return getImage(img)
+    //         .then(imgUrl => {
+    //             // console.log("Returning from get image: ", imgUrl);
+    //             return {
+    //                 imgId: index + 1,
+    //                 imgBfr: imgUrl
+    //             }
+    //         })
+    // }));
 
 
 
 
-module.exports = { uploadFile, uploadMultipleFile, uploadMultipleFileToS3, deleteImages, getImage };
+
+
+    // console.log("Data fetching please wait");
+    // const imgList = new Array();
+
+    // const allImage = await blockContent.map(async (bc, bcIdx, arrNum) => {
+    //     console.log("index: " + bcIdx + " Array Length: ", arrNum.length);
+    //     if (bc.blockElement.name === "imgBlockContent") {
+    //         const tempImage = await getImage(bc.blockElement.imgUrl);
+    //         // console.log("Temp image: ", tempImage);
+    //         imgList.push({ key: bc.blockElement.imgUrl, binaryImg: tempImage.Body });
+    //         // resolve(imgList);
+            
+    //         return tempImage;
+    //     }
+    // });
+
+
+    // return Promise.all(allImage);
+
+
+        // console.log("Data fetching please wait");
+    const imgList = new Array();
+    for (const bc of blockContent) {
+        if (bc.blockElement.name === "imgBlockContent") {
+            const tempImage = await getImage(bc.blockElement.imgUrl);
+            imgList.push({ key: bc.blockElement.imgUrl, binaryImg: tempImage.Body });
+        }
+    }
+
+
+    return imgList;
+}
+
+
+
+
+
+
+module.exports = { uploadFile, uploadMultipleFile, uploadMultipleFileToS3, deleteImages, loopAllImageAndAddToList, getImage };
