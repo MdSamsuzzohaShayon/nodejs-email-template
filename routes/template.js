@@ -3,7 +3,7 @@ const conn = require('../config/mysql-config');
 const path = require('path');
 const fs = require('fs');
 const { uploadMultipleFileToS3 } = require('../config/file-upload-config-s3');
-const { invalidToValidStr, loopAllImageAndAddToList } = require('../utils/helper');
+const { invalidToValidStr, getAllImage, deleteImages } = require('../utils/helper');
 
 const router = express.Router();
 
@@ -219,14 +219,18 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
 
 
 // DELETE FROM `nodejs_story` WHERE 0
-router.delete('/delete/:id', (req, res, next) => {
+router.delete('/delete/:id', async (req, res, next) => {
+
+
+
     console.log("Delete request is called - ID: ".info + req.params.id);
     const findSql = "SELECT bg_img, content from nodejs_story WHERE id=?";
-    conn.query(findSql, [req.params.id], (findErr, findResult, findFields) => {
+    conn.query(findSql, [req.params.id], async (findErr, findResult, findFields) => {
         if (findErr) throw findErr;
         const blockContent = JSON.parse(findResult[0].content);
-        deleteImages(findResult[0].bg_img, blockContent);
-        // // DELETE FROM DATABASE 
+        const deletedImage = await deleteImages(findResult[0].bg_img, blockContent);
+        console.log("Delete header image from template: ".bgBlue, deletedImage);
+        // DELETE FROM DATABASE 
         const sql = "DELETE FROM nodejs_story WHERE id=?";
         conn.query(sql, [req.params.id], (err, result, fields) => {
             if (err) throw err;

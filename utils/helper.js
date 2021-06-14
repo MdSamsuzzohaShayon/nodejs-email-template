@@ -44,36 +44,55 @@ const getAllImage = async (blockContent) => {
 
 
 
+// https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#deleteObjects-property
+// https://stackoverflow.com/questions/27753411/how-do-i-delete-an-object-on-aws-s3-using-javascript
+const deleteImages = async (bg_img, blockContent) => {
 
-function deleteImages(bg_img, blockContent) {
-    // DELETE BACKGROUND IMAGE  
-    if (bg_img !== "default-header.jpg") {
-        s3.deleteObject({
+
+    try {
+
+        const deletedHeader = await s3.deleteObject({
+            Bucket: process.env.AWS_BUCKET_NAME, /* required */
+            Key: bg_img, /* required */
+        }).promise();
+        // console.log("Delete header image from helper: ", deletedHeader);
+
+
+        // STORE MULTIPLE IMAGES TO AN ARRAY
+        const imgList = new Array();
+        for (const bc of blockContent) {
+            if (bc.blockElement.name === "imgBlockContent") {
+                // const tempImage = await getImage(bc.blockElement.imgUrl);
+                imgList.push({ Key: bc.blockElement.imgUrl });
+            }
+        }
+
+
+
+        // DELETE MULTIPLE OBJECTS 
+        // console.log("Delete image list: ", imgList);
+        const multipleImage = await s3.deleteObjects({
             Bucket: process.env.AWS_BUCKET_NAME,
-            // Key: 'some/subfolders/nameofthefile1.extension',
-            Key: bg_img,
-        }, function (err, data) {
-            if (err) throw err;
-            console.log("AWS S3 Object Data: ", data);
-        });
+            Delete: {
+                Objects: imgList,
+                Quiet: false
+            }
+        }).promise();
+        // console.log("Temp image: ", multipleImage);
+
+
+        return Promise.all([deletedHeader, multipleImage]);
+    } catch (error) {
+        console.log(error);
     }
 
 
 
 
-    // DELETE IMAGES 
-    blockContent.forEach((bCt, bctIdx) => {
-        if (bCt.blockElement.name === "imgBlockContent" && bCt.blockElement.imgUrl !== "empty-image.png") {
-            s3.getObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: bCt.blockElement.imgUrl, }, function (err, data) {
-                if (err) throw err;
-                console.log("AWS S3 Object Data: ", data);
-            });
-        }
-    });
 }
 
 
 
 
 
-module.exports = { invalidToValidStr, getAllImage };
+module.exports = { invalidToValidStr, getAllImage, deleteImages };
