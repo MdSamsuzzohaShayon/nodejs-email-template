@@ -45,7 +45,10 @@ router.get('/preview/:id', (req, res, next) => {
 
 
 
-
+// EDITOR VIEWS 
+router.get('/editor', (req, res, next) => {
+    res.render('template/email-template');
+});
 
 
 
@@ -63,7 +66,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
 
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
     let bgImg = "default-header.jpg";
-    console.log("Required files: ".blue, req.files);
+    // console.log("Required files: ".blue, req.files);
     if (req.files['header-img']) {
         bgImg = req.files['header-img'][0].key;
     }
@@ -85,11 +88,11 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
         }
     });
 
-    console.log("All block Details: ", JSON.stringify(elementObject));
+    // console.log("All block Details: ", JSON.stringify(elementObject));
     const sql = `INSERT INTO nodejs_story (title,  bg_img, bg_color, link_color, layout, content, sibling) VALUES ('${title}', '${bgImg}', '${bgColor}', '${linkColor}', '${layout}', '${JSON.stringify(elementObject)}', '${sibling}')`;
     conn.query(sql, (err, result, fields) => {
         if (err) throw err;
-        console.log("The result is: ", result);
+        console.log("Successfully added: ".bgGreen, result);
         res.redirect('/template');
     });
 });
@@ -106,10 +109,7 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
-// EDITOR VIEWS 
-router.get('/editor', (req, res, next) => {
-    res.render('template/email-template');
-});
+
 
 
 
@@ -157,6 +157,8 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
             }
 
 
+
+            /*
             let elementObject = JSON.parse(element);
             elementObject.forEach((eo, eoI) => {
                 // STRINGIFYING BUTTON ELEMENT 
@@ -201,6 +203,7 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                 console.log("Update result: ".green, updateResult);
                 // DELETE PREVIOUS HEADER IMAGE 
             });
+            */
         });
     } catch (err) {
         console.log(err);

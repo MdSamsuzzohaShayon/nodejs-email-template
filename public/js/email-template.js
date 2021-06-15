@@ -76,6 +76,8 @@ const fbLinkInput = document.getElementById('fb-link'),
 const spxProps = document.querySelector('.spx-props');
 const spxHeightInput = document.getElementById('spx-height');
 
+
+
 // SELECT ELEMENT FOR IMAGE UPLOAD AND PREVIEW HANDLER 
 const imgProps = document.querySelector('.img-props');
 const inputImg = document.getElementById('img-input'),
@@ -83,8 +85,10 @@ const inputImg = document.getElementById('img-input'),
     imgLink = document.getElementById('img-link'),
     imgNewTab = document.getElementById('img-new-tab');
 
+
+
 // WEBSITE DEFAULT URL OPERATION 
-let websiteDomain = "http://"+window.location.host , defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
+let websiteDomain = "http://" + window.location.host, defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
 
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
@@ -136,22 +140,6 @@ let currentUploadedImageUrl = null;
 
 
 
-/*
-// DECLARING VARIABLES FOR DIFFRENT PAGE 
-if (currentPath === "preview") {
-
-} else if (currentPath === "editor") {
-
-} else if (currentPath === "edit") {
-    console.log("EDIT");
-} else {
-    console.log("Not a template ");
-}
-*/
-
-
-
-
 
 // DYNAMIC STYLING START
 let increaseDZHeight = 200;
@@ -177,9 +165,11 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
         } else {
             if (imgFile.type == "image/jpeg" || imgFile.type == "image/jpg" || imgFile.type == "image/png" || imgFile.type == "image/gif") {
                 const reader = new FileReader();
+                // FOR SHOWING TEMPLATE IMAGE ON RIGHT PREVIEW BAR 
                 if (selectedRow !== null && selectedCol !== null && !templateSelected) {
                     // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
                     reader.addEventListener('load', function (le) {
+                        // console.log("target: ", le.target);
                         imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                         positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { pl.blockElement.imgUrl = le.target.result; } });
                     });
@@ -188,8 +178,9 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                     formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
                     // formData.append("img-1-1", imgFile);
                 } else {
+                    // FOR SHOWING HEADER IMAGE ON RIGHT PREVIEW BAR 
                     reader.addEventListener('load', function (le) {
-                        imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
+                        mgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                     });
                     reader.readAsDataURL(imgFile);
                     console.log("img-" + selectedRow + '-' + selectedCol);
@@ -244,7 +235,7 @@ function createAllIcon(outerElement) {
 function convertRowIdToNumber(rowElementId) {
     const findRowNum = rowElementId.toString().split('-');
     let rowNumber = parseInt(findRowNum[1]);
-    console.log("Row number: ", rowNumber);
+    // console.log("Row number: ", rowNumber);
     // switch (rowElementId) {
     //     case 'row-1':
     //         rowNumber = 1;
@@ -451,6 +442,11 @@ function replaceAt(str, index, newChar) {
     }
     return str.replace(/./g, replacer);
 }
+
+
+
+// HELPING FUNCTION 17
+const imgKeyToLink = imgKey => `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${imgKey}`;
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -999,7 +995,7 @@ function rightBarElementShowHidePreset() {
                 propertiesBar.style.display = 'block';
                 blockElementBar.style.display = 'none';
                 if (e.toElement.classList[1] === "img-content-block") {
-                    console.log(e.target);
+                    // console.log("Event- e.target: ",e.target);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     imgProps.style.display = 'block';
                     const previousProps = positionElement.filter((pEl, pelIxd) => pEl.rowNumber === selectedRow && pEl.columnNumber === selectedCol);
@@ -1016,7 +1012,8 @@ function rightBarElementShowHidePreset() {
                     // console.log(previousProps[0].blockElement.imgHyperlink);
                     imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
-                    currentPath === editPage ? previewImg.src = "/" + previousProps[0].blockElement.imgUrl : previewImg.src = previousProps[0].blockElement.imgUrl;
+                    // currentPath === editPage ? previewImg.src = "/" + previousProps[0].blockElement.imgUrl : previewImg.src = previousProps[0].blockElement.imgUrl;
+                    previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl);
                     // txt-content-block
                 } else if (e.toElement.classList[1] === "txt-content-block") {
                     const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
@@ -1755,7 +1752,7 @@ function backendAndDataBase(reqUrl, method) {
 
 
 
-// PROCEEDING 
+            // PROCEEDING 
 
 
 
@@ -1790,7 +1787,6 @@ function previewDropZoneTemplate() {
 
 
     // THIS IS COMMING FROM DATABASE TABLE 
-    // const layoutArray = [{ "rowID": 1, "rowWithColumn": 3 }, { "rowID": 2, "rowWithColumn": 2 }, { "rowID": 3, "rowWithColumn": 1 }];
     const layoutArray = JSON.parse(layout);
     const pvBlockElement = JSON.parse(content);
     const pvSibling = JSON.parse(sibling);
@@ -1815,27 +1811,14 @@ function previewDropZoneTemplate() {
 
 
 
-    // MAKING ALL ROW AND COLUMN DIV 
-    // let rowID = 1;
-    // layoutArray.forEach((el, index) => {
-
-    // });
-
-
 
     // APPENDING ALL BLOCK INTO RIGHT COL AND DIV
     // SORT ALL ELEMENT IN ASSENDING ORDER BY COLUMN NUMBER
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
     const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
-    // console.log("Assending block elment: ", assendingBlockCol);
-    // let blockRowId = 1;
     const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
-    // console.log("All button: ", assendingSibling);
-    // let siblingRowId = 1;
     const assendingLayout = layoutArray.sort((a, b) => a.rowID - b.rowID);
-    // console.log("Content: ", pvBlockElement);
-    // console.log("Layout: ", layoutArray)
-    // console.log("Sibling button: ", assendingSibling);
+    // console.log(`Sibling button:  ${assendingSibling} \n Content: ${pvBlockElement} \n Layout: ${layoutArray}`);
 
     try {
         assendingLayout.forEach((lAr, rIdx) => {
@@ -1926,7 +1909,7 @@ function previewDropZoneTemplate() {
                                 // console.log("Empty img : ", bEl.blockElement.imgUrl);
                                 // empty-image.png
                                 defaultImg = "/img/empty-image.png"
-                            } 
+                            }
                             // else {
                             //     defaultImg = "/" + bEl.blockElement.imgUrl;
                             // }
@@ -2067,6 +2050,7 @@ function previewDropZoneTemplate() {
         });
         let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
         headerImage.setAttribute("src", headerImgUrl);
+        // console.log(headerImage);
     } catch (err) {
         console.log(err);
     }
@@ -2162,14 +2146,15 @@ function previewDefaultStyling() {
 
 
 // MAIN FUNCTIONS 9
-function editorPagePreset() {
+function editPagePreset() {
     const newRowList = JSON.parse(layout);
     const newPositionElement = JSON.parse(content);
     const newBtnSibling = JSON.parse(sibling);
     try {
         // PRESET FROM DATABASE
-        headerImage.setAttribute("src", "/" + headerImg);
-        headerImgPreview.setAttribute("src", "/" + headerImg);
+        let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
+        headerImage.setAttribute("src", headerImgUrl);
+        headerImgPreview.setAttribute("src", headerImgUrl);
         typeof templateTitle !== 'undefined' ? inputTitle.value = templateTitle : inputTitle.value = title;
         templateBGColorInput.value = pvBgColor;
         // console.log(templateBGColorInput.value);
@@ -2250,7 +2235,7 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
 
 } else if (currentPath === editPage) {
     previewDropZoneTemplate();
-    editorPagePreset();
+    editPagePreset();
     columnDragAndDrop();
     blockDragAndDrop();
     rightBarElementShowHidePreset();

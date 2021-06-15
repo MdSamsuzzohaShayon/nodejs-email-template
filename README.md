@@ -116,6 +116,7 @@
  - Some problem with preview social (not making more than 3 row)
  - Problem with social preview
  - FIle validation (2mb)
+ - After resizing text to add more text there are some problem to drop element
 
     ```
     show variables like 'max_allowed_packet'
