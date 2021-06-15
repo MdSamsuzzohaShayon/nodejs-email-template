@@ -3,7 +3,7 @@ const conn = require('../config/mysql-config');
 const path = require('path');
 const fs = require('fs');
 const { uploadMultipleFileToS3 } = require('../config/file-upload-config-s3');
-const { invalidToValidStr, getAllImage, deleteImages } = require('../utils/helper');
+const { invalidToValidStr, getAllImage, deleteImages, deleteHeaderImage, deleteTemplateImages } = require('../utils/helper');
 
 const router = express.Router();
 
@@ -120,7 +120,7 @@ router.get('/edit/:id', (req, res, next) => {
     const sql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
 
     // const values = [title, bgImg, bgColor, linkColor, layoutObj, elementObject];
-    conn.query(sql, [req.params.id], (err, result, fields) => {
+    conn.query(sql, [req.params.id], async (err, result, fields) => {
         if (err) throw err;
         console.log("The result is: ", JSON.parse(result[0].layout));
         res.render('template/edit-template', { docs: result[0], templateID: req.params.id });
@@ -139,17 +139,14 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
         const findSql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
 
         // FIND THE EMPLATE BY USING ID 
-        conn.query(findSql, [req.params.id], (findErr, findResult, findFields) => {
+        conn.query(findSql, [req.params.id], async (findErr, findResult, findFields) => {
             if (findErr) throw findErr;
             let updatedBgImg = null;
+            // DELETE PREVIOUS HEADER IMAGE 
             if (req.files['header-img']) {
-                // DELETE PREVIOUS HEADER IMAGE 
-                if (req.files['header-img']) {
-                    updatedBgImg = req.files['header-img'][0].filename;
-                    if (fs.existsSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img)) && req.files['header-img'][0].filename !== "default-header.jpg") {
-                        fs.unlinkSync(path.join(__dirname, "../uploads/" + findResult[0].bg_img));
-                    }
-                }
+                updatedBgImg = req.files['header-img'][0].key;
+                const deletedH = await deleteHeaderImage(findResult[0].bg_img);
+                console.log("Delete header: ", deletedH);
             }
             else {
                 // IF HEADER IS NOT UPDATED 
@@ -158,7 +155,7 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
 
 
 
-            /*
+            const delImgList = [];
             let elementObject = JSON.parse(element);
             elementObject.forEach((eo, eoI) => {
                 // STRINGIFYING BUTTON ELEMENT 
@@ -167,16 +164,15 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                 if (eo.blockElement.name === "imgBlockContent") {
                     const foundContent = JSON.parse(findResult[0].content);
 
+
+                    // CHECK IF THERE IS ANY IMAGE UPDATED
                     const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
                     if (findImg !== undefined && findImg) {
                         const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber === eo.rowNumber && fc.columnNumber === eo.columnNumber);
+                        delImgList.push({ Key: deleteImg[0].blockElement.imgUrl });
 
-                        if (fs.existsSync(path.join(__dirname, `../uploads/${deleteImg[0].blockElement.imgUrl}`))) {
-                            console.log("File exist".red, deleteImg[0].blockElement.imgUrl);
-                            fs.unlinkSync(path.join(__dirname, "../uploads/" + deleteImg[0].blockElement.imgUrl));
-                        }
 
-                        eo.blockElement.imgUrl = findImg[0].filename;
+                        eo.blockElement.imgUrl = findImg[0].key;
                     }
                     if (!findImg) {
                         // UPDATE CONTENT 
@@ -195,6 +191,12 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
 
             });
 
+
+            if (delImgList.length !== 0) {
+                const delTempImg = await deleteTemplateImages(delImgList);
+                console.log("Delete template imgs: ", delTempImg);
+            }
+
             // UPDATE DATABASE 
             const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
 
@@ -202,8 +204,8 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                 if (updateErr) throw updateErr;
                 console.log("Update result: ".green, updateResult);
                 // DELETE PREVIOUS HEADER IMAGE 
+                res.redirect('/template');
             });
-            */
         });
     } catch (err) {
         console.log(err);

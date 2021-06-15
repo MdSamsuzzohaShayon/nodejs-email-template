@@ -96,19 +96,20 @@
  - When deleting a row item from middle the attribute is is not setting properly ☑️
  - Some problem when 3 col row move up from col 3 to cal 2 the is row is not working properly ☑️
  - When droping space creating a extra block element col for database
- - Html is not saving in json field so We need to save in another row  ☑️
- - MySql problem fixing - run those query
- - When we check or uncheck any property it does't change
- 
+ - Html is not saving in json field so We need to save in another row  ☑️ 
  - In preview element is not appending into the right column order ☑️
  - Sibling button is not storing as json (storing as object)  ☑️
- - Problem with button opening in new tab - (text content has more problem)
- - Problem with button content, in 8 number template both button content are showing same  in row 3- this happen because we need to clean input value
  - Remove image html content from drop event and position element  ☑️
  - Multiple content adding in one block- Prevent to add multiple content in same block ☑️
+ - all button element property is same in the array we need to change  ☑️
+
+ - MySql problem fixing - run those query
+ - When we check or uncheck any property it does't change 
+ - Problem with button opening in new tab - (text content has more problem)
+ - Problem with button content, in 8 number template both button content are showing same  in row 3- this happen because we need to clean input value
  - Error with selecting text content by click - THIS IS EDITABLE CONTENT DEFAULT BEHAVIOUR
  - When click any element it's setting the variable for selectedrow and col but for moving up and down second time selected element value won't be changed - we can display block from here
- - all button element property is same in the array we need to change  ☑️
+
  - Change button tag to a tags
  - Dropping button is not working
  - Text editor (insert link)
@@ -117,6 +118,7 @@
  - Problem with social preview
  - FIle validation (2mb)
  - After resizing text to add more text there are some problem to drop element
+ - Navbar link should work on edit page
 
     ```
     show variables like 'max_allowed_packet'

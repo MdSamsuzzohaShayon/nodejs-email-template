@@ -40,6 +40,37 @@ const getAllImage = async (blockContent) => {
 
 
 
+const deleteHeaderImage = async (imgKey) => {
+
+    try {
+        console.log("Image key: ", imgKey);
+        const deletedHeader = await s3.deleteObject({
+            Bucket: process.env.AWS_BUCKET_NAME, /* required */
+            Key: imgKey, /* required */
+        }).promise();
+        return deletedHeader;
+    } catch (error) {
+        console.log("Error: ", error);
+    }
+}
+
+
+
+
+
+
+const deleteTemplateImages = async (imgList) => {
+    // DELETE MULTIPLE OBJECTS 
+    console.log("Delete image list: ", imgList);
+    const multipleImage = await s3.deleteObjects({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Delete: {
+            Objects: imgList,
+            Quiet: false
+        }
+    }).promise();
+    return multipleImage;
+}
 
 
 
@@ -95,4 +126,12 @@ const deleteImages = async (bg_img, blockContent) => {
 
 
 
-module.exports = { invalidToValidStr, getAllImage, deleteImages };
+
+
+
+
+
+
+
+
+module.exports = { invalidToValidStr, getAllImage, deleteImages, deleteHeaderImage, deleteTemplateImages };

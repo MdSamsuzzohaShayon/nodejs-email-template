@@ -180,7 +180,7 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                 } else {
                     // FOR SHOWING HEADER IMAGE ON RIGHT PREVIEW BAR 
                     reader.addEventListener('load', function (le) {
-                        mgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
+                        imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                     });
                     reader.readAsDataURL(imgFile);
                     console.log("img-" + selectedRow + '-' + selectedCol);
@@ -1012,8 +1012,8 @@ function rightBarElementShowHidePreset() {
                     // console.log(previousProps[0].blockElement.imgHyperlink);
                     imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
-                    // currentPath === editPage ? previewImg.src = "/" + previousProps[0].blockElement.imgUrl : previewImg.src = previousProps[0].blockElement.imgUrl;
-                    previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl);
+                    currentPath === editPage ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
+                    // previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl);
                     // txt-content-block
                 } else if (e.toElement.classList[1] === "txt-content-block") {
                     const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
@@ -1090,7 +1090,7 @@ function rightBarElementShowHidePreset() {
 
 
 // MAIN FUNCTION 4
-function rightBarProps() {
+function rightBarPropsUpdate() {
 
     // SUB FUNCTION 1
     function imgPropertiesUpdate() {
@@ -1662,15 +1662,17 @@ function templatePropsCng() {
 
 
 
-
 // console.log(submitSpinner);
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
 
+    // console.log(submitSpinner);
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
+        // console.log(submitSpinner);
         submitSpinner.classList.remove("d-none");
+        // return;
         // console.log("Sibling Button: ", siblingButtonList);
         // console.log("Row list: ", rowList);
         // console.log("Elements: ", positionElement);
@@ -2048,8 +2050,10 @@ function previewDropZoneTemplate() {
 
 
         });
-        let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
-        headerImage.setAttribute("src", headerImgUrl);
+        // let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
+        // headerImage.setAttribute("src", headerImgUrl);
+        // console.log("Header img: ", headerImg);
+        headerImg === "default-header.jpg" ? headerImage.src = "/" + headerImg : headerImage.src = imgKeyToLink(headerImg);
         // console.log(headerImage);
     } catch (err) {
         console.log(err);
@@ -2152,9 +2156,16 @@ function editPagePreset() {
     const newBtnSibling = JSON.parse(sibling);
     try {
         // PRESET FROM DATABASE
-        let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
-        headerImage.setAttribute("src", headerImgUrl);
-        headerImgPreview.setAttribute("src", headerImgUrl);
+
+        if (headerImg === "default-header.jpg") {
+            headerImage.setAttribute("src", "/" + headerImg);
+            headerImgPreview.setAttribute("src", "/" + headerImg);
+        } else {
+            headerImage.setAttribute("src", imgKeyToLink(headerImg));
+            headerImgPreview.setAttribute("src", imgKeyToLink(headerimg));
+        }
+
+
         typeof templateTitle !== 'undefined' ? inputTitle.value = templateTitle : inputTitle.value = title;
         templateBGColorInput.value = pvBgColor;
         // console.log(templateBGColorInput.value);
@@ -2220,7 +2231,7 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     columnDragAndDrop();
     blockDragAndDrop();
     rightBarElementShowHidePreset();
-    rightBarProps();
+    rightBarPropsUpdate();
     templatePropsCng();
     backendAndDataBase(`${websiteDomain}/template/add`, "POST");
     // if (submitted === false) {
@@ -2239,7 +2250,7 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     columnDragAndDrop();
     blockDragAndDrop();
     rightBarElementShowHidePreset();
-    rightBarProps();
+    rightBarPropsUpdate();
     templatePropsCng();
     // /template/delete/<%- template.id %>?_method=DELETE"
     backendAndDataBase(`${websiteDomain}/template/edit/${templateID}/?_method=PUT`, "PUT");
