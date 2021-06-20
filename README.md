@@ -1,15 +1,5 @@
 
-# Requirements
-### First slide
- - The user can also enter the story’s Title and choose a background colour,
- - The ‘Replace Header Image’ button and ‘Header hyperlink’ textbox allows the user to add/edit and hyperlink the header image.
-### second slide
- - The content type will now appear in the template so the user can add content.
- - when the user clicks outside any content/image box within the template, it will go to normal mode.
-
-
-
-
+# Email Template
 
 ### PLANNING 
  - THIS WAY IS NOT WORKING SO NOW I AM GOING TO APPEND ALL BLOCK ELEMENT INTO DROP ZONE (ELEMENT ID)
@@ -102,6 +92,7 @@
  - Remove image html content from drop event and position element  ☑️
  - Multiple content adding in one block- Prevent to add multiple content in same block ☑️
  - all button element property is same in the array we need to change  ☑️
+ - Navbar link should work on edit page ☑️
 
  - MySql problem fixing - run those query
  - When we check or uncheck any property it does't change 
@@ -113,12 +104,12 @@
  - Change button tag to a tags
  - Dropping button is not working
  - Text editor (insert link)
- - Image validation
+ - Image validation  ☑️
  - Some problem with preview social (not making more than 3 row)
  - Problem with social preview
- - FIle validation (2mb)
+ - FIle validation (2mb) ☑️
  - After resizing text to add more text there are some problem to drop element
- - Navbar link should work on edit page
+
 
     ```
     show variables like 'max_allowed_packet'
@@ -128,6 +119,7 @@
  - https://www.youtube.com/watch?v=zDaaG8hFYlk
  - open in link is not working (button property is not setting properly)
  - Image hyper link is not setting properly 
+ - default title in edit page  ☑️
  
  *5email-template.js:1073 TypeError: Cannot read property 'blockElement' of undefined
     at HTMLDocument.<anonymous> (email-template.js:1004)

@@ -1,12 +1,12 @@
 const mysql = require('mysql');
-
-
-var conn = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DBNAME
-});
+const { HOST, USERNAME, PASSWORD, DBNAME, PORT } = process.env;
+console.log();
+const conn = mysql.createConnection({
+    host: HOST,
+    user: USERNAME,
+    password: PASSWORD,
+    database: DBNAME
+}, { debug: true });
 
 
 module.exports = conn;

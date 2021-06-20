@@ -2147,13 +2147,15 @@ function previewDefaultStyling() {
 
 
 
-
-
 // MAIN FUNCTIONS 9
 function editPagePreset() {
+    inputTitle.value = templateTitle;
+    // CONVERT STRING TO JSON 
     const newRowList = JSON.parse(layout);
     const newPositionElement = JSON.parse(content);
     const newBtnSibling = JSON.parse(sibling);
+
+    // SET HEADER IMAGE 
     try {
         // PRESET FROM DATABASE
 
@@ -2168,35 +2170,19 @@ function editPagePreset() {
 
         typeof templateTitle !== 'undefined' ? inputTitle.value = templateTitle : inputTitle.value = title;
         templateBGColorInput.value = pvBgColor;
-        // console.log(templateBGColorInput.value);
-        // console.log("BG color: ", pvBgColor);
     } catch (pageErr) {
         console.log(pageErr)
     }
-    // console.log(newRowList);
-    // console.log("templateID: ", templateID);
 
-    // Array1.splice(0, Array1.length, ...Array2);
-    // rowList.splice(0, rowList.length, newRowList);
-    // positionElement.splice(0, positionElement.length, newPositionElement);
-    // siblingButtonList.splice(0, siblingButtonList.length, newBtnSibling);
-
-
-
+    // COPY FROM DATABASE AND ASSIGN TO EXISTING ARRAY OF THIS FILE 
     rowList = newRowList.slice(0);
     positionElement = newPositionElement.slice(0);
     siblingButtonList = newBtnSibling.slice(0);
-    // console.log("Replaced value: ", rowList);
 
 
+    const allLinks = document.querySelector('.wrapper').getElementsByTagName('a');
 
-
-    const allLinks = document.getElementsByTagName('a');
-    // allLinks.setAttribute("href", "#");
-    // console.log(allLinks);
-    // allLinks.forEach((al, ali) => al.setAttribute("href", "#"));
     for (link of allLinks) {
-        // link.setAttribute("href", "#");
         setAttributes(link, { "href": "#", "target": "" });
     }
 }
