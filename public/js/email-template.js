@@ -12,6 +12,8 @@ const submitSpinner = document.getElementById('submit-spinner');
 // TITLE 
 const inputTitle = document.getElementById('title');
 const saveButton = document.getElementById('save-btn');
+const cancelButton = document.getElementById('cancel-btn');
+
 // HEADER IMAGE 
 const headerImgInput = document.getElementById('header-img-input');
 const headerImage = document.getElementById('header-img');
@@ -657,6 +659,10 @@ function blockDragAndDrop() {
         });
     });
     document.addEventListener('dragover', e => {
+        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
+            // e.target.classList.add('add-bg');
+            e.target.style.backgroundColor = "rgb(139, 139, 139)";
+        }
         // console.log("Drag over: ", e.target);
         e.preventDefault();
 
@@ -665,7 +671,7 @@ function blockDragAndDrop() {
         // highlight potential drop target when the draggable element enters it
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
-            e.target.style.backgroundColor = "rgb(122, 166, 206)";
+            // e.target.style.backgroundColor = "rgb(122, 166, 206)";
         }
 
     }, false);
@@ -674,14 +680,14 @@ function blockDragAndDrop() {
         // reset background of potential drop target when the draggable element leaves it
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
-            e.target.style.backgroundColor = "#e6f2ff";
+            e.target.style.backgroundColor = "transparent";
         }
 
     }, false);
     document.addEventListener('drop', (e) => {
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
-            e.target.style.backgroundColor = "#e6f2ff";
+            e.target.style.backgroundColor = "transparent";
         }
         // if (e.target.parentElement.childNodes !== undefined) {
         //     console.log(e.target.parentElement.childNode);
@@ -929,6 +935,7 @@ function blockDragAndDrop() {
                                     // console.log(e.toElement);
                                     // CHANGING HEIGHT OF ROW 
                                     if (dropableColumn === "one-column-div") e.target.parentElement.style.height = "8em";
+                                    console.log(e.target.parentElement);
 
 
                                     // console.log(pvIcons);
@@ -1665,6 +1672,17 @@ function templatePropsCng() {
 // console.log(submitSpinner);
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
+    cancelButton.addEventListener('click', e => {
+        window.location.replace(websiteDomain + "/template");
+        // console.log("Sibling Button: ", siblingButtonList);
+        // console.log("Row list: ", rowList);
+        // console.log("Elements: ", positionElement);
+
+        // for (let value of formData.values()) {
+        //     console.log("Form data: ", value);
+        // }
+        // console.log(" Cancel");
+    });
 
     // console.log(submitSpinner);
 
@@ -2067,6 +2085,9 @@ function previewDropZoneTemplate() {
         // const pvTextContent = document.querySelectorAll('.txt-content-block');
         const droppedRow = document.querySelectorAll('.drop-row');
         droppedRow.forEach((dr, dri) => dr.style.height = "fit-content");
+        // console.log(dropColumnZone.translate);
+        // dropColumnZone.style.height = "500px";
+        // height: 50em;
         const oneColDiv = document.querySelectorAll('.one-column-div');
         const twoColDiv = document.querySelectorAll('.two-column-div');
         const threeColDiv = document.querySelectorAll('.three-column-div');
@@ -2075,7 +2096,8 @@ function previewDropZoneTemplate() {
             if (ocd.hasChildNodes()) {
                 // console.log(ocd.childNodes[0].className);
                 if (ocd.childNodes[0].classList[1] !== "icon-content-block") {
-                    ocd.style.height = "fit-content"
+                    ocd.style.height = "fit-content";
+                    // ocd.style.height = "45px";
                 }
             }
         });
@@ -2111,7 +2133,7 @@ function previewDropZoneTemplate() {
         //     //     droppedRow.style.height = "fit-content"; // IN PREVIEW
         //     // }
         // });
-        dropColumnZone.style.height = "100%"; // IN PREVIEW
+
     } catch (styleErr) {
         console.log(styleErr);
     }
@@ -2123,6 +2145,9 @@ function previewDropZoneTemplate() {
 
 // MAIN FUNCTIONS 8
 function previewDefaultStyling() {
+    dropColumnZone.style.height = "100%"; // IN PREVIEW
+    // dropColumnZone.style.border = "1px solid rgb(15, 48, 80)"; // IN PREVIEW
+    templateWrapper.style.border = "1px solid rgb(15, 48, 80)";
 
 
 
@@ -2155,6 +2180,8 @@ function editPagePreset() {
     const newPositionElement = JSON.parse(content);
     const newBtnSibling = JSON.parse(sibling);
 
+    const droppedRow = document.querySelectorAll('.drop-row');
+    droppedRow.forEach((dr, dri) => dr.style.height = "15em");
     // SET HEADER IMAGE 
     try {
         // PRESET FROM DATABASE
@@ -2164,7 +2191,7 @@ function editPagePreset() {
             headerImgPreview.setAttribute("src", "/" + headerImg);
         } else {
             headerImage.setAttribute("src", imgKeyToLink(headerImg));
-            headerImgPreview.setAttribute("src", imgKeyToLink(headerimg));
+            headerImgPreview.setAttribute("src", imgKeyToLink(headerImg));
         }
 
 
@@ -2206,12 +2233,15 @@ function editPagePreset() {
 
 
 
-
+// PREVIEW PAGE 
 if (currentPath === previewPage && window.location.pathname !== "/template") {
     console.log("Preview page");
     previewDropZoneTemplate();
     previewDefaultStyling();
 
+
+
+    // EDITOR PAGE 
 } else if (currentPath === editorPage) {
     console.log("Editor page");
     columnDragAndDrop();
@@ -2230,6 +2260,8 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     //     });
     // }
 
+
+    // EDIT PAGE 
 } else if (currentPath === editPage) {
     previewDropZoneTemplate();
     editPagePreset();
@@ -2240,7 +2272,7 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     templatePropsCng();
     // /template/delete/<%- template.id %>?_method=DELETE"
     backendAndDataBase(`${websiteDomain}/template/edit/${templateID}/?_method=PUT`, "PUT");
-    console.log("EDIT");
+    // console.log("EDIT");
 } else if (currentPath === templateIndex) {
     console.log("index");
 } else {

@@ -25,7 +25,7 @@ button, .btn {
 .wrapper .template-builder {
   width: 80% !important;
   margin-left: 10% !important;
-  background-color: #b5d5f3 !important;
+  background-color: #e6e1e1 !important;
 }
 .wrapper .template-builder .workpace {
   display: flex;
@@ -55,7 +55,7 @@ button, .btn {
 .title-bar {
   height: 7%;
   width: 100%;
-  background-color: #7aa6ce;
+  background-color: lightgray;
 }
 .title-bar .title-input-submit {
   height: 100%;
@@ -72,16 +72,16 @@ button, .btn {
   padding: 2%;
   width: 150%;
   border: none;
-  background: #b5d5f3;
-  color: #7aa6ce;
+  background: #ffffff;
+  color: #8b8b8b;
 }
 .title-bar .title-input-submit input[type=text]::placeholder {
   font-size: 0.8rem;
-  color: #7aa6ce;
+  color: #8b8b8b;
 }
 .title-bar .title-input-submit input[type=text]:focus {
   outline: none;
-  color: #4685c0;
+  color: lightgray;
 }
 .title-bar .title-input-submit .btn {
   vertical-align: middle;
@@ -90,15 +90,18 @@ button, .btn {
   margin-left: 5px;
   border: none;
   outline: none;
-  color: #4685c0;
+  color: lightgray;
   background: #0f3050;
+}
+.title-bar .title-input-submit .cancel {
+  background: #8b8b8b;
 }
 
 .template-wrapper {
   width: 90%;
   margin-left: 5%;
   margin-top: 3%;
-  background: #e6f2ff;
+  background: #ffffff;
 }
 .template-wrapper .content-header {
   margin-top: 10%;
@@ -118,19 +121,20 @@ button, .btn {
   width: 80%;
   margin-left: 10%;
   margin-top: 2%;
-  border: 1px solid #7aa6ce;
+  border: 1px solid #8b8b8b;
   height: 50em;
 }
 .drop-wrapper .drop-row {
   width: 100%;
   height: 15em;
-  border-bottom: 1px solid #b5d5f3;
+  border-bottom: 1px solid #e6e1e1;
   display: flex;
   overflow: hidden;
 }
 .drop-wrapper .drop-row .one-column-div {
   width: 100%;
-  border-right: 1px solid #b5d5f3;
+  border-right: 1px solid #e6e1e1;
+  border-right: none !important;
   text-align: center;
 }
 .drop-wrapper .drop-row .one-column-div .btn-content-block {
@@ -141,7 +145,7 @@ button, .btn {
 }
 .drop-wrapper .drop-row .two-column-div {
   width: 50%;
-  border-right: 1px solid #b5d5f3;
+  border-right: 1px solid #e6e1e1;
   text-align: center;
 }
 .drop-wrapper .drop-row .two-column-div .btn-content-block {
@@ -152,7 +156,7 @@ button, .btn {
 }
 .drop-wrapper .drop-row .three-column-div {
   width: 33.99%;
-  border-right: 1px solid #b5d5f3;
+  border-right: 1px solid #e6e1e1;
   text-align: center;
   margin-left: 0;
 }
@@ -202,7 +206,7 @@ button, .btn {
   margin-left: 1rem;
   border: none;
   outline: none;
-  color: #4685c0;
+  color: lightgray;
   background: #0f3050;
   margin-top: 0.5rem;
   margin-right: 1rem;
@@ -210,12 +214,13 @@ button, .btn {
 }
 .drop-wrapper .space-row-grid {
   height: 1.5rem;
-  background: #b5d5f3;
+  background: #e6e1e1;
 }
 
 .right-bar {
-  color: #7aa6ce;
-  background: #0f3050;
+  color: #8b8b8b;
+  background: #ffffff;
+  border: 1px solid #8b8b8b;
 }
 .right-bar .rb-wrapper {
   width: 90%;
@@ -234,10 +239,10 @@ button, .btn {
   align-items: center;
 }
 .rb-block .column-block .block-col {
-  background: #b5d5f3;
+  background: #e6e1e1;
   width: 90%;
   height: 9em;
-  border: 1px solid #b5d5f3;
+  border: 1px solid #e6e1e1;
   align-items: center;
 }
 .rb-block .column-block .col-1-grid {
@@ -248,7 +253,7 @@ button, .btn {
   width: 60%;
   height: 60%;
   margin-top: 18%;
-  background: #4685c0;
+  background: #ffffff;
 }
 .rb-block .column-block .col-2-grid {
   display: flex;
@@ -258,7 +263,7 @@ button, .btn {
   width: 35%;
   height: 60%;
   margin-top: 0;
-  background: #4685c0;
+  background: #ffffff;
 }
 .rb-block .column-block .col-3-grid {
   margin-left: 3%;
@@ -269,7 +274,7 @@ button, .btn {
   width: 20%;
   height: 60%;
   margin-top: 0;
-  background: #4685c0;
+  background: #ffffff;
 }
 .rb-block .content-block {
   display: flex;
@@ -282,7 +287,8 @@ button, .btn {
   width: 30%;
   height: 9em;
   margin-bottom: 1rem;
-  border: #b5d5f3 solid 1px;
+  border: #e6e1e1 solid 1px;
+  background-color: #8b8b8b;
 }
 .rb-block .content-block .content-block-col img {
   width: 70%;
@@ -322,7 +328,7 @@ button, .btn {
   border: none;
   outline: none;
   color: #0f3050;
-  background: #7aa6ce;
+  background: #8b8b8b;
 }
 
 .rb-props {
@@ -337,15 +343,15 @@ button, .btn {
   padding: 15px;
   width: 60%;
   border: none;
-  background: #b5d5f3;
-  color: #7aa6ce;
+  background: #e6e1e1;
+  color: #8b8b8b;
 }
 .rb-props input[type=text]::placeholder {
-  color: #7aa6ce;
+  color: #8b8b8b;
 }
 .rb-props input[type=text]:focus {
   outline: none;
-  color: #4685c0;
+  color: lightgray;
 }
 .rb-props .props {
   display: none;
@@ -360,7 +366,7 @@ button, .btn {
   border: none;
   outline: none;
   color: #0f3050;
-  background: #7aa6ce;
+  background: #8b8b8b;
 }
 .rb-props .props .img-wrap img {
   width: 50%;
@@ -374,14 +380,14 @@ button, .btn {
   border: none;
   outline: none;
   color: #0f3050;
-  background: #7aa6ce;
+  background: #8b8b8b;
   margin-left: 0;
   cursor: pointer;
 }
 .rb-props .props select {
   height: 2rem;
   border: none;
-  background: #b5d5f3;
+  background: #e6e1e1;
 }
 .rb-props .props select:focus {
   outline: none;

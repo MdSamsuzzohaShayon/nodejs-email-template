@@ -65,7 +65,7 @@
     // height: 60px;
     height: 7%;
     width: 100%;
-    background-color: $p-color;
+    background-color: $f-color;
     .title-input-submit{
         // width: 90%;
         height: 100%;
@@ -87,7 +87,7 @@
         input[type = "text"]{
             vertical-align: middle; 
             // @include input_style($h, $w, $p, $bg, $c);
-            @include input_style(2rem, 150%, 2%, $s-color, $p-color);
+            @include input_style(2rem, 150%, 2%, $w-color, $p-color);
         }
     
         input[type = "text"]::placeholder{
@@ -106,6 +106,9 @@
             @include btn_general($f-color, $t-color, 10px, 20px, 0.85rem, 5px);
             // @include btn_general($f-color, $t-color);
         }
+        .cancel{
+            background: $p-color;
+        }
     }
 }
 
@@ -114,7 +117,7 @@
     width: 90%;
     margin-left: 5%;
     margin-top: 3%;
-    background: $d-color;
+    background: $w-color;
 
 
     .content-header{
@@ -154,6 +157,7 @@
         overflow: hidden;
         .one-column-div{
             @include drop_column(100%);
+            border-right: none !important;
             text-align: center;
             .btn-content-block{
                 // width: 15%;
@@ -270,7 +274,8 @@
 // RIGHTBAR START 
 .right-bar{
     color: $p-color;
-    background: $t-color;
+    background: $w-color;
+    border: 1px solid $p-color;
 
     .rb-wrapper{
         width: 90%;
@@ -342,6 +347,7 @@
             height: $block-height;
             margin-bottom: 1rem;
             border: $s-color solid 1px;
+            background-color: $p-color;
             img{
                 width: 70%;
                 margin-left: 10%;

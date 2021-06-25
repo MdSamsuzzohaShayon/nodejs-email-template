@@ -133,6 +133,22 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
     at HTMLDocument.<anonymous> (email-template.js:1027)*
  - Update will be done if we set multer in our route
  - FOR UPLOADING MULTIPLE FILES IN AWS -> STORE ALL FILES IN A ARRAY AND LOOP THOUGH IT
+ - Setup drop row height `droppedRow.forEach((dr, dri) => dr.style.height = "900px");`
+
+
+### Modification - client revision
+ - Cancel is not working
+ - At first column If I add a image in one column row that doesn't work  
+ - Change color scheme
+ - Preview height problem for edit page - can't add any block from edit page
+
+```
+# NAVIGATE TO THE PROJECT DIRECTORY
+git pull
+pm2 startup 
+pm2 save --force
+```
+
 
 
 
