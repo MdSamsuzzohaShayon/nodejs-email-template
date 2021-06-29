@@ -137,10 +137,25 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
 
 
 ### Modification - client revision
- - Cancel is not working
- - At first column If I add a image in one column row that doesn't work  
- - Change color scheme
- - Preview height problem for edit page - can't add any block from edit page
+ - Cancel is not working  ☑️
+ - At first column If I add a image in one column row that doesn't work  ☑️
+ - Change color scheme  ☑️
+ - Preview height problem for edit page - can't add any block from edit page  ☑️
+ - Header logo - delete Toyota logo and its not deleting  ☑️
+ - Header - header needs to adjust to full height of the image file  ☑️
+ - Image block - Options are not working on some images 
+ - Text block - When I copy and paste text, it's showing weird ☑️
+ - Column block - too much space between columns  ☑️
+ - Hovering and selecting row
+ - Problem with droping space block, doesn't drop below one col image block
+ - Social icon arrange properly
+ - Button height problem , btn text change properly, btn a text color  ☑️
+ - Can't add button properly - Inserting image into wrong column  ☑️
+ - You have an error in your SQL syntax; check the manual that corresponds  ☑️
+ - Remove background color  ☑️
+ - Drop down default selected value for space   ☑️
+ - Example site - https://stripo.email/
+
 
 ```
 # NAVIGATE TO THE PROJECT DIRECTORY
@@ -159,6 +174,7 @@ pm2 save --force
  - __https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API__
  - __https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard__
  - __*[Depricated]* https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#browser_compatibility__
+ - __https://stackoverflow.com/questions/12027137/javascript-trick-for-paste-as-plain-text-in-execcommand__
 
 #### Upload files
  - __https://stackoverflow.com/questions/36067767/how-do-i-upload-a-file-with-the-js-fetch-api__

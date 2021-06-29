@@ -22,6 +22,7 @@
         .workpace{
             display: flex;
             width: 100%;
+            min-height: 100% !important;
             // height: 100%;
                 .col-10{
                     width: 62.5% !important;
@@ -32,17 +33,17 @@
         }
         h2{
             text-transform: uppercase;
-            font-size: 2rem;
+            font-size: $fz-h2;
             font-weight: bold;
         }
         h4{
-            font-size: 0.8rem;
+            font-size: $fz-h4;
             text-transform: capitalize;
             margin: 0;
         }
         h3{
             margin-top: 2rem;
-            font-size: 1rem;
+            font-size: $fz-h3;
         }
         
     }
@@ -62,12 +63,10 @@
 
 // TEMPLATE START 
 .title-bar{
-    // height: 60px;
     height: 7%;
     width: 100%;
     background-color: $f-color;
     .title-input-submit{
-        // width: 90%;
         height: 100%;
         text-align: center;
         width: 90%;
@@ -76,14 +75,6 @@
         justify-content: space-between;
         align-items: center;
 
-        // .form-btn{
-        //     // height: 100%;
-        //     width: 90%;
-        //     margin-left: 5%;
-        //     display: flex;
-        //     justify-content: space-between;
-        //     align-items: center;
-        // }
         input[type = "text"]{
             vertical-align: middle; 
             // @include input_style($h, $w, $p, $bg, $c);
@@ -91,7 +82,7 @@
         }
     
         input[type = "text"]::placeholder{
-            font-size: 0.8rem;
+            font-size: $fz-h4;
             color: $p-color;
         }
     
@@ -101,10 +92,8 @@
         }
     
         .btn{
-            // margin-top: 2.5%;
             vertical-align: middle;
             @include btn_general($f-color, $t-color, 10px, 20px, 0.85rem, 5px);
-            // @include btn_general($f-color, $t-color);
         }
         .cancel{
             background: $p-color;
@@ -129,10 +118,9 @@
         height: 60px;
         width: 100%;
         img{
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;
+            height: 80%;
+            margin-top: 2%;
+            margin-left: $ml-drop;
         }
     }
 }
@@ -141,22 +129,25 @@
  // DROPZONE START 
  .drop-wrapper{
     width: 80%;
-    margin-left: 10%;
+    margin-left: $ml-drop;
     margin-top: 2%;
     border: 1px solid $p-color;
-    height: 50em;  // INITIAL HEIGHT IT WILL CHANGED BY JS
+    min-height: 50em;  // INITIAL HEIGHT IT WILL CHANGED BY JS
 
     .drop-row{
         // background: $t-color;
         // color: $f-color;
         width: 100%;
-        height: 15em;
+        min-height: 8em;
         // padding: 10px 0;
         border-bottom: 1px solid $s-color;  // SET THIS BORDER USING JAVASCRIPT 
         display: flex;
         overflow: hidden;
         .one-column-div{
             @include drop_column(100%);
+            &:hover{
+                border: none;
+            }
             border-right: none !important;
             text-align: center;
             .btn-content-block{
@@ -205,16 +196,18 @@
         }
         a{
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: $fz-h4;
         }
         // THIS SHOULD BE SET BY JS 
         .img-content-block{
+            width: auto; //FIXED WIDTH FOR PREVIEW
             display: block;
-            width:90%;
-            height: 70%;
-            margin-left: 5%;
-            object-position: center;
-            object-fit: cover;
+            // width:90%;
+            height: 140px; // HEIGHT AUTO FOR PREVIEW
+            // margin-left: 5%;
+            // object-position: center;
+            // object-fit: cover;
+            margin: 2% auto;
         }
         .txt-content-block{
             padding: 2% 0;
@@ -253,12 +246,13 @@
             margin-bottom: 1rem;
             // margin-top: 1rem;
             // margin: 5rem;
+
         }                              
         
     }
     .space-row-grid{
         height: 1.5rem;
-        background: $s-color;
+        background: transparent;
     }
 }
 // DROPZONE ENDS 
@@ -332,7 +326,7 @@
             }
         }
     }
-    // COLUMN BLOCK ENDS 
+    // COLUMN BLOCK ENDS dr
 
 
     // CONTENT BLOCK START 
@@ -347,7 +341,7 @@
             height: $block-height;
             margin-bottom: 1rem;
             border: $s-color solid 1px;
-            background-color: $p-color;
+            background-color: $f-color;
             img{
                 width: 70%;
                 margin-left: 10%;
@@ -500,6 +494,133 @@
 /* Using SCSS variables to store breakpoints */
 // $breakpoint-tablet: 768px;
 // $breakpoint-sm-laptop: 1080px;
+
+// $bp-md: 1660px;
+// $bp-md-sm: 1366px;
+// $bp-sm: 1220px;
+
+
+@media (max-width: $bp-md){
+    .col-1-grid{
+        .content-holder{
+            margin-top: 22% !important;
+            // align-items: center
+        }
+    }
+
+
+
+
+    .content-block-col{
+        height: $block-height - 1em !important;
+        img{
+            margin-top: 5% !important;
+            width: 60% !important;
+            margin-left: 15% !important;
+        }
+        p{
+            margin-top: 3.5% !important;
+        }
+    }
+}
+
+
+
+
+@media (max-width: $bp-md-sm){
+    .content-block-col{
+        height: $block-height - 2em !important;
+        img{
+            margin-top: 8% !important;
+            width: 50% !important;
+            margin-left: 18% !important;
+        }
+    }
+}
+
+
+
+@media (max-width: $bp-sm){
+    .title-input-submit{
+        input[type = "text"]{
+            width: 115% !important;
+        }
+    
+        input[type = "text"]::placeholder{
+            font-size: $fz-h4 - 0.1rem !important;
+        }
+    
+        .btn{
+            vertical-align: middle;
+            // @include btn_general_sm($py, $px, $fz, $ml);
+            @include btn_general_sm(7px, 12px, 0.75rem, 3px);
+        }
+    }
+    .col-1-grid{
+        .content-holder{
+            margin-top: 25% !important;
+        }
+    }
+}
+
+
+
+@media (max-width: $bp-tab){
+    .title-input-submit{
+        margin-left: 0 !important;
+        input[type = "text"]{
+            width: 80% !important;
+        }
+    
+        input[type = "text"]::placeholder{
+            font-size: $fz-h4 - 0.1rem !important;
+        }
+    
+        .btn{
+            vertical-align: middle;
+            // @include btn_general_sm($py, $px, $fz, $ml);
+            @include btn_general_sm(7px, 9px, 0.65rem, 2px);
+        }
+    }
+
+    .col-1-grid{
+        .content-holder{
+            margin-left: 50%;
+            @include content_holder_device(40%, 40%, 50%);
+        }
+    }
+    .col-2-grid{
+        .content-holder{
+            @include content_holder_device(35%, 40%, 10%);
+        }
+    }
+    .col-3-grid{
+        margin-left: 3%;
+        .content-holder{
+            @include content_holder_device(25%, 40%, 10%);
+        }
+    }
+
+    .block-col{
+        height: $block-height - 3em !important;
+    }
+
+
+    .content-block-col{
+        height: $block-height - 3em !important;
+        img{
+            margin-top: 25% !important;
+        }
+        p{
+            font-size: $fz-p-sm;
+        }
+
+    }
+}
+
+
+
+
 
 // @media (max-width: $breakpoint-sm-laptop) {
 //     // TEMPLATE START 

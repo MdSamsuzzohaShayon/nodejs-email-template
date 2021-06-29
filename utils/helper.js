@@ -3,8 +3,8 @@ const s3 = require('../config/s3');
 // HELPING FUNCTION 1
 function invalidToValidStr(invalidString) {
     let blockElementString = invalidString.toString();
-    let newHtmlBlock = blockElementString.replace(/"/g, "~_");
-    let validString = newHtmlBlock;
+    let removeDoubleQuatation = blockElementString.replace(/"/g, "~_");
+    let validString = removeDoubleQuatation.replace(/'/g, "_~");
     return validString;
 }
 

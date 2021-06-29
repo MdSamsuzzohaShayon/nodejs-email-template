@@ -30,6 +30,7 @@ button, .btn {
 .wrapper .template-builder .workpace {
   display: flex;
   width: 100%;
+  min-height: 100% !important;
 }
 .wrapper .template-builder .workpace .col-10 {
   width: 62.5% !important;
@@ -111,10 +112,9 @@ button, .btn {
   width: 100%;
 }
 .template-wrapper .header-image img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
+  height: 80%;
+  margin-top: 2%;
+  margin-left: 10%;
 }
 
 .drop-wrapper {
@@ -122,11 +122,11 @@ button, .btn {
   margin-left: 10%;
   margin-top: 2%;
   border: 1px solid #8b8b8b;
-  height: 50em;
+  min-height: 50em;
 }
 .drop-wrapper .drop-row {
   width: 100%;
-  height: 15em;
+  min-height: 8em;
   border-bottom: 1px solid #e6e1e1;
   display: flex;
   overflow: hidden;
@@ -136,6 +136,9 @@ button, .btn {
   border-right: 1px solid #e6e1e1;
   border-right: none !important;
   text-align: center;
+}
+.drop-wrapper .drop-row .one-column-div:hover {
+  border: none;
 }
 .drop-wrapper .drop-row .one-column-div .btn-content-block {
   float: left;
@@ -172,12 +175,10 @@ button, .btn {
   font-size: 0.8rem;
 }
 .drop-wrapper .drop-row .img-content-block {
+  width: auto;
   display: block;
-  width: 90%;
-  height: 70%;
-  margin-left: 5%;
-  object-position: center;
-  object-fit: cover;
+  height: 140px;
+  margin: 2% auto;
 }
 .drop-wrapper .drop-row .txt-content-block {
   padding: 2% 0;
@@ -214,7 +215,7 @@ button, .btn {
 }
 .drop-wrapper .space-row-grid {
   height: 1.5rem;
-  background: #e6e1e1;
+  background: transparent;
 }
 
 .right-bar {
@@ -288,7 +289,7 @@ button, .btn {
   height: 9em;
   margin-bottom: 1rem;
   border: #e6e1e1 solid 1px;
-  background-color: #8b8b8b;
+  background-color: lightgray;
 }
 .rb-block .content-block .content-block-col img {
   width: 70%;
@@ -406,5 +407,103 @@ button, .btn {
 }
 
 /* Using SCSS variables to store breakpoints */
+@media (max-width: 1660px) {
+  .col-1-grid .content-holder {
+    margin-top: 22% !important;
+  }
+
+  .content-block-col {
+    height: 8em !important;
+  }
+  .content-block-col img {
+    margin-top: 5% !important;
+    width: 60% !important;
+    margin-left: 15% !important;
+  }
+  .content-block-col p {
+    margin-top: 3.5% !important;
+  }
+}
+@media (max-width: 1366px) {
+  .content-block-col {
+    height: 7em !important;
+  }
+  .content-block-col img {
+    margin-top: 8% !important;
+    width: 50% !important;
+    margin-left: 18% !important;
+  }
+}
+@media (max-width: 1280px) {
+  .title-input-submit input[type=text] {
+    width: 115% !important;
+  }
+  .title-input-submit input[type=text]::placeholder {
+    font-size: 0.7rem !important;
+  }
+  .title-input-submit .btn {
+    vertical-align: middle;
+    font-size: 0.75rem !important;
+    padding: 7px 12px !important;
+    margin-left: 3px !important;
+  }
+
+  .col-1-grid .content-holder {
+    margin-top: 25% !important;
+  }
+}
+@media (max-width: 768px) {
+  .title-input-submit {
+    margin-left: 0 !important;
+  }
+  .title-input-submit input[type=text] {
+    width: 80% !important;
+  }
+  .title-input-submit input[type=text]::placeholder {
+    font-size: 0.7rem !important;
+  }
+  .title-input-submit .btn {
+    vertical-align: middle;
+    font-size: 0.65rem !important;
+    padding: 7px 9px !important;
+    margin-left: 2px !important;
+  }
+
+  .col-1-grid .content-holder {
+    margin-left: 50%;
+    width: 40% !important;
+    height: 40% !important;
+    margin-top: 50% !important;
+  }
+
+  .col-2-grid .content-holder {
+    width: 35% !important;
+    height: 40% !important;
+    margin-top: 10% !important;
+  }
+
+  .col-3-grid {
+    margin-left: 3%;
+  }
+  .col-3-grid .content-holder {
+    width: 25% !important;
+    height: 40% !important;
+    margin-top: 10% !important;
+  }
+
+  .block-col {
+    height: 6em !important;
+  }
+
+  .content-block-col {
+    height: 6em !important;
+  }
+  .content-block-col img {
+    margin-top: 25% !important;
+  }
+  .content-block-col p {
+    font-size: 0.65rem;
+  }
+}
 
 /*# sourceMappingURL=email-template.css.map */

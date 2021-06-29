@@ -6,6 +6,16 @@
     background: $w-color;
 }
 
+
+@mixin content_holder_device($width, $height, $mtop ){
+    width: $width !important;
+    height: $height !important;
+    margin-top: $mtop !important;
+}
+
+
+
+
 @mixin block_col_2_3(){
     display: flex;
     justify-content: space-around;
@@ -37,6 +47,13 @@
     outline: none;
     color: $clr;
     background: $bgClr;
+}
+
+
+@mixin btn_general_sm($py, $px, $fz, $ml){
+    font-size: $fz !important;
+    padding: $py $px !important;
+    margin-left: $ml !important;
 }
 
 

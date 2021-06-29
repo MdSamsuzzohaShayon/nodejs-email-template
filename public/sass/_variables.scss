@@ -11,6 +11,9 @@ $w-color: #ffffff;
 
 // PADDING & MARGIN 
 $ml : 20px;
+$ml-drop: 10%;
+
+
 
 
 $block-height: 9em;
@@ -21,3 +24,21 @@ $nanum: 'Nanum Myeongjo', serif;
 $amiri: 'Amiri', serif;
 $baskervville: 'Baskervville', serif;
 $caslon: 'Libre Caslon Text', serif;
+
+
+
+// FONT SIZE 
+$fz-h3: 1rem; // FONT SIZE H3
+$fz-h2: 2rem;
+$fz-h4: 0.8rem;  // THIS IS ALSO FOR LINK
+$fz-p-sm: 0.65rem;
+
+
+
+
+
+// DIFFERENT BREAK POINT FOR RESPONSIVENESS 
+$bp-md: 1660px;
+$bp-md-sm: 1366px;
+$bp-sm: 1280px;
+$bp-tab: 768px;
