@@ -18,17 +18,21 @@
         width: 80%  !important;
         margin-left: 10% !important;
         // margin-top: 2%;
-        background-color: $s-color !important;
+        background-color: $w-color !important;
         .workpace{
+            border: 1px solid $p-color;
             display: flex;
             width: 100%;
             min-height: 100% !important;
             // height: 100%;
                 .col-10{
+                    border-right: 1px solid $p-color;
+                    background-color: $s-color;
                     width: 62.5% !important;
                 }
                 .col-6{
                     width: 37.5% !important;
+
                 }                
         }
         h2{
@@ -63,7 +67,7 @@
 
 // TEMPLATE START 
 .title-bar{
-    height: 7%;
+    height: 4em;
     width: 100%;
     background-color: $f-color;
     .title-input-submit{
@@ -264,19 +268,34 @@
 
 
 
-
 // RIGHTBAR START 
 .right-bar{
+    align-self: flex-start;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 20px !important;
+    left: 0;
+    // height: 100vh;
+
+
     color: $p-color;
     background: $w-color;
-    border: 1px solid $p-color;
+    // border: 1px solid $p-color;
+    overflow: hidden;
+    // contain: content;
+
 
     .rb-wrapper{
+
+
+
+        // -webkit-transform: translateZ(0);
         width: 90%;
         height: 100%;
         margin-left: 5%;
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
     }
 }
 
@@ -468,6 +487,9 @@
 
 
 // RIGHTBAR ENDS 
+
+
+
 
 
 // .add-border{

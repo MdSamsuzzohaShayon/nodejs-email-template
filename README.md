@@ -154,6 +154,13 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - You have an error in your SQL syntax; check the manual that corresponds  ☑️
  - Remove background color  ☑️
  - Drop down default selected value for space   ☑️
+ - Paste large text that will effect
+ - Sometimes text options doesn't appars   ☑️
+ - Right bar need to be fixed 
+ - Header hyperlink is missing
+ - thinner header section
+ - Keep format when paste the text - only change font size as default 
+ - Some time colums are not adding properly
  - Example site - https://stripo.email/
 
 
@@ -210,6 +217,9 @@ pm2 save --force
 
 #### HTML CSS
  - __https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox__
+
+#### Sticket Sidebar
+ - __https://codepen.io/hexagoncircle/pen/oNLZmvV__
 
 #### JS Async, Await and promise
  - __https://stackabuse.com/promises-in-node-js__

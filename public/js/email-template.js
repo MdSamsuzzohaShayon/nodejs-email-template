@@ -6,6 +6,7 @@ const editPage = "edit", previewPage = "preview", editorPage = "editor", templat
 
 
 
+const templateBuilder = document.getElementById('template-builder');
 
 // EDITOR PAGE VARIABLES START 
 const submitSpinner = document.getElementById('submit-spinner');
@@ -31,6 +32,9 @@ const dropColumnZone = document.getElementById('drop-zone');
 
 // DRAGABLE CONTENT BLOCK 
 const contentBlockCol = document.querySelectorAll('.content-block-col');
+
+// WHOLE RIGHT BAR 
+const rightBarContent = document.getElementById('br-content');
 
 // RIGHT BAR ELEMENT TO SHOW AND HIDE 
 const propertiesBar = document.getElementById('rb-props');
@@ -121,7 +125,7 @@ let imageBlockElment = null;
 
 //TEXT
 let text = null;
-let txtBlockElement = null;
+// let txtBlockElement = null;
 
 // BUTTON 
 let btnDefaultTxt = "Preview";
@@ -449,6 +453,91 @@ function replaceAt(str, index, newChar) {
 
 // HELPING FUNCTION 17
 const imgKeyToLink = imgKey => `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${imgKey}`;
+
+
+
+// HELPING FUNCTION 18
+const pasteAndFormatText = (docElement, txtBlockElement) => {
+    // const childElementStyle = (childElem) => {
+    //     // childElem.style.width = "100%";
+    //     // childElem.style.height = "100%";
+    //     // childElem.style.background = "transparent";
+    //     console.log("Pasted");
+    // }
+    // docElement.onpaste = childElementStyle(null);
+    // console.log(docElement.onpaste);
+    // CHANGING TEXT EVENT 
+    docElement.addEventListener('input', e => {
+        // console.log("E - ", e.target.innerText);
+        // console.log("input event - ", e.inputType.toString());
+        // insertText or insertFromPaste
+        if (e.inputType.toString() === "insertFromPaste") {
+            const selector = e.target.querySelectorAll('[style]');
+            selector.forEach((se, i) => {
+                se.style.height = "100%";
+                se.style.width = "100%";
+                se.style.background = "transparent";
+                se.style.overflow = "hidden";
+                se.style.padding = "auto 0";
+                se.style.margin = "auto 0";
+                // console.log("Selector - ", selector);
+            });
+        } 
+        // else if (e.inputType.toString() === "insertText") {
+        //     txtBlockElement = e.target.innerText;
+        // }
+        // if (e.inputType.toString() === "deleteContentBackward") {
+        //     if(e.target.innerText === null || e.target.innerText === ''){
+        //         console.log(e.target.innerText);
+        //         const previousTextElement = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+        //         console.log(previousTextElement.childNodes);
+        //         previousTextElement.childNodes.forEach((pvce, i) => { pvce.remove() });
+        //     }
+        // }
+
+        txtBlockElement = e.target.outerHTML;
+        // console.log("Text block element: ", txtBlockElement);
+        positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
+    });
+    // const textEditor = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
+    // docElement.addEventListener("paste", function (e) {
+    //     // console.log("Child Nodes - ", e);
+    //     // let paste = (e.clipboardData || window.clipboardData).getData('text/html');
+    //     // console.log("Pasted html - ", paste);
+    //     // const nodes = stringToNodes(paste);
+    //     // console.log("nodes - ", nodes);
+    //     // const selector = nodes.querySelectorAll('[style]');
+    //     console.log("Selector - ", selector);
+    //     selector.forEach((se, i) => {
+    //         console.log(se);
+    //         se.style.height = "100%";
+    //         se.style.width = "100%";
+    //         se.style.background = "transparent";
+    //         se.style.overflow = "hidden";
+    //         se.style.padding = "auto 0";
+    //         se.style.margin = "auto 0";
+
+    //     });
+    //     // document.execCommand("insertHTML", false, text);
+    //     // e.preventDefault();
+    //     // if (e.target.hasChildNodes()) {
+    //     //     console.log("paste - ", e.target.childNodes);
+    //     //     e.target.childNodes.forEach((cn, i) => {
+    //     //         cn.style.height = "100%";
+    //     //         cn.style.width = "100%";
+    //     //     })
+    //     // }
+    //     // let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+    //     // document.execCommand("insertHTML", false, text);
+
+    //     // ['text/plain','text/html'].forEach( format =>{
+    //     //     console.log(`Format: ${format}`);
+    //     //     console.log(e.clipboardData.getData(format));
+    //     //   });
+
+    // });
+}
+
 // EXTRA HELPING FUNCTIONS ENDS
 
 
@@ -656,7 +745,8 @@ function blockDragAndDrop() {
     let dropableBlock = null;
     let rowNumber;
     let columnNumber;
-    let blockElement = null;
+    // let blockElement = null;
+    let txtBlockElement = null;
 
     // DRAGSTART - SET VARIABLE TO BE SURE WHICH ELEMENT IS DRAGGING 
     contentBlockCol.forEach((blockCol, index) => {
@@ -690,7 +780,7 @@ function blockDragAndDrop() {
 
         });
     });
-    document.addEventListener('dragover', e => {
+    templateBuilder.addEventListener('dragover', e => {
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
             e.target.style.backgroundColor = "rgb(139, 139, 139)";
@@ -699,7 +789,7 @@ function blockDragAndDrop() {
         e.preventDefault();
 
     });
-    document.addEventListener("dragenter", function (e) {
+    templateBuilder.addEventListener("dragenter", function (e) {
         // highlight potential drop target when the draggable element enters it
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
@@ -708,7 +798,7 @@ function blockDragAndDrop() {
 
     }, false);
 
-    document.addEventListener("dragleave", function (e) {
+    templateBuilder.addEventListener("dragleave", function (e) {
         // reset background of potential drop target when the draggable element leaves it
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
@@ -716,7 +806,7 @@ function blockDragAndDrop() {
         }
 
     }, false);
-    document.addEventListener('drop', (e) => {
+    templateBuilder.addEventListener('drop', (e) => {
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
             e.target.style.backgroundColor = "transparent";
@@ -795,24 +885,12 @@ function blockDragAndDrop() {
                                     rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
                                     let tempColNum = stringIdToIdNum(e.toElement.id, 2);
                                     columnNumber = tempColNum + 1;
-                                    let txtBlockElement = null;
                                     const newBlockCol = document.createElement('div');
                                     setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
                                     newBlockCol.className = 'content txt-content-block';
                                     newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
                                     // CHANGING TEXT EVENT 
-                                    newBlockCol.addEventListener('input', e => {
-                                        txtBlockElement = e.target.outerHTML;
-                                        console.log("Text block element: ", txtBlockElement);
-                                        positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
-                                    });
-                                    // const textEditor = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-                                    newBlockCol.addEventListener("paste", function (e) {
-                                        e.preventDefault();
-                                        let text = (e.originalEvent || e).clipboardData.getData('text/plain');
-                                        document.execCommand("insertHTML", false, text);
-                                    });
-
+                                    // pasteAndFormatText(newBlockCol);
                                     e.toElement.appendChild(newBlockCol);
                                     // THIS IS ONLY FOR DATABASE 
                                     text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
@@ -851,7 +929,7 @@ function blockDragAndDrop() {
                                 newBlockCol.className = "content btn-content-block";
 
                                 const newBtnLink = document.createElement('a');
-                                setAttributes(newBtnLink, {"class": "btn-content-link", 'href': "#"})
+                                setAttributes(newBtnLink, { "class": "btn-content-link", 'href': "#" })
                                 newBtnLink.textContent = btnDefaultTxt;
                                 newBlockCol.append(newBtnLink);
 
@@ -916,7 +994,7 @@ function blockDragAndDrop() {
                                 const newBlockCol = document.createElement('a');
                                 rowNumber = convertRowIdToNumber(e.path[1].id);
                                 columnNumber = convertColIdToNumber(e.toElement.id);
-
+ 
                                 function insertButtonElement(elementAfter) {
                                     if (e.target.parentElement.className === 'one-column-div' || dropableColumn === "one-column-div") {
                                         // LEFT POSITION ELEMENT FROM HERE 
@@ -941,7 +1019,7 @@ function blockDragAndDrop() {
                                     }
                                 }
                                 // console.log("E btn-holder: ", e.target.children.length);
-
+ 
                                 if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block") {
                                     insertButtonElement(e.toElement);
                                 } else {
@@ -949,7 +1027,7 @@ function blockDragAndDrop() {
                                 }
                                 btnBlockElement = `<a >button</a>`;
                                 siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
-
+ 
                                 // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
                             } else {
                                 alert('this button is not dropable here');
@@ -1009,8 +1087,14 @@ function blockDragAndDrop() {
                 console.log(err);
             }
         };
+
+
+
     });
+    pasteAndFormatText(dropColumnZone, txtBlockElement);
 }
+
+
 
 
 
@@ -1023,9 +1107,12 @@ function rightBarElementShowHidePreset() {
 
 
 
-    document.addEventListener('click', e => {
-        // e.preventDefault();
-        // console.log(e.target);
+    dropColumnZone.addEventListener('click', e => {
+        e.preventDefault();
+        // console.log(e.target.tagName);
+        // if(e.target.tagName === "A"){
+        //     e.preventDefault();
+        // }
         // console.log(e.toElement.classList);
 
 
@@ -1033,12 +1120,12 @@ function rightBarElementShowHidePreset() {
             // CLEAN UP DEFAULT VALUE FOR ALL INPUT FIELD 
             let idString = null;
             // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
-            if (e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.className === "btn-content-link") {
+            if (e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.parentElement.classList[0] === 'content' || e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.className === "btn-content-link") {
                 templateSelected = false;
-                if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.className === "btn-content-link") {
-                    if (e.toElement.className === 'social-icon-img') {
+                if (e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.className === "btn-content-link") {
+                    if (e.toElement.className === 'social-icon-img' || e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block') {
                         idString = e.toElement.parentElement.parentElement.id;
-                    } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === "btn-content-link") {
+                    } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === "btn-content-link" || e.toElement.parentElement.classList[1] === 'txt-content-block') {
                         idString = e.toElement.parentElement.id;
                     }
                     // else if(e.toElement.classList[1] === 'icon-content-block'){
@@ -1051,6 +1138,8 @@ function rightBarElementShowHidePreset() {
                 let findRowCol = idString.split('-');
                 selectedRow = parseInt(findRowCol[1]);
                 selectedCol = parseInt(findRowCol[2]);
+
+                // console.log("selected row - " + selectedRow, "selected Col - " + selectedCol);
 
 
 
@@ -1082,9 +1171,10 @@ function rightBarElementShowHidePreset() {
                     currentPath === editPage ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
                     // previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl);
                     // txt-content-block
-                } else if (e.toElement.classList[1] === "txt-content-block") {
+                } else if (e.toElement.classList[1] === "txt-content-block" || e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.parentElement.classList[0] === 'content') {
                     const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-                    resizeObserver.observe(selectedTextContent);
+                    // console.log(selectedTextContent);
+                    // resizeObserver.observe(selectedTextContent);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     txtProps.style.display = 'block';
 
@@ -1099,9 +1189,10 @@ function rightBarElementShowHidePreset() {
                     twitterLinkInput.value = previousProps[0].blockElement.socialTwitterHyperlink;
                     instagramLinkInput.value = previousProps[0].blockElement.socialInstagramHyperlink;
                 } else if (e.toElement.classList[1] === "btn-content-block" || e.toElement.className === "btn-content-link") {
-                    if(e.toElement.className === "btn-content-link"){
+                    console.log("e.target.parentElement");
+                    if (e.toElement.className === "btn-content-link") {
 
-                    }else if(e.toElement.classList[1] === "btn-content-block"){
+                    } else if (e.toElement.classList[1] === "btn-content-block") {
 
                     }
                     // console.log("Col: " + selectedCol + " Row: " + selectedRow);
@@ -1181,38 +1272,31 @@ function rightBarElementShowHidePreset() {
     });
 
     // HOVER EFFECT 
-    // try {
-    //     dropColumnZone.addEventListener('mouseover', e => {
-    //         // const droppedRow = document.getElementById();
-    //         if (e.toElement.classList[0] !== "content" || e.toElement.classList[0] !== "space") {
-    //             if (e.toElement.className === "three-column-div" || e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div") {
-    //                 // console.log("Mouse Over -column - ", e.target);
-    //                 e.target.style.border = "1px solid rgb(15, 48, 80)";
-    //             } else if (e.toElement.className === "drop-row") {
-    //                 // console.log("Mouse Over -row - ", e.target);
-    //                 e.target.style.border = "1px solid rgb(15, 48, 80)";
+    try {
+        dropColumnZone.addEventListener('mouseover', e => {
+            // const droppedRow = document.getElementById();
+            if (e.toElement.classList[0] !== "content" || e.toElement.classList[0] !== "space") {
+                if (e.toElement.className === "three-column-div" || e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div") {
+                    // console.log("Mouse Over -column - ", e.target.parentElement);
+                    e.target.parentElement.style.border = "1px solid rgb(15, 48, 80)";
+                } else if (e.toElement.className === "drop-row") {
+                    // console.log("Mouse Over -row - ", e.target);
+                    e.target.style.border = "1px solid rgb(15, 48, 80)";
+                    // console.log(e.target);
 
-    //             }
-    //         }
-    //     });
-    //     // MOUSE OUT IS NOT WORKING PROPERLY 
-    //     dropColumnZone.addEventListener('mouseout', e => {
-    //         if (e.toElement.classList[0] !== "content" || e.toElement.classList[0] !== "space") {
-    //             console.log("Mouse Out -column - ", e.target.className);
-    //             if (e.toElement.className === "three-column-div" || e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div") {
-    //                 e.target.style.border = "none";
-    //             } else if (e.toElement.className === "drop-row" && e.toElement.classList[0] !== "content") {
-    //                 console.log("Mouse Out -row - ", e.target.className);
-    //                 e.target.style.border = "none";
+                }
+            }
+        });
+        // MOUSE OUT IS NOT WORKING PROPERLY 
+        dropColumnZone.addEventListener('mouseout', e => {
+            const row = document.querySelectorAll('.drop-row');
+            row.forEach((r, i) => r.style.border = "none");
+        });
 
-    //             }
-    //         }
-    //     });
-
-    //     // dropColumnZone.addEventListener('mouseleave', e => {});
-    // } catch (hErr) {
-    //     console.log(hErr);
-    // }
+        // dropColumnZone.addEventListener('mouseleave', e => {});
+    } catch (hErr) {
+        console.log(hErr);
+    }
 
 }
 
@@ -1585,7 +1669,7 @@ function rightBarPropsUpdate() {
                         /*
                         let i = 0;
                         let colNum = 1;
-
+ 
                         while (selectedRowElement.children.length > i) {
                             if (selectedRowElement.children[i].hasChildNodes()) {
                                 console.log("All child nodes", selectedRowElement.childNodes);
@@ -1596,7 +1680,7 @@ function rightBarPropsUpdate() {
                                     // console.log("Element: ", be);
                                     // console.log("be Selected Row is: ", selectedRow);
                                 });
-
+ 
                                 // SOME PROBLEM IN HERE 
                                 console.log("All next child nodes", selectedRowElement.nextSibling.childNodes);
                                 selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
@@ -1807,6 +1891,65 @@ function templatePropsCng() {
             link => style.color = e.target.value
         }
     });
+
+
+    // console.log(templateBuilder.clientHeight);
+    // rightBarContent.style.height = 500+ "px";
+    // compare window size and element bottom 
+
+    // STICKEY RIGHT BAR 
+    // window.addEventListener('scroll', function(e) {
+    //     console.log("_______________________");
+    //     // console.log("Dropzone height - ",templateBuilder.clientHeight);
+    //     // const templateBottom  = templateBuilder.getBoundingClientRect().bottom;
+    //     // console.log("Dropzone scroll height - ",templateBuilder.offsetHeight);
+    //     // console.log("template bottom - ", templateBottom);
+    //     // console.log("Window Y - ",window.pageYOffset);
+
+    //     const scrollPosition = window.scrollY;
+    //     var offset = templateBuilder.getBoundingClientRect().top - templateBuilder.offsetParent.getBoundingClientRect().top;
+    //     const top = window.pageYOffset + window.innerHeight - offset;
+
+    //     if(templateBuilder.nextSibling === null){
+    //         console.log(templateBuilder.nextElementSibling);
+    //     }else{
+    //         console.log("THis is null");
+    //     }
+    //     // const currentPosition =  templateBuilder.clientHeight - lastKnownScrollPosition;
+    //     // console.log("Dropzone offset top - ", templateBuilder.offsetTop);
+    //     // console.log("Dropzone offset height - ", templateBuilder.offsetHeight);
+    //     // console.log("current position - ", currentPosition);
+    //     // console.log("Scroll Y - ", lastKnownScrollPosition);
+    //     if( templateBuilder.clientHeight > scrollPosition){
+    //         // element.offsetTop < window.scrollY;
+    //         if(scrollPosition > templateBuilder.offsetTop){
+    //             console.log("fixed ");
+    //             rightBarContent.style.position = 'fixed';
+    //             rightBarContent.style.top = '5%';
+    //             rightBarContent.style.right = '11.6%';
+    //             rightBarContent.style.width = '26.5%';
+
+    //         }
+    //         if(top === templateBuilder.scrollHeight){
+    //             console.log("sticky");
+    //             rightBarContent.style.position = 'sticky';
+    //             rightBarContent.style.width = '90%';
+    //         }
+    //         // if(templateBuilder.offsetHeight >= lastKnownScrollPosition){
+    //         // }
+    //     }
+    // }, { passive: false });
+
+    // window.addEventListener("scroll", () => {
+    //     var offset = templateBuilder.getBoundingClientRect().top - templateBuilder.offsetParent.getBoundingClientRect().top;
+    //     const top = window.pageYOffset + window.innerHeight - offset;
+
+    //     if (top === templateBuilder.scrollHeight) {
+    //         console.log("bottom");
+    //     }
+    // }, { passive: false });
+
+
 }
 
 
@@ -2362,11 +2505,11 @@ function editPagePreset() {
     siblingButtonList = newBtnSibling.slice(0);
 
 
-    const allLinks = document.querySelector('.wrapper').getElementsByTagName('a');
+    // const allLinks = document.querySelector('.wrapper').getElementsByTagName('a');
 
-    for (link of allLinks) {
-        setAttributes(link, { "href": "#", "target": "" });
-    }
+    // for (link of allLinks) {
+    //     setAttributes(link, { "href": "#", "target": "" });
+    // }
 }
 
 

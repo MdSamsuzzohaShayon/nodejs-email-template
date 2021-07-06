@@ -31,11 +31,11 @@ router.get('/preview/:id', (req, res, next) => {
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
         try {
-            console.log("Layout - ", JSON.parse(result[0].layout));
-            console.log("---------break--------------".white);
-            console.log("Content - ", JSON.parse(result[0].content));
-            console.log("---------break--------------".white);
-            console.log("Sibling - ", JSON.parse(result[0].sibling));
+            // console.log("Layout - ", JSON.parse(result[0].layout));
+            // console.log("---------break--------------".white);
+            // console.log("Content - ", JSON.parse(result[0].content));
+            // console.log("---------break--------------".white);
+            // console.log("Sibling - ", JSON.parse(result[0].sibling));
             res.render('template/template-preview', { docs: result[0], headerImg: result[0].bg_img });
         } catch (readFileErr) {
             console.log("Read file error: ".red, readFileErr);

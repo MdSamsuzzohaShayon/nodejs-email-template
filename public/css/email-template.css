@@ -25,14 +25,17 @@ button, .btn {
 .wrapper .template-builder {
   width: 80% !important;
   margin-left: 10% !important;
-  background-color: #e6e1e1 !important;
+  background-color: #ffffff !important;
 }
 .wrapper .template-builder .workpace {
+  border: 1px solid #8b8b8b;
   display: flex;
   width: 100%;
   min-height: 100% !important;
 }
 .wrapper .template-builder .workpace .col-10 {
+  border-right: 1px solid #8b8b8b;
+  background-color: #e6e1e1;
   width: 62.5% !important;
 }
 .wrapper .template-builder .workpace .col-6 {
@@ -54,7 +57,7 @@ button, .btn {
 }
 
 .title-bar {
-  height: 7%;
+  height: 4em;
   width: 100%;
   background-color: lightgray;
 }
@@ -219,9 +222,14 @@ button, .btn {
 }
 
 .right-bar {
+  align-self: flex-start;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 20px !important;
+  left: 0;
   color: #8b8b8b;
   background: #ffffff;
-  border: 1px solid #8b8b8b;
+  overflow: hidden;
 }
 .right-bar .rb-wrapper {
   width: 90%;
@@ -229,6 +237,7 @@ button, .btn {
   margin-left: 5%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .rb-block h4 {
