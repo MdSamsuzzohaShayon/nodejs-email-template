@@ -146,7 +146,7 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - Image block - Options are not working on some images 
  - Text block - When I copy and paste text, it's showing weird ☑️
  - Column block - too much space between columns  ☑️
- - Hovering and selecting row
+ - Hovering and selecting row   ☑️
  - Problem with droping space block, doesn't drop below one col image block
  - Social icon arrange properly
  - Button height problem , btn text change properly, btn a text color  ☑️
@@ -156,12 +156,20 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - Drop down default selected value for space   ☑️
  - Paste large text that will effect
  - Sometimes text options doesn't appars   ☑️
- - Right bar need to be fixed 
+ - Right bar need to be fixed   ☑️
  - Header hyperlink is missing
- - thinner header section
- - Keep format when paste the text - only change font size as default 
- - Some time colums are not adding properly
+ - thinner header section   ☑️
+ - Keep format when paste the text - only change font size as default    ☑️
+ - Some time colums are not adding properly   ☑️
  - Example site - https://stripo.email/
+ - Input field is not working for button and text and all   ☑️
+ - Should be able to add more then 5 row  ☑️
+ - Add border bottom for space  ☑️
+ - Prevent scroll up on click event of image or a tag
+ - Make position relative of right bar in submit function  ☑️
+ - Test edit template
+ - Button position for 3 column row isn't working properly ☑️
+ - Open in new tab for button ☑️
 
 
 ```

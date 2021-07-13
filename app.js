@@ -7,6 +7,7 @@ const logger = require('morgan');
 const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
 const colors = require('colors');
+const process = require('process');
 
 
 const conn = require('./config/mysql-config');
@@ -18,15 +19,7 @@ const app = express();
 
 
 
-// DATABASE CONNECTION 
-conn.connect((err, res) => {
-    if (err) {
-        console.error('error connecting: ' + err.stack);
-        return;
-    }
 
-    console.log('connected as id ' + conn.threadId);
-});
 
 
 
@@ -62,6 +55,8 @@ colors.setTheme({
 
 app.use('/', indexRouter);
 app.use('/template', emailTemplate);
+
+
 
 
 app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT));

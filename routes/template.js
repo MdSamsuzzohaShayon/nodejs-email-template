@@ -19,8 +19,10 @@ router.get('/', (req, res, next) => {
     const sql = `SELECT id, title FROM nodejs_story`;
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
+        console.log(result);
         res.render('template/index', { docs: result });
     });
+    // res.render('template/index', { docs: result });
 });
 
 

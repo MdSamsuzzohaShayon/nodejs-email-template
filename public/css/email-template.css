@@ -219,13 +219,14 @@ button, .btn {
 .drop-wrapper .space-row-grid {
   height: 1.5rem;
   background: transparent;
+  border-bottom: 1px solid #e6e1e1;
 }
 
 .right-bar {
   align-self: flex-start;
-  position: -webkit-sticky !important;
-  position: sticky !important;
-  top: 20px !important;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
   left: 0;
   color: #8b8b8b;
   background: #ffffff;

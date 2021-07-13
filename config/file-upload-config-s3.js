@@ -22,6 +22,18 @@ const arrayOfImg = [
     { name: 'img-5-1', maxCount: 1 },
     { name: 'img-5-2', maxCount: 1 },
     { name: 'img-5-3', maxCount: 1 },
+    { name: 'img-6-1', maxCount: 1 },
+    { name: 'img-6-2', maxCount: 1 },
+    { name: 'img-6-3', maxCount: 1 },
+    { name: 'img-7-1', maxCount: 1 },
+    { name: 'img-7-2', maxCount: 1 },
+    { name: 'img-7-3', maxCount: 1 },
+    { name: 'img-8-1', maxCount: 1 },
+    { name: 'img-8-2', maxCount: 1 },
+    { name: 'img-8-3', maxCount: 1 },
+    { name: 'img-9-1', maxCount: 1 },
+    { name: 'img-9-2', maxCount: 1 },
+    { name: 'img-9-3', maxCount: 1 },
 ];
 
 
