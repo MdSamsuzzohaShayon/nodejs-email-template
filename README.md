@@ -54,6 +54,8 @@
 
  - WORK WITH IMAGE 
 
+ - find deferance of all row and drop column zone and check if the diferance value is less than 127 add some value to make it 127 as differance
+
 
 
 
@@ -170,6 +172,15 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - Test edit template
  - Button position for 3 column row isn't working properly ☑️
  - Open in new tab for button ☑️
+ 
+ - Prevent to submit with empty title ☑️
+ - page height - Unlimited page height to add unlimited block  ☑️
+ - Image hypertext - bg white, dark gray outline, (if text is not entered it not making hyperlink) - *(1) I couldn't find this problem (2) any text you entered there that will be hyperlink when you preview the template (3) I set the default link for that hyperlink you can change that as well* ☑️
+ - Text editor - When Select text text editor need to open ☑️
+ - Header - Need to Remove logo ☑️
+ - Right bar - Make button light gray ☑️
+ - Add column block betweeen two column block vertically not working
+ - Full width horizontally like __https://www.campaignmonitor.com/__
 
 
 ```

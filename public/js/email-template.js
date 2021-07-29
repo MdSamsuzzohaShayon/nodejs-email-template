@@ -37,6 +37,8 @@ const contentBlockCol = document.querySelectorAll('.content-block-col');
 const rightBar = document.querySelector('.right-bar');
 const rightBarContent = document.getElementById('br-content');
 
+const deleteHeaderImg = document.getElementById('delete-header-img');
+
 // RIGHT BAR ELEMENT TO SHOW AND HIDE 
 const propertiesBar = document.getElementById('rb-props');
 const blockElementBar = document.getElementById('rb-block');
@@ -185,13 +187,16 @@ const imgUploadHandler = (imgFile, imgSrcUrl) => {
                     formData.append("img-" + selectedRow + '-' + selectedCol, imgFile);
                     // formData.append("img-1-1", imgFile);
                 } else {
+                    headerImgPreview.style.display = 'inline-block';
+                    deleteHeaderImg.style.display = 'inline-block';
+                    headerImage.style.display = "block";
                     // FOR SHOWING HEADER IMAGE ON RIGHT PREVIEW BAR 
                     reader.addEventListener('load', function (le) {
                         imgSrcUrl.forEach((isu, i) => setAttributes(isu, { 'src': le.target.result }));
                     });
                     reader.readAsDataURL(imgFile);
                     //console.log("img-" + selectedRow + '-' + selectedCol);
-                    formData.append("header-img", imgFile);
+                    formData.append("headerImg", imgFile);
                 }
             } else {
                 alert('Use a supported image file (.png / .jpeg / .gff / .jpg )');
@@ -242,20 +247,6 @@ function createAllIcon(outerElement) {
 function convertRowIdToNumber(rowElementId) {
     const findRowNum = rowElementId.toString().split('-');
     let rowNumber = parseInt(findRowNum[1]);
-    // //console.log("Row number: ", rowNumber);
-    // switch (rowElementId) {
-    //     case 'row-1':
-    //         rowNumber = 1;
-    //         break;
-    //     case 'row-2':
-    //         rowNumber = 2;
-    //         break;
-    //     case 'row-3':
-    //         rowNumber = 3;
-    //         break;
-    //     default:
-    //         break;
-    // }
     return rowNumber;
 }
 // HELPING FUNCTION 6
@@ -290,7 +281,6 @@ function convertColIdToNumber(colElementId) {
 const stringIdToIdNum = (stringText, arrNum) => {
     let rowNumString = stringText.toString();
     let findFromArr = rowNumString.split('-');
-    // //console.log("Finding from array: ", findFromArr);
     let numVal = parseInt(findFromArr[arrNum]);
     return numVal;
 }
@@ -317,7 +307,8 @@ function invalidToValidHtml(invalidString) {
     let blockElementString = invalidString.toString();
     let newHtmlBlock = blockElementString.replace(/~_/g, '"');
     let validString = newHtmlBlock.replace(/_~/g, "'");
-    return validString;
+    let validHTML = validString.replace(/-_/g, "?");
+    return validHTML;
 }
 // HELPING FUNCTION 11
 function rowIdToNum(rowId) {
@@ -362,8 +353,11 @@ function rowNumToStr(rowIdInNum) {
 }
 
 
+
 // HELPING FUNCTION 13 
 const stringToNodes = html => new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+
+
 
 
 // HELPING FUNCTION 14 
@@ -371,7 +365,7 @@ const stringToNodes = html => new DOMParser().parseFromString(html, 'text/html')
 const protocalValidate = (hyperlink) => {
     let validatedLink = null;
     const pvProtocol = hyperlink.toString().trim().substring(0, 7);
-    if (pvProtocol === "http://" || pvProtocol === "https://") {
+    if (pvProtocol === "http://" || pvProtocol === "https:/") {
         validatedLink = hyperlink;
     } else {
         validatedLink = "http://" + hyperlink;
@@ -380,26 +374,10 @@ const protocalValidate = (hyperlink) => {
 }
 
 
-// HELPING CLASS 
-const resizeObserver = new ResizeObserver(e => {
-    // //console.log("E: ", e);
-    // //console.log("target: ", e[0].target);
-    // //console.log("target.parentElement.parentElement : ", e[0].target.parentElement.parentElement);
-    // //console.log("Content Reactangle: ", e[0].contentRect);
-    try {
-        if (e[0].contentRect.height > 172) {
-            e[0].target.parentElement.parentElement.style.height = `fit-content`;
-        }
-        // if (e[0].target.classList[1] === "icon-content-block") {
-        //     e[0].target.parentElement.parentElement.style.height = '8em';
-        // }
 
-        // icon-content-block
-    } catch (err) {
-        //console.log(err);
-    }
 
-});
+
+
 
 
 // HELPING FUNCTIONS 16
@@ -414,29 +392,6 @@ const createSocialIcons = (pvIcons, socialFbHyperlink, socialTwitterHyperlink, s
         pvFbLink.appendChild(pvFbIconImg);
         pvIcons.appendChild(pvFbLink);
     }
-    /*
-    const pvFbLink = document.createElement('a');
-    setAttributes(pvFbLink, { "class": "social-icon-content", "href": `${socialFbHyperlink}` });
-    const pvFbIconImg = document.createElement('img');
-    setAttributes(pvFbIconImg, { "class": "social-icon-img", "src": "/icon/facebook.png" });
-    pvFbLink.appendChild(pvFbIconImg);
-    pvIcons.appendChild(pvFbLink);
-
-    const pvTwiterLink = document.createElement('a');
-    setAttributes(pvTwiterLink, { "class": "social-icon-content", "href": `${socialTwitterHyperlink}` });
-    const pvTwitterIconImg = document.createElement('img');
-    setAttributes(pvTwitterIconImg, { "class": "social-icon-img", "src": "/icon/twitter.png" });
-    pvTwiterLink.appendChild(pvTwitterIconImg);
-    pvIcons.appendChild(pvTwiterLink);
-
-
-    const pvInstaLink = document.createElement('a');
-    setAttributes(pvInstaLink, { "class": "social-icon-content", "href": `${socialInstagramHyperlink}` });
-    const pvInstaIconImg = document.createElement('img');
-    setAttributes(pvInstaIconImg, { "class": "social-icon-img", "src": "/icon/instagram.png" });
-    pvInstaLink.appendChild(pvInstaIconImg);
-    pvIcons.appendChild(pvInstaLink);
-    */
     return pvIcons;
 }
 // HELPING FUNCTION 17
@@ -459,19 +414,8 @@ const imgKeyToLink = imgKey => `https://email-template-nodejs.s3.ca-central-1.am
 
 // HELPING FUNCTION 18
 const pasteAndFormatText = (docElement, txtBlockElement) => {
-    // const childElementStyle = (childElem) => {
-    //     // childElem.style.width = "100%";
-    //     // childElem.style.height = "100%";
-    //     // childElem.style.background = "transparent";
-    //     //console.log("Pasted");
-    // }
-    // docElement.onpaste = childElementStyle(null);
-    // //console.log(docElement.onpaste);
     // CHANGING TEXT EVENT 
     docElement.addEventListener('input', e => {
-        // //console.log("E - ", e.target.innerText);
-        // //console.log("input event - ", e.inputType.toString());
-        // insertText or insertFromPaste
         if (e.inputType.toString() === "insertFromPaste") {
             const selector = e.target.querySelectorAll('[style]');
             selector.forEach((se, i) => {
@@ -481,65 +425,184 @@ const pasteAndFormatText = (docElement, txtBlockElement) => {
                 se.style.overflow = "hidden";
                 se.style.padding = "auto 0";
                 se.style.margin = "auto 0";
-                // //console.log("Selector - ", selector);
             });
         }
-        // else if (e.inputType.toString() === "insertText") {
-        //     txtBlockElement = e.target.innerText;
-        // }
-        // if (e.inputType.toString() === "deleteContentBackward") {
-        //     if(e.target.innerText === null || e.target.innerText === ''){
-        //         //console.log(e.target.innerText);
-        //         const previousTextElement = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-        //         //console.log(previousTextElement.childNodes);
-        //         previousTextElement.childNodes.forEach((pvce, i) => { pvce.remove() });
-        //     }
-        // }
 
         txtBlockElement = e.target.outerHTML;
-        // //console.log("Text block element: ", txtBlockElement);
         positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = txtBlockElement; } });
     });
-    // const textEditor = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-    // docElement.addEventListener("paste", function (e) {
-    //     // //console.log("Child Nodes - ", e);
-    //     // let paste = (e.clipboardData || window.clipboardData).getData('text/html');
-    //     // //console.log("Pasted html - ", paste);
-    //     // const nodes = stringToNodes(paste);
-    //     // //console.log("nodes - ", nodes);
-    //     // const selector = nodes.querySelectorAll('[style]');
-    //     //console.log("Selector - ", selector);
-    //     selector.forEach((se, i) => {
-    //         //console.log(se);
-    //         se.style.height = "100%";
-    //         se.style.width = "100%";
-    //         se.style.background = "transparent";
-    //         se.style.overflow = "hidden";
-    //         se.style.padding = "auto 0";
-    //         se.style.margin = "auto 0";
+}
 
-    //     });
-    //     // document.execCommand("insertHTML", false, text);
-    //     // e.preventDefault();
-    //     // if (e.target.hasChildNodes()) {
-    //     //     //console.log("paste - ", e.target.childNodes);
-    //     //     e.target.childNodes.forEach((cn, i) => {
-    //     //         cn.style.height = "100%";
-    //     //         cn.style.width = "100%";
-    //     //     })
-    //     // }
-    //     // let text = (e.originalEvent || e).clipboardData.getData('text/plain');
-    //     // document.execCommand("insertHTML", false, text);
 
-    //     // ['text/plain','text/html'].forEach( format =>{
-    //     //     //console.log(`Format: ${format}`);
-    //     //     //console.log(e.clipboardData.getData(format));
-    //     //   });
 
-    // });
+// HELPING FUNCTIONS 19 
+const getAllParentNode = (targetedElement) => {
+    let a = targetedElement;
+    let els = [];
+    while (a) {
+        els.unshift(a);
+        a = a.parentNode;
+    }
+    return els;
+}
+
+
+
+// HELPING FUNCTION 20 
+const createColWithRow = (dropableColumn, rowNum, newRow) => {
+    switch (dropableColumn) {
+        case 'col-1-grid':
+            // ADD 1 COLUMN INSIDE A DIV
+            const oneColumnDiv = document.createElement('div');
+            setAttributes(oneColumnDiv, { "class": "one-column-div", "id": `one-col-0-${rowNum}` });
+            setAttributes(newRow, { "class": "drop-row", "id": `row-${rowNum}` });
+            newRow.appendChild(oneColumnDiv);
+            rowWithColumn = 1;
+            return { newRow, rowWithColumn };
+        case 'col-2-grid':
+            // ADD 2 COLUMN INSIDE A DIV 
+            for (let i = 0; i < 2; i++) {
+                const twoColumnDiv = document.createElement('div');
+                setAttributes(twoColumnDiv, { "class": "two-column-div", "id": `two-col-${i}-${rowNum}` });
+                setAttributes(newRow, { "class": "drop-row", "id": `row-${rowNum}` });
+                newRow.appendChild(twoColumnDiv);
+                rowWithColumn = 2;
+            }
+            return { newRow, rowWithColumn };
+        case 'col-3-grid':
+            // ADD 3 COULMN INSIDE A DIV
+            for (let i = 0; i < 3; i++) {
+                rowWithColumn = 3;
+                const threeColumnDiv = document.createElement('div');
+                setAttributes(threeColumnDiv, { "class": "three-column-div", "id": `three-col-${i}-${rowNum}` });
+                setAttributes(newRow, { "class": "drop-row", "id": `row-${rowNum}` });
+                newRow.appendChild(threeColumnDiv);
+            }
+            return { newRow, rowWithColumn };
+
+        default:
+            dropableColumn = null;
+            break;
+    };
+
+}
+
+
+
+
+// HELPING FUNCTIONS 21 
+const dropBelowOrAbove = (highlightedElement, event) => {
+    let insertAfter;
+    elementHeight = highlightedElement.offsetHeight;
+    // GETTING ELEMENT HEIGHT 
+    let rect = highlightedElement.getBoundingClientRect();
+    const y = event.clientY - rect.top;
+    let middleOfY = elementHeight / 2;
+    if (y > middleOfY) {
+        insertAfter = true;
+    }
+    if (y < middleOfY) {
+        insertAfter = false;
+    }
+    return insertAfter;
+}
+
+
+// HELPING FUNCTION 22 
+const changeAllNextElementAttribute = (cTargetedRowElement, cRowNum, cRowID) => {
+    const cNextEles = getNextAllElement(cTargetedRowElement);
+    const cAllNextEles = [cTargetedRowElement, ...cNextEles];
+    cAllNextEles.forEach((ane, i) => {
+        cRowNum++;
+        setAttributes(ane, { "id": `row-${cRowNum}` });
+        if (ane.hasChildNodes()) {
+            ane.childNodes.forEach((anec, ic) => {
+                if (anec.hasChildNodes()) {
+                    anec.childNodes.forEach((anecc, cci) => {
+                        let idIdx = 4;
+                        if (anecc.tagName.toString().toLowerCase() === "a") {
+                            // img-3-2
+                            let contentId = anecc.childNodes[0].id.toString();
+                            contentId = contentId.substring(0, idIdx) + cRowNum + contentId.substring(idIdx + 1);
+                            anecc.childNodes[0].setAttribute("id", contentId);
+                        } else {
+                            let contentId = anecc.id.toString();
+                            if (anecc.classList[1] === "icon-content-block") idIdx = 5;
+                            contentId = contentId.substring(0, idIdx) + cRowNum + contentId.substring(idIdx + 1);
+                            anecc.setAttribute("id", contentId);
+                            // if (contentId === 'ico') contentId = 'icon';
+                            // anec.setAttribute('id', `${contentId}-${cRowNum}-${stringIdToIdNum(anec.id, 2)}`);
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+// HELPING FUNCTION 23 
+function cngDbForInsert(cRowNum, cRowWithColumn, cRowID) {
+    rowList.forEach((nrl, nIdx) => {
+        if (nrl.rowID > cRowNum) {
+            nrl.rowID = nrl.rowID + 1;
+        };
+    });
+    rowList.splice(cRowNum, 0, { rowID: cRowNum + 1, rowWithColumn: cRowWithColumn });
+    positionElement.forEach((npe, npeI) => {
+        if (npe.rowNumber > cRowNum) {
+            npe.rowNumber = npe.rowNumber + 1;
+        }
+    });
+    cRowID++;
 }
 
 // EXTRA HELPING FUNCTIONS ENDS
+
+
+
+
+
+
+
+
+
+
+// HELPING CLASS 
+const resizeObserver = new ResizeObserver(e => {
+    // console.log("E- Height - ", e[0].contentRect.height);
+    const dropRows = dropColumnZone.querySelectorAll('.drop-row');
+    if (dropRows) {
+        let allRowHeight = 0;
+        dropRows.forEach((dr, i) => {
+            // console.log(`Drop row height -${i}- ${dr.clientHeight}`);
+            allRowHeight += dr.clientHeight;
+        });
+        // console.log("all row height - ", allRowHeight);
+        let diferanceHeight = e[0].contentRect.height - allRowHeight;
+        // console.log("diferance height - ", diferanceHeight);
+        if (diferanceHeight < 127) {
+            // console.log("ele that need to change height - ", dropColumnZone);
+            let newHeight = allRowHeight + 127;
+            // console.log("New height - ", newHeight);
+            dropColumnZone.style.minHeight = newHeight + "px";
+            // dropColumnZone.style.minHeight = allRowHeight + (127 - diferanceHeight);
+        }
+    }
+    try {
+        if (e[0].contentRect.height > 172) {
+            // console.log("Height - ", e[0].contentRect.height );
+            e[0].target.parentElement.parentElement.style.height = `fit-content`;
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+// // console.log(templateWrapper.clientHeight);
+
+// // console.log(dropColumnZone.clientHeight); // 798 = 50em // 1em = 15.96 // row height = 8em
+
 
 
 
@@ -570,10 +633,12 @@ const pasteAndFormatText = (docElement, txtBlockElement) => {
 // MAIN FUNCTION 1
 function columnDragAndDrop() {
     let dropableColumn = null;
+    let blockCol = null;
 
+    // DRAG COLUMN 
     draggableColumn.forEach((column, index) => {
         column.addEventListener('dragstart', (e) => {
-            const blockCol = e.toElement.classList[0];
+            blockCol = e.toElement.classList[0];
             if (blockCol) {
                 switch (e.toElement.classList[1].toString()) {
                     case 'col-1-grid':
@@ -592,6 +657,8 @@ function columnDragAndDrop() {
             }
         });
     });
+
+    // DRAG SPACE 
     contentBlockCol.forEach((blockCol, index) => {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
@@ -602,143 +669,189 @@ function columnDragAndDrop() {
     });
 
     // DROPZONE EVENTS START 
-    dropColumnZone.addEventListener("dragover", function (e) {
-        // dropColumnZone
-        if (e.toElement.className === "drop-wrapper") {
-            e.toElement.classList.add('add-border'); // ADD BORDER
-        }
-        e.preventDefault();
-    }, false);
+    // dropColumnZone.addEventListener("dragover", function (e) {
+    //     // dropColumnZone
+    //     if (e.toElement.className === "drop-wrapper") {
+    //         // e.toElement.classList.add('add-border'); // ADD BORDER
+    //     }
+    //     e.preventDefault();
+    // }, false);
+
+
     dropColumnZone.addEventListener('drop', e => {
+        // e.target.className === "drop-row" || e.target.parentElement.className === 'drop-row' || e.target.parentElement.parentElement.className === "drop-row" || e.target.parentElement.parentElement.parentElement.className === "drop-row"
         let newDiv = document.createElement('div');
         // COLUMN ARE ONLY ABLE TO DROP INTO DROP ZONE (ID)
-        if (e.toElement.id === 'drop-zone' && dropableColumn !== "space-row-grid") {
-            e.toElement.classList.remove('add-border'); // REMOVE BORDER
-            //console.log("Row ID - ", rowID);
-            // PREVENT TO ADD MORE THAN 4 ROW 
+        if (blockCol === "block-col") {
+
+            // PREVENT TO ADD MORE THAN 9 ROW 
             if (rowID <= 9) {
                 // INCREASE HEIGHT OF WHOLE DROP ZONE 
                 if (rowList.length >= 2) {
                     dropColumnZone.style.minHeight = `${dropColumnZone.clientHeight + increaseDZHeight}px`;
                 }
                 // dropColumnZone.style.height = "100%"; // IN PREVIEW
-                if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid" || dropableColumn === "space-row-grid") {
-                    setAttributes(newDiv, { "class": "drop-row", "id": `row-${rowID}` });
-                    // ADD DEFFERENT TYPE OF STYLING FOR DEFFERENT TYPE OF COLUMN ELEMENT 
-                    switch (dropableColumn) {
-                        case 'col-1-grid':
-                            // ADD 1 COLUMN INSIDE A DIV
-                            const oneColumnDiv = document.createElement('div');
-                            setAttributes(oneColumnDiv, { "class": "one-column-div", "id": `one-col-0-${rowID}` });
-                            newDiv.appendChild(oneColumnDiv);
-                            rowWithColumn = 1;
-                            break;
-                        case 'col-2-grid':
-                            // ADD 2 COLUMN INSIDE A DIV 
-                            for (let i = 0; i < 2; i++) {
-                                const twoColumnDiv = document.createElement('div');
-                                setAttributes(twoColumnDiv, { "class": "two-column-div", "id": `two-col-${i}-${rowID}` });
-                                newDiv.appendChild(twoColumnDiv);
-                                rowWithColumn = 2;
+                if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid") {
+
+
+
+                    // ADD BELOW OR ABOVE ANODER DIV START
+
+
+                    let dropWrapper = null;
+
+
+
+
+                    // console.log("targeted element - ", e.target);
+                    let targetedRowElement = null;
+
+                    for (let f of getAllParentNode(e.target)) {
+                        if (f.className !== undefined) {
+                            // if (f.className === "drop-wrapper") {
+                            //     console.log("parent element - ", f);
+                            // }
+                            if (f.className === "drop-row") {
+                                // console.log("targeted row - ", f);
+                                targetedRowElement = f;
                             }
-                            break;
-                        case 'col-3-grid':
-                            // ADD 3 COULMN INSIDE A DIV
-                            for (let i = 0; i < 3; i++) {
-                                rowWithColumn = 3;
-                                const threeColumnDiv = document.createElement('div');
-                                setAttributes(threeColumnDiv, { "class": "three-column-div", "id": `three-col-${i}-${rowID}` });
-                                newDiv.appendChild(threeColumnDiv);
-                            }
-                            break;
 
-                        default:
-                            dropableColumn = null;
-                            break;
-                    };
+                        }
+                    }
 
 
-                    dropColumnZone.appendChild(newDiv);
-                    rowList.push({ rowID, rowWithColumn });
-                    // EVERYTIME WHEN WE ADD A ROW WE WILL ADD 1
-                    rowID++;
 
-                    // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
-                    dropableColumn = null;
+                    if (targetedRowElement !== null) {
+                        elementHeight = targetedRowElement.offsetHeight;
+                        // GETTING ELEMENT HEIGHT 
+                        let rect = targetedRowElement.getBoundingClientRect();
+                        const y = e.clientY - rect.top;
+                        let middleOfY = elementHeight / 2;
+                        let rowNum = stringIdToIdNum(targetedRowElement.id, 1);
+                        if (y > middleOfY) {
+
+                            // console.log("After - Y - " + y + " MiddleOfY -" + middleOfY);
+                            const { newRow, rowWithColumn } = createColWithRow(dropableColumn, rowNum, newDiv);
+                            // console.log("No of col - ", rowWithColumn);
+                            // console.log("row - ", newRow);
+                            targetedRowElement.after(newRow);
+                            const changeRowAttr = rowNum - 1;
+                            changeAllNextElementAttribute(targetedRowElement, changeRowAttr);
+                            // rowList, positionElement, sibling
+                            // const months = ['Jan', 'March', 'April', 'June'];
+                            // months.splice(1, 0, 'Feb');
+                            // splice(start, deleteCount, item1)
+                            // const nextRowList = rowList.filter((nrl, ni) => nrl.rowID > rowNum);
+                            cngDbForInsert(rowNum, rowWithColumn, rowID);
+                        }
+                        if (y < middleOfY) {
+                            // console.log("Before - Y - " + y + " MiddleOfY -" + middleOfY + " Row with col - ");
+                            const { newRow, rowWithColumn } = createColWithRow(dropableColumn, rowNum, newDiv);
+                            // console.log("No of col - ", rowWithColumn);
+                            // console.log("row - ", newRow);
+                            dropColumnZone.insertBefore(newRow, targetedRowElement);
+                            // CHANGE ATTRIBUTES FOR NEXT ELEMENTS 
+                            const changeRowAttr = rowNum;
+                            changeAllNextElementAttribute(targetedRowElement, changeRowAttr);
+                            let cngRowDb = changeRowAttr -1;
+                            cngDbForInsert(cngRowDb, rowWithColumn, rowID);
+
+                        }
+                        rowNum = null;
+                    } else {
+                        const { newRow, rowWithColumn } = createColWithRow(dropableColumn, rowID, newDiv);
+                        console.log("No of col - ", rowWithColumn);
+                        console.log("row - ", newRow);
+
+
+
+
+
+
+
+                        dropColumnZone.appendChild(newRow);
+                        rowList.push({ rowID, rowWithColumn });
+                        // EVERYTIME WHEN WE ADD A ROW WE WILL ADD 1
+                        rowID++;
+
+                        // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
+                        dropableColumn = null;
+                        targetedRowElement = null;
+                        // ADD BELOW OR ABOVE ANODER DIV  END
+                    }
+
+
                 }
+
             } else {
                 alert("You can't add more than 9 row");
             }
-        } else {
-            //console.log("outside of drop zone");
+
+
         }
 
 
-        // //console.log("Drop - ", e.target.className);
-        // DROP SPACE BLOCK ELEMET INTO DROPZONE OR AFTER ROW
-        if (e.toElement.id === 'drop-zone' && dropableColumn === 'space-row-grid') {
-            // //console.log("Drop Space Row - ", e.target);
-            // DROPPING THE ELEMENT INTO A CURRECT POSITION 
-            let spxID = rowID - 1;
-            setAttributes(newDiv, { "id": "spx-" + spxID + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
-            newDiv.className = 'space space-row-grid';
-            dropColumnZone.appendChild(newDiv);
-            rowList.push({ afterRow: spxID, spaceRow: 12 });
-        }
+
+        // DROP SPACE 
         if (dropableColumn === 'space-row-grid') {
-            // //console.log("Drop Over text - ", e.target.parentElement.parentElement); // GETTING ROW OVER TEXT
-            // //console.log("Drop over image - ", e.target.parentElement.parentElement.parentElement);  // GETTING ROW OVER IMAGE
+            // DROP SPACE BLOCK ELEMET INTO DROPZONE OR AFTER ROW
+            if (e.toElement.id === 'drop-zone') {
+                // DROPPING THE ELEMENT INTO A CURRECT POSITION 
+                let spxID = rowID - 1;
+                setAttributes(newDiv, { "id": "spx-" + spxID + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
+                newDiv.className = 'space space-row-grid';
+                dropColumnZone.appendChild(newDiv);
+                rowList.push({ afterRow: spxID, spaceRow: 12 });
+            }
 
-
+            // DROP INTO WHETHER BELOW OR ABOVE THE CURRENT ROW 
             if (e.target.className === "drop-row" || e.target.parentElement.className === 'drop-row' || e.target.parentElement.parentElement.className === "drop-row" || e.target.parentElement.parentElement.parentElement.className === "drop-row") {
-                //console.log("dropableColumn - ", e.target);
                 let selectedElement = null;
-
                 if (e.target.className === "drop-row") {
                     // DROP OVER ROW ELEMENT 
                     selectedElement = e.target;
-                    // //console.log("Element - ", e.target);
                 } else if (e.target.parentElement.className === 'drop-row') {
                     // DROP OVER COLUMN ELEMENT 
-                    // //console.log("Element - ", e.target);
                     selectedElement = e.target.parentElement;
                 } else if (e.target.parentElement.parentElement.parentElement.className === "drop-row") {
                     // DROP OVER IMAGE ELEMENT 
                     selectedElement = e.target.parentElement.parentElement.parentElement;
-                    // //console.log("Element - ", e.target);
                 } else if (e.target.parentElement.parentElement.className === "drop-row") {
                     // DROP OVER TEXT ELEMENT 
                     selectedElement = e.target.parentElement.parentElement;
-                    // //console.log("Element - ", e.target);
                 }
-                elementHeight = selectedElement.offsetHeight;
-                // //console.log("Element height - ", elementHeight);
-                // GETTING ELEMENT HEIGHT 
-                let rect = selectedElement.getBoundingClientRect();
-                const y = e.clientY - rect.top;
+
                 newDiv.className = 'space space-row-grid';
-                let middleOfY = elementHeight / 2;
                 let rowNum = stringIdToIdNum(selectedElement.id, 1);
-                if (y > middleOfY) {
+
+
+                const insert = dropBelowOrAbove(selectedElement, e);
+                // console.log("Insert after - ", insert);
+                if (insert === true) {
                     // GETTING ROW NUMBER AND COLUMN NUMBER 
                     setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
                     selectedElement.after(newDiv);
                     rowList.push({ afterRow: rowNum, spaceRow: 12 });
                 }
-                if (y < middleOfY) {
+                if (insert === false) {
                     // INSERT BEFORE 
                     rowNum--;
                     setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
                     selectedElement.previousSibling.after(newDiv);
                     rowList.push({ afterRow: rowNum, spaceRow: 12 });
-                    // //console.log("Row list: ", rowList);
                 }
             }
         }
+
         dropableColumn = null;
+        blockCol = null;
+        newDiv = null;
+        // console.log("Row list - ", rowList);
     });
     // DROPZONE EVENTS ENDS
 }
+
+
 
 
 
@@ -784,53 +897,31 @@ function blockDragAndDrop() {
     });
     templateBuilder.addEventListener('dragover', e => {
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
-            // e.target.classList.add('add-bg');
             e.target.style.backgroundColor = "rgb(139, 139, 139)";
         }
-        // //console.log("Drag over: ", e.target);
         e.preventDefault();
 
     });
-    templateBuilder.addEventListener("dragenter", function (e) {
-        // highlight potential drop target when the draggable element enters it
-        if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
-            // e.target.classList.add('add-bg');
-            // e.target.style.backgroundColor = "rgb(122, 166, 206)";
-        }
 
-    }, false);
 
     templateBuilder.addEventListener("dragleave", function (e) {
         // reset background of potential drop target when the draggable element leaves it
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
-            // e.target.classList.add('add-bg');
             e.target.style.backgroundColor = "transparent";
         }
 
     }, false);
     templateBuilder.addEventListener('drop', (e) => {
+        // console.log("Dropable block - ",dropableBlock);
         if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
             // e.target.classList.add('add-bg');
             e.target.style.backgroundColor = "transparent";
         }
-        // if (e.target.parentElement.childNodes !== undefined) {
-        //     //console.log(e.target.parentElement.childNode);
-        //     e.target.parentElement.childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff");
-        // }
-        // document.querySelectorAll(".drop-row")[0].childNodes.forEach(colChild => colChild.style.backgroundColor = "#e6f2ff"); //SET BACK TO DEFAULT BG COLOR
-
-
         // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
         if (e.toElement.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
             // //console.log(e.toElement.id);
             let dropableColumn = e.target.className;
             let dropInsideImgTxt = e.target.classList[1];
-            // //console.log(e.target.classList[1]); // txt-content-block
-            // //console.log("Drop - E: ", e.target); // two-column-div
-            // //console.log("Drop - E: ", e.target); // img-content-block
-
-
-
             try {
 
                 // PREVENT TO ADD MORE THAN 2 BLOCK IN A ROW 
@@ -846,22 +937,14 @@ function blockDragAndDrop() {
                                 // PREVENT TO DROP MULTIPLE IMG OR TXT BLOCK INTO ONE BLOCK 
                                 if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
                                     if (e.target.children[0].classList[1] === "img-content-block" || e.target.classList[1] === "img-content-block") {
-                                        // //console.log("E: don't add ", e.target.children[0].classList[1]);
                                         alert("You can't add multiple image block in a column");
                                     }
                                 } else {
-                                    // //console.log("Undefined- add element", e.target);
-                                    //VARIABLE
-                                    // rowNumber = convertRowIdToNumber(e.toElement.parentElement.id);
-                                    // columnNumber = convertColIdToNumber(e.toElement.id);
                                     rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
                                     let tempColNum = stringIdToIdNum(e.toElement.id, 2);
                                     columnNumber = tempColNum + 1;
-                                    // //console.log("E: Target ", e.toElement.id);
-                                    // const inlineStyle = "height: 140px;";
                                     // CREATING IMAGE 
                                     let imgID = `img-${rowNumber + '-' + columnNumber}`;
-                                    // imageBlockElment = `<a href="#" class="img-block-href"><img style=${inlineStyle} src="${imgDefaultUrl}"  class="content img-content-block" alt="Image" id=${imgID}></a>`;
                                     const imgLink = document.createElement('a');
                                     setAttributes(imgLink, { class: "img-block-href", href: "#" });
                                     imageBlockElment = document.createElement("img");
@@ -879,7 +962,6 @@ function blockDragAndDrop() {
                                 // PREVENT TO DROP MULTIPLE IMG OR TXT BLOCK INTO ONE BLOCK 
                                 if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
                                     if (e.target.children[0].classList[1] === "txt-content-block" || e.target.classList[1] === "txt-content-block") {
-                                        // //console.log("E: don't add ", e.target.children[0].classList[1]);
                                         alert("You can't add multiple text block in a column");
                                     }
                                 } else {
@@ -900,30 +982,12 @@ function blockDragAndDrop() {
                                     blockElement = dropableBlock;
                                     positionElement.push({ rowNumber, columnNumber, blockElement: { name: "txtBlockContent", blockHtml: txtBlockElement } });
                                 }
-
-
-
                             }
-
-
-
-
-
                         } else if (dropableBlock === "btn-holder") {
-                            // //console.log(e.target.hasChildNodes());
-                            // //console.log("Drop - E: button holder ", e.target); // txt-content-block 
-                            // //console.log("Drop - E: button holder ", e.target); // two-column-div // HAS CHILD NODES
-                            // //console.log("Drop - E: button holder ", e.target); // img-content-block
-                            // //console.log("Drop - E: button holder ", e.target); // img-content-block
-
-
-
 
                             function insertButtonElement(getColID, getRowID) {
                                 // //console.log(e);
                                 const newBlockCol = document.createElement('button');
-                                // rowNumber = convertRowIdToNumber(getRowID);
-                                // columnNumber = convertColIdToNumber(getColID);
                                 rowNumber = stringIdToIdNum(getRowID, 1);
                                 let tempColNum = stringIdToIdNum(getColID, 2); // let tempColNum = stringIdToIdNum(e.toElement.id, 2);
                                 columnNumber = tempColNum + 1;
@@ -940,110 +1004,31 @@ function blockDragAndDrop() {
 
                             // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
                             if (e.toElement.classList[1] === "txt-content-block" || e.toElement.classList[1] === "img-content-block") {
-                                //console.log("If Drop Element - ", e.toElement);
-                                // //console.log("Exact Nodes: ", e.target.parentElement); // img-content-block
                                 if (e.target.classList[1] === "txt-content-block") {
                                     e.target.after(insertButtonElement(e.target.parentElement.id, e.target.parentElement.parentElement.id))
                                 }
                                 if (e.toElement.classList[1] === "img-content-block") {
-                                    // //console.log("Img content ", e.target.parentElement.parentElement);
-                                    // //console.log("Img content ", e.target);
                                     e.target.parentElement.after(insertButtonElement(e.target.parentElement.parentElement.id, e.target.parentElement.parentElement.parentElement.id))
                                 }
                                 btnBlockElement = "<a >button</a>";
                                 siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: "inherit", btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
-
-                                // e.target.parentElement.after(newBlockCol);
                             } else {
-                                //console.log("Else Drop Element - ", e.toElement);
-                                // //console.log("Drop into the row: ", e.target.parentElement); // drop-row
                                 if (e.target.hasChildNodes()) {
-                                    // img-block-href // txt-content-block
                                     if (e.target.childNodes[0].classList[1] === "txt-content-block" || e.target.childNodes[0].className === "img-block-href") {
-                                        // //console.log("Has a child nodes", e.target.childNodes[0]);
                                         e.target.appendChild(insertButtonElement(e.target.id, e.target.parentElement.id));
                                         btnBlockElement = `<a >button</a>`;
                                         siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
                                     }
-                                    // if (e.target.childNodes[0].hasChildNodes()) {
-                                    //     //console.log("Child of child Nodes: ", e.target.childNodes[0].classList[1]);
-                                    //     if (e.target.childNodes[0].childNodes[0].classList[1] === "img-content-block") {
-                                    //         e.target.appendChild(insertButtonElement(e.target.id, e.target.parentElement.id));
-                                    //     }
-                                    // } else {
-                                    //     //console.log("Child Nodes: ", e.target.childNodes[0].classList[1]);
-
-                                    // }
-                                    // if (e.target.childNodes[0].hasChildNodes()) {
-                                    //     //console.log("Child of child Nodes: ", e.target); // img-content-block
-                                    // } else {
-                                    //     //console.log("Child Nodes: ", e.target); // img-content-block
-
-                                    // }
                                 } else {
                                     alert("Add  a text or image block to add button");
                                 }
 
                             }
-                            // //console.log(`Row Num: ${rowNumber} \n Col Num: ${columnNumber}`);
-                            // if (e.target.hasChildNodes() === true) {
 
-
-
-                            /*
-                            if (e.toElement.classList[1] === "img-content-block" || dropInsideImgTxt === "txt-content-block" || e.toElement.classList[1] === "img-content-block" || e.toElement.children[0].classList[1] === "txt-content-block") {
-                                // INSERT A SIBLING AFTER 
-                                const newBlockCol = document.createElement('a');
-                                rowNumber = convertRowIdToNumber(e.path[1].id);
-                                columnNumber = convertColIdToNumber(e.toElement.id);
- 
-                                function insertButtonElement(elementAfter) {
-                                    if (e.target.parentElement.className === 'one-column-div' || dropableColumn === "one-column-div") {
-                                        // LEFT POSITION ELEMENT FROM HERE 
-                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                        newBlockCol.className = "content btn-content-block";
-                                        newBlockCol.textContent = btnDefaultTxt;
-                                        elementAfter.after(newBlockCol)
-                                    } else if (e.target.parentElement.className === 'two-column-div' || dropableColumn === "two-column-div") {
-                                        // RIGHT POSITION ELEMENT FROM HERE 
-                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                        newBlockCol.textContent = btnDefaultTxt;
-                                        newBlockCol.className = "content btn-content-block";
-                                        elementAfter.after(newBlockCol)
-                                    } else if (e.target.parentElement.className === 'three-column-div' || dropableColumn === "three-column-div") {
-                                        // CENTER POSITION ELEMENT FROM HERE  
-                                        setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber, "href": "#" });   //  "txt-" + rowNumber + '-' + columnNumber 
-                                        newBlockCol.textContent = btnDefaultTxt;
-                                        newBlockCol.className = "content btn-content-block";
-                                        elementAfter.after(newBlockCol)
-                                    } else {
-                                        //console.log(e.target);
-                                    }
-                                }
-                                // //console.log("E btn-holder: ", e.target.children.length);
- 
-                                if (dropInsideImgTxt === "img-content-block" || dropInsideImgTxt === "txt-content-block") {
-                                    insertButtonElement(e.toElement);
-                                } else {
-                                    insertButtonElement(e.toElement.childNodes[0]);
-                                }
-                                btnBlockElement = `<a >button</a>`;
-                                siblingButtonList.push({ rowNum: rowNumber, colNum: columnNumber, btnBgColor: "rgb(70, 133, 192)", btnTextColor: "rgb(15, 48, 80)", btnHyperlink: websiteDomain, btnOpenNewTab: false, btnRound: false, btnAlign: null, btnContent: "Preview", btnFontFamily: "Helvetica", btnFontSize: 12 });
- 
-                                // THIS WOULD NOT BE PUSH - THIS WOULD BE UPDATE WITH NEW
-                            } else {
-                                alert('this button is not dropable here');
-                            }
-                            */
-
-                            // } else {
-                            //     alert('Add text or image to add a button withen a column');
-                            // }
 
                         } else if (dropableBlock === "social-holder") {
                             if (e.target.children[0] !== undefined && e.target.children[0] !== null) {
                                 if (e.target.children[0].classList[1] === "icon-content-block" || e.target.classList[1] === "icon-content-block") {
-                                    // //console.log("E: don't add ", e.target.children[0].classList[1]);
                                     alert("You can't add multiple social icon block in a column");
                                 }
                             } else {
@@ -1052,46 +1037,30 @@ function blockDragAndDrop() {
                                     rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
                                     let tempColNum = stringIdToIdNum(e.toElement.id, 2);
                                     columnNumber = tempColNum + 1;
-                                    // CREATING THREE SOCIAL ICON 
-                                    // iconBlockElement = `<div class="content icon-content-block" id="icon-${rowNumber + '-' + columnNumber}" ><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${fb_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${twitter_icon}" ></a><a href="${iconLink}" class="social-icon-content"><img class="social-icon-img" src="${instagram_icon}" ></a><div />`;
-                                    // iconBlockElement = `<div  >Social<div />`;
-                                    // const newEl = document.createElement("div");
-                                    // newEl.textContent = "Social";
-                                    // e.toElement.innerHTML = iconBlockElement;
-                                    // const newEl = stringToNodes(iconBlockElement);
-                                    // e.toElement.appendChild(newEl);
                                     const iconContainer = document.createElement("div");
                                     setAttributes(iconContainer, { "id": `icon-${rowNumber}-${columnNumber}` });
                                     iconContainer.className = "content icon-content-block";
                                     const iconHolder = createSocialIcons(iconContainer, iconLink, iconLink, iconLink);
                                     e.toElement.appendChild(iconHolder);
-                                    // //console.log(e.toElement);
                                     // CHANGING HEIGHT OF ROW 
                                     if (dropableColumn === "one-column-div") e.target.parentElement.style.height = "8em";
-                                    // //console.log(e.target.parentElement);
-
-
-                                    // //console.log(pvIcons);
                                     blockElement = dropableBlock;
                                     positionElement.push({ rowNumber, columnNumber, blockElement: { name: "socialBlockContent", blockHtml: "<div>social</div>", socialFbHyperlink: defaultFbLink, socialTwitterHyperlink: defaultTwitterLink, socialInstagramHyperlink: defaultInstaLink } });
                                 } else {
                                     alert("Social icon can't drop into three column!");
                                 }
                             }
-                        } else {
-                            //console.log('Not creating CONTENT element');
                         }
                     } else {
-                        //console.log("Not dropable column");
                     }
                 }
             } catch (err) {
-                //console.log(err);
+                console.log(err);
             }
         };
 
-
-
+        dropableBlock = null;
+        txtBlockElement = null;
     });
     pasteAndFormatText(dropColumnZone, txtBlockElement);
 }
@@ -1110,12 +1079,6 @@ function rightBarElementShowHidePreset() {
 
 
     templateBuilder.addEventListener('click', e => {
-        // if(e.target.tagName === "A"){
-        //     e.preventDefault();
-        // }
-        // //console.log(e.toElement.classList);
-
-
         try {
             // CLEAN UP DEFAULT VALUE FOR ALL INPUT FIELD 
             let idString = null;
@@ -1128,10 +1091,7 @@ function rightBarElementShowHidePreset() {
                     } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === "btn-content-link" || e.toElement.parentElement.classList[1] === 'txt-content-block') {
                         idString = e.toElement.parentElement.id;
                     }
-                    // else if(e.toElement.classList[1] === 'icon-content-block'){
-                    //     idString = e.toElement.id;
-                    //     //console.log(idString);
-                    // }
+
                 } else {
                     idString = e.toElement.id.toString();
                 }
@@ -1139,68 +1099,38 @@ function rightBarElementShowHidePreset() {
                 selectedRow = parseInt(findRowCol[1]);
                 selectedCol = parseInt(findRowCol[2]);
 
-                // //console.log("selected row - " + selectedRow, "selected Col - " + selectedCol);
-
-
-
-
-
-
-
                 propertiesBar.style.display = 'block';
                 blockElementBar.style.display = 'none';
                 if (e.toElement.classList[1] === "img-content-block") {
                     e.preventDefault();
-                    // //console.log("Event- e.target: ",e.target);
                     allProperties.forEach(ap => { ap.style.display = 'none'; });
                     imgProps.style.display = 'block';
                     const previousProps = positionElement.filter((pEl, pelIxd) => pEl.rowNumber === selectedRow && pEl.columnNumber === selectedCol);
-                    // //console.log("Previous Props: ", previousProps);
-                    // SET ALL DEFAULT VALUE 
-                    // inputImg.addEventListener('change', e => {
-                    //     // const previewTempImg = document.querySelector('.img-content-block');
-                    //     const templateImgPreview = document.getElementById(`img-${selectedRow}-${selectedCol}`);
-                    //     imgUploadHandler(e.target.files[0], [previewImg, templateImgPreview]);  // Working but need to save in db
-                    // });
-                    // imgUrl: "/img/empty-image.png"
-                    // inputImg.defaultValue = previousProps[0].blockElement.imgUrl;
-                    // let setImgNewTab = false;
-                    // //console.log(previousProps[0].blockElement.imgHyperlink);
+
                     imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
-                    currentPath === editPage ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
-                    // previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl);
-                    // txt-content-block
+                    console.log("preview img - ", previousProps[0].blockElement.imgUrl);
+                    currentPath === editPage && previousProps[0].blockElement.imgUrl.trim() !== "/img/empty-image.png" ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
                 } else if (e.toElement.classList[1] === "txt-content-block" || e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block') {
-                    // //console.log("Event- e.target: ",e.target);
-                    const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-                    // //console.log(selectedTextContent);
+                    // const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
                     // resizeObserver.observe(selectedTextContent);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     txtProps.style.display = 'block';
 
                 } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.classList[1] === "icon-content-block") {
-                    // //console.log(e.target);
-                    // //console.log(selectedRow, selectedCol);
+                    e.preventDefault();
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     socialProps.style.display = 'block';
                     const previousProps = positionElement.filter((pEl, pelIxd) => pEl.rowNumber === selectedRow && pEl.columnNumber === selectedCol);
-                    // //console.log("Previous Props: ", previousProps);
+
                     fbLinkInput.value = previousProps[0].blockElement.socialFbHyperlink;
                     twitterLinkInput.value = previousProps[0].blockElement.socialTwitterHyperlink;
                     instagramLinkInput.value = previousProps[0].blockElement.socialInstagramHyperlink;
                 } else if (e.toElement.classList[1] === "btn-content-block" || e.toElement.className === "btn-content-link") {
                     e.preventDefault();
-                    // if (e.toElement.className === "btn-content-link") {
-
-                    // } else if (e.toElement.classList[1] === "btn-content-block") {
-
-                    // }
-                    // //console.log("Col: " + selectedCol + " Row: " + selectedRow);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     btnProps.style.display = 'block';
                     const previousProps = siblingButtonList.filter((sBl, sblIxd) => sBl.rowNum === selectedRow && sBl.colNum === selectedCol);
-                    // //console.log("Previous Props: ", previousProps);
                     btnFontSizeInput.value = previousProps[0].btnFontSize;
                     btnFontFamilyInput.value = previousProps[0].btnFontFamily;
                     btnBGColorInput.value = previousProps[0].btnBgColor;
@@ -1222,19 +1152,9 @@ function rightBarElementShowHidePreset() {
                 allProperties.forEach(ap => { ap.style.display = 'none' });
                 spxProps.style.display = 'block';
                 selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
-                // //console.log(rowList);
-                // //console.log(selectedAfterRow);
                 const selectedSpace = rowList.filter((ss, i) => ss.afterRow === selectedAfterRow);
-                // //console.log(selectedSpace);
-                // // spx-2-after
-                // const selectedSpaceElement = document.getElementById(`spx-${selectedSpace[0].afterRow}-after`);
-                // //console.log(selectedSpaceElement);
                 spxHeightInput.value = `${selectedSpace[0].spaceRow}`;
-                // btnBGColorInput.value = previousProps[0].btnBgColor;
             }
-
-
-            // //console.log(e.target.className); // img-block-href
             // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
             if (e.target.className === 'drop-row' || e.target.className === "img-block-href" || e.toElement.parentElement.className === "drop-row") {
                 selectedCol = null;
@@ -1243,13 +1163,9 @@ function rightBarElementShowHidePreset() {
                 allProperties.forEach(ap => { ap.style.display = 'none' });
                 rowProps.style.display = 'block';
                 if (e.target.className === 'drop-row') {
-                    // if (e.target.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.id, 1);
-                    // if (e.target.parentElement.className === 'drop-row') selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
                     selectedRow = stringIdToIdNum(e.toElement.id, 1);
-                    // //console.log("Parent element of row: ", e.toElement.parentElement, " Selected row: " + selectedRow);
                 } else if (e.target.className === "img-block-href") {
                     selectedRow = stringIdToIdNum(e.toElement.parentElement.parentElement.id, 1);
-                    // //console.log("Parent element of a: ", e.toElement.parentElement.parentElement, " Selected row: " + selectedRow);
                 } else if (e.toElement.parentElement.className === "drop-row") {
                     selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
                 }
@@ -1267,26 +1183,58 @@ function rightBarElementShowHidePreset() {
                 selectedRow = null;
                 selectedCol = null;
             }
-            // //console.log(`Selected row: ${selectedRow} Selected col : ${selectedCol}`);
 
         } catch (err) {
-            //console.log("Error from show hide: ", err);
+            console.log("Error from show hide: ", err);
         }
     });
+
+    // SHOW AND HIDE RIGHT BAR FOR HILIGHTED TEXT 
+    document.addEventListener('selectionchange', (e) => {
+        // console.log(txt);
+        // console.log("E- ", e.target);
+        // console.log("Archor node - ", window.getSelection().anchorNode.parentElement);
+
+        let selectedTxtElement = document.getSelection().anchorNode.parentElement;
+        let els = [];
+        while (selectedTxtElement) {
+            if (selectedTxtElement.className !== null || selectedTxtElement.className !== "" || selectedTxtElement.className !== undefined) {
+                try {
+                    if (selectedTxtElement.classList[1] === "txt-content-block") {
+                        // console.log("Element - ", selectedTxtElement);
+                        const idString = selectedTxtElement.id.toString().trim();
+                        let findRowCol = idString.split('-');
+                        selectedRow = parseInt(findRowCol[1]);
+                        selectedCol = parseInt(findRowCol[2]);
+
+                        propertiesBar.style.display = 'block';
+                        blockElementBar.style.display = 'none';
+                        allProperties.forEach(ap => { ap.style.display = 'none' });
+                        txtProps.style.display = 'block';
+                    }
+                } catch (noIndexErr) {
+                    console.log(noIndexErr);
+                }
+                // console.log("Classes - ", selectedTxtElement.className);
+            }
+            els.unshift(selectedTxtElement);
+            selectedTxtElement = selectedTxtElement.parentNode;
+        }
+        // console.log("All element - ", els);
+    });
+
+
 
     // HOVER EFFECT 
     try {
         dropColumnZone.addEventListener('mouseover', e => {
-            // const droppedRow = document.getElementById();
+            // console.log("selected Col - ", selectedCol);
+            // console.log("selected Row - ", selectedRow);
             if (e.toElement.classList[0] !== "content") {
                 if (e.toElement.className === "three-column-div" || e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div") {
-                    // //console.log("Mouse Over -column - ", e.target.parentElement);
                     e.target.parentElement.style.border = "1px solid rgb(15, 48, 80)";
                 } else if (e.toElement.className === "drop-row") {
-                    // //console.log("Mouse Over -row - ", e.target);
                     e.target.style.border = "1px solid rgb(15, 48, 80)";
-                    // //console.log(e.target);
-
                 } else if (e.toElement.classList[0] == "space") {
                     e.target.style.border = "1px solid rgb(15, 48, 80)";
                 }
@@ -1301,10 +1249,8 @@ function rightBarElementShowHidePreset() {
             space.forEach((r, i) => r.style.border = "none");
             space.forEach((r, i) => r.style.borderBottom = "0.01em solid rgb(230, 225, 225)");
         });
-
-        // dropColumnZone.addEventListener('mouseleave', e => {});
     } catch (hErr) {
-        //console.log(hErr);
+        console.log(hErr);
     }
 
 }
@@ -1313,25 +1259,22 @@ function rightBarElementShowHidePreset() {
 // MAIN FUNCTION 4
 function rightBarPropsUpdate() {
 
+    // DROP ZONE HEIGHT UPDATE 
+    resizeObserver.observe(dropColumnZone);
+
     // SUB FUNCTION 1
     function imgPropertiesUpdate() {
         inputImg.addEventListener('change', e => {
-            // //console.log(`img-${selectedRow}-${selectedCol}`);
-            // const previewTempImg = document.querySelector('.img-content-block');
             const templateImgPreview = document.getElementById(`img-${selectedRow}-${selectedCol}`);
             templateImgPreview.style.width = "96%";
             templateImgPreview.style.height = "auto";
-            // //console.log(e.target);
-            // //console.log("Template preview: "+templateImgPreview);
             imgUploadHandler(e.target.files[0], [previewImg, templateImgPreview]);  // Working but need to save in db
         });
-        // let setImgNewTab = false;
         imgLink.addEventListener('change', (e) => {
             // BY USING SELECTED ROW AND COL SEARCH ITEM FROM POSITION ELEMENT AND UPDATE 
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgHyperlink = e.target.value; } });
         });
         imgNewTab.addEventListener('change', async e => {
-            // if (e.target.value == 'on') setImgNewTab = true;
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.imgNewTab = e.target.checked; } });
         });
     }
@@ -1378,39 +1321,16 @@ function rightBarPropsUpdate() {
             textBlockElement = text.outerHTML.toString().trim();
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = textBlockElement; } });
         });
-
-
-
-        // txt-1-3
-        // PASTE UNFORMATED TEXT 
-        // const textEditor = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-        // textEditor.addEventListener("paste", function(e) {
-        //     // cancel paste
-        //     e.preventDefault();
-
-        //     // get text representation of clipboard
-        //     let text = (e.originalEvent || e).clipboardData.getData('text/plain');
-        //     //console.log(textEditor);
-        //     //console.log(text);
-
-        //     // insert text manually
-        //     document.execCommand("insertHTML", false, text);
-        // });
     }
     txtPropertiesUpdate();
 
     // SUB FUNCTION  3 
     function btnPropertiesUpdate() {
         // BUTTON PROPERTIES 
-        // let btnBGColor = 'green', btnFontSize = 12;
-        // let btnNewTab = false, btnRoundShape = false;
 
         btnFontSizeInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
             cngBtn.style.fontSize = e.target.value + 'px';
-
-            // const siblingBtnObj = JSON.parse(positionElement[index].blockElement.siblingButton);
-            // siblingBtnObj.btnFontSize = e.target.value 
             siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnFontSize = e.target.value } });
         });
         btnFontFamilyInput.addEventListener('change', e => {
@@ -1425,7 +1345,6 @@ function rightBarPropsUpdate() {
         });
         btnTxtColorInput.addEventListener('change', e => {
             const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
-            // //console.log(cngBtn.childNodes[0]);
             cngBtn.childNodes[0].style.color = e.target.value;
             siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnTextColor = e.target.value } });
         });
@@ -1438,11 +1357,6 @@ function rightBarPropsUpdate() {
             siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnHyperlink = e.target.value } });
         });
         btnNewTabInput.addEventListener('change', e => {
-            // let checkBox = null;
-            // btnNewTab.checked ? checkBox = "checked" : checkBox = "not checked";
-            // //console.log("checkobx: ", e.target.checked);
-            // alert(checkBox);
-            // if (e.target.value == 'on') btnNewTab = true;
             siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnOpenNewTab = e.target.checked } });
         });
         btnShapeInput.addEventListener('change', e => {
@@ -1453,16 +1367,11 @@ function rightBarPropsUpdate() {
             if (e.target.checked === false) {
                 cngBtn.style.borderRadius = '0';
             }
-            // if (e.target.value === 'on') btnRoundShape = true;
-            // const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
-            // if (btnRoundShape === true) {
-            // }
             siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnRound = e.target.checked } });
         });
         btnAlignElement.forEach((bae, i) => {
             bae.addEventListener('click', e => {
                 const cngBtn = document.getElementById(`btn-${selectedRow}-${selectedCol}`);
-                // //console.log("e: ", e.target.parentElement.id);
                 let alignBtn = null;
                 switch (e.target.parentElement.id) {
                     case "btn-align-left":
@@ -1473,15 +1382,10 @@ function rightBarPropsUpdate() {
                         break;
                     case "btn-align-center":
                         alignBtn = "inherit";
-                        // cngBtn.style.float = `inherit`;
-                        // cngBtn.style.position = `relative`;
-                        // cngBtn.style.marginLeft = `50%`;
-
                         break;
                 }
                 cngBtn.style.float = `${alignBtn}`;
                 siblingButtonList.forEach((sBl, sIdx) => { if (sBl.rowNum === selectedRow && sBl.colNum === selectedCol) { sBl.btnAlign = alignBtn } });
-                // positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.siblingButton.btnAlign = e.target.outerText.toLowerCase().trim(); } });
             });
         });
     }
@@ -1544,49 +1448,26 @@ function rightBarPropsUpdate() {
 
 
                 positionElement = positionElement.filter((pEl, elIdx, arr) => pEl.rowNumber !== selectedRow);
-                // //console.log("Element index: ", elementIndex);
-                // positionElement.splice(elementIndex);
-                // //console.log("position element Before row change: ", positionElement);
-                // let afterSelectedRow = selectedRow + 1;
                 positionElement.forEach((pEl, pIdx) => { if (pEl.rowNumber > selectedRow) { pEl.rowNumber--; } });
 
 
                 // WORK WITH BUTTONS
                 siblingButtonList = siblingButtonList.filter((sBL, sIdx) => sBL.rowNum !== selectedRow);
                 siblingButtonList.forEach((sEl, sIdx) => { if (sEl.rowNum > selectedRow) { sEl.rowNum--; } });
-                // //console.log("------- 🤔 🤭 🤫 🤥 😶 😐 😑-------------");
-                // //console.log("Row List After: ", positionElement);
-                // //console.log("position element After: ", positionElement);
-                // //console.log("Sibling Button After: ", siblingButtonList);
-
-
-
-
-                // SETTING ATTRIBUTES - CLASS NAME AND IDES 
-
-
-
-
 
                 selectedRowElement.remove();
 
                 // SETTING ROW ID DYNAMICALLY 
                 let idNum = selectedRow;
-                // //console.log("ID number: ", idNum);
                 let i = 0;
                 while (i < allNextEl.length) {
                     allNextEl[i].setAttribute('id', `row-${idNum}`);
                     // CHANGE ALL CHILD ELEMENT ID AND CLASS 
                     if (allNextEl[i].hasChildNodes()) {
-                        // //console.log("Has Child Nodes: ", allNextEl[i].childNodes);
                         allNextEl[i].childNodes.forEach((ncEl, ncIdx) => {
                             if (ncEl.hasChildNodes()) {
                                 ncEl.childNodes.forEach((nccEl, nccIdx) => {
-                                    // //console.log("looping nodes: ", nccEl);
                                     if (nccEl.classList[1] === "icon-content-block") {
-                                        // index 4 should be change
-                                        // nccEl.id = `txt-${idNum}-${}`;
-                                        // const rowIndex = nccEl.id.toString().substring(4, 5);
                                         nccEl.id = replaceAt(nccEl.id, 5, idNum);
                                     } else {
                                         nccEl.id = replaceAt(nccEl.id, 4, idNum);   // replace a charecter of index 4
@@ -1616,7 +1497,6 @@ function rightBarPropsUpdate() {
         // ROW MOVE UP 
         rowMoveUp.addEventListener('click', (e) => {
             const selectedRowElement = document.getElementById(`row-${selectedRow}`);
-            // //console.log("Selected Row: ", selectedRowElement);
             // CHECK IF THE SELECTED ELEMENT IS FIRST ELEMENT OR LAST ELEMENT 
             if (dropColumnZone.firstChild.id === selectedRowElement.id) {
                 alert("First row can't be move up")
@@ -1634,23 +1514,15 @@ function rightBarPropsUpdate() {
                         selectedRowElement.setAttribute('id', `row-${selectedRow - 1}`);
                         selectedRowElement.nextSibling.setAttribute('id', `row-${selectedRow}`);
                     }
-
-
                     // CHANGING ID OF CHILDS 
                     if (selectedRowElement.hasChildNodes()) {
 
                         let selectedColNum = 1;
                         let nextColNum = 1;
                         selectedRowElement.childNodes.forEach((acn, acnIdx) => {
-                            // //console.log("All child Nodes: ", acn);
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    // let currentRowId = stringIdToIdNum(acocn.id, 1);
-                                    // let currentColId = stringIdToIdNum(acocn.id, 2);
-                                    // let currentElementId = stringIdToIdNum(acocn.id, 0);
-                                    // //console.log("Current Row: " + currentRowId + "Current Col: " + currentColId + "Current Element: " + currentElementId);
-                                    // //console.log("All child of child: ", acocn);
                                     let contentId = acocn.id.toString().substring(0, 3);
                                     if (contentId === 'ico') contentId = 'icon';
                                     acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) - 1}-${stringIdToIdNum(acocn.id, 2)}`);
@@ -1658,52 +1530,15 @@ function rightBarPropsUpdate() {
                             }
                         });
                         selectedRowElement.nextSibling.childNodes.forEach((acn, acnIdx) => {
-                            // //console.log("All child Nodes: ", acn);
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    // let currentRowId = stringIdToIdNum(acocn.id, 1);
-                                    // let currentColId = stringIdToIdNum(acocn.id, 2);
-                                    // let currentElementId = stringIdToIdNum(acocn.id, 0);
-                                    // //console.log(currentElementId);
-                                    // //console.log("Next Row: " + currentRowId + "Next Col: " + currentColId + "Next Element: " + currentElementId);
-
-                                    // //console.log("All child of child: ", acocn);
                                     let contentId = acocn.id.toString().substring(0, 3);
                                     if (contentId === 'ico') contentId = 'icon';
                                     acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) + 1}-${stringIdToIdNum(acocn.id, 2)}`);
                                 });
                             }
                         });
-                        /*
-                        let i = 0;
-                        let colNum = 1;
- 
-                        while (selectedRowElement.children.length > i) {
-                            if (selectedRowElement.children[i].hasChildNodes()) {
-                                //console.log("All child nodes", selectedRowElement.childNodes);
-                                selectedRowElement.children[i].childNodes.forEach((be, idx) => {
-                                    let contentId = be.id.toString().substring(0, 3);
-                                    if (contentId === 'ico') contentId = 'icon';
-                                    be.setAttribute('id', `${contentId}-${selectedRow - 1}-${colNum}`);
-                                    // //console.log("Element: ", be);
-                                    // //console.log("be Selected Row is: ", selectedRow);
-                                });
- 
-                                // SOME PROBLEM IN HERE 
-                                //console.log("All next child nodes", selectedRowElement.nextSibling.childNodes);
-                                selectedRowElement.nextSibling.children[i].childNodes.forEach((nbe, idx) => {
-                                    let contentId = nbe.id.toString().substring(0, 3);
-                                    if (contentId === 'ico') contentId = 'icon';
-                                    nbe.setAttribute('id', `${contentId}-${selectedRow}-${colNum}`);    // SOME PROBLEM IN HERE
-                                    // //console.log("Next Element: ", be);
-                                    // //console.log("nBe Selected Row is: ", selectedRow);
-                                });
-                                colNum++;
-                                i++;
-                            }
-                        }
-                        */
                     }
 
 
@@ -1720,8 +1555,6 @@ function rightBarPropsUpdate() {
                         }
                         pEl.rowNumber = parseInt(pEl.rowNumber);
                     });
-                    // const previousElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === previousRow);
-                    // const currentElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === selectedRow);
 
 
                     siblingButtonList.forEach((bEl, blIdx) => {
@@ -1734,7 +1567,6 @@ function rightBarPropsUpdate() {
                     });
 
                     rowList.forEach((rl, rlIdx) => {
-                        // //console.log("Boolean: ", rl.hasOwnProperty("afterRow"));
                         if (!rl.hasOwnProperty("afterRow")) {
                             if (rl.rowID === previousRow) {
                                 rl.rowID = `${selectedRow}`.toString();
@@ -1749,15 +1581,13 @@ function rightBarPropsUpdate() {
                         }
                     });
 
-                    // //console.log("Move Down - \nRow List: ", rowList, "\nSibling Button: ", siblingButtonList, "\nPosition Element: ", positionElement);
-
 
 
                     propertiesBar.style.display = 'none';
                     blockElementBar.style.display = 'block';
 
                 } catch (err) {
-                    //console.log(err);
+                    console.log(err);
                 }
 
 
@@ -1773,19 +1603,11 @@ function rightBarPropsUpdate() {
                 try {
 
                     if (selectedRowElement.nextSibling.classList[0] === 'space') {
-                        // //console.log("selectedRowElement.nextSibling.nextSibling: ", selectedRowElement.nextSibling.nextSibling);
-                        // THIS IS FOR SKIPPING SPACE 
-                        // dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.nextSibling.nextSibling);
                         selectedRowElement.nextSibling.nextSibling.after(selectedRowElement)
                     } else {
-                        // //console.log("selectedRowElement.nextSibling: ", selectedRowElement.nextSibling);
                         // THERE IS NO SPACE IN NEXT SIBLING 
-                        // dropColumnZone.insertBefore(selectedRowElement, selectedRowElement.nextSibling);
                         selectedRowElement.nextSibling.after(selectedRowElement);
                     }
-
-
-                    //console.log("Last child: ", dropColumnZone.lastChild);
                     selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
                     selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
 
@@ -1794,7 +1616,6 @@ function rightBarPropsUpdate() {
                     // CHANGING ID OF CHILDS 
                     if (selectedRowElement.hasChildNodes()) {
                         selectedRowElement.childNodes.forEach((acn, acnIdx) => {
-                            // //console.log("All child Nodes: ", acn);
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
@@ -1805,7 +1626,6 @@ function rightBarPropsUpdate() {
                             }
                         });
                         selectedRowElement.previousSibling.childNodes.forEach((acn, acnIdx) => {
-                            // //console.log("All Previous child Nodes: ", acn);
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
@@ -1834,8 +1654,6 @@ function rightBarPropsUpdate() {
                         }
                         pEl.rowNumber = parseInt(pEl.rowNumber);
                     });
-                    // const previousElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === nextRow);
-                    // const currentElement = positionElement.filter((pEl, pelIdx) => pEl.rowNumber === selectedRow);
 
 
                     siblingButtonList.forEach((bEl, blIdx) => {
@@ -1848,7 +1666,6 @@ function rightBarPropsUpdate() {
                     });
 
                     rowList.forEach((rl, rlIdx) => {
-                        // //console.log("Boolean: ", rl.hasOwnProperty("afterRow"));
                         if (!rl.hasOwnProperty("afterRow")) {
                             if (rl.rowID === nextRow) {
                                 rl.rowID = `${selectedRow}`.toString();
@@ -1862,14 +1679,10 @@ function rightBarPropsUpdate() {
                             }
                         }
                     });
-                    // //console.log("Move Down - \nRow List: ", rowList, "\nSibling Button: ", siblingButtonList, "\nPosition Element: ", positionElement);
-
-
-
                     propertiesBar.style.display = 'none';
                     blockElementBar.style.display = 'block';
                 } catch (err) {
-                    //console.log(err);
+                    console.log(err);
                 }
             }
         });
@@ -1902,185 +1715,85 @@ function templatePropsCng() {
     });
 
 
-    // //console.log(templateBuilder.clientHeight);
-    // rightBarContent.style.height = 500+ "px";
-    // compare window size and element bottom 
-
-    // STICKEY RIGHT BAR 
-    // window.addEventListener('scroll', function(e) {
-    //     //console.log("_______________________");
-    //     // //console.log("Dropzone height - ",templateBuilder.clientHeight);
-    //     // const templateBottom  = templateBuilder.getBoundingClientRect().bottom;
-    //     // //console.log("Dropzone scroll height - ",templateBuilder.offsetHeight);
-    //     // //console.log("template bottom - ", templateBottom);
-    //     // //console.log("Window Y - ",window.pageYOffset);
-
-    //     const scrollPosition = window.scrollY;
-    //     var offset = templateBuilder.getBoundingClientRect().top - templateBuilder.offsetParent.getBoundingClientRect().top;
-    //     const top = window.pageYOffset + window.innerHeight - offset;
-
-    //     if(templateBuilder.nextSibling === null){
-    //         //console.log(templateBuilder.nextElementSibling);
-    //     }else{
-    //         //console.log("THis is null");
-    //     }
-    //     // const currentPosition =  templateBuilder.clientHeight - lastKnownScrollPosition;
-    //     // //console.log("Dropzone offset top - ", templateBuilder.offsetTop);
-    //     // //console.log("Dropzone offset height - ", templateBuilder.offsetHeight);
-    //     // //console.log("current position - ", currentPosition);
-    //     // //console.log("Scroll Y - ", lastKnownScrollPosition);
-    //     if( templateBuilder.clientHeight > scrollPosition){
-    //         // element.offsetTop < window.scrollY;
-    //         if(scrollPosition > templateBuilder.offsetTop){
-    //             //console.log("fixed ");
-    //             rightBarContent.style.position = 'fixed';
-    //             rightBarContent.style.top = '5%';
-    //             rightBarContent.style.right = '11.6%';
-    //             rightBarContent.style.width = '26.5%';
-
-    //         }
-    //         if(top === templateBuilder.scrollHeight){
-    //             //console.log("sticky");
-    //             rightBarContent.style.position = 'sticky';
-    //             rightBarContent.style.width = '90%';
-    //         }
-    //         // if(templateBuilder.offsetHeight >= lastKnownScrollPosition){
-    //         // }
-    //     }
-    // }, { passive: false });
-
-    // window.addEventListener("scroll", () => {
-    //     var offset = templateBuilder.getBoundingClientRect().top - templateBuilder.offsetParent.getBoundingClientRect().top;
-    //     const top = window.pageYOffset + window.innerHeight - offset;
-
-    //     if (top === templateBuilder.scrollHeight) {
-    //         //console.log("bottom");
-    //     }
-    // }, { passive: false });
-
+    // HEADER IMAGE DELETE 
+    deleteHeaderImg.addEventListener('click', e => {
+        headerImgPreview.style.display = 'none';
+        // deleteHeaderImg.style.display = 'none !important';
+        deleteHeaderImg.style.display = 'none';
+        headerImage.style.display = "none";
+        formData.set('headerImg', "header-deleted");
+    });
 
 }
 
 
 
 
-
-
-// //console.log(submitSpinner);
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
     cancelButton.addEventListener('click', e => {
         window.location.replace(websiteDomain + "/template");
-        // //console.log("Sibling Button: ", siblingButtonList);
-        // //console.log("Row list: ", rowList);
-        // //console.log("Elements: ", positionElement);
-
-        // for (let value of formData.values()) {
-        //     //console.log("Form data: ", value);
-        // }
-        // //console.log(" Cancel");
     });
 
-    // //console.log(submitSpinner);
 
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        // rightBar.style.position = 'relative';
-        rightBar.style.zIndex = '-1';
-        // //console.log(submitSpinner);
-        submitSpinner.classList.remove("d-none");
-        // return;
-        // //console.log("Sibling Button: ", siblingButtonList);
-        // //console.log("Row list: ", rowList);
-        // //console.log("Elements: ", positionElement);
+        if (inputTitle.value === null || inputTitle.value === "") {
+            alert("Please fill newslatter title field");
+        } else {
+            rightBar.style.zIndex = '-1';
+            submitSpinner.classList.remove("d-none");
 
-        try {
-            const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-            // //console.log(selectedTextContent);
+            try {
+                const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
 
-            // FOR CHANGING TEXT CONTENT 
-            await positionElement.forEach(pEl => {
-                if (pEl.blockElement.name === "txtBlockContent") {
-                    // //console.log(pEl.rowNumber);
-                    pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
-                }
-                if (pEl.blockElement.name === "imgBlockContent") {
-                    // //console.log(pEl.rowNumber);
-                    pEl.blockElement.imgUrl = "/img/empty-image.png";
-                    // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
-                }
-                // if (currentPath === editorPage) {
+                // FOR CHANGING TEXT CONTENT 
+                await positionElement.forEach(pEl => {
+                    if (pEl.blockElement.name === "txtBlockContent") {
+                        pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
+                    }
+                    if (pEl.blockElement.name === "imgBlockContent") {
+                        pEl.blockElement.imgUrl = "/img/empty-image.png";
+                        // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
+                    }
+                });
+
+                // CHANGING TITLE 
+                await formData.append("title", inputTitle.value);
+                await formData.append('bgColor', templateBGColorInput.value);
+                await formData.append('linkColor', templateLinkColorInput.value);
+
+                await formData.append('layout', JSON.stringify(rowList));
+                await formData.append('element', JSON.stringify(positionElement));
+                await formData.append('sibling', JSON.stringify(siblingButtonList));
+
+
+
+
+                // //SUBMITTING DATA TO THE SERVER 
+                const response = await fetch(reqUrl, {
+                    // method: "POST",
+                    method: method,
+                    body: formData,
+                });
+                // console.log(response);
+                // for (let pair of formData.entries()) {
+                //     console.log(pair[0] + ', ' + pair[1]);
                 // }
-            });
 
-            // CHANGING TITLE 
-            // //console.log(inputTitle.value);
-            await formData.append("title", inputTitle.value);
-            await formData.append('bgColor', templateBGColorInput.value);
-            await formData.append('linkColor', templateLinkColorInput.value);
-
-
-            // // const positionObj = await new Map(positionElement);
-            // // const newPositionObject = await Object.fromEntries(positionObj);
-            // // const newPositionElement = await Object.assign({}, positionElement); // {0:"a", 1:"b", 2:"c"}
-
-            await formData.append('layout', JSON.stringify(rowList));
-            await formData.append('element', JSON.stringify(positionElement));
-            await formData.append('sibling', JSON.stringify(siblingButtonList));
+                // //console.log("Sibling Button: ", siblingButtonList);
+                // //console.log("Row list: ", rowList);
+                // //console.log("Elements: ", positionElement);
 
 
 
-            // inputTitle.nodeValue = title;
-            // NEED TO DO SOME CHANGES IN POSITION ELEMENT 
-
-
-
-
-
-            // DIDN'T WORK 
-            // JSON.stringify(positionElement, function replacer(key, value) { return value})    
-            // await formData.append('layout', JSON.stringify(rowList));
-            // await formData.append('element', JSON.stringify(positionElement, function replacer(key, value) { return value }));
-            // //console.log(positionElement);
-
-
-
-
-
-            // for (let value of formData.values()) {
-            //     //console.log("Form data: ", value);
-            // }
-
-
-
-            // //SUBMITTING DATA TO THE SERVER 
-            const response = await fetch(reqUrl, {
-                // method: "POST",
-                method: method,
-                body: formData,
-            });
-            //console.log(response);
-
-            // //console.log("Sibling Button: ", siblingButtonList);
-            // //console.log("Row list: ", rowList);
-            // //console.log("Elements: ", positionElement);
-
-
-
-
-
-
-
-            // PROCEEDING 
-
-
-
-            // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
-            // submitted = true;
-            submitSpinner.classList.add("d-none");
-            window.location.replace(websiteDomain + "/template");
-        } catch (err) {
-            //console.log(err);
+                // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
+                // submitted = true;
+                submitSpinner.classList.add("d-none");
+                window.location.replace(websiteDomain + "/template");
+            } catch (err) {
+                console.log(err);
+            }
         }
 
 
@@ -2105,11 +1818,16 @@ function previewDropZoneTemplate() {
     // let sibling = '<%- docs.sibling %>';
 
 
+
+    // console.log(content);
+    const strVal = JSON.stringify(content);
     // THIS IS COMMING FROM DATABASE TABLE 
     const layoutArray = JSON.parse(layout);
     const pvBlockElement = JSON.parse(content);
     const pvSibling = JSON.parse(sibling);
-    // //console.log("Sibling - ",pvSibling); //console.log("pvBlockElement - ",pvBlockElement); //console.log("Layout - ",layoutArray);
+    // console.log("Sibling - ",pvSibling); 
+    // console.log("pvBlockElement - ", pvBlockElement);
+    //console.log("Layout - ",layoutArray);
     // //console.log("Header img: ", headerImg);
 
 
@@ -2382,8 +2100,17 @@ function previewDropZoneTemplate() {
         });
         // let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
         // headerImage.setAttribute("src", headerImgUrl);
-        // //console.log("Header img: ", headerImg);
-        headerImg === "default-header.jpg" ? headerImage.src = "/img/header.png" : headerImage.src = imgKeyToLink(headerImg);
+        if (headerImg === null || headerImg === "null") {
+            console.log("Header img: ", headerImg);
+            headerImgPreview.setAttribute('src', "/img/header.png");
+            headerImgPreview.style.display = 'none';
+            // deleteHeaderImg.style.display = 'none !important';
+            deleteHeaderImg.style.display = 'none';
+            headerImage.style.display = "none";
+            headerImage.setAttribute('src', "/img/header.png");
+        } else {
+            headerImg === "default-header.jpg" ? headerImage.src = "/img/header.png" : headerImage.src = imgKeyToLink(headerImg);
+        }
         // //console.log(headerImage);
     } catch (err) {
         //console.log(err);
@@ -2501,6 +2228,14 @@ function editPagePreset() {
         if (headerImg === "default-header.jpg") {
             headerImage.setAttribute("src", "/img/header.png");
             headerImgPreview.setAttribute("src", "/img/header.png");
+        } else if (headerImg === null || headerImg === "null") {
+            console.log("Header img: ", headerImg);
+            headerImgPreview.setAttribute('src', "/img/header.png");
+            headerImgPreview.style.display = 'none';
+            // deleteHeaderImg.style.display = 'none !important';
+            deleteHeaderImg.style.display = 'none';
+            headerImage.style.display = "none";
+            headerImage.setAttribute('src', "/img/header.png");
         } else {
             headerImage.setAttribute("src", imgKeyToLink(headerImg));
             headerImgPreview.setAttribute("src", imgKeyToLink(headerImg));
@@ -2586,9 +2321,9 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     backendAndDataBase(`${websiteDomain}/template/edit/${templateID}/?_method=PUT`, "PUT");
     // //console.log("EDIT");
 } else if (currentPath === templateIndex) {
-    //console.log("index");
+    console.log("index");
 } else {
-    //console.log("Not a template ");
+    console.log("Not a template ");
 }
 
 

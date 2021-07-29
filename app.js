@@ -42,8 +42,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'aws')));
 app.use(methodOverride('_method'));
+
+
 colors.setTheme({
     info: 'bgGreen',
     help: 'cyan',
@@ -55,6 +56,11 @@ colors.setTheme({
 
 app.use('/', indexRouter);
 app.use('/template', emailTemplate);
+
+
+app.use(function (req, res, next) {
+    res.status(404).render("404");
+})
 
 
 

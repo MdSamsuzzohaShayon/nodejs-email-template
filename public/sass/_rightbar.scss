@@ -1,0 +1,241 @@
+
+@import "./variables";
+@import "./mixins";
+
+
+// RIGHTBAR START 
+.right-bar{
+    align-self: flex-start;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20px;
+    left: 0;
+    // height: 100vh;
+
+
+    color: $b-color;
+    background: $w-color;
+    // border: 1px solid $p-color;
+    overflow: hidden;
+    // contain: content;
+
+
+    .rb-wrapper{
+
+
+
+        // -webkit-transform: translateZ(0);
+        width: 90%;
+        margin-left: 5%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+
+        .rb-header{
+            margin-top: 2%;
+        }
+    }
+}
+
+
+
+// BLOCK START 
+.rb-block{
+    h4{
+        margin-top: 2rem;
+    }
+                
+    // COLUMN BLOCK START 
+    .column-block{
+        display: flex;
+        flex-direction: row;
+        // height: 100%;
+        align-items: center;
+
+        .block-col{
+            background: $s-color;
+            width: 90%;
+            // margin: 0 3%;
+            height: $block-height;
+            border: 1px solid $s-color;
+            // padding: 10px 0;
+            align-items: center;
+            // margin-top: 5px;
+        }
+        .col-1-grid{
+            margin-right: 3%;
+            .content-holder{
+                margin-left: 20%;
+                @include content_holder(60%, 60%, 18% );
+            }
+        }
+        .col-2-grid{
+            @include block_col_2_3();
+            .content-holder{
+                @include content_holder(35%, 60%, 0);
+            }
+        }
+        .col-3-grid{
+            margin-left: 3%;
+            @include block_col_2_3();
+            .content-holder{
+                @include content_holder(20%, 60%, 0);
+            }
+        }
+    }
+    // COLUMN BLOCK ENDS dr
+
+
+    // CONTENT BLOCK START 
+    .content-block{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        flex-wrap: wrap;
+        .content-block-col{
+            width: 30%;
+            height: $block-height;
+            margin-bottom: 1rem;
+            border: $s-color solid 1px;
+            background-color: $p-color;
+            img{
+                width: 70%;
+                margin-left: 10%;
+                filter: invert(100%);
+                -webkit-filter: invert(100%);
+            }
+            p{
+                color: $dg-color;
+                text-align: center;
+                margin-top: 2%;
+            }
+            
+        }
+    }
+    // CONTENT BLOCK ENDS 
+}
+// BLOCK ENDS 
+
+
+
+// ELEMENTS START 
+.rb-block-elements{
+    height: 100%;
+    .elements{
+        img{
+            height: 60px;
+            object-position: center;
+            object-fit: cover;
+            width: 80%;
+            // margin-left: 10%;
+        }
+        .input-row{
+            display: block !important;
+            width: 100% !important;
+            margin-bottom: 2% !important;
+            input[type="color"]{
+                float: right;
+            }
+        }
+        .elements-header{
+            input[type="file"]::-webkit-file-upload-button{
+                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem, 5px);
+            }
+            .btn-delete{
+                padding: 0;
+                margin: 0 0 20px 20px;
+                background: transparent;
+                outline: none;
+                border: none;
+            }
+            .btn-delete:focus{
+                outline: none;
+                border: none;
+            }
+        }
+
+    }
+}
+// ELEMENTS ENDS 
+
+
+// PROPS START 
+.rb-props{
+    display: none;
+    .props-with-label{
+        margin-bottom: 5%;
+    }
+    input[type = "text"]{
+        float: right;
+        // @include input_style($h, $w, $p, $bg, $c);
+        @include input_style(1rem, 60%, 15px, white, $dg-color);
+        border: 1px solid $dg-color;
+    }
+
+    input[type = "text"]::placeholder{
+        color: $dg-color;
+
+    }
+
+    input[type = "text"]:focus{
+        outline: none;
+        color: $dg-color;
+    }
+    // input[type="checkbox"]{
+    //     float: right;
+    // }
+    .props{
+        display: none;
+        .img-wrap{
+            input[type="file"]{
+                // background: $s-color;
+                margin-bottom: 5px;
+            }
+            input[type="file"]::-webkit-file-upload-button{
+                // @include btn_general($t-color, $p-color);
+                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem, 5px);
+            }
+        
+            img{
+                width: 50%;
+                margin: 5% 0;
+            }
+        }
+
+        .btn-icon{
+            margin: 10px 0;
+            @include btn_general($t-color, $p-color, 3px, 20px, 1.5rem, 5px);
+            margin-left: 0;
+            cursor: pointer;
+        }
+
+        select{
+            height: 2rem;
+            border: none;
+            background: $s-color;
+        }
+        select:focus{
+            outline: none;
+        }
+        .txt-link{
+            margin-top: 5%;
+        }
+        .txt-tab-wrap{
+            margin-top: 5%;
+        }
+        input[type="color"]{
+            float: right;
+        }
+        .btn-text{
+            margin-top: 5%;
+        }
+    }
+}
+// PROPS ENDS  
+
+
+// RIGHTBAR ENDS 
+

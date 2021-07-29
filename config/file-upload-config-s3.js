@@ -6,7 +6,7 @@ const s3 = require('./s3');
 
 
 const arrayOfImg = [
-    { name: 'header-img', maxCount: 1 },
+    { name: 'headerImg', maxCount: 1 },
     { name: 'img-1-1', maxCount: 1 },
     { name: 'img-1-2', maxCount: 1 },
     { name: 'img-1-3', maxCount: 1 },

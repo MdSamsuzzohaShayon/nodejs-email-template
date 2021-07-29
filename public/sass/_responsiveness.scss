@@ -1,0 +1,205 @@
+@import "./variables";
+@import "./mixins";
+
+
+
+// RESPONSIVENESS 
+/* Using SCSS variables to store breakpoints */
+// $breakpoint-tablet: 768px;
+// $breakpoint-sm-laptop: 1080px;
+
+// $bp-md: 1660px;
+// $bp-md-sm: 1366px;
+// $bp-sm: 1220px;
+
+
+@media (max-width: $bp-md){
+    .col-1-grid{
+        .content-holder{
+            margin-top: 22% !important;
+            // align-items: center
+        }
+    }
+
+
+
+
+    .content-block-col{
+        height: $block-height - 1em !important;
+        img{
+            margin-top: 5% !important;
+            width: 60% !important;
+            margin-left: 15% !important;
+        }
+        p{
+            margin-top: 3.5% !important;
+        }
+    }
+}
+
+
+
+
+@media (max-width: $bp-md-sm){
+    .content-block-col{
+        height: $block-height - 2em !important;
+        img{
+            margin-top: 8% !important;
+            width: 50% !important;
+            margin-left: 18% !important;
+        }
+    }
+}
+
+
+
+@media (max-width: $bp-sm){
+    .title-input-submit{
+        input[type = "text"]{
+            width: 115% !important;
+        }
+    
+        input[type = "text"]::placeholder{
+            font-size: $fz-h4 - 0.1rem !important;
+        }
+    
+        .btn{
+            vertical-align: middle;
+            // @include btn_general_sm($py, $px, $fz, $ml);
+            @include btn_general_sm(7px, 12px, 0.75rem, 3px);
+        }
+    }
+    .col-1-grid{
+        .content-holder{
+            margin-top: 25% !important;
+        }
+    }
+}
+
+
+
+@media (max-width: $bp-tab){
+    .title-input-submit{
+        margin-left: 0 !important;
+        input[type = "text"]{
+            width: 80% !important;
+        }
+    
+        input[type = "text"]::placeholder{
+            font-size: $fz-h4 - 0.1rem !important;
+        }
+    
+        .btn{
+            vertical-align: middle;
+            // @include btn_general_sm($py, $px, $fz, $ml);
+            @include btn_general_sm(7px, 9px, 0.65rem, 2px);
+        }
+    }
+
+    .col-1-grid{
+        .content-holder{
+            margin-left: 50%;
+            @include content_holder_device(40%, 40%, 50%);
+        }
+    }
+    .col-2-grid{
+        .content-holder{
+            @include content_holder_device(35%, 40%, 10%);
+        }
+    }
+    .col-3-grid{
+        margin-left: 3%;
+        .content-holder{
+            @include content_holder_device(25%, 40%, 10%);
+        }
+    }
+
+    .block-col{
+        height: $block-height - 3em !important;
+    }
+
+
+    .content-block-col{
+        height: $block-height - 3em !important;
+        img{
+            margin-top: 25% !important;
+        }
+        p{
+            font-size: $fz-p-sm;
+        }
+
+    }
+}
+
+
+
+
+
+// @media (max-width: $breakpoint-sm-laptop) {
+//     // TEMPLATE START 
+//     .title-bar{
+//         height: 2.8rem;
+//         input[type = "text"]{
+//             height: 1rem;
+//             padding: 3px;
+//             width: 14rem;
+//         }
+
+//         input[type = "text"]::placeholder{
+//             font-size: 0.7rem;    
+//         }
+//         .btn{
+//             @include btn_general($p-color, $t-color, 0.5rem, 0.9rem, 0.5rem, 5px);
+//             // @include btn_general($p-color, $t-color);
+//         }
+//     }
+//     .template-wrapper{
+//         margin-top: 2%;   
+    
+//         .header-image{
+//             height: 3rem;
+//         }
+//         // DROPZONE START 
+//         .drop-wrapper{
+//             // DYNAMICALLY CHANGE BY JAVASCRIPT 
+//             height: 35em;
+    
+//             .drop-row{
+//                 min-height: 8em;
+//                 padding: 5px 0;
+                                          
+                
+//             }
+//             // .space-row-grid{
+//             //     height: 40px;
+//             //     background: $s-color;
+//             // }
+//         }
+//         // DROPZONE ENDS 
+//     }
+//     // TEMPLATE ENDS 
+// }
+
+
+
+// @media (max-width: $breakpoint-tablet) {
+//     // TEMPLATE START 
+//     .title-bar{
+//         input[type = "text"]{
+//             height: 0.8rem;
+//             padding: 2px;
+//             width: 10rem;
+//         }
+
+//         .btn{
+//             @include btn_general($p-color, $t-color, 0.3rem, 0.5rem, 0.6rem, 3px);
+//         }
+//     }
+
+
+
+//     // TEMPLATE ENDS 
+// }
+
+
+

@@ -74,8 +74,8 @@ router.post('/add', uploadMultipleFileToS3, (req, res, next) => {
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
     let bgImg = "default-header.jpg";
     // console.log("Required files: ".blue, req.files);
-    if (req.files['header-img']) {
-        bgImg = req.files['header-img'][0].key;
+    if (req.files['headerImg']) {
+        bgImg = req.files['headerImg'][0].key;
     }
     let elementObject = JSON.parse(element);
 
@@ -140,8 +140,12 @@ router.get('/edit/:id', (req, res, next) => {
 
 
 // UPDATE TEMPLATE 
-router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
+router.put('/edit/:id', uploadMultipleFileToS3,  (req, res, next) => {
     const { title, bgColor, linkColor, layout, element, sibling } = req.body;
+    // console.log("header Image - ", req.body.header-img);
+
+
+
     try {
         const findSql = `SELECT id, title, bg_img, bg_color, link_color, layout, content, sibling FROM nodejs_story WHERE id=?`;
 
@@ -149,13 +153,26 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
         conn.query(findSql, [req.params.id], async (findErr, findResult, findFields) => {
             if (findErr) throw findErr;
             let updatedBgImg = null;
+            // console.log("Undefined Header image outside - ", req.files['headerImg']);
+
+            // console.log("Find header - ", findResult[0].bg_img);
             // DELETE PREVIOUS HEADER IMAGE 
-            if (req.files['header-img']) {
-                updatedBgImg = req.files['header-img'][0].key;
-                const deletedH = await deleteHeaderImage(findResult[0].bg_img);
-                console.log("Delete header: ", deletedH);
-            }
-            else {
+            if (req.files['headerImg']) {
+                updatedBgImg = req.files['headerImg'][0].key;
+                if (findResult[0].bg_img !== "default-header.jpg") {
+                    const deletedH = await deleteHeaderImage("header-img-d3.3.png-3-3.png");
+                    // console.log("Delete header: ", deletedH);
+                }
+            } else if (req.body.headerImg === "header-deleted") {
+                // console.log("Header image text - ", req.body.headerImg);
+                // IF HEADER IS BEED DELETED 
+
+                updatedBgImg = null;
+                if (findResult[0].bg_img !== "default-header.jpg") {
+                    const deletedH = await deleteHeaderImage(findResult[0].bg_img);
+                    // console.log("Delete header: ", deletedH);
+                }
+            } else {
                 // IF HEADER IS NOT UPDATED 
                 updatedBgImg = findResult[0].bg_img;
             }
@@ -177,8 +194,6 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                     if (findImg !== undefined && findImg) {
                         const deleteImg = foundContent.filter((fc, fcI) => fc.rowNumber === eo.rowNumber && fc.columnNumber === eo.columnNumber);
                         delImgList.push({ Key: deleteImg[0].blockElement.imgUrl });
-
-
                         eo.blockElement.imgUrl = findImg[0].key;
                     }
                     if (!findImg) {
@@ -187,7 +202,7 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                         findResultContent.forEach((frc, frcI) => {
                             if (eo.rowNumber === frc.rowNumber && eo.columnNumber === frc.columnNumber) {
                                 eo.blockElement.imgUrl = frc.blockElement.imgUrl;
-                                console.log("frc.blockElement.imgUrl: ", frc.blockElement.imgUrl);
+                                // console.log("frc.blockElement.imgUrl: ", frc.blockElement.imgUrl);
                             }
                         });
                     }
@@ -204,12 +219,16 @@ router.put('/edit/:id', uploadMultipleFileToS3, (req, res, next) => {
                 console.log("Delete template imgs: ", delTempImg);
             }
 
+            console.log("Element object - ", elementObject);
+
             // UPDATE DATABASE 
             const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
+        
 
             conn.query(updateSql, [req.params.id], (updateErr, updateResult, updateFields) => {
                 if (updateErr) throw updateErr;
                 console.log("Update result: ".green, updateResult);
+                console.log(updateErr);
                 // DELETE PREVIOUS HEADER IMAGE 
                 res.redirect('/template');
             });

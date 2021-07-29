@@ -1,9 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
-button, .btn {
+@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
+.wrapper button, .wrapper .btn {
   border-radius: 0;
 }
 
 .navbar a {
+  color: whitesmoke !important;
+}
+
+.preview-all a {
+  text-decoration: none;
   color: whitesmoke !important;
 }
 
@@ -23,23 +30,24 @@ button, .btn {
 }
 
 .wrapper .template-builder {
-  width: 80% !important;
-  margin-left: 10% !important;
+  width: 100% !important;
+  margin-top: 0;
   background-color: #ffffff !important;
 }
 .wrapper .template-builder .workpace {
-  border: 1px solid #8b8b8b;
+  border: 1px solid lightgray;
   display: flex;
   width: 100%;
   min-height: 100% !important;
+  justify-content: flex-end;
 }
 .wrapper .template-builder .workpace .col-10 {
-  border-right: 1px solid #8b8b8b;
+  border-right: 1px solid lightgray;
   background-color: #e6e1e1;
-  width: 62.5% !important;
+  flex: 75% !important;
 }
 .wrapper .template-builder .workpace .col-6 {
-  width: 37.5% !important;
+  flex: 25% !important;
 }
 .wrapper .template-builder h2 {
   text-transform: uppercase;
@@ -64,8 +72,8 @@ button, .btn {
 .title-bar .title-input-submit {
   height: 100%;
   text-align: center;
-  width: 90%;
-  margin-left: 5%;
+  width: 54%;
+  margin-left: 22%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,15 +85,15 @@ button, .btn {
   width: 150%;
   border: none;
   background: #ffffff;
-  color: #8b8b8b;
+  color: darkgray;
 }
 .title-bar .title-input-submit input[type=text]::placeholder {
   font-size: 0.8rem;
-  color: #8b8b8b;
+  color: darkgray;
 }
 .title-bar .title-input-submit input[type=text]:focus {
   outline: none;
-  color: lightgray;
+  color: darkgray;
 }
 .title-bar .title-input-submit .btn {
   vertical-align: middle;
@@ -98,12 +106,13 @@ button, .btn {
   background: #0f3050;
 }
 .title-bar .title-input-submit .cancel {
-  background: #8b8b8b;
+  background: darkgray;
+  color: #0f3050;
 }
 
 .template-wrapper {
-  width: 90%;
-  margin-left: 5%;
+  width: 54%;
+  margin-left: 22%;
   margin-top: 3%;
   background: #ffffff;
 }
@@ -124,7 +133,7 @@ button, .btn {
   width: 80%;
   margin-left: 10%;
   margin-top: 2%;
-  border: 1px solid #8b8b8b;
+  border: 1px solid lightgray;
   min-height: 50em;
 }
 .drop-wrapper .drop-row {
@@ -228,17 +237,20 @@ button, .btn {
   position: sticky;
   top: 20px;
   left: 0;
-  color: #8b8b8b;
+  color: #021527;
   background: #ffffff;
   overflow: hidden;
 }
 .right-bar .rb-wrapper {
   width: 90%;
-  height: 100%;
   margin-left: 5%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+.right-bar .rb-wrapper .rb-header {
+  margin-top: 2%;
 }
 
 .rb-block h4 {
@@ -308,6 +320,7 @@ button, .btn {
   -webkit-filter: invert(100%);
 }
 .rb-block .content-block .content-block-col p {
+  color: darkgray;
   text-align: center;
   margin-top: 2%;
 }
@@ -319,7 +332,7 @@ button, .btn {
   height: 60px;
   object-position: center;
   object-fit: cover;
-  width: 100%;
+  width: 80%;
 }
 .rb-block-elements .elements .input-row {
   display: block !important;
@@ -329,9 +342,6 @@ button, .btn {
 .rb-block-elements .elements .input-row input[type=color] {
   float: right;
 }
-.rb-block-elements .elements .elements-header img {
-  margin-top: 3%;
-}
 .rb-block-elements .elements .elements-header input[type=file]::-webkit-file-upload-button {
   font-size: 0.7rem;
   padding: 10px 20px;
@@ -339,7 +349,18 @@ button, .btn {
   border: none;
   outline: none;
   color: #0f3050;
-  background: #8b8b8b;
+  background: lightgray;
+}
+.rb-block-elements .elements .elements-header .btn-delete {
+  padding: 0;
+  margin: 0 0 20px 20px;
+  background: transparent;
+  outline: none;
+  border: none;
+}
+.rb-block-elements .elements .elements-header .btn-delete:focus {
+  outline: none;
+  border: none;
 }
 
 .rb-props {
@@ -354,15 +375,16 @@ button, .btn {
   padding: 15px;
   width: 60%;
   border: none;
-  background: #e6e1e1;
-  color: #8b8b8b;
+  background: white;
+  color: darkgray;
+  border: 1px solid darkgray;
 }
 .rb-props input[type=text]::placeholder {
-  color: #8b8b8b;
+  color: darkgray;
 }
 .rb-props input[type=text]:focus {
   outline: none;
-  color: lightgray;
+  color: darkgray;
 }
 .rb-props .props {
   display: none;
@@ -377,7 +399,7 @@ button, .btn {
   border: none;
   outline: none;
   color: #0f3050;
-  background: #8b8b8b;
+  background: lightgray;
 }
 .rb-props .props .img-wrap img {
   width: 50%;
@@ -391,7 +413,7 @@ button, .btn {
   border: none;
   outline: none;
   color: #0f3050;
-  background: #8b8b8b;
+  background: lightgray;
   margin-left: 0;
   cursor: pointer;
 }

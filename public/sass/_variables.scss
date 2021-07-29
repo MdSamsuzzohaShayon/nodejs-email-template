@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap');
 
 
-$p-color:rgb(139, 139, 139);
+$p-color:lightgray;
 $s-color: rgb(230, 225, 225);
 $t-color: rgb(15, 48, 80);
-$f-color: rgb(211, 211, 211);
+$b-color: rgb(2, 21, 39);
+$dg-color: darkgray;
 $w-color: #ffffff;
 
 
@@ -12,6 +13,9 @@ $w-color: #ffffff;
 // PADDING & MARGIN 
 $ml : 20px;
 $ml-drop: 10%;
+
+$tbt-width : 54%;
+$tbt-ml: 22%;
 
 
 

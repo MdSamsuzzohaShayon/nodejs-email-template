@@ -15,23 +15,24 @@
     // font-family: $caslon;
     // TEMPLATE BUILDER START 
     .template-builder{
-        width: 80%  !important;
-        margin-left: 10% !important;
-        // margin-top: 2%;
+        width: 100%  !important;
+        // margin-left: 10% !important;
+        margin-top: 0;
         background-color: $w-color !important;
         .workpace{
             border: 1px solid $p-color;
             display: flex;
             width: 100%;
             min-height: 100% !important;
+            justify-content: flex-end;
             // height: 100%;
                 .col-10{
                     border-right: 1px solid $p-color;
                     background-color: $s-color;
-                    width: 62.5% !important;
+                    flex: 75% !important;
                 }
                 .col-6{
-                    width: 37.5% !important;
+                    flex: 25% !important;
 
                 }                
         }
@@ -69,12 +70,12 @@
 .title-bar{
     height: 4em;
     width: 100%;
-    background-color: $f-color;
+    background-color: $p-color;
     .title-input-submit{
         height: 100%;
         text-align: center;
-        width: 90%;
-        margin-left: 5%;
+        width: $tbt-width;
+        margin-left: $tbt-ml;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -82,35 +83,38 @@
         input[type = "text"]{
             vertical-align: middle; 
             // @include input_style($h, $w, $p, $bg, $c);
-            @include input_style(2rem, 150%, 2%, $w-color, $p-color);
+            @include input_style(2rem, 150%, 2%, $w-color, $dg-color);
         }
     
         input[type = "text"]::placeholder{
             font-size: $fz-h4;
-            color: $p-color;
+            color: $dg-color;
         }
     
         input[type = "text"]:focus{
             outline: none;
-            color: $f-color;
+            color: $dg-color;
         }
     
         .btn{
             vertical-align: middle;
-            @include btn_general($f-color, $t-color, 10px, 20px, 0.85rem, 5px);
+            @include btn_general($p-color, $t-color, 10px, 20px, 0.85rem, 5px);
         }
         .cancel{
-            background: $p-color;
+            background: $dg-color;
+            color: $t-color;
         }
     }
 }
 
 
 .template-wrapper{
-    width: 90%;
-    margin-left: 5%;
+    // min-height: 100%;
+    width: $tbt-width;
+    margin-left: $tbt-ml;
     margin-top: 3%;
     background: $w-color;
+    // background: transparent;
 
 
     .content-header{
@@ -140,7 +144,7 @@
 
     .drop-row{
         // background: $t-color;
-        // color: $f-color;
+        // color: $p-color;
         width: 100%;
         min-height: 8em;
         // padding: 10px 0;
@@ -195,13 +199,14 @@
 
         .content{
             width: 96%;
-            margin-left: 2%;                                   
+            margin-left: 2%;                              
             
         }
         a{
             text-decoration: none;
             font-size: $fz-h4;
         }
+
         // THIS SHOULD BE SET BY JS 
         .img-content-block{
             width: auto; //FIXED WIDTH FOR PREVIEW
@@ -244,7 +249,7 @@
             // margin: 2rem 0;
             text-align: center;
             width: fit-content;
-            @include btn_general($f-color, $t-color, 10px, 20px, 0.7rem, 1rem);
+            @include btn_general($p-color, $t-color, 10px, 20px, 0.7rem, 1rem);
             margin-top: 0.5rem;
             margin-right: 1rem;
             margin-bottom: 1rem;
@@ -267,229 +272,8 @@
 
 
 
-
-
-// RIGHTBAR START 
-.right-bar{
-    align-self: flex-start;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 20px;
-    left: 0;
-    // height: 100vh;
-
-
-    color: $p-color;
-    background: $w-color;
-    // border: 1px solid $p-color;
-    overflow: hidden;
-    // contain: content;
-
-
-    .rb-wrapper{
-
-
-
-        // -webkit-transform: translateZ(0);
-        width: 90%;
-        height: 100%;
-        margin-left: 5%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-
-
-// BLOCK START 
-.rb-block{
-    h4{
-        margin-top: 2rem;
-    }
-                
-    // COLUMN BLOCK START 
-    .column-block{
-        display: flex;
-        flex-direction: row;
-        // height: 100%;
-        align-items: center;
-
-        .block-col{
-            background: $s-color;
-            width: 90%;
-            // margin: 0 3%;
-            height: $block-height;
-            border: 1px solid $s-color;
-            // padding: 10px 0;
-            align-items: center;
-            // margin-top: 5px;
-        }
-        .col-1-grid{
-            margin-right: 3%;
-            .content-holder{
-                margin-left: 20%;
-                @include content_holder(60%, 60%, 18% );
-            }
-        }
-        .col-2-grid{
-            @include block_col_2_3();
-            .content-holder{
-                @include content_holder(35%, 60%, 0);
-            }
-        }
-        .col-3-grid{
-            margin-left: 3%;
-            @include block_col_2_3();
-            .content-holder{
-                @include content_holder(20%, 60%, 0);
-            }
-        }
-    }
-    // COLUMN BLOCK ENDS dr
-
-
-    // CONTENT BLOCK START 
-    .content-block{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        flex-wrap: wrap;
-        .content-block-col{
-            width: 30%;
-            height: $block-height;
-            margin-bottom: 1rem;
-            border: $s-color solid 1px;
-            background-color: $f-color;
-            img{
-                width: 70%;
-                margin-left: 10%;
-                filter: invert(100%);
-                -webkit-filter: invert(100%);
-            }
-            p{
-                text-align: center;
-                margin-top: 2%;
-            }
-        }
-    }
-    // CONTENT BLOCK ENDS 
-}
-// BLOCK ENDS 
-
-
-
-// ELEMENTS START 
-.rb-block-elements{
-    height: 100%;
-    .elements{
-        img{
-            height: 60px;
-            object-position: center;
-            object-fit: cover;
-            width: 100%;
-            // margin-left: 10%;
-        }
-        .input-row{
-            display: block !important;
-            width: 100% !important;
-            margin-bottom: 2% !important;
-            input[type="color"]{
-                float: right;
-            }
-        }
-        .elements-header{
-            img{
-                margin-top: 3%;
-            }
-            input[type="file"]::-webkit-file-upload-button{
-                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem, 5px);
-            }
-        }
-
-    }
-}
-// ELEMENTS ENDS 
-
-
-// PROPS START 
-.rb-props{
-    display: none;
-    .props-with-label{
-        margin-bottom: 5%;
-    }
-    input[type = "text"]{
-        float: right;
-        // @include input_style($h, $w, $p, $bg, $c);
-        @include input_style(1rem, 60%, 15px, $s-color, $p-color);
-    }
-
-    input[type = "text"]::placeholder{
-        color: $p-color;
-
-    }
-
-    input[type = "text"]:focus{
-        outline: none;
-        color: $f-color;
-    }
-    // input[type="checkbox"]{
-    //     float: right;
-    // }
-    .props{
-        display: none;
-        .img-wrap{
-            input[type="file"]{
-                // background: $s-color;
-                margin-bottom: 5px;
-            }
-            input[type="file"]::-webkit-file-upload-button{
-                // @include btn_general($t-color, $p-color);
-                @include btn_general($t-color, $p-color, 10px, 20px, 0.7rem, 5px);
-            }
-        
-            img{
-                width: 50%;
-                margin: 5% 0;
-            }
-        }
-
-        .btn-icon{
-            margin: 10px 0;
-            @include btn_general($t-color, $p-color, 3px, 20px, 1.5rem, 5px);
-            margin-left: 0;
-            cursor: pointer;
-        }
-
-        select{
-            height: 2rem;
-            border: none;
-            background: $s-color;
-        }
-        select:focus{
-            outline: none;
-        }
-        .txt-link{
-            margin-top: 5%;
-        }
-        .txt-tab-wrap{
-            margin-top: 5%;
-        }
-        input[type="color"]{
-            float: right;
-        }
-        .btn-text{
-            margin-top: 5%;
-        }
-    }
-}
-// PROPS ENDS  
-
-
-// RIGHTBAR ENDS 
-
-
+// IMPORT RIGHT BAR 
+@import './rightbar';
 
 
 
@@ -504,7 +288,7 @@
 //     border-bottom: 1px solid $t-color;
 // }
 // .add-bg{
-//     background-color: $f-color;
+//     background-color: $p-color;
 // }
 
 
@@ -512,204 +296,5 @@
 
 
 
-
-// RESPONSIVENESS 
-/* Using SCSS variables to store breakpoints */
-// $breakpoint-tablet: 768px;
-// $breakpoint-sm-laptop: 1080px;
-
-// $bp-md: 1660px;
-// $bp-md-sm: 1366px;
-// $bp-sm: 1220px;
-
-
-@media (max-width: $bp-md){
-    .col-1-grid{
-        .content-holder{
-            margin-top: 22% !important;
-            // align-items: center
-        }
-    }
-
-
-
-
-    .content-block-col{
-        height: $block-height - 1em !important;
-        img{
-            margin-top: 5% !important;
-            width: 60% !important;
-            margin-left: 15% !important;
-        }
-        p{
-            margin-top: 3.5% !important;
-        }
-    }
-}
-
-
-
-
-@media (max-width: $bp-md-sm){
-    .content-block-col{
-        height: $block-height - 2em !important;
-        img{
-            margin-top: 8% !important;
-            width: 50% !important;
-            margin-left: 18% !important;
-        }
-    }
-}
-
-
-
-@media (max-width: $bp-sm){
-    .title-input-submit{
-        input[type = "text"]{
-            width: 115% !important;
-        }
-    
-        input[type = "text"]::placeholder{
-            font-size: $fz-h4 - 0.1rem !important;
-        }
-    
-        .btn{
-            vertical-align: middle;
-            // @include btn_general_sm($py, $px, $fz, $ml);
-            @include btn_general_sm(7px, 12px, 0.75rem, 3px);
-        }
-    }
-    .col-1-grid{
-        .content-holder{
-            margin-top: 25% !important;
-        }
-    }
-}
-
-
-
-@media (max-width: $bp-tab){
-    .title-input-submit{
-        margin-left: 0 !important;
-        input[type = "text"]{
-            width: 80% !important;
-        }
-    
-        input[type = "text"]::placeholder{
-            font-size: $fz-h4 - 0.1rem !important;
-        }
-    
-        .btn{
-            vertical-align: middle;
-            // @include btn_general_sm($py, $px, $fz, $ml);
-            @include btn_general_sm(7px, 9px, 0.65rem, 2px);
-        }
-    }
-
-    .col-1-grid{
-        .content-holder{
-            margin-left: 50%;
-            @include content_holder_device(40%, 40%, 50%);
-        }
-    }
-    .col-2-grid{
-        .content-holder{
-            @include content_holder_device(35%, 40%, 10%);
-        }
-    }
-    .col-3-grid{
-        margin-left: 3%;
-        .content-holder{
-            @include content_holder_device(25%, 40%, 10%);
-        }
-    }
-
-    .block-col{
-        height: $block-height - 3em !important;
-    }
-
-
-    .content-block-col{
-        height: $block-height - 3em !important;
-        img{
-            margin-top: 25% !important;
-        }
-        p{
-            font-size: $fz-p-sm;
-        }
-
-    }
-}
-
-
-
-
-
-// @media (max-width: $breakpoint-sm-laptop) {
-//     // TEMPLATE START 
-//     .title-bar{
-//         height: 2.8rem;
-//         input[type = "text"]{
-//             height: 1rem;
-//             padding: 3px;
-//             width: 14rem;
-//         }
-
-//         input[type = "text"]::placeholder{
-//             font-size: 0.7rem;    
-//         }
-//         .btn{
-//             @include btn_general($f-color, $t-color, 0.5rem, 0.9rem, 0.5rem, 5px);
-//             // @include btn_general($f-color, $t-color);
-//         }
-//     }
-//     .template-wrapper{
-//         margin-top: 2%;   
-    
-//         .header-image{
-//             height: 3rem;
-//         }
-//         // DROPZONE START 
-//         .drop-wrapper{
-//             // DYNAMICALLY CHANGE BY JAVASCRIPT 
-//             height: 35em;
-    
-//             .drop-row{
-//                 min-height: 8em;
-//                 padding: 5px 0;
-                                          
-                
-//             }
-//             // .space-row-grid{
-//             //     height: 40px;
-//             //     background: $s-color;
-//             // }
-//         }
-//         // DROPZONE ENDS 
-//     }
-//     // TEMPLATE ENDS 
-// }
-
-
-
-// @media (max-width: $breakpoint-tablet) {
-//     // TEMPLATE START 
-//     .title-bar{
-//         input[type = "text"]{
-//             height: 0.8rem;
-//             padding: 2px;
-//             width: 10rem;
-//         }
-
-//         .btn{
-//             @include btn_general($f-color, $t-color, 0.3rem, 0.5rem, 0.6rem, 3px);
-//         }
-//     }
-
-
-
-//     // TEMPLATE ENDS 
-// }
-
-
-
+// IMPORT RESPONSIVENESS 
+@import './responsiveness';

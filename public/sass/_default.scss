@@ -1,11 +1,20 @@
 // PREVENTING BOOTSTRAP DESIGN 
 
-button, .btn{
-    // width: fit-content;
-    border-radius: 0;
+
+.wrapper{
+    button, .btn{
+        // width: fit-content;
+        border-radius: 0;
+    }
 }
 .navbar{
     a{
+        color: whitesmoke !important;
+    }
+}
+.preview-all{
+    a{
+        text-decoration: none;
         color: whitesmoke !important;
     }
 }

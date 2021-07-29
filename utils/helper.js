@@ -5,7 +5,8 @@ function invalidToValidStr(invalidString) {
     let blockElementString = invalidString.toString();
     let removeDoubleQuatation = blockElementString.replace(/"/g, "~_");
     let validString = removeDoubleQuatation.replace(/'/g, "_~");
-    return validString;
+    let removeQ = validString.replace(/\?/g, "-_");
+    return removeQ;
 }
 
 
@@ -44,10 +45,7 @@ const deleteHeaderImage = async (imgKey) => {
 
     try {
         console.log("Image key: ", imgKey);
-        const deletedHeader = await s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME, /* required */
-            Key: imgKey, /* required */
-        }).promise();
+        const deletedHeader = await s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, /* required */ Key: imgKey, /* required */ }).promise();
         return deletedHeader;
     } catch (error) {
         console.log("Error: ", error);

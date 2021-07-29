@@ -1,6 +1,6 @@
 <div class="preview-all">
     <div class="container">
-        <table class="pv-table table">
+        <table class="pv-table table mt-5">
             <thead class=" table-dark">
                 <tr>
                     <th>SL#</th>
@@ -9,7 +9,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <% if (typeof docs!== "undefined") { %>
+            <% if (typeof docs!=="undefined" ) { %>
                 <tbody>
                     <% docs.forEach(function(template , tIdx){ %>
                         <tr>
@@ -29,10 +29,10 @@
                                         onclick="alert('Do you want to delete this permanently?');">Delete
                                         ID</button>
                                 </form>
-                                <a href="/template/preview/<%- template.id %>"
-                                    class="btn d-inline my-2 pv-btn btn-info">Preview</a>
-                                <a href="/template/edit/<%- template.id %>"
-                                    class="btn d-inline my-2 edit-btn btn-secondary">Edit</a>
+                                <button class="btn d-inline my-2 pv-btn btn-info"><a
+                                        href="/template/preview/<%- template.id %>">Preview</a></button>
+                                <button class="btn d-inline my-2 edit-btn btn-secondary"> <a
+                                        href="/template/edit/<%- template.id %>">Edit</a></button>
                             </td>
                         </tr>
                         <% }); %>
