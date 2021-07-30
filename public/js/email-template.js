@@ -753,7 +753,7 @@ function columnDragAndDrop() {
                             // CHANGE ATTRIBUTES FOR NEXT ELEMENTS 
                             const changeRowAttr = rowNum;
                             changeAllNextElementAttribute(targetedRowElement, changeRowAttr);
-                            let cngRowDb = changeRowAttr -1;
+                            let cngRowDb = changeRowAttr - 1;
                             cngDbForInsert(cngRowDb, rowWithColumn, rowID);
 
                         }
@@ -1109,7 +1109,7 @@ function rightBarElementShowHidePreset() {
 
                     imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
-                    console.log("preview img - ", previousProps[0].blockElement.imgUrl);
+                    // console.log("preview img - ", previousProps[0].blockElement.imgUrl);
                     currentPath === editPage && previousProps[0].blockElement.imgUrl.trim() !== "/img/empty-image.png" ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
                 } else if (e.toElement.classList[1] === "txt-content-block" || e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block') {
                     // const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
@@ -1213,7 +1213,7 @@ function rightBarElementShowHidePreset() {
                         txtProps.style.display = 'block';
                     }
                 } catch (noIndexErr) {
-                    console.log(noIndexErr);
+                    // console.log(noIndexErr);
                 }
                 // console.log("Classes - ", selectedTxtElement.className);
             }
@@ -1314,8 +1314,10 @@ function rightBarPropsUpdate() {
             textBlockElement = text.outerHTML.toString().trim();
             positionElement.forEach((pl, index) => { if (pl.rowNumber === selectedRow && pl.columnNumber == selectedCol) { positionElement[index].blockElement.blockHtml = textBlockElement; } });
         });
+
         txtHyperlink.addEventListener('change', e => {
             let url = e.target.value;
+            // console.log(url);
             document.execCommand("createLink", false, url);
             const text = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
             textBlockElement = text.outerHTML.toString().trim();

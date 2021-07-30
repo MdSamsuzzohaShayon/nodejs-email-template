@@ -16,11 +16,14 @@ $ml-drop: 10%;
 
 $tbt-width : 54%;
 $tbt-ml: 22%;
+$ml-rb-md-sm: 10% !important;
 
 
 
 
 $block-height: 9em;
+$block-height-md-sm: 6em !important;
+$element-width-md-sm: 78% !important;
 
 // FONTS 
 $crimson-pro:  'Crimson Pro', serif;
@@ -36,6 +39,10 @@ $fz-h3: 1rem; // FONT SIZE H3
 $fz-h2: 2rem;
 $fz-h4: 0.8rem;  // THIS IS ALSO FOR LINK
 $fz-p-sm: 0.65rem;
+
+$fz-h3-md-sm: 0.8rem !important; // FONT SIZE H3
+$fz-h2-md-sm: 1.5rem !important;
+$fz-h4-md-sm: 0.6rem !important;  // THIS IS ALSO FOR LINK
 
 
 

@@ -10,7 +10,6 @@ const colors = require('colors');
 const process = require('process');
 
 
-const conn = require('./config/mysql-config');
 
 const indexRouter = require('./routes/index');
 const emailTemplate = require('./routes/template');
@@ -58,9 +57,9 @@ app.use('/', indexRouter);
 app.use('/template', emailTemplate);
 
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
     res.status(404).render("404");
-})
+});
 
 
 

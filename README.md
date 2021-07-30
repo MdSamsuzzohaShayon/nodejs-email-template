@@ -179,8 +179,10 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - Text editor - When Select text text editor need to open ☑️
  - Header - Need to Remove logo ☑️
  - Right bar - Make button light gray ☑️
- - Add column block betweeen two column block vertically not working
- - Full width horizontally like __https://www.campaignmonitor.com/__
+ - Add column block betweeen two column block vertically not working ☑️
+ - Full width horizontally like __https://www.campaignmonitor.com/__ modifica  ☑️
+ - Make it more responsive 
+ - insert text link working
 
 
 ```

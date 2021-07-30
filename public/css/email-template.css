@@ -336,7 +336,7 @@
 }
 .rb-block-elements .elements .input-row {
   display: block !important;
-  width: 100% !important;
+  width: 100%;
   margin-bottom: 2% !important;
 }
 .rb-block-elements .elements .input-row input[type=color] {
@@ -457,13 +457,46 @@
   }
 }
 @media (max-width: 1366px) {
-  .content-block-col {
-    height: 7em !important;
+  .wrapper h2 {
+    font-size: 1.5rem !important;
   }
-  .content-block-col img {
-    margin-top: 8% !important;
+  .wrapper h4 {
+    font-size: 0.6rem !important;
+  }
+  .wrapper h3 {
+    font-size: 0.8rem !important;
+  }
+
+  .rb-wrapper {
     width: 50% !important;
-    margin-left: 18% !important;
+    margin-left: 10% !important;
+  }
+  .rb-wrapper .rb-header {
+    margin-left: 10% !important;
+  }
+
+  .column-block .block-col {
+    width: 24% !important;
+    height: 6em !important;
+  }
+
+  .content-block {
+    width: 78% !important;
+  }
+  .content-block .content-block-col {
+    height: 6em !important;
+    margin-bottom: 1rem;
+  }
+
+  .rb-block-elements {
+    margin-left: 12% !important;
+  }
+  .rb-block-elements .input-row {
+    width: 78% !important;
+  }
+  .rb-block-elements img {
+    height: 50px !important;
+    width: 70% !important;
   }
 }
 @media (max-width: 1280px) {
