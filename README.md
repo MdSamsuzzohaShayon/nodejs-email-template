@@ -122,17 +122,6 @@
  - open in link is not working (button property is not setting properly)
  - Image hyper link is not setting properly 
  - default title in edit page  ☑️
- 
- *5email-template.js:1073 TypeError: Cannot read property 'blockElement' of undefined
-    at HTMLDocument.<anonymous> (email-template.js:1004)
-email-template.js:580 outside of drop zone
-email-template.js:681 [Violation] 'drop' handler took 1895ms
-2email-template.js:580 outside of drop zone
-email-template.js:681 [Violation] 'drop' handler took 2007ms
-email-template.js:1073 TypeError: Cannot read property 'className' of null
-    at HTMLDocument.<anonymous> (email-template.js:1051)
-email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefined
-    at HTMLDocument.<anonymous> (email-template.js:1027)*
  - Update will be done if we set multer in our route
  - FOR UPLOADING MULTIPLE FILES IN AWS -> STORE ALL FILES IN A ARRAY AND LOOP THOUGH IT
  - Setup drop row height `droppedRow.forEach((dr, dri) => dr.style.height = "900px");`
@@ -184,10 +173,10 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - Make it more responsive 
  - insert text link working
  - Problem - when moveing up the row more than one step images disapparing
- - Image id is not changing on image move up
+ - Image id is not changing on image move up  ☑️
  - Change block id on deleting any element
- - showing add another row to insert content
- - creating extra div - problem with preview
+ - showing **add another row to insert content**  ☑️
+ - creating extra div - problem with preview ☑️
 
 
 ```

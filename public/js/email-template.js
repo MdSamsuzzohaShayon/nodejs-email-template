@@ -540,19 +540,6 @@ const changeAllNextElementAttribute = (cTargetedRowElement, cRowNum, cRowID) => 
                     anec.childNodes.forEach((anecc, cci) => {
                         let idIdx = 4;
                         changeBlockID(anecc, idIdx, cRowNum);
-                        // if (anecc.tagName.toString().toLowerCase() === "a") {
-                        //     // img-3-2
-                        //     let contentId = anecc.childNodes[0].id.toString();
-                        //     contentId = contentId.substring(0, idIdx) + cRowNum + contentId.substring(idIdx + 1);
-                        //     anecc.childNodes[0].setAttribute("id", contentId);
-                        // } else {
-                        //     let contentId = anecc.id.toString();
-                        //     if (anecc.classList[1] === "icon-content-block") idIdx = 5;
-                        //     contentId = contentId.substring(0, idIdx) + cRowNum + contentId.substring(idIdx + 1);
-                        //     anecc.setAttribute("id", contentId);
-                        //     // if (contentId === 'ico') contentId = 'icon';
-                        //     // anec.setAttribute('id', `${contentId}-${cRowNum}-${stringIdToIdNum(anec.id, 2)}`);
-                        // }
                     });
                 }
             });
@@ -1487,29 +1474,55 @@ function rightBarPropsUpdate() {
                 siblingButtonList.forEach((sEl, sIdx) => { if (sEl.rowNum > selectedRow) { sEl.rowNum--; } });
 
                 selectedRowElement.remove();
+                let newSelectedRow = selectedRow;
+                if (allNextEl.length > 0) {
+                    allNextEl.forEach((ane, aneI) => {
+                        ane.setAttribute('id', `row-${newSelectedRow}`);
+                        if (ane.hasChildNodes()) {
+                            ane.childNodes.forEach((anec, anecI) => {
+                                anec.setAttribute("id", anec.id.toString().replace(/.$/, newSelectedRow));
+                                if (anec.hasChildNodes()) {
+                                    // anec.forEach((anecc, aneccI)=>{
+                                    //     console.log("anecc - ", anecc);
+                                    // });
+                                    changeBlockID(anec.childNodes[0], 4, newSelectedRow);
+                                }
+                            });
+                            newSelectedRow++;
 
-                // SETTING ROW ID DYNAMICALLY 
-                let idNum = selectedRow;
-                let i = 0;
-                while (i < allNextEl.length) {
-                    allNextEl[i].setAttribute('id', `row-${idNum}`);
-                    // CHANGE ALL CHILD ELEMENT ID AND CLASS 
-                    if (allNextEl[i].hasChildNodes()) {
-                        allNextEl[i].childNodes.forEach((ncEl, ncIdx) => {
-                            if (ncEl.hasChildNodes()) {
-                                ncEl.childNodes.forEach((nccEl, nccIdx) => {
-                                    if (nccEl.classList[1] === "icon-content-block") {
-                                        nccEl.id = replaceAt(nccEl.id, 5, idNum);
-                                    } else {
-                                        nccEl.id = replaceAt(nccEl.id, 4, idNum);   // replace a charecter of index 4
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    idNum++;
-                    i++
+                        }
+                    });
                 }
+
+                // // SETTING ROW ID DYNAMICALLY 
+                // let idNum = selectedRow;
+                // let i = 0;
+                // while (i < allNextEl.length) {
+                //     allNextEl[i].setAttribute('id', `row-${idNum}`);
+                //     // CHANGE ALL CHILD ELEMENT ID AND CLASS 
+                //     if (allNextEl[i].hasChildNodes()) {
+                //         allNextEl[i].childNodes.forEach((ncEl, ncIdx) => {
+                //             console.log(ncEl);
+                //             // selectedRowElement.childNodes.forEach((sre, sreI) => sre.setAttribute("id", sre.id.toString().replace(/.$/, selectedRow - 1)));
+                //             // selectedRowElement.nextSibling.childNodes.forEach((sre, sreI) => sre.setAttribute("id", sre.id.toString().replace(/.$/, selectedRow)));
+                //             ncEl.forEach((ncElc, ncElI) => {
+                //                 // console.log("ncelc - ", ncElc);
+                //                 ncElc.setAttribute()
+                //             });
+                //             if (ncEl.hasChildNodes()) {
+                //                 ncEl.childNodes.forEach((nccEl, nccIdx) => {
+                //                     if (nccEl.classList[1] === "icon-content-block") {
+                //                         nccEl.id = replaceAt(nccEl.id, 5, idNum);
+                //                     } else {
+                //                         nccEl.id = replaceAt(nccEl.id, 4, idNum);   // replace a charecter of index 4
+                //                     }
+                //                 });
+                //             }
+                //         });
+                //     }
+                //     idNum++;
+                //     i++
+                // }
 
 
 
@@ -1642,6 +1655,9 @@ function rightBarPropsUpdate() {
                     }
                     selectedRowElement.setAttribute('id', `row-${selectedRow + 1}`);
                     selectedRowElement.previousSibling.setAttribute('id', `row-${selectedRow}`);
+                    // CHANGING COLUMN ELEMENT ROW NUMBER IN ID 
+                    selectedRowElement.childNodes.forEach((sre, sreI) => sre.setAttribute("id", sre.id.toString().replace(/.$/, selectedRow + 1)));
+                    selectedRowElement.previousSibling.childNodes.forEach((sre, sreI) => sre.setAttribute("id", sre.id.toString().replace(/.$/, selectedRow)));
 
 
 
@@ -1651,9 +1667,8 @@ function rightBarPropsUpdate() {
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    let contentId = acocn.id.toString().substring(0, 3);
-                                    if (contentId === 'ico') contentId = 'icon';
-                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) + 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                    const newSelectedRow = selectedRow + 1;
+                                    changeBlockID(acocn, 4, newSelectedRow);
                                 });
                             }
                         });
@@ -1661,9 +1676,7 @@ function rightBarPropsUpdate() {
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    let contentId = acocn.id.toString().substring(0, 3);
-                                    if (contentId === 'ico') contentId = 'icon';
-                                    acocn.setAttribute('id', `${contentId}-${stringIdToIdNum(acocn.id, 1) - 1}-${stringIdToIdNum(acocn.id, 2)}`);
+                                    changeBlockID(acocn, 4, selectedRow);
                                 });
                             }
                         });
