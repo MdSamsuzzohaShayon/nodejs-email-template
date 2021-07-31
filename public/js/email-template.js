@@ -516,9 +516,7 @@ function changeBlockID(cBlockEle, cIndex, cRowNum) {
         let contentId = cBlockEle.childNodes[0].id.toString();
         contentId = contentId.substring(0, cIndex) + cRowNum + contentId.substring(cIndex + 1);
         cBlockEle.childNodes[0].setAttribute("id", contentId);
-        // console.log(cBlockEle);
     } else {
-        // let contentId = cBlockEle.id.toString();
         let contentId = cBlockEle.id.toString();
         if (cBlockEle.classList[1] === "icon-content-block") cIndex++;
         contentId = contentId.substring(0, cIndex) + cRowNum + contentId.substring(cIndex + 1);
@@ -697,9 +695,9 @@ function columnDragAndDrop() {
             // PREVENT TO ADD MORE THAN 9 ROW 
             if (rowID <= 9) {
                 // INCREASE HEIGHT OF WHOLE DROP ZONE 
-                if (rowList.length >= 2) {
-                    dropColumnZone.style.minHeight = `${dropColumnZone.clientHeight + increaseDZHeight}px`;
-                }
+                // if (rowList.length >= 2) {
+                //     dropColumnZone.style.minHeight = `${dropColumnZone.clientHeight + increaseDZHeight}px`;
+                // }
                 // dropColumnZone.style.height = "100%"; // IN PREVIEW
                 if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid") {
 
@@ -1485,7 +1483,12 @@ function rightBarPropsUpdate() {
                                     // anec.forEach((anecc, aneccI)=>{
                                     //     console.log("anecc - ", anecc);
                                     // });
-                                    changeBlockID(anec.childNodes[0], 4, newSelectedRow);
+                                    // console.log("child element length - ", anec.children.length);
+                                    if(anec.children.length > 1){
+                                        anec.childNodes.forEach((anecc, ineccI)=>changeBlockID(anecc, 4, newSelectedRow));
+                                    }else{
+                                        changeBlockID(anec.childNodes[0], 4, newSelectedRow);
+                                    }
                                 }
                             });
                             newSelectedRow++;
@@ -1535,6 +1538,7 @@ function rightBarPropsUpdate() {
 
             // EVERYTIME WE DELETE A ROW WE SHOULD SUBSTRACT ROW ID BY ONE 
             rowID--;
+            selectedRow = null;
         });
 
 
@@ -1564,7 +1568,7 @@ function rightBarPropsUpdate() {
                     }
 
                     if (selectedRowElement.hasChildNodes()) {
-                        // CHANGING ID OF CURRENT ELEMENT'S CHILDS 
+                        // CHANGING ID OF CURRENT ELEMENT'S CHILDS - COLUMN
                         selectedRowElement.childNodes.forEach((acn, acnIdx) => {
                             if (acn.hasChildNodes()) {
                                 const newSelectedRow = selectedRow - 1;
@@ -1630,6 +1634,7 @@ function rightBarPropsUpdate() {
 
                     propertiesBar.style.display = 'none';
                     blockElementBar.style.display = 'block';
+                    selectedRow = null;
 
                 } catch (err) {
                     console.log(err);
@@ -1726,6 +1731,7 @@ function rightBarPropsUpdate() {
                     });
                     propertiesBar.style.display = 'none';
                     blockElementBar.style.display = 'block';
+                    selectedRow = null;
                 } catch (err) {
                     console.log(err);
                 }
@@ -1818,11 +1824,11 @@ function backendAndDataBase(reqUrl, method) {
 
 
                 // //SUBMITTING DATA TO THE SERVER 
-                // const response = await fetch(reqUrl, {
-                //     // method: "POST",
-                //     method: method,
-                //     body: formData,
-                // });
+                const response = await fetch(reqUrl, {
+                    // method: "POST",
+                    method: method,
+                    body: formData,
+                });
                 // console.log(response);
                 // for (let pair of formData.entries()) {
                 //     console.log(pair[0] + ', ' + pair[1]);

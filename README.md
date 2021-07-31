@@ -172,11 +172,13 @@
  - Full width horizontally like __https://www.campaignmonitor.com/__ modifica  ☑️
  - Make it more responsive 
  - insert text link working
- - Problem - when moveing up the row more than one step images disapparing
+ - Problem - when moveing up the row more than one step images disapparing - *backend*
  - Image id is not changing on image move up  ☑️
  - Change block id on deleting any element
- - showing **add another row to insert content**  ☑️
+ - showing *add another row to insert content*  ☑️
  - creating extra div - problem with preview ☑️
+ - Button id for the last element is changing in a wrong *Problem with delete row - we are changing id for child node of 0 index but we also need to change button element which hold 1 index*
+ - Unexpectedly height increasing
 
 
 ```
