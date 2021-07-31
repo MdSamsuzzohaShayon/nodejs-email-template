@@ -124,8 +124,8 @@
   width: 100%;
 }
 .template-wrapper .header-image img {
-  height: 80%;
   margin-top: 2%;
+  height: 80%;
   margin-left: 10%;
 }
 
@@ -329,10 +329,8 @@
   height: 100%;
 }
 .rb-block-elements .elements img {
-  height: 60px;
-  object-position: center;
-  object-fit: cover;
-  width: 80%;
+  margin-top: 2%;
+  width: 70%;
 }
 .rb-block-elements .elements .input-row {
   display: block !important;
@@ -495,7 +493,6 @@
     width: 78% !important;
   }
   .rb-block-elements img {
-    height: 50px !important;
     width: 70% !important;
   }
 }

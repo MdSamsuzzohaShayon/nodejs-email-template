@@ -160,7 +160,7 @@ router.put('/edit/:id', uploadMultipleFileToS3,  (req, res, next) => {
             if (req.files['headerImg']) {
                 updatedBgImg = req.files['headerImg'][0].key;
                 if (findResult[0].bg_img !== "default-header.jpg") {
-                    const deletedH = await deleteHeaderImage("header-img-d3.3.png-3-3.png");
+                    const deletedH = await deleteHeaderImage(findResult[0].bg_img);
                     // console.log("Delete header: ", deletedH);
                 }
             } else if (req.body.headerImg === "header-deleted") {
@@ -216,10 +216,10 @@ router.put('/edit/:id', uploadMultipleFileToS3,  (req, res, next) => {
 
             if (delImgList.length !== 0) {
                 const delTempImg = await deleteTemplateImages(delImgList);
-                console.log("Delete template imgs: ", delTempImg);
+                // console.log("Delete template imgs: ", delTempImg);
             }
 
-            console.log("Element object - ", elementObject);
+            // console.log("Element object - ", elementObject);
 
             // UPDATE DATABASE 
             const updateSql = `UPDATE nodejs_story SET title='${title}', bg_img='${updatedBgImg}', bg_color='${bgColor}', link_color='${linkColor}', layout='${layout}', content='${JSON.stringify(elementObject)}', sibling='${sibling}' WHERE id=?`;
@@ -254,13 +254,13 @@ router.delete('/delete/:id', async (req, res, next) => {
 
 
 
-    console.log("Delete request is called - ID: ".info + req.params.id);
+    // console.log("Delete request is called - ID: ".info + req.params.id);
     const findSql = "SELECT bg_img, content from nodejs_story WHERE id=?";
     conn.query(findSql, [req.params.id], async (findErr, findResult, findFields) => {
         if (findErr) throw findErr;
         const blockContent = JSON.parse(findResult[0].content);
         const deletedImage = await deleteImages(findResult[0].bg_img, blockContent);
-        console.log("Delete header image from template: ".bgBlue, deletedImage);
+        // console.log("Delete header image from template: ".bgBlue, deletedImage);
         // DELETE FROM DATABASE 
         const sql = "DELETE FROM nodejs_story WHERE id=?";
         conn.query(sql, [req.params.id], (err, result, fields) => {

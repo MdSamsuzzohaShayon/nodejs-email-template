@@ -183,6 +183,11 @@ email-template.js:1073 TypeError: Cannot read property 'btnFontSize' of undefine
  - Full width horizontally like __https://www.campaignmonitor.com/__ modifica  ☑️
  - Make it more responsive 
  - insert text link working
+ - Problem - when moveing up the row more than one step images disapparing
+ - Image id is not changing on image move up
+ - Change block id on deleting any element
+ - showing add another row to insert content
+ - creating extra div - problem with preview
 
 
 ```
