@@ -110,6 +110,7 @@ let rowID = 1; // AUTO INCREMENT
 let rowWithColumn;  // WHICH ROW IS SELECTING , 1 COLUMN ROW , 2 COLUMN ROW OR 3 COLUMN ROW
 let positionElement = [];   // THIS IS FOR TRACKING WHICH WHICH BLOCK ELEMENT IS HOLDING WHICH POSITION - FOR EXAMPLE IMAGE HOLDER IS TAKING ROW-2 AND COLUMN 2
 let siblingButtonList = new Array();
+let imgRowCng = new Array();
 
 // FORM DATA 
 const formData = new FormData();
@@ -510,12 +511,29 @@ const dropBelowOrAbove = (highlightedElement, event) => {
 
 
 // HELPING FUNCTION 22
-function changeBlockID(cBlockEle, cIndex, cRowNum) {
+function changeBlockID(cBlockEle, cIndex, cRowNum, cSelectedRow) {
     if (cBlockEle.tagName.toString().toLowerCase() === "a") {
         // img-3-2
         let contentId = cBlockEle.childNodes[0].id.toString();
+        // console.log("content id - ", contentId);
+        const gotImgCol = stringIdToIdNum(contentId, 1);
         contentId = contentId.substring(0, cIndex) + cRowNum + contentId.substring(cIndex + 1);
         cBlockEle.childNodes[0].setAttribute("id", contentId);
+
+        /*
+        // REFERANCE FOR TRACKING IMAGE 
+        if (imgRowCng.length === 0) {
+            imgRowCng.push({ imgRow: cRowNum, imgCol: gotImgCol, cngImg: false });
+        } else {
+            imgRowCng.forEach((irc, ircI) => {
+                if (irc.imgRow === cSelectedRow) {
+                    return irc.imgRow = cRowNum;
+                } else {
+                    return imgRowCng.push({ imgRow: cRowNum, imgCol: gotImgCol, cngImg: false });
+                }
+            });
+        }
+        */
     } else {
         let contentId = cBlockEle.id.toString();
         if (cBlockEle.classList[1] === "icon-content-block") cIndex++;
@@ -526,7 +544,7 @@ function changeBlockID(cBlockEle, cIndex, cRowNum) {
 
 
 // HELPING FUNCTION 23 
-const changeAllNextElementAttribute = (cTargetedRowElement, cRowNum, cRowID) => {
+const changeAllNextElementAttribute = (cTargetedRowElement, cRowNum, cSelectedRow) => {
     const cNextEles = getNextAllElement(cTargetedRowElement);
     const cAllNextEles = [cTargetedRowElement, ...cNextEles];
     cAllNextEles.forEach((ane, i) => {
@@ -537,7 +555,7 @@ const changeAllNextElementAttribute = (cTargetedRowElement, cRowNum, cRowID) => 
                 if (anec.hasChildNodes()) {
                     anec.childNodes.forEach((anecc, cci) => {
                         let idIdx = 4;
-                        changeBlockID(anecc, idIdx, cRowNum);
+                        changeBlockID(anecc, idIdx, cRowNum, cSelectedRow);
                     });
                 }
             });
@@ -738,7 +756,7 @@ function columnDragAndDrop() {
                             // console.log("row - ", newRow);
                             targetedRowElement.after(newRow);
                             const changeRowAttr = rowNum - 1;
-                            changeAllNextElementAttribute(targetedRowElement, changeRowAttr);
+                            changeAllNextElementAttribute(targetedRowElement, changeRowAttr, selectedRow);
                             // rowList, positionElement, sibling
                             // const months = ['Jan', 'March', 'April', 'June'];
                             // months.splice(1, 0, 'Feb');
@@ -754,7 +772,7 @@ function columnDragAndDrop() {
                             dropColumnZone.insertBefore(newRow, targetedRowElement);
                             // CHANGE ATTRIBUTES FOR NEXT ELEMENTS 
                             const changeRowAttr = rowNum;
-                            changeAllNextElementAttribute(targetedRowElement, changeRowAttr);
+                            changeAllNextElementAttribute(targetedRowElement, changeRowAttr, selectedRow);
                             let cngRowDb = changeRowAttr - 1;
                             cngDbForInsert(cngRowDb, rowWithColumn, rowID);
 
@@ -1484,10 +1502,10 @@ function rightBarPropsUpdate() {
                                     //     console.log("anecc - ", anecc);
                                     // });
                                     // console.log("child element length - ", anec.children.length);
-                                    if(anec.children.length > 1){
-                                        anec.childNodes.forEach((anecc, ineccI)=>changeBlockID(anecc, 4, newSelectedRow));
-                                    }else{
-                                        changeBlockID(anec.childNodes[0], 4, newSelectedRow);
+                                    if (anec.children.length > 1) {
+                                        anec.childNodes.forEach((anecc, ineccI) => changeBlockID(anecc, 4, newSelectedRow, selectedRow));
+                                    } else {
+                                        changeBlockID(anec.childNodes[0], 4, newSelectedRow, selectedRow);
                                     }
                                 }
                             });
@@ -1574,7 +1592,7 @@ function rightBarPropsUpdate() {
                                 const newSelectedRow = selectedRow - 1;
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    changeBlockID(acocn, 4, newSelectedRow)
+                                    changeBlockID(acocn, 4, newSelectedRow, selectedRow)
                                 });
                             }
                         });
@@ -1584,7 +1602,7 @@ function rightBarPropsUpdate() {
                                 const newSelectedRow = selectedRow;
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    changeBlockID(acocn, 4, newSelectedRow);
+                                    changeBlockID(acocn, 4, newSelectedRow, selectedRow);
                                 });
                             }
                         });
@@ -1673,7 +1691,7 @@ function rightBarPropsUpdate() {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
                                     const newSelectedRow = selectedRow + 1;
-                                    changeBlockID(acocn, 4, newSelectedRow);
+                                    changeBlockID(acocn, 4, newSelectedRow, selectedRow);
                                 });
                             }
                         });
@@ -1681,7 +1699,7 @@ function rightBarPropsUpdate() {
                             if (acn.hasChildNodes()) {
                                 // ALL CHILD OF CHILD NODES 
                                 acn.childNodes.forEach((acocn, acocnIdx) => {
-                                    changeBlockID(acocn, 4, selectedRow);
+                                    changeBlockID(acocn, 4, selectedRow, selectedRow);
                                 });
                             }
                         });
