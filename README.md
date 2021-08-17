@@ -78,7 +78,7 @@
 
 
 
- ### Problem & bugs
+ ###Problem & bugs
  - somehow column is still dropping into the column ☑️
  - social  icon props hide and show ☑️
  - space show and hide problem  ☑️
