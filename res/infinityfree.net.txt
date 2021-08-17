@@ -1,0 +1,6 @@
+MySQL Username	epiz_29125748
+MySQL Password SCyodSanJ8Q3
+MySQL Hostname	sql301.epizy.com
+MySQL Port (optional)	3306
+Database Name	epiz_29125748_XXX
+(create this in the control panel)

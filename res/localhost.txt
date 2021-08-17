@@ -1,0 +1,5 @@
+# Database
+HOST=localhost
+USERNAME=shayon
+PASSWORD=1234
+DBNAME=email_template

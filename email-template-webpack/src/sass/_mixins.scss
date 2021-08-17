@@ -1,0 +1,54 @@
+
+@mixin content_holder($width, $height, $mtop ){
+    width: $width;
+    height: $height;
+    margin-top: $mtop;
+    background: $f-color;
+}
+
+@mixin block_col_2_3(){
+    display: flex;
+    justify-content: space-around;
+}
+
+
+@mixin bg_img($height){
+    height: $height;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+
+@mixin drop_column($width){
+    width: $width;
+    // height: 100%;
+    // background: $p-color;
+    // border: 1px solid $s-color;
+    border-right: 1px solid $s-color; 
+}
+
+@mixin btn_general($clr, $bgClr, $py, $px, $fz, $ml){
+    font-size: $fz;
+    padding: $py $px;
+    margin-left: $ml;
+    border: none;
+    outline: none;
+    color: $clr;
+    background: $bgClr;
+}
+
+
+
+
+// height: 25px; // padding: 5px; // width: 300px; // border: none; // background: $s-color; // color: $p-color;
+@mixin input_style($h, $w, $p, $bg, $c){
+    height: $h;
+    padding: $p;
+    width: $w;
+    border: none;
+    background: $bg;
+    color: $c;
+}
+

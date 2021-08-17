@@ -1,0 +1,4 @@
+HOST=freedb.tech
+USERNAME=freedbtech_shayon
+PASSWORD=shayon
+DBNAME=freedbtech_templatebuilder

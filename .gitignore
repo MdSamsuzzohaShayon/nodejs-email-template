@@ -1,2 +1,4 @@
 /config/.env
 node_modules
+/email-template-webpack/node_modules
+/email-template-webpack/dist

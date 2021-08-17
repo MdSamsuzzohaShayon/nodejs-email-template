@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Sidebar</title>
+    <style>
+        .header,
+        .footer {
+            text-align: center;
+            height: 1000px;
+            border: 1px solid rgb(6, 88, 84);
+            width: 100%;
+        }
+
+        .container {
+            display: flex;
+            width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgb(108, 108, 161);
+        }
+
+        .main {
+            /* flex: 0 0 66.6666%; */
+            height: 1000px;
+        }
+
+        .sidebar {
+            /* flex: 0 0 33.3333%; */
+            background: gray;
+        }
+
+        .sidebar__widget {
+            position: sticky;
+            top: 0;
+            border: 1px solid rgb(8, 128, 88);
+            background: white;
+            height: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">header</header>
+
+    <div class="container">
+        <div class="main">
+            <p class="sec sec-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat delectus omnis aspernatur quae porro eveniet ad earum aliquid laudantium ducimus ipsam fugit placeat voluptates quas eligendi assumenda, accusamus natus debitis minima doloremque. Dolores aperiam excepturi consequuntur quibusdam cum repudiandae, voluptas tempora at non repellendus animi ut voluptates eligendi aliquid nihil porro atque saepe asperiores error eius ex numquam quo recusandae. Repudiandae ullam tempora, amet ab eveniet harum aliquam quasi neque autem blanditiis consectetur aliquid deleniti laboriosam, minima dolorum fugiat laudantium alias numquam. Repellat obcaecati dolore dolorum necessitatibus veritatis ducimus suscipit odio et ea nobis porro sapiente rem, repellendus distinctio eum?</p>
+            <p class="sec sec-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Error minima tenetur id libero architecto molestiae esse, doloribus a voluptatem ducimus, sequi incidunt alias impedit commodi amet quia mollitia repudiandae unde illo. Ipsum sed maiores sunt quas! Dolorem quis ex minus atque maxime quasi veniam aperiam odit reprehenderit eius! Itaque aut quae tempore reprehenderit exercitationem nemo corporis vitae sed iure dolorem pariatur voluptatum, amet suscipit deserunt sit iusto ratione quidem veritatis. Repellat sequi doloribus voluptatum distinctio repudiandae reprehenderit, eum alias labore?</p>
+            <div class="sec sec-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit neque cum molestias officia quo tenetur ipsa ab culpa enim architecto eaque eos itaque aliquam, consectetur dolore veritatis doloribus doloremque? Suscipit error doloremque iure! Harum adipisci, magni modi porro tempora tempore, nobis nihil nisi, ipsa dolor nemo beatae? Nihil suscipit est dolore aliquid, reiciendis autem amet cupiditate, atque esse, aperiam vero!</div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar__widget">
+                <h5>Stickey Bar</h5>
+                <img src="./layout-1.svg" alt="">
+            </div>
+        </aside>
+    </div>
+
+    <footer class="footer">footer</footer>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+Account expired
+
+Hi
+
+Your account number is: 530230
+
+Your new database is now ready to use.
+
+To connect to your database use these details;
+
+Host: sql6.freesqldatabase.com
+Database name: sql6424642
+Database user: sql6424642
+Database password: 3UWUFTYH5A
+Port number: 3306
+
+

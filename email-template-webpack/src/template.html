@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/email-template.css">
+    <link rel="stylesheet" href="/css/style.css"> -->
+
+</head>
+
+<body>
+
+    <div class="whole-body">
+        <!-- <div class="spinner-overlay d-none" id="submit-spinner">
+            <div class="spinner-border text-light" style="width: 4rem; height: 4rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div> -->
+        <!-- NAVBAR START  -->
+        <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/template">Email Template</a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/template">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/template/editor">Editor</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <br>
+        <!-- NAVBAR ENDS  -->
+
+
+
+        <!-- EMAIL TEMPLATE START  -->
+
+        <div class="wrapper">
+            <div class="template-builder">
+                <div class="workpace">
+                    <!-- TEMPLATE EDITING START  -->
+                    <div class="col col-10">
+                        <header class="title-bar">
+                            <div class="title-input-submit">
+                                <form class="h-form">
+                                    <input type="text" id="title" placeholder="Newslatter title" />
+                                </form>
+                                <div class="h-btn">
+                                    <button class="btn cancel">Cancel</button>
+                                    <button id="save-btn" class="btn save">Save</button>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div class="template-wrapper">
+                            <div class="header-image">
+                                <img class="header-img" id="header-img" src="./img/header.jpg" />
+                            </div>
+                            <!-- DROPABLE ZONE START -->
+                            <div class="drop-wrapper" id="drop-zone"></div>
+                            <!-- DROPABLE ZONE ENDS  -->
+                        </div>
+                    </div>
+                    <!-- TEMPLATE EDITING ENDS  -->
+
+
+                    <!-- RIGHTBAR START  -->
+                    <div class="col col-6 right-bar">
+                        <!-- ON CLICK EVENT CLOSE THE RIGHT BAR WRAPPER IN THE MEAN TIME OPEN PROPERTY BAR  -->
+
+                        <div class="rb-wrapper" id="br-content">
+                            <div class="rb-header">
+                                <h2>Template Creator</h2>
+                                <h4>Drag & Drop to Get Started</h4>
+                            </div>
+                            <!-- PROPERTY BAR START  -->
+                            <div class="rb-props" id="rb-props">
+                                <div class="props img-props">
+                                    <div class="img-props-1 img-wrap">
+                                        <input type="file" name="img-input" id="img-input">
+                                        <img class="img" id="img-preview" src="./img/empty-image.png" alt="Image">
+                                    </div>
+                                    <div class="img-props-2 props-with-label img-link-wrap">
+                                        <label for="img-link">Hyperlink</label>
+                                        <input type="text" name="img-link" id="img-link">
+                                    </div>
+                                    <div class="img-props-3 props-with-label img-link-tab">
+                                        <label for="img-new-tab">Open in new tab</label>
+                                        <input type="checkbox" name="new-tab" id="img-new-tab">
+                                    </div>
+                                </div>
+                                <div class="props txt-props">
+                                    <!-- https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand -->
+                                    <h4 class="txt-options">Pragraph</h4>
+                                    <div class="txt-pragraph">
+                                        <button class="txt-align-btn btn-icon" data-align="justifyLeft"
+                                            id="txt-align-left">
+                                            <img src="./icon/align-left.svg" alt="">
+                                        </button>
+                                        <button class="txt-align-btn btn-icon" data-align="justifyCenter"
+                                            id="txt-align-center"><img src="./icon/align-center.svg" alt=""></button>
+                                        <button class="txt-align-btn btn-icon" data-align="justifyRight"
+                                            id="txt-align-right"><img src="./icon/align-right.svg" alt=""></button>
+                                    </div>
+                                    <h4 class="txt-options">Fonts</h4>
+                                    <div class="txt-fonts-family">
+                                        <select name="txt-font txt-font-family" id="txt-font-family">
+                                            <option value="Verdana">Verdana</option>
+                                            <option value="Helvetica">Helvetica</option>
+                                            <option value="Tahoma">Tahoma</option>
+                                            <option value="Trebuchet MS">Trebuchet MS</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Garamond">Garamond</option>
+                                            <option value="Courier New">Courier New</option>
+                                            <option value="Brush Script MT">Brush Script MT</option>
+                                        </select>
+                                        <select name="txt-font txt-font-size" id="txt-font-size">
+                                            <option value="2">8</option>
+                                            <option value="3">10</option>
+                                            <option value="4">11</option>
+                                            <option value="5">12</option>
+                                            <option value="6">13</option>
+                                            <option value="7">14</option>
+                                        </select>
+                                    </div>
+                                    <div class="txt-font-style">
+                                        <button class="txt-btn-style btn-icon" data-style="bold" id="txt-bold"><img
+                                                src="./icon/text-bold.svg" alt=""></button>
+                                        <button class="txt-btn-style btn-icon" data-style="italic" id="txt-italic"><img
+                                                src="./icon/text-italic.svg" alt=""></button>
+                                        <button class="txt-btn-style btn-icon" data-style="underline"
+                                            id="txt-underline"><img src="./icon/text-underline.svg" alt=""></button>
+                                    </div>
+                                    <div class="txt-link">
+                                        <div class="txt-props-2 props-with-label txt-link-wrap">
+                                            <label for="txt-link">Hyperlink</label>
+                                            <input type="text" name="txt-link" id="txt-link">
+                                        </div>
+                                        <div class="txt-props-2 txt-tab-wrap">
+                                            <label for="txt-new-tab">Open in new tab</label>
+                                            <input type="checkbox" name="txt-new-tab" id="txt-new-tab">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="props btn-props">
+                                    <h3 class="props-header">Button Properties</h3>
+                                    <div class="btn-color-props props-with-label bg-btn-color ">
+                                        <label for="btn-color">Button Color</label>
+                                        <input type="color" name="btn-color" id="btn-color">
+                                    </div>
+                                    <div class="btn-color-props props-with-label text-color">
+                                        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color -->
+                                        <label for="btn-text-color">Text Color</label>
+                                        <input type="color" name="text-color" id="btn-font-color">
+                                    </div>
+                                    <div class="btn-color-props font-btn-size">
+                                        <select name="btn-font-family" id="btn-font-family">
+                                            <option value="Verdana">Verdana</option>
+                                            <option value="Helvetica">Helvetica</option>
+                                            <option value="Tahoma">Tahoma</option>
+                                            <option value="Trebuchet MS">Trebuchet MS</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Garamond">Garamond</option>
+                                            <option value="Courier New">Courier New</option>
+                                            <option value="Brush Script MT">Brush Script MT</option>
+                                        </select>
+                                        <select name="btn-font-size size-btn" id="btn-font-size">
+                                            <option value="8">8</option>
+                                            <option value="11">10</option>
+                                            <option value="12">12</option>
+                                            <option value="14">14</option>
+                                            <option value="16">16</option>
+                                            <option value="18">18</option>
+                                            <option value="20">20</option>
+                                            <option value="24">24</option>
+                                            <option value="30">30</option>
+                                        </select>
+                                    </div>
+                                    <div class="btn-text-props props-with-label btn-text">
+                                        <label for="btn-text">Button Text</label>
+                                        <input type="text" name="btn-text" id="btn-text">
+                                    </div>
+
+                                    <div class="btn-color-props props-with-label btn-hyperlink">
+                                        <label for="btn-hyperlink">Button Hyperlink</label>
+                                        <input type="text" name="btn-hyperlink" id="btn-hyperlink">
+                                    </div>
+                                    <div class="btn-shape-props props-with-label btn-shape">
+                                        <label for="btn-shape">Button Round</label>
+                                        <input type="checkbox" name="btn-shape" id="btn-shape">
+                                    </div>
+                                    <div class="btn-color-props props-with-label btn-new-tab">
+                                        <label for="btn-new-tab">Open in new tab</label>
+                                        <input type="checkbox" name="btn-new-tab" id="btn-new-tab">
+                                    </div>
+
+                                    <div class="btn-color-props props-with-label btn-alignment">
+                                        <label for="btn-alignment">Button Allignment</label>
+                                        <br>
+                                        <button class="btn-align btn-icon" id="btn-align-left"><img
+                                                src="./icon/align-left.svg" alt=""></button>
+                                        <button class="btn-align btn-icon" id="btn-align-center"><img
+                                                src="./icon/align-center.svg" alt=""></button></button>
+                                        <button class="btn-align btn-icon" id="btn-align-right"><img
+                                                src="./icon/align-right.svg" alt=""></button>
+                                    </div>
+
+
+                                </div>
+                                <div class="props social-props">
+                                    <!-- The Social Media Icons can only be dragged to a one-column or a two-column layout. -->
+                                    <h3 class="props-header">Social Media Link</h3>
+                                    <div class="social-link props-with-label fb-sl">
+                                        <label for="fb-link">Facebook</label>
+                                        <input type="text" name="fb-link" id="fb-link">
+                                    </div>
+                                    <div class="social-link props-with-label twitter-sl">
+                                        <label for="twitter-link">Twitter</label>
+                                        <input type="text" name="twitter-link" id="twitter-link">
+                                    </div>
+                                    <div class="social-link props-with-label instagram-sl">
+                                        <label for="instagram-link">Instagram</label>
+                                        <input type="text" name="instagram-link" id="instagram-link">
+                                    </div>
+                                </div>
+                                <div class="props spx-props">
+                                    <h4 class="spx-options">Pragraph</h4>
+                                    <select name="spx-height size-spx" id="spx-height">
+                                        <option value="5">5</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                        <option value="12">12</option>
+                                        <option value="14">14</option>
+                                        <option value="16">16</option>
+                                        <option value="18">18</option>
+                                        <option value="20">20</option>
+                                        <option value="24">24</option>
+                                        <option value="30">30</option>
+                                    </select>
+                                </div>
+                                <div class="props row-props">
+                                    <h4 class="row-options">Row</h4>
+                                    <div class="row-color-props row-move  props-with-label ">
+                                        <label for="row-move">Row Move</label>
+                                        <br>
+                                        <button class="row-move btn-icon" id="row-move-up">
+                                            <img src="./icon/up.svg" alt="">
+                                        </button>
+                                        <button class="row-move btn-icon" id="row-move-down">
+                                            <img src="./icon/down.svg" alt="">
+                                        </button>
+                                        <button class="row-move btn-icon" id="row-delete">
+                                            <img src="./icon/trash.svg" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PROPERTY BAR ENDS  -->
+                            <!-- COLUMN AND CONTENT START  -->
+                            <div class="rb-block-elements" id="rb-block">
+                                <!-- DRAGABLE START  -->
+                                <!-- {/* BLOCK START */} -->
+                                <div class="rb-block">
+                                    <!-- {/* COLUMNS START */} -->
+                                    <h3 class="content-header">Add Column</h3>
+                                    <div class="column-block">
+                                        <div draggable="true" class="block-col col-1-grid">
+                                            <div class="content-holder"></div>
+                                        </div>
+                                        <div draggable="true" class="block-col col-2-grid">
+                                            <div class="content-holder"></div>
+                                            <div class="content-holder"></div>
+                                        </div>
+                                        <div draggable="true" class="block-col col-3-grid">
+                                            <div class="content-holder"></div>
+                                            <div class="content-holder"></div>
+                                            <div class="content-holder"></div>
+                                        </div>
+                                    </div>
+                                    <!-- {/* COLUMNS ENDS */} -->
+
+                                    <!-- {/* CONTENT START */} -->
+                                    <h3 class="content-header">Add Content</h3>
+                                    <div class="content-block">
+                                        <div draggable="true" class="content-block-col img-holder">
+                                            <img draggable="false" src="./icon/picture.png" alt="" />
+                                            <p>Image</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col txt-holder">
+                                            <img draggable="false" src="./icon/text.png" alt="" />
+                                            <p>Text</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col btn-holder">
+                                            <img draggable="false" src="./icon/button.png" alt="" />
+                                            <p>Button</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col social-holder">
+                                            <img draggable="false" src="./icon/social.png" alt="" />
+                                            <p>Social</p>
+                                        </div>
+                                        <div draggable="true" class="content-block-col spx-holder">
+                                            <img draggable="false" src="./icon/spacing.png" alt="" />
+                                            <p>Spacing</p>
+                                        </div>
+                                    </div>
+                                    <!-- {/* CONTENT ENDS */} -->
+                                </div>
+                                <!-- {/* BLOCK ENDS */} -->
+                                <!-- DRAGABLE ENDS  -->
+                                <div class="elements">
+                                    <h3 class="content-header">Add Element</h3>
+                                    <form>
+                                        <div class="input-row">
+                                            <label for="favcolor">Background color</label>
+                                            <input type="color" id="t-bg-color" name="favcolor" value="#e6f2ff" />
+                                        </div>
+                                        <div class="input-row">
+                                            <label for="favcolor">Text Link Color</label>
+                                            <input type="color" id="t-link-color" name="favcolor" value="#000066" />
+                                        </div>
+                                    </form>
+                                    <div class="elements-header">
+                                        <input type="file" name="header-img-input" id="header-img-input">
+                                        <img class="img" id="header-img-preview" src="./img/header.jpg" alt="Image">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- COLUMN AND CONTENT ENDS  -->
+
+                        </div>
+
+                    </div>
+                    <!-- RIGHTBAR ENDS  -->
+                </div>
+            </div>
+        </div>
+        <!-- EMAIL TEMPLATE ENDS  -->
+
+
+        <div id="extra-img"></div>
+    </div>
+
+
+
+
+</body>
+
+</html>
