@@ -5,7 +5,8 @@ const conn = mysql.createPool({
     host: HOST,
     user: USERNAME,
     password: PASSWORD,
-    database: DBNAME
+    database: DBNAME,
+    multipleStatements: true
 }, { debug: true });
 
 conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
