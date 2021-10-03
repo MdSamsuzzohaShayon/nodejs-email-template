@@ -311,6 +311,7 @@ function invalidToValidHtml(invalidString) {
     let validHTML = validString.replace(/-_/g, "?");
     return validHTML;
 }
+
 // HELPING FUNCTION 11
 function rowIdToNum(rowId) {
     // 'two-col-0'
@@ -332,6 +333,8 @@ function rowIdToNum(rowId) {
     }
     return rowIdNum;
 }
+
+
 // HELPING FUNCTION 12
 function rowNumToStr(rowIdInNum) {
     // 'two-col-0'
@@ -395,6 +398,8 @@ const createSocialIcons = (pvIcons, socialFbHyperlink, socialTwitterHyperlink, s
     }
     return pvIcons;
 }
+
+
 // HELPING FUNCTION 17
 function replaceAt(str, index, newChar) {
     function replacer(origChar, strIndex) {
@@ -666,7 +671,7 @@ function columnDragAndDrop() {
         column.addEventListener('dragstart', (e) => {
             colDragging = true;
             if (colDragging) {
-                switch (e.toElement.classList[1].toString()) {
+                switch (e.target.classList[1].toString()) {
                     case 'col-1-grid':
                         dropableColumn = "col-1-grid";
                         break;
@@ -688,7 +693,7 @@ function columnDragAndDrop() {
     contentBlockCol.forEach((blockCol, index) => {
         // DRAGABLE BLOCK
         blockCol.addEventListener('dragstart', (e) => {
-            if (e.toElement.classList[1] === "spx-holder") {
+            if (e.target.classList[1] === "spx-holder") {
                 dropableColumn = "space-row-grid";
             }
         });
@@ -697,8 +702,8 @@ function columnDragAndDrop() {
     // DROPZONE EVENTS START 
     // dropColumnZone.addEventListener("dragover", function (e) {
     //     // dropColumnZone
-    //     if (e.toElement.className === "drop-wrapper") {
-    //         // e.toElement.classList.add('add-border'); // ADD BORDER
+    //     if (e.target.className === "drop-wrapper") {
+    //         // e.target.classList.add('add-border'); // ADD BORDER
     //     }
     //     e.preventDefault();
     // }, false);
@@ -815,7 +820,7 @@ function columnDragAndDrop() {
         // DROP SPACE 
         if (dropableColumn === 'space-row-grid') {
             // DROP SPACE BLOCK ELEMET INTO DROPZONE OR AFTER ROW
-            if (e.toElement.id === 'drop-zone') {
+            if (e.target.id === 'drop-zone') {
                 // DROPPING THE ELEMENT INTO A CURRECT POSITION 
                 let spxID = rowID - 1;
                 setAttributes(newDiv, { "id": "spx-" + spxID + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
@@ -893,10 +898,10 @@ function blockDragAndDrop() {
         blockCol.addEventListener('dragstart', (e) => {
             blockDragging = true;
             // CHECK WHICH BLOCK WE ARE DRAGGING AND DROPPING 
-            const blockContent = e.toElement.classList[0];
+            const blockContent = e.target.classList[0];
             if (blockContent) {
                 // //console.log("Block content: ", blockContent);
-                switch (e.toElement.classList[1].toString()) {
+                switch (e.target.classList[1].toString()) {
                     case 'img-holder':
                         dropableBlock = "img-holder";
                         break;
@@ -944,8 +949,8 @@ function blockDragAndDrop() {
                 e.target.style.backgroundColor = "transparent";
             }
             // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
-            if (e.toElement.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
-                // //console.log(e.toElement.id);
+            if (e.target.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
+                // //console.log(e.target.id);
                 let dropableColumn = e.target.className;
                 let dropInsideImgTxt = e.target.classList[1];
                 try {
@@ -966,8 +971,8 @@ function blockDragAndDrop() {
                                             alert("You can't add multiple image block in a column");
                                         }
                                     } else {
-                                        rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
-                                        let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                        rowNumber = stringIdToIdNum(e.target.parentElement.id, 1);
+                                        let tempColNum = stringIdToIdNum(e.target.id, 2);
                                         columnNumber = tempColNum + 1;
                                         // CREATING IMAGE 
                                         let imgID = `img-${rowNumber + '-' + columnNumber}`;
@@ -977,7 +982,7 @@ function blockDragAndDrop() {
                                         setAttributes(imageBlockElment, { alt: "Image", id: imgID, src: imgDefaultUrl });
                                         imageBlockElment.className = "content img-content-block";
                                         imgLink.append(imageBlockElment)
-                                        e.toElement.appendChild(imgLink);
+                                        e.target.appendChild(imgLink);
                                         // DATABASE AND VARIABLE 
                                         blockElement = dropableBlock;
                                         positionElement.push({ rowNumber, columnNumber, blockElement: { name: "imgBlockContent", blockHtml: "<a><img /></a>", imgHyperlink: websiteDomain, imgNewTab: false, imgUrl: '/img/empty-image.png' } });
@@ -992,8 +997,8 @@ function blockDragAndDrop() {
                                         }
                                     } else {
                                         // CREATING REXT 
-                                        rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
-                                        let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                        rowNumber = stringIdToIdNum(e.target.parentElement.id, 1);
+                                        let tempColNum = stringIdToIdNum(e.target.id, 2);
                                         columnNumber = tempColNum + 1;
                                         const newBlockCol = document.createElement('div');
                                         setAttributes(newBlockCol, { "id": "txt-" + rowNumber + '-' + columnNumber, contenteditable: true });   //  "txt-" + rowNumber + '-' + columnNumber 
@@ -1001,7 +1006,7 @@ function blockDragAndDrop() {
                                         newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
                                         // CHANGING TEXT EVENT 
                                         // pasteAndFormatText(newBlockCol);
-                                        e.toElement.appendChild(newBlockCol);
+                                        e.target.appendChild(newBlockCol);
                                         // THIS IS ONLY FOR DATABASE 
                                         text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
                                         txtBlockElement = `<div class="content txt-content-block" onclick="txtChangeHandler" contenteditable="true" id="txt-${rowNumber + '-' + columnNumber}">${text}</div>`;
@@ -1015,7 +1020,7 @@ function blockDragAndDrop() {
                                     // //console.log(e);
                                     const newBlockCol = document.createElement('button');
                                     rowNumber = stringIdToIdNum(getRowID, 1);
-                                    let tempColNum = stringIdToIdNum(getColID, 2); // let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                    let tempColNum = stringIdToIdNum(getColID, 2); // let tempColNum = stringIdToIdNum(e.target.id, 2);
                                     columnNumber = tempColNum + 1;
                                     setAttributes(newBlockCol, { "id": "btn-" + rowNumber + '-' + columnNumber });   //  "txt-" + rowNumber + '-' + columnNumber 
                                     newBlockCol.className = "content btn-content-block";
@@ -1029,11 +1034,11 @@ function blockDragAndDrop() {
                                 }
 
                                 // THIS BUTTON SHOULD ONLY INSERT INTO IMAGE OR TEXT
-                                if (e.toElement.classList[1] === "txt-content-block" || e.toElement.classList[1] === "img-content-block") {
+                                if (e.target.classList[1] === "txt-content-block" || e.target.classList[1] === "img-content-block") {
                                     if (e.target.classList[1] === "txt-content-block") {
                                         e.target.after(insertButtonElement(e.target.parentElement.id, e.target.parentElement.parentElement.id))
                                     }
-                                    if (e.toElement.classList[1] === "img-content-block") {
+                                    if (e.target.classList[1] === "img-content-block") {
                                         e.target.parentElement.after(insertButtonElement(e.target.parentElement.parentElement.id, e.target.parentElement.parentElement.parentElement.id))
                                     }
                                     btnBlockElement = "<a >button</a>";
@@ -1060,14 +1065,14 @@ function blockDragAndDrop() {
                                 } else {
                                     // The Social Media Icons can only be dragged to a one - column or a two - column layout
                                     if (dropableColumn === "one-column-div" || dropableColumn === "two-column-div") {
-                                        rowNumber = stringIdToIdNum(e.toElement.parentElement.id, 1);
-                                        let tempColNum = stringIdToIdNum(e.toElement.id, 2);
+                                        rowNumber = stringIdToIdNum(e.target.parentElement.id, 1);
+                                        let tempColNum = stringIdToIdNum(e.target.id, 2);
                                         columnNumber = tempColNum + 1;
                                         const iconContainer = document.createElement("div");
                                         setAttributes(iconContainer, { "id": `icon-${rowNumber}-${columnNumber}` });
                                         iconContainer.className = "content icon-content-block";
                                         const iconHolder = createSocialIcons(iconContainer, iconLink, iconLink, iconLink);
-                                        e.toElement.appendChild(iconHolder);
+                                        e.target.appendChild(iconHolder);
                                         // CHANGING HEIGHT OF ROW 
                                         if (dropableColumn === "one-column-div") e.target.parentElement.style.height = "8em";
                                         blockElement = dropableBlock;
@@ -1103,25 +1108,29 @@ function blockDragAndDrop() {
 // MAIN FUNCTION 3
 function rightBarElementShowHidePreset() {
 
+    document.addEventListener('click', e=> console.log("To ELement - ",e));
 
 
 
     templateBuilder.addEventListener('click', e => {
+        // console.log(e);
         try {
             // CLEAN UP DEFAULT VALUE FOR ALL INPUT FIELD 
             let idString = null;
+            // console.log(e.target);
+            // console.log("To ELement - ",e.target);
             // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
-            if (e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.parentElement.classList[0] === 'content' || e.toElement.classList[0] === 'content' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.className === "btn-content-link") {
+            if (e.target.parentElement.parentElement.classList[1] === 'txt-content-block' || e.target.parentElement.classList[0] === 'content' || e.target.classList[0] === 'content' || e.target.className === 'social-icon-content' || e.target.className === 'social-icon-img' || e.target.className === "btn-content-link") {
                 templateSelected = false;
-                if (e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.parentElement.classList[1] === 'txt-content-block' || e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.className === "btn-content-link") {
-                    if (e.toElement.className === 'social-icon-img' || e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block') {
-                        idString = e.toElement.parentElement.parentElement.id;
-                    } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === "btn-content-link" || e.toElement.parentElement.classList[1] === 'txt-content-block') {
-                        idString = e.toElement.parentElement.id;
+                if (e.target.parentElement.parentElement.classList[1] === 'txt-content-block' || e.target.parentElement.classList[1] === 'txt-content-block' || e.target.className === 'social-icon-content' || e.target.className === 'social-icon-img' || e.target.className === "btn-content-link") {
+                    if (e.target.className === 'social-icon-img' || e.target.parentElement.parentElement.classList[1] === 'txt-content-block') {
+                        idString = e.target.parentElement.parentElement.id;
+                    } else if (e.target.className === 'social-icon-content' || e.target.className === "btn-content-link" || e.target.parentElement.classList[1] === 'txt-content-block') {
+                        idString = e.target.parentElement.id;
                     }
 
                 } else {
-                    idString = e.toElement.id.toString();
+                    idString = e.target.id.toString();
                 }
                 let findRowCol = idString.split('-');
                 selectedRow = parseInt(findRowCol[1]);
@@ -1129,7 +1138,7 @@ function rightBarElementShowHidePreset() {
 
                 propertiesBar.style.display = 'block';
                 blockElementBar.style.display = 'none';
-                if (e.toElement.classList[1] === "img-content-block") {
+                if (e.target.classList[1] === "img-content-block") {
                     e.preventDefault();
                     allProperties.forEach(ap => { ap.style.display = 'none'; });
                     imgProps.style.display = 'block';
@@ -1139,13 +1148,13 @@ function rightBarElementShowHidePreset() {
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
                     // console.log("preview img - ", previousProps[0].blockElement.imgUrl);
                     currentPath === editPage && previousProps[0].blockElement.imgUrl.trim() !== "/img/empty-image.png" ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
-                } else if (e.toElement.classList[1] === "txt-content-block" || e.toElement.parentElement.parentElement.classList[1] === 'txt-content-block') {
+                } else if (e.target.classList[1] === "txt-content-block" || e.target.parentElement.parentElement.classList[1] === 'txt-content-block') {
                     // const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
                     // resizeObserver.observe(selectedTextContent);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     txtProps.style.display = 'block';
 
-                } else if (e.toElement.className === 'social-icon-content' || e.toElement.className === 'social-icon-img' || e.toElement.classList[1] === "icon-content-block") {
+                } else if (e.target.className === 'social-icon-content' || e.target.className === 'social-icon-img' || e.target.classList[1] === "icon-content-block") {
                     e.preventDefault();
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     socialProps.style.display = 'block';
@@ -1154,7 +1163,7 @@ function rightBarElementShowHidePreset() {
                     fbLinkInput.value = previousProps[0].blockElement.socialFbHyperlink;
                     twitterLinkInput.value = previousProps[0].blockElement.socialTwitterHyperlink;
                     instagramLinkInput.value = previousProps[0].blockElement.socialInstagramHyperlink;
-                } else if (e.toElement.classList[1] === "btn-content-block" || e.toElement.className === "btn-content-link") {
+                } else if (e.target.classList[1] === "btn-content-block" || e.target.className === "btn-content-link") {
                     e.preventDefault();
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     btnProps.style.display = 'block';
@@ -1174,28 +1183,28 @@ function rightBarElementShowHidePreset() {
             }
 
             // IF SOMEONE CLICK ON SPACE HE WILL BE ABLE TO CHANGE SPACE PROPS 
-            if (e.toElement.classList[1] === "space-row-grid") {
+            if (e.target.classList[1] === "space-row-grid") {
                 propertiesBar.style.display = 'block';
                 blockElementBar.style.display = 'none';
                 allProperties.forEach(ap => { ap.style.display = 'none' });
                 spxProps.style.display = 'block';
-                selectedAfterRow = stringIdToIdNum(e.toElement.id, 1);
+                selectedAfterRow = stringIdToIdNum(e.target.id, 1);
                 const selectedSpace = rowList.filter((ss, i) => ss.afterRow === selectedAfterRow);
                 spxHeightInput.value = `${selectedSpace[0].spaceRow}`;
             }
             // IF SOMEONE CLICK ON ROW HE WILL BE ABLE TO CHANGE ROW PROPS 
-            if (e.target.className === 'drop-row' || e.target.className === "img-block-href" || e.toElement.parentElement.className === "drop-row") {
+            if (e.target.className === 'drop-row' || e.target.className === "img-block-href" || e.target.parentElement.className === "drop-row") {
                 selectedCol = null;
                 propertiesBar.style.display = 'block';
                 blockElementBar.style.display = 'none';
                 allProperties.forEach(ap => { ap.style.display = 'none' });
                 rowProps.style.display = 'block';
                 if (e.target.className === 'drop-row') {
-                    selectedRow = stringIdToIdNum(e.toElement.id, 1);
+                    selectedRow = stringIdToIdNum(e.target.id, 1);
                 } else if (e.target.className === "img-block-href") {
-                    selectedRow = stringIdToIdNum(e.toElement.parentElement.parentElement.id, 1);
-                } else if (e.toElement.parentElement.className === "drop-row") {
-                    selectedRow = stringIdToIdNum(e.toElement.parentElement.id, 1);
+                    selectedRow = stringIdToIdNum(e.target.parentElement.parentElement.id, 1);
+                } else if (e.target.parentElement.className === "drop-row") {
+                    selectedRow = stringIdToIdNum(e.target.parentElement.id, 1);
                 }
             }
 
@@ -1262,12 +1271,12 @@ function rightBarElementShowHidePreset() {
         dropColumnZone.addEventListener('mouseover', e => {
             // console.log("selected Col - ", selectedCol);
             // console.log("selected Row - ", selectedRow);
-            if (e.toElement.classList[0] !== "content") {
-                if (e.toElement.className === "three-column-div" || e.toElement.className === "one-column-div" || e.toElement.className === "two-column-div") {
+            if (e.target.classList[0] !== "content") {
+                if (e.target.className === "three-column-div" || e.target.className === "one-column-div" || e.target.className === "two-column-div") {
                     e.target.parentElement.style.border = "1px solid rgb(15, 48, 80)";
-                } else if (e.toElement.className === "drop-row") {
+                } else if (e.target.className === "drop-row") {
                     e.target.style.border = "1px solid rgb(15, 48, 80)";
-                } else if (e.toElement.classList[0] == "space") {
+                } else if (e.target.classList[0] == "space") {
                     e.target.style.border = "1px solid rgb(15, 48, 80)";
                 }
             }
@@ -1847,7 +1856,7 @@ function backendAndDataBase(reqUrl, method) {
                     method: method,
                     body: formData,
                 });
-                // console.log(response);
+                console.log(response);
                 // for (let pair of formData.entries()) {
                 //     console.log(pair[0] + ', ' + pair[1]);
                 // }
