@@ -1,4 +1,4 @@
-require('dotenv').config({ path: "./config/.env" });
+// require('dotenv').config({ path: "./config/.env" });
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -21,7 +21,7 @@ const app = express();
 
 
 
-
+console.log("This should work");
 
 
 

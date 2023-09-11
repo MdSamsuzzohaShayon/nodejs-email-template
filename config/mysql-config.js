@@ -1,13 +1,18 @@
 const mysql = require('mysql');
-const { HOST, USERNAME, PASSWORD, DBNAME } = process.env;
-console.log();
+const { HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, DEBUG } = process.env;
+
+const new_dubeg = DEBUG.toUpperCase() === 'TRUE' ? true : false;
+
+
+
 const conn = mysql.createPool({
-    host: HOST,
-    user: USERNAME,
-    password: PASSWORD,
-    database: DBNAME,
+    host: 'sqldb',
+    user: MYSQL_USER,
+    password: MYSQL_PASSWORD,
+    database: MYSQL_DATABASE,
+    port: 3306,
     multipleStatements: true
-}, { debug: true });
+}, { debug: new_dubeg });
 
 conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     if (error) throw error;
