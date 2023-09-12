@@ -3,7 +3,7 @@ version: '3.9'
 
 services:
   
-  sqldb:
+  mysqldb:
     image: mysql:5.7
     restart: always 
     container_name: mysql_con
@@ -16,7 +16,7 @@ services:
   
   webapp:
     depends_on:
-      - sqldb
+      - mysqldb
     build: .
     container_name: email_template_con
     restart: always

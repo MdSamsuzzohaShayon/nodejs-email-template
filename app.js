@@ -21,8 +21,6 @@ const app = express();
 
 
 
-console.log("This should work");
-
 
 
 app.use(express.json({ limit: '50mb' }));

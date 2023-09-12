@@ -18,7 +18,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
 
     
-    /*
+
     // const tableChekSql = `SELECT count(*) FROM information_schema.TABLES WHERE(TABLE_SCHEMA = '${process.env.DBNAME}') AND(TABLE_NAME = 'nodejs_story')`;
     const tableChekSql = `SHOW TABLES LIKE 'nodejs_story'`;
 
@@ -65,7 +65,8 @@ router.get('/', (req, res, next) => {
         }
 
     });
-    */
+
+    
     const sql = `SELECT id, title FROM nodejs_story`;
     conn.query(sql, [req.params.id], (err, result, fields) => {
         if (err) throw err;
