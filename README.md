@@ -78,7 +78,7 @@
 
 
 
- ###Problem & bugs
+ ### Problem & bugs
  - somehow column is still dropping into the column ☑️
  - social  icon props hide and show ☑️
  - space show and hide problem  ☑️
@@ -187,6 +187,30 @@ git pull
 pm2 startup 
 pm2 save --force
 ```
+
+### Sequelize
+ - Install required packages
+   ```
+   npm install --save sequelize
+   npm install --save sqlite3
+   npm install --save-dev sequelize-cli
+   ```
+ - Generate model and [migrate](https://sequelize.org/docs/v6/other-topics/migrations/#installing-the-cli)
+   ```
+   npx sequelize-cli init
+   npx sequelize-cli model:generate --name temptab --attributes title:string,status:string,bg_img:string,bg_color:string, link_color:string
+   npx sequelize-cli db:migrate
+   ```
+ - Create [seeders](https://sequelize.org/docs/v6/other-topics/migrations/#installing-the-cli)
+   ```
+   npx sequelize-cli seed:generate --name demo-temp
+   npx sequelize-cli db:seed:all
+   ```
+ - Undo seed and migrations
+   ```
+   npx sequelize-cli db:seed:undo:all
+   npx sequelize-cli db:migrate:undo
+   ```
 
 
 

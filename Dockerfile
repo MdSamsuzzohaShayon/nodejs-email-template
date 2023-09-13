@@ -8,6 +8,9 @@ RUN npm install
 
 COPY . .
 
+# Migration
+RUN npx sequelize-cli db:migrate
+
 EXPOSE 8000
 
 # CMD ["node", "app.js"]

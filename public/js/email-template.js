@@ -1811,6 +1811,12 @@ function templatePropsCng() {
 
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
+    /**
+     * @request to backend API to dave data
+     * @response will redirect to index page if everything goes well
+     * @cancel button will redirect to index page without making request
+     */
+
     cancelButton.addEventListener('click', e => {
         window.location.replace(websiteDomain + "/template");
     });
@@ -1847,28 +1853,18 @@ function backendAndDataBase(reqUrl, method) {
                 await formData.append('element', JSON.stringify(positionElement));
                 await formData.append('sibling', JSON.stringify(siblingButtonList));
 
+                // const fdObj = {};
+                // for(const [k, v] of formData.entries()){
+                //     fdObj[k] = v;
+                // }
 
-
-
-                // //SUBMITTING DATA TO THE SERVER 
+                // SUBMITTING DATA TO THE SERVER 
                 const response = await fetch(reqUrl, {
-                    // method: "POST",
                     method: method,
                     body: formData,
                 });
-                console.log(response);
-                // for (let pair of formData.entries()) {
-                //     console.log(pair[0] + ', ' + pair[1]);
-                // }
 
-                // //console.log("Sibling Button: ", siblingButtonList);
-                // //console.log("Row list: ", rowList);
-                // //console.log("Elements: ", positionElement);
-
-
-
-                // IF SUBMITTED SUCCESSFULLY WI WILL REDIRECT SUCCESSFULLY 
-                // submitted = true;
+                // IF SUBMITTED SUCCESSFULLY WILL WILL REDIRECT SUCCESSFULLY 
                 submitSpinner.classList.add("d-none");
                 window.location.replace(websiteDomain + "/template");
             } catch (err) {
@@ -2269,7 +2265,9 @@ function editPagePreset() {
 
 
 
-
+/**
+ * Different functions for different page
+ */
 // PREVIEW PAGE 
 if (currentPath === previewPage && window.location.pathname !== "/template") {
     //console.log("Preview page");

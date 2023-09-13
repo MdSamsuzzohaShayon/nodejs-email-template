@@ -1,5 +1,3 @@
-const s3 = require('../config/s3');
-
 // HELPING FUNCTION 1
 function invalidToValidStr(invalidString) {
     let blockElementString = invalidString.toString();
@@ -19,7 +17,7 @@ function invalidToValidStr(invalidString) {
 const getImage = async (imgKay) => {
     let tempImage = null;
     if (imgKay !== "default-header.jpg") {
-        tempImage = await s3.getObject({ Key: imgKay, Bucket: process.env.AWS_BUCKET_NAME }).promise();
+        // tempImage = await s3.getObject({ Key: imgKay, Bucket: process.env.AWS_BUCKET_NAME }).promise();
     }
     return tempImage;
 }
@@ -44,8 +42,8 @@ const getAllImage = async (blockContent) => {
 const deleteHeaderImage = async (imgKey) => {
 
     try {
-        console.log("Image key: ", imgKey);
-        const deletedHeader = await s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, /* required */ Key: imgKey, /* required */ }).promise();
+        const deletedHeader = null;
+        // const deletedHeader = await s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, /* required */ Key: imgKey, /* required */ }).promise();
         return deletedHeader;
     } catch (error) {
         console.log("Error: ", error);
@@ -59,14 +57,14 @@ const deleteHeaderImage = async (imgKey) => {
 
 const deleteTemplateImages = async (imgList) => {
     // DELETE MULTIPLE OBJECTS 
-    console.log("Delete image list: ", imgList);
-    const multipleImage = await s3.deleteObjects({
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Delete: {
-            Objects: imgList,
-            Quiet: false
-        }
-    }).promise();
+    const multipleImage = null;
+    // const multipleImage = await s3.deleteObjects({
+    //     Bucket: process.env.AWS_BUCKET_NAME,
+    //     Delete: {
+    //         Objects: imgList,
+    //         Quiet: false
+    //     }
+    // }).promise();
     return multipleImage;
 }
 
@@ -79,19 +77,16 @@ const deleteImages = async (bg_img, blockContent) => {
 
 
     try {
-
-        const deletedHeader = await s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME, /* required */
-            Key: bg_img, /* required */
-        }).promise();
-        // console.log("Delete header image from helper: ", deletedHeader);
-
+        const deletedHeader = null;
+        // const deletedHeader = await s3.deleteObject({
+        //     Bucket: process.env.AWS_BUCKET_NAME,
+        //     Key: bg_img, 
+        // }).promise();
 
         // STORE MULTIPLE IMAGES TO AN ARRAY
         const imgList = new Array();
         for (const bc of blockContent) {
             if (bc.blockElement.name === "imgBlockContent") {
-                // const tempImage = await getImage(bc.blockElement.imgUrl);
                 imgList.push({ Key: bc.blockElement.imgUrl });
             }
         }
@@ -99,17 +94,14 @@ const deleteImages = async (bg_img, blockContent) => {
 
 
         // DELETE MULTIPLE OBJECTS 
-        // console.log("Delete image list: ", imgList);
-        const multipleImage = await s3.deleteObjects({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Delete: {
-                Objects: imgList,
-                Quiet: false
-            }
-        }).promise();
-        // console.log("Temp image: ", multipleImage);
-
-
+        const multipleImage = null;
+        // const multipleImage = await s3.deleteObjects({
+        //     Bucket: process.env.AWS_BUCKET_NAME,
+        //     Delete: {
+        //         Objects: imgList,
+        //         Quiet: false
+        //     }
+        // }).promise();
         return Promise.all([deletedHeader, multipleImage]);
     } catch (error) {
         console.log(error);

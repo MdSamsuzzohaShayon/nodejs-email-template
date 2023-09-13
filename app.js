@@ -1,4 +1,4 @@
-// require('dotenv').config({ path: "./config/.env" });
+require('dotenv').config({ path: "./config/.env" });
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -8,6 +8,7 @@ const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
 const colors = require('colors');
 const process = require('process');
+const db = require('./models/index');
 
 
 
@@ -59,7 +60,16 @@ app.use(function (req, res) {
     res.status(404).render("404");
 });
 
+const port = process.env.PORT || 8000;
 
 
+app.listen(port, () => console.log("Server is connected to: " + process.env.PORT));
 
-app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT));
+/*
+// IF THERE ARE NO TABLE THIS WILL CREATE
+db.sequelize.sync({ alter: true, force: true }).then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on ${port}`);
+  });
+});
+*/
