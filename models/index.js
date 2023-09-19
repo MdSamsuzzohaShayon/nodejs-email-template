@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
-  host: dbConfig.host,
+  // host: dbConfig.host,
   dialect: dbConfig.dialect,
   storage: dbConfig.storage
 });
