@@ -1,3 +1,5 @@
+const { promises: fsPromise } = require('fs');
+
 // HELPING FUNCTION 1
 function invalidToValidStr(invalidString) {
     let blockElementString = invalidString.toString();
@@ -57,15 +59,16 @@ const deleteHeaderImage = async (imgKey) => {
 
 const deleteTemplateImages = async (imgList) => {
     // DELETE MULTIPLE OBJECTS 
-    const multipleImage = null;
-    // const multipleImage = await s3.deleteObjects({
-    //     Bucket: process.env.AWS_BUCKET_NAME,
-    //     Delete: {
-    //         Objects: imgList,
-    //         Quiet: false
-    //     }
-    // }).promise();
-    return multipleImage;
+    const deletedImgsList = [];
+
+    for (const imgName of imgList) {
+        deletedImgsList.push(fsPromise.unlink(__dirname + "/../uploads/" + imgName));
+    }
+    try {
+        await Promise.all(deletedImgsList);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 

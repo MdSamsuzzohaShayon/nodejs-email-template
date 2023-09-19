@@ -6,6 +6,9 @@ const editPage = "edit", previewPage = "preview", editorPage = "editor", templat
 
 
 
+/**
+ * Selecting html elements
+ */
 const templateBuilder = document.getElementById('template-builder');
 
 // EDITOR PAGE VARIABLES START 
@@ -96,6 +99,9 @@ const inputImg = document.getElementById('img-input'),
 
 
 
+/**
+ * Create variables
+ */
 // WEBSITE DEFAULT URL OPERATION 
 let websiteDomain = "http://" + window.location.host, defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
 
@@ -144,20 +150,9 @@ let iconBlockElement = null;
 let currentUploadedImageUrl = null;
 // EDITOR PAGE VARIABLES ENDS 
 
-
-
-
-
-
-
-
 // DYNAMIC STYLING START
 let increaseDZHeight = 200;
 // DYNAMIC STYLING ENDS 
-
-
-
-
 
 // EXTRA HELPING FUNCTIONS START
 // HELPING FUNCTION 2
@@ -356,13 +351,8 @@ function rowNumToStr(rowIdInNum) {
     return rowIdStr;
 }
 
-
-
 // HELPING FUNCTION 13 
 const stringToNodes = html => new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
-
-
-
 
 // HELPING FUNCTION 14 
 // PROTOCAL VALIDATE 
@@ -411,12 +401,8 @@ function replaceAt(str, index, newChar) {
     return str.replace(/./g, replacer);
 }
 
-
-
 // HELPING FUNCTION 17
-const imgKeyToLink = imgKey => `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${imgKey}`;
-
-
+const imgKeyToLink = imgKey => `https://res.cloudinary.com/shayon-cloud/image/upload/v1694767526/${imgKey}`;
 
 // HELPING FUNCTION 18
 const pasteAndFormatText = (docElement, txtBlockElement) => {
@@ -524,21 +510,6 @@ function changeBlockID(cBlockEle, cIndex, cRowNum, cSelectedRow) {
         const gotImgCol = stringIdToIdNum(contentId, 1);
         contentId = contentId.substring(0, cIndex) + cRowNum + contentId.substring(cIndex + 1);
         cBlockEle.childNodes[0].setAttribute("id", contentId);
-
-        /*
-        // REFERANCE FOR TRACKING IMAGE 
-        if (imgRowCng.length === 0) {
-            imgRowCng.push({ imgRow: cRowNum, imgCol: gotImgCol, cngImg: false });
-        } else {
-            imgRowCng.forEach((irc, ircI) => {
-                if (irc.imgRow === cSelectedRow) {
-                    return irc.imgRow = cRowNum;
-                } else {
-                    return imgRowCng.push({ imgRow: cRowNum, imgCol: gotImgCol, cngImg: false });
-                }
-            });
-        }
-        */
     } else {
         let contentId = cBlockEle.id.toString();
         if (cBlockEle.classList[1] === "icon-content-block") cIndex++;
@@ -584,77 +555,33 @@ function cngDbForInsert(cRowNum, cRowWithColumn, cRowID) {
     cRowID++;
 }
 
-
-
-
 // EXTRA HELPING FUNCTIONS ENDS
-
-
-
-
-
-
 
 
 
 
 // HELPING CLASS 
 const resizeObserver = new ResizeObserver(e => {
-    // console.log("E- Height - ", e[0].contentRect.height);
     const dropRows = dropColumnZone.querySelectorAll('.drop-row');
     if (dropRows) {
         let allRowHeight = 0;
         dropRows.forEach((dr, i) => {
-            // console.log(`Drop row height -${i}- ${dr.clientHeight}`);
             allRowHeight += dr.clientHeight;
         });
-        // console.log("all row height - ", allRowHeight);
         let diferanceHeight = e[0].contentRect.height - allRowHeight;
-        // console.log("diferance height - ", diferanceHeight);
         if (diferanceHeight < 127) {
-            // console.log("ele that need to change height - ", dropColumnZone);
             let newHeight = allRowHeight + 127;
-            // console.log("New height - ", newHeight);
             dropColumnZone.style.minHeight = newHeight + "px";
-            // dropColumnZone.style.minHeight = allRowHeight + (127 - diferanceHeight);
         }
     }
     try {
         if (e[0].contentRect.height > 172) {
-            // console.log("Height - ", e[0].contentRect.height );
             e[0].target.parentElement.parentElement.style.height = `fit-content`;
         }
     } catch (err) {
         console.log(err);
     }
-
 });
-
-// // console.log(templateWrapper.clientHeight);
-
-// // console.log(dropColumnZone.clientHeight); // 798 = 50em // 1em = 15.96 // row height = 8em
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -663,6 +590,11 @@ const resizeObserver = new ResizeObserver(e => {
 
 // MAIN FUNCTION 1
 function columnDragAndDrop() {
+    /**
+     * @drag column 
+     * @drop into editor
+     */
+
     let dropableColumn = null;
     let colDragging = false;
 
@@ -700,51 +632,24 @@ function columnDragAndDrop() {
     });
 
     // DROPZONE EVENTS START 
-    // dropColumnZone.addEventListener("dragover", function (e) {
-    //     // dropColumnZone
-    //     if (e.target.className === "drop-wrapper") {
-    //         // e.target.classList.add('add-border'); // ADD BORDER
-    //     }
-    //     e.preventDefault();
-    // }, false);
-
-
     dropColumnZone.addEventListener('drop', e => {
-        // e.target.className === "drop-row" || e.target.parentElement.className === 'drop-row' || e.target.parentElement.parentElement.className === "drop-row" || e.target.parentElement.parentElement.parentElement.className === "drop-row"
         let newDiv = document.createElement('div');
         // COLUMN ARE ONLY ABLE TO DROP INTO DROP ZONE (ID)
         if (colDragging) {
-
             // PREVENT TO ADD MORE THAN 9 ROW 
             if (rowID <= 9) {
                 // INCREASE HEIGHT OF WHOLE DROP ZONE 
-                // if (rowList.length >= 2) {
-                //     dropColumnZone.style.minHeight = `${dropColumnZone.clientHeight + increaseDZHeight}px`;
-                // }
-                // dropColumnZone.style.height = "100%"; // IN PREVIEW
                 if (dropableColumn === "col-1-grid" || dropableColumn === "col-2-grid" || dropableColumn === "col-3-grid") {
-
-
-
                     // ADD BELOW OR ABOVE ANODER DIV START
-
-                    // console.log("targeted element - ", e.target);
                     let targetedRowElement = null;
 
                     for (let f of getAllParentNode(e.target)) {
                         if (f.className !== undefined) {
-                            // if (f.className === "drop-wrapper") {
-                            //     console.log("parent element - ", f);
-                            // }
                             if (f.className === "drop-row") {
-                                // console.log("targeted row - ", f);
                                 targetedRowElement = f;
                             }
-
                         }
                     }
-
-
 
                     if (targetedRowElement !== null) {
                         elementHeight = targetedRowElement.offsetHeight;
@@ -754,51 +659,28 @@ function columnDragAndDrop() {
                         let middleOfY = elementHeight / 2;
                         let rowNum = stringIdToIdNum(targetedRowElement.id, 1);
                         if (y > middleOfY) {
-
-                            // console.log("After - Y - " + y + " MiddleOfY -" + middleOfY);
                             const { newRow, rowWithColumn } = createColWithRow(dropableColumn, rowNum, newDiv);
-                            // console.log("No of col - ", rowWithColumn);
-                            // console.log("row - ", newRow);
                             targetedRowElement.after(newRow);
                             const changeRowAttr = rowNum - 1;
                             changeAllNextElementAttribute(targetedRowElement, changeRowAttr, selectedRow);
-                            // rowList, positionElement, sibling
-                            // const months = ['Jan', 'March', 'April', 'June'];
-                            // months.splice(1, 0, 'Feb');
-                            // splice(start, deleteCount, item1)
-                            // const nextRowList = rowList.filter((nrl, ni) => nrl.rowID > rowNum);
                             cngDbForInsert(rowNum, rowWithColumn, rowID);
                         }
                         if (y < middleOfY) {
-                            // console.log("Before - Y - " + y + " MiddleOfY -" + middleOfY + " Row with col - ");
                             const { newRow, rowWithColumn } = createColWithRow(dropableColumn, rowNum, newDiv);
-                            // console.log("No of col - ", rowWithColumn);
-                            // console.log("row - ", newRow);
                             dropColumnZone.insertBefore(newRow, targetedRowElement);
                             // CHANGE ATTRIBUTES FOR NEXT ELEMENTS 
                             const changeRowAttr = rowNum;
                             changeAllNextElementAttribute(targetedRowElement, changeRowAttr, selectedRow);
                             let cngRowDb = changeRowAttr - 1;
                             cngDbForInsert(cngRowDb, rowWithColumn, rowID);
-
                         }
                         rowNum = null;
                     } else {
                         const { newRow, rowWithColumn } = createColWithRow(dropableColumn, rowID, newDiv);
-                        // console.log("No of col - ", rowWithColumn);
-                        // console.log("row - ", newRow);
-
-
-
-
-
-
-
                         dropColumnZone.appendChild(newRow);
                         rowList.push({ rowID, rowWithColumn });
                         // EVERYTIME WHEN WE ADD A ROW WE WILL ADD 1
                         rowID++;
-
                         // MAKE DROPABLE COLUMN NULL ONCE AGAIN SO IT WILL CHECK THE NEXT ITEM 
                         dropableColumn = null;
                         targetedRowElement = null;
@@ -811,12 +693,8 @@ function columnDragAndDrop() {
             } else {
                 alert("You can't add more than 9 row");
             }
-
-
-
-
-
         }
+
         // DROP SPACE 
         if (dropableColumn === 'space-row-grid') {
             // DROP SPACE BLOCK ELEMET INTO DROPZONE OR AFTER ROW
@@ -849,9 +727,7 @@ function columnDragAndDrop() {
                 newDiv.className = 'space space-row-grid';
                 let rowNum = stringIdToIdNum(selectedElement.id, 1);
 
-
                 const insert = dropBelowOrAbove(selectedElement, e);
-                // console.log("Insert after - ", insert);
                 if (insert === true) {
                     // GETTING ROW NUMBER AND COLUMN NUMBER 
                     setAttributes(newDiv, { "id": "spx-" + rowNum + '-' + 'after' });   //  "txt-" + rowNumber + '-' + columnNumber 
@@ -868,27 +744,23 @@ function columnDragAndDrop() {
             }
         }
 
-
-
-
         dropableColumn = null;
         newDiv = null;
         colDragging = false;
-        // console.log("Row list - ", rowList);
     });
     // DROPZONE EVENTS ENDS
 }
 
-
-
-
-
 // MAIN FUNCTION 2
 function blockDragAndDrop() {
+    /**
+     * @drag block
+     * @drop into a specific cell (column/row)
+     */
+
     let dropableBlock = null;
     let rowNumber;
     let columnNumber;
-    // let blockElement = null;
     let txtBlockElement = null;
     let blockDragging = false;
 
@@ -943,18 +815,13 @@ function blockDragAndDrop() {
     }, false);
     templateBuilder.addEventListener('drop', (e) => {
         if (blockDragging) {
-            // console.log("Dropable block - ",dropableBlock);
             if (e.target.className === "two-column-div" || e.target.className === "one-column-div" || e.target.className === "three-column-div") {
-                // e.target.classList.add('add-bg');
                 e.target.style.backgroundColor = "transparent";
             }
             // ONLY COLLUMNS ARE VALID TO DROP INTO DROP ZONE 
             if (e.target.id !== 'drop-zone' && dropableBlock !== 'spx-holder') {
-                // //console.log(e.target.id);
                 let dropableColumn = e.target.className;
-                let dropInsideImgTxt = e.target.classList[1];
                 try {
-
                     // PREVENT TO ADD MORE THAN 2 BLOCK IN A ROW 
                     if (e.target.children.length >= 2) {
                         alert("Add another row to insert content");
@@ -1005,7 +872,6 @@ function blockDragAndDrop() {
                                         newBlockCol.className = 'content txt-content-block';
                                         newBlockCol.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!';
                                         // CHANGING TEXT EVENT 
-                                        // pasteAndFormatText(newBlockCol);
                                         e.target.appendChild(newBlockCol);
                                         // THIS IS ONLY FOR DATABASE 
                                         text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil corrupti natus eos in a voluptas incidunt porro quis autem quo!";
@@ -1098,27 +964,18 @@ function blockDragAndDrop() {
     pasteAndFormatText(dropColumnZone, txtBlockElement);
 }
 
-
-
-
-
-
-
-
 // MAIN FUNCTION 3
 function rightBarElementShowHidePreset() {
-
-    document.addEventListener('click', e=> console.log("To ELement - ",e));
-
+    /**
+     * @toggle elements of the template containing diffrent properties
+     * Show and hide properties bar that containing properties for different block
+     */
 
 
     templateBuilder.addEventListener('click', e => {
-        // console.log(e);
         try {
             // CLEAN UP DEFAULT VALUE FOR ALL INPUT FIELD 
             let idString = null;
-            // console.log(e.target);
-            // console.log("To ELement - ",e.target);
             // IF SOMEONE CLICK ON ANY BLOCK THE PROPERTY BAR WILL OPEN (ALL BLOCK EXCEPT SPACE BLOCK)
             if (e.target.parentElement.parentElement.classList[1] === 'txt-content-block' || e.target.parentElement.classList[0] === 'content' || e.target.classList[0] === 'content' || e.target.className === 'social-icon-content' || e.target.className === 'social-icon-img' || e.target.className === "btn-content-link") {
                 templateSelected = false;
@@ -1128,7 +985,6 @@ function rightBarElementShowHidePreset() {
                     } else if (e.target.className === 'social-icon-content' || e.target.className === "btn-content-link" || e.target.parentElement.classList[1] === 'txt-content-block') {
                         idString = e.target.parentElement.id;
                     }
-
                 } else {
                     idString = e.target.id.toString();
                 }
@@ -1146,11 +1002,8 @@ function rightBarElementShowHidePreset() {
 
                     imgLink.value = previousProps[0].blockElement.imgHyperlink;  // WORKING
                     imgNewTab.checked = previousProps[0].blockElement.imgNewTab;
-                    // console.log("preview img - ", previousProps[0].blockElement.imgUrl);
                     currentPath === editPage && previousProps[0].blockElement.imgUrl.trim() !== "/img/empty-image.png" ? previewImg.src = imgKeyToLink(previousProps[0].blockElement.imgUrl.trim()) : previewImg.src = previousProps[0].blockElement.imgUrl;
                 } else if (e.target.classList[1] === "txt-content-block" || e.target.parentElement.parentElement.classList[1] === 'txt-content-block') {
-                    // const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-                    // resizeObserver.observe(selectedTextContent);
                     allProperties.forEach(ap => { ap.style.display = 'none' });
                     txtProps.style.display = 'block';
 
@@ -1208,8 +1061,6 @@ function rightBarElementShowHidePreset() {
                 }
             }
 
-
-
             // IF SOMEONE CLICK  OUT OF THE BLOCK THE PROPERTY BAR WILL CLOSE 
             if (e.target.className === 'template-wrapper' || e.target.className === 'header-image' || e.target.classList[0] === 'col') {
                 templateSelected = true;
@@ -1228,9 +1079,6 @@ function rightBarElementShowHidePreset() {
 
     // SHOW AND HIDE RIGHT BAR FOR HILIGHTED TEXT 
     document.addEventListener('selectionchange', (e) => {
-        // console.log(txt);
-        // console.log("E- ", e.target);
-        // console.log("Archor node - ", window.getSelection().anchorNode.parentElement);
         try {
             let selectedTxtElement = document.getSelection().anchorNode.parentElement;
             let els = [];
@@ -1238,7 +1086,6 @@ function rightBarElementShowHidePreset() {
                 if (selectedTxtElement.className !== null || selectedTxtElement.className !== "" || selectedTxtElement.className !== undefined) {
                     try {
                         if (selectedTxtElement.classList[1] === "txt-content-block") {
-                            // console.log("Element - ", selectedTxtElement);
                             const idString = selectedTxtElement.id.toString().trim();
                             let findRowCol = idString.split('-');
                             selectedRow = parseInt(findRowCol[1]);
@@ -1250,9 +1097,8 @@ function rightBarElementShowHidePreset() {
                             txtProps.style.display = 'block';
                         }
                     } catch (noIndexErr) {
-                        // console.log(noIndexErr);
+                        console.log(noIndexErr);
                     }
-                    // console.log("Classes - ", selectedTxtElement.className);
                 }
                 els.unshift(selectedTxtElement);
                 selectedTxtElement = selectedTxtElement.parentNode;
@@ -1261,7 +1107,6 @@ function rightBarElementShowHidePreset() {
             console.log(pEleErr);
         }
 
-        // console.log("All element - ", els);
     });
 
 
@@ -1269,8 +1114,6 @@ function rightBarElementShowHidePreset() {
     // HOVER EFFECT 
     try {
         dropColumnZone.addEventListener('mouseover', e => {
-            // console.log("selected Col - ", selectedCol);
-            // console.log("selected Row - ", selectedRow);
             if (e.target.classList[0] !== "content") {
                 if (e.target.className === "three-column-div" || e.target.className === "one-column-div" || e.target.className === "two-column-div") {
                     e.target.parentElement.style.border = "1px solid rgb(15, 48, 80)";
@@ -1296,9 +1139,13 @@ function rightBarElementShowHidePreset() {
 
 }
 
-
 // MAIN FUNCTION 4
 function rightBarPropsUpdate() {
+    /**
+     * @props Update in different section of the column
+     * When the bar is open to change the properties
+     * User can change properties
+     */
 
     // DROP ZONE HEIGHT UPDATE 
     resizeObserver.observe(dropColumnZone);
@@ -1358,7 +1205,6 @@ function rightBarPropsUpdate() {
 
         txtHyperlink.addEventListener('change', e => {
             let url = e.target.value;
-            // console.log(url);
             document.execCommand("createLink", false, url);
             const text = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
             textBlockElement = text.outerHTML.toString().trim();
@@ -1451,7 +1297,6 @@ function rightBarPropsUpdate() {
 
     // SUB FINCTION 5
     function spaceBtnRowUpdate() {
-        // rowList.push({ afterRow: spxID, spaceRow: 12 });
         spxHeightInput.addEventListener('change', e => {
             rowList.forEach((rl, i) => {
                 if (rl.afterRow === selectedAfterRow) { rowList[i].spaceRow = parseInt(e.target.value) }
@@ -1488,8 +1333,6 @@ function rightBarPropsUpdate() {
                     }
                 });
 
-
-
                 positionElement = positionElement.filter((pEl, elIdx, arr) => pEl.rowNumber !== selectedRow);
                 positionElement.forEach((pEl, pIdx) => { if (pEl.rowNumber > selectedRow) { pEl.rowNumber--; } });
 
@@ -1524,50 +1367,17 @@ function rightBarPropsUpdate() {
                     });
                 }
 
-                // // SETTING ROW ID DYNAMICALLY 
-                // let idNum = selectedRow;
-                // let i = 0;
-                // while (i < allNextEl.length) {
-                //     allNextEl[i].setAttribute('id', `row-${idNum}`);
-                //     // CHANGE ALL CHILD ELEMENT ID AND CLASS 
-                //     if (allNextEl[i].hasChildNodes()) {
-                //         allNextEl[i].childNodes.forEach((ncEl, ncIdx) => {
-                //             console.log(ncEl);
-                //             // selectedRowElement.childNodes.forEach((sre, sreI) => sre.setAttribute("id", sre.id.toString().replace(/.$/, selectedRow - 1)));
-                //             // selectedRowElement.nextSibling.childNodes.forEach((sre, sreI) => sre.setAttribute("id", sre.id.toString().replace(/.$/, selectedRow)));
-                //             ncEl.forEach((ncElc, ncElI) => {
-                //                 // console.log("ncelc - ", ncElc);
-                //                 ncElc.setAttribute()
-                //             });
-                //             if (ncEl.hasChildNodes()) {
-                //                 ncEl.childNodes.forEach((nccEl, nccIdx) => {
-                //                     if (nccEl.classList[1] === "icon-content-block") {
-                //                         nccEl.id = replaceAt(nccEl.id, 5, idNum);
-                //                     } else {
-                //                         nccEl.id = replaceAt(nccEl.id, 4, idNum);   // replace a charecter of index 4
-                //                     }
-                //                 });
-                //             }
-                //         });
-                //     }
-                //     idNum++;
-                //     i++
-                // }
-
-
-
                 propertiesBar.style.display = 'none';
                 blockElementBar.style.display = 'block';
 
             } catch (err) {
-                //console.log(err);
+                console.log(err);
             }
 
             // EVERYTIME WE DELETE A ROW WE SHOULD SUBSTRACT ROW ID BY ONE 
             rowID--;
             selectedRow = null;
         });
-
 
         // ROW MOVE UP 
         rowMoveUp.addEventListener('click', (e) => {
@@ -1656,8 +1466,6 @@ function rightBarPropsUpdate() {
                             }
                         }
                     });
-
-
 
                     propertiesBar.style.display = 'none';
                     blockElementBar.style.display = 'block';
@@ -1768,19 +1576,19 @@ function rightBarPropsUpdate() {
     rowUpDownDelete();
 }
 
-
-
-
-
-
 // MAIN FUNCTION 5
 function templatePropsCng() {
+    /**
+     * @props update for the template
+     * This is not update any properties of columns
+     * This will change base properties of the template
+     */
+    
+
     // HEADER IMAGE CHANGE
     headerImgInput.addEventListener('change', e => {
         imgUploadHandler(e.target.files[0], [headerImage, headerImgPreview]);
     });
-
-
 
     // TEMPLATE COLOR CHANGE 
     templateBGColorInput.addEventListener('change', (e) => {
@@ -1805,9 +1613,6 @@ function templatePropsCng() {
     });
 
 }
-
-
-
 
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
@@ -1877,48 +1682,27 @@ function backendAndDataBase(reqUrl, method) {
     });
 }
 
-
-
-
-
-
-
 // MAIN FUNCTION 7
 function previewDropZoneTemplate() {
-
-
-    // PREVIEW PAGE VARIABLES START 
-    // let layout = '<%- docs.layout %>';
-    // let content = '<%- docs.content %>';
-    // let img = '<%- docs.bg_img %>';
-    // let sibling = '<%- docs.sibling %>';
-
-
-
-    // console.log(content);
-    // THIS IS COMMING FROM DATABASE TABLE 
+    /**
+     * @fetch data from backend
+     * And create elements according to the data
+     */
     const layoutArray = JSON.parse(layout);
     const pvBlockElement = JSON.parse(content);
     const pvSibling = JSON.parse(sibling);
-    // console.log("Sibling - ",pvSibling); 
-    // console.log("pvBlockElement - ", pvBlockElement);
-    //console.log("Layout - ",layoutArray);
-    // //console.log("Header img: ", headerImg);
-
 
     const previewDropZone = document.getElementById('drop-zone');
     const pvTemplateWrapper = document.querySelector('.template-wrapper')
     const pvTemplateLinks = document.getElementsByTagName('a');
-    // PREVIEW PAGE VARIABLES START 
-    // BG COLOR 
+
     pvTemplateWrapper.style.background = pvBgColor;
     try {
-        // LINK COLOR CHANGE 
         for (let pvTL of pvTemplateLinks) {
             pvTL.style.color = pvlinkColors;
         }
     } catch (err) {
-        //console.log(err);
+        console.log(err);
     }
 
 
@@ -1930,8 +1714,6 @@ function previewDropZoneTemplate() {
     const assendingBlockCol = pvBlockElement.sort((a, b) => a.columnNumber - b.columnNumber);
     const assendingSibling = pvSibling.sort((a, b) => a.colNum - b.colNum);
     const assendingLayout = layoutArray.sort((a, b) => a.rowID - b.rowID);
-    // //console.log("Sibling - ",assendingSibling); //console.log("pvBlockElement - ",assendingBlockCol); //console.log("Layout - ",assendingLayout);
-    // console.log(assendingLayout);
 
     try {
         assendingLayout.forEach((lAr, rIdx) => {
@@ -1962,7 +1744,6 @@ function previewDropZoneTemplate() {
                 rowID++;
                 // MAKING ROW 
                 previewDropZone.appendChild(pvRowDiv);
-                // console.log("row - ", pvRowDiv);
             }
 
 
@@ -1985,7 +1766,6 @@ function previewDropZoneTemplate() {
 
 
             // ADDING BUTTON AND ELEMENT 
-            // //console.log("Row Id: ", lAr.rowID);
             // CHECK IT THERE IS NO SPACE 
             if (!lAr.afterRow) {
                 assendingBlockCol.forEach((bEl, belIdx) => {
@@ -1995,16 +1775,13 @@ function previewDropZoneTemplate() {
                         if (bEl.blockElement.name === "txtBlockContent") {
                             pvSelectedElement.innerHTML = invalidToValidHtml(bEl.blockElement.blockHtml);
                         } else if (bEl.blockElement.name === "imgBlockContent") {
-                            // //console.log(pvSelectedElement);
-
-
                             const pvImgHyerLink = document.createElement('a');
                             let openNewTab = null;
                             bEl.blockElement.imgNewTab === true ? openNewTab = "_blink" : openNewTab = "_self";
                             setAttributes(pvImgHyerLink, { "href": `${protocalValidate(bEl.blockElement.imgHyperlink)}`, "target": openNewTab });
 
                             const pvImgElement = document.createElement('img');
-                            let defaultImg = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${bEl.blockElement.imgUrl}`;
+                            let defaultImg = imgKeyToLink(bEl.blockElement.imgUrl);
                             if (bEl.blockElement.imgUrl === undefined || bEl.blockElement.imgUrl === null || bEl.blockElement.imgUrl === "/img/empty-image.png") {
                                 defaultImg = "/img/empty-image.png"
                             }
@@ -2032,11 +1809,7 @@ function previewDropZoneTemplate() {
                 });
 
 
-
-
-
-                // ADDING BUTTON 
-                // MATCHING ROW ID 
+                // MATCHING ROW ID  AND ADDING BUTTON 
                 assendingSibling.forEach((sEl, bIdx) => {
 
                     if (lAr.rowID === sEl.rowNum) {
@@ -2049,8 +1822,6 @@ function previewDropZoneTemplate() {
 
                         let pvOnClickEvent = null;
                         sEl.btnOpenNewTab === true ? pvOnClickEvent = "_blink" : pvOnClickEvent = "_self";
-
-
 
                         const pvSiblingBtn = document.createElement('button');
                         setAttributes(pvSiblingBtn, { "id": `btn-${sEl.rowNum}-${sEl.colNum}` });
@@ -2067,39 +1838,25 @@ function previewDropZoneTemplate() {
                         pvSiblingBtnLink.textContent = sEl.btnContent;
                         pvSiblingBtnLink.style.color = sEl.btnTextColor;
 
-
                         pvSiblingBtn.append(pvSiblingBtnLink);
 
                         pvSelectedElement.appendChild(pvSiblingBtn);
                     }
-
                 });
-
-
-
-
-
             }
-
-
-
         });
-        // let headerImgUrl = `https://email-template-nodejs.s3.ca-central-1.amazonaws.com/${headerImg}`;
-        // headerImage.setAttribute("src", headerImgUrl);
+
         if (headerImg === null || headerImg === "null") {
             console.log("Header img: ", headerImg);
             headerImgPreview.setAttribute('src', "/img/header.png");
             headerImgPreview.style.display = 'none';
-            // deleteHeaderImg.style.display = 'none !important';
             deleteHeaderImg.style.display = 'none';
             headerImage.style.display = "none";
             headerImage.setAttribute('src', "/img/header.png");
         } else {
             headerImg === "default-header.jpg" ? headerImage.src = "/img/header.png" : headerImage.src = imgKeyToLink(headerImg);
         }
-        // //console.log(headerImage);
     } catch (err) {
-        //console.log(err);
     }
 
 
@@ -2107,22 +1864,17 @@ function previewDropZoneTemplate() {
     try {
         // STYLING ELEMENTS INSIDE DROP ZONE 
         // TEXT CONTENT EXIT FALSE FOR PREVIEW 
-        // const pvTextContent = document.querySelectorAll('.txt-content-block');
         const droppedRow = document.querySelectorAll('.drop-row');
         droppedRow.forEach((dr, dri) => dr.style.height = "fit-content");
-        // //console.log(dropColumnZone.translate);
-        // dropColumnZone.style.height = "500px";
-        // height: 50em;
+
         const oneColDiv = document.querySelectorAll('.one-column-div');
         const twoColDiv = document.querySelectorAll('.two-column-div');
         const threeColDiv = document.querySelectorAll('.three-column-div');
         oneColDiv.forEach((ocd, ocdI) => {
             // NOT FOR SOCIAL CONTENT 
             if (ocd.hasChildNodes()) {
-                // //console.log(ocd.childNodes[0].className);
                 if (ocd.childNodes[0].classList[1] !== "icon-content-block") {
                     ocd.style.height = "fit-content";
-                    // ocd.style.height = "45px";
                 }
             }
         });
@@ -2130,57 +1882,27 @@ function previewDropZoneTemplate() {
         threeColDiv.forEach((trcd, trcdI) => {
             if (trcd.hasChildNodes()) {
                 trcd.childNodes[0].parentElement.style.height = "fit-content";
-                // //console.log(trcd.childNodes[0].parentElement);
-                // trcd.childNodes.forEach((trcdc, trcdcI) => {
-                //     //console.log(trcdc.parentElement);
-                //     trcdc.parentElement.style.height = "fit-content";
-                // });
-                // if (trcd.childNodes[0].hasChildNodes()) {
-                //     //console.log(trcd.childNodes[0]);
-                // }
-
-                // trcd.childNodes[0].style.height = "fit-content";
-
             } else {
                 trcd.style.height = "fit-content"
 
             }
         });
-        // //console.log(oneColDiv);
-
-        // droppedRow.style.height = "fit-content";
-        // const twoCols = document.querySelectorAll(".two-column-div");
-        // twoCols.forEach((tc, tci) => tc.style.height = "100%");
-
-        // pvTextContent.forEach(txtCnt => {
-        //     txtCnt.setAttribute("contenteditable", false);
-        //     // if (txtCnt.getBoundingClientRect().height > 172) {
-        //     //     droppedRow.style.height = "fit-content"; // IN PREVIEW
-        //     // }
-        // });
-
     } catch (styleErr) {
-        //console.log(styleErr);
+        console.log(styleErr);
     }
 
 }
 
-
-
-
 // MAIN FUNCTIONS 8
 function previewDefaultStyling() {
+    /**
+     * @style elements in preview page
+     */
+
     dropColumnZone.style.minHeight = "100%"; // IN PREVIEW
-    // dropColumnZone.style.border = "1px solid rgb(15, 48, 80)"; // IN PREVIEW
     templateWrapper.style.border = "1px solid rgb(15, 48, 80)";
 
-
-
-
-
     // REMOVING BORDER STYLES 
-    // dropColumnZone.style.border = "none";
-    // dropColumnZone.style.height = "100%"; // IN PREVIEW
     const droppedRow = document.querySelectorAll('.drop-row');
     droppedRow.forEach((sd, sdi) => sd.style.border = "none");
     const spaceDiv = document.querySelectorAll('.space');
@@ -2199,6 +1921,11 @@ function previewDefaultStyling() {
 
 // MAIN FUNCTIONS 9
 function editPagePreset() {
+    /**
+     * @style update in edit page
+     * @var update with local variables
+     */
+
     inputTitle.value = templateTitle;
     // CONVERT STRING TO JSON 
     const newRowList = JSON.parse(layout);
@@ -2210,7 +1937,6 @@ function editPagePreset() {
     // SET HEADER IMAGE 
     try {
         // PRESET FROM DATABASE
-
         if (headerImg === "default-header.jpg") {
             headerImage.setAttribute("src", "/img/header.png");
             headerImgPreview.setAttribute("src", "/img/header.png");
@@ -2218,7 +1944,6 @@ function editPagePreset() {
             console.log("Header img: ", headerImg);
             headerImgPreview.setAttribute('src', "/img/header.png");
             headerImgPreview.style.display = 'none';
-            // deleteHeaderImg.style.display = 'none !important';
             deleteHeaderImg.style.display = 'none';
             headerImage.style.display = "none";
             headerImage.setAttribute('src', "/img/header.png");
@@ -2231,50 +1956,24 @@ function editPagePreset() {
         typeof templateTitle !== 'undefined' ? inputTitle.value = templateTitle : inputTitle.value = title;
         templateBGColorInput.value = pvBgColor;
     } catch (pageErr) {
-        //console.log(pageErr)
+        console.log(pageErr)
     }
 
     // COPY FROM DATABASE AND ASSIGN TO EXISTING ARRAY OF THIS FILE 
     rowList = newRowList.slice(0);
     positionElement = newPositionElement.slice(0);
     siblingButtonList = newBtnSibling.slice(0);
-
-
-    // const allLinks = document.querySelector('.wrapper').getElementsByTagName('a');
-
-    // for (link of allLinks) {
-    //     setAttributes(link, { "href": "#", "target": "" });
-    // }
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
+ * @start 
  * Different functions for different page
  */
 // PREVIEW PAGE 
 if (currentPath === previewPage && window.location.pathname !== "/template") {
-    //console.log("Preview page");
     previewDropZoneTemplate();
     previewDefaultStyling();
-
-
 
     // EDITOR PAGE 
 } else if (currentPath === editorPage) {
@@ -2285,16 +1984,6 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     rightBarPropsUpdate();
     templatePropsCng();
     backendAndDataBase(`${websiteDomain}/template/add`, "POST");
-    // if (submitted === false) {
-    //     // PREVENT TO SET 
-    //     window.addEventListener('beforeunload', function (e) {
-    //         // Cancel the event
-    //         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-    //         // Chrome requires returnValue to be set
-    //         e.returnValue = 'Save it and leave otherwise it can be undone';
-    //     });
-    // }
-
 
     // EDIT PAGE 
 } else if (currentPath === editPage) {
@@ -2305,24 +1994,9 @@ if (currentPath === previewPage && window.location.pathname !== "/template") {
     rightBarElementShowHidePreset();
     rightBarPropsUpdate();
     templatePropsCng();
-    // /template/delete/<%- template.id %>?_method=DELETE"
     backendAndDataBase(`${websiteDomain}/template/edit/${templateID}/?_method=PUT`, "PUT");
-    // //console.log("EDIT");
 } else if (currentPath === templateIndex) {
     console.log("index");
 } else {
     console.log("Not a template ");
 }
-
-
-
-
-
-
-
-// if (document.querySelectorAll('.txt-content-block').clientHeight > 262) {
-//     //console.log(document.querySelectorAll('.txt-content-block'));
-// }
-
-
-

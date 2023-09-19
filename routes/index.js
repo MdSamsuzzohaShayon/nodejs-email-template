@@ -1,8 +1,23 @@
 const express = require('express');
-const router = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+const db = require('../models');
+const { temptab } = db;
+
+const router = express.Router();
+
+
+
+router.get('/', async (req, res, next) => {
+  /**
+     * render: Review all template
+     * @return index page with Id and title as result
+     */
+  const temps = await temptab.findAll();
+  res.render('template/index', { docs: temps });
+});
+
+router.get('/test', function (req, res, next) {
   res.status(200).json({ "msg": "success" });
 });
 
