@@ -1,4 +1,5 @@
 const { promises: fsPromise } = require('fs');
+const cloudinary = require('../config/cloudinary-config');
 
 // HELPING FUNCTION 1
 function invalidToValidStr(invalidString) {
@@ -9,12 +10,6 @@ function invalidToValidStr(invalidString) {
     return removeQ;
 }
 
-
-
-
-
-
-
 // HELPIING FUNCTION 2 
 const getImage = async (imgKay) => {
     let tempImage = null;
@@ -24,10 +19,8 @@ const getImage = async (imgKay) => {
     return tempImage;
 }
 
-
 // HELPING FUNCTION 3
 const getAllImage = async (blockContent) => {
-    // const imgKeys = ['header-img-Screensho-31-1.png', 'img-1-1-131299444-31-0.jpg', 'img-3-2-126719613-31-0.jpg'];
     const imgList = new Array();
     for (const bc of blockContent) {
         if (bc.blockElement.name === "imgBlockContent") {
@@ -39,28 +32,9 @@ const getAllImage = async (blockContent) => {
 }
 
 
-
-
-const deleteHeaderImage = async (imgKey) => {
-
-    try {
-        const deletedHeader = null;
-        // const deletedHeader = await s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, /* required */ Key: imgKey, /* required */ }).promise();
-        return deletedHeader;
-    } catch (error) {
-        console.log("Error: ", error);
-    }
-}
-
-
-
-
-
-
-const deleteTemplateImages = async (imgList) => {
+const deleteServerImages = async (imgList) => {
     // DELETE MULTIPLE OBJECTS 
     const deletedImgsList = [];
-
     for (const imgName of imgList) {
         deletedImgsList.push(fsPromise.unlink(__dirname + "/../uploads/" + imgName));
     }
@@ -72,59 +46,13 @@ const deleteTemplateImages = async (imgList) => {
 }
 
 
-
-
-// https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#deleteObjects-property
-// https://stackoverflow.com/questions/27753411/how-do-i-delete-an-object-on-aws-s3-using-javascript
-const deleteImages = async (bg_img, blockContent) => {
-
-
+const deleteImages = async (imgList) => {
     try {
-        const deletedHeader = null;
-        // const deletedHeader = await s3.deleteObject({
-        //     Bucket: process.env.AWS_BUCKET_NAME,
-        //     Key: bg_img, 
-        // }).promise();
-
-        // STORE MULTIPLE IMAGES TO AN ARRAY
-        const imgList = new Array();
-        for (const bc of blockContent) {
-            if (bc.blockElement.name === "imgBlockContent") {
-                imgList.push({ Key: bc.blockElement.imgUrl });
-            }
-        }
-
-
-
-        // DELETE MULTIPLE OBJECTS 
-        const multipleImage = null;
-        // const multipleImage = await s3.deleteObjects({
-        //     Bucket: process.env.AWS_BUCKET_NAME,
-        //     Delete: {
-        //         Objects: imgList,
-        //         Quiet: false
-        //     }
-        // }).promise();
-        return Promise.all([deletedHeader, multipleImage]);
+        const deleteImgs = await cloudinary.api.delete_resources(imgList);
+        return deleteImgs;
     } catch (error) {
         console.log(error);
     }
-
-
-
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = { invalidToValidStr, getAllImage, deleteImages, deleteHeaderImage, deleteTemplateImages };
+module.exports = { invalidToValidStr, getAllImage, deleteImages, deleteServerImages };
