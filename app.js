@@ -60,16 +60,16 @@ app.use(function (req, res) {
     res.status(404).render("404");
 });
 
-const port = process.env.PORT || 8000;
 
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => console.log("Server is connected to: " + process.env.PORT));
 
 /*
 // IF THERE ARE NO TABLE THIS WILL CREATE
 db.sequelize.sync({ alter: true, force: true }).then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on ${port}`);
-  });
+    app.listen(port, () => {
+        console.log(`Server is running on ${port}`);
+    });
 });
 */
