@@ -1,5 +1,5 @@
 const express = require('express');
-const conn = require('../config/mysql-config');
+const conn = require('../config/sqlite-config');
 const path = require('path');
 const fs = require('fs');
 const { uploadMultipleFileToS3 } = require('../config/file-upload-config-s3');

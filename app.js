@@ -61,7 +61,27 @@ app.use(function (req, res) {
     res.status(404).render("404");
 });
 
+const createTableSql = `
+CREATE TABLE IF NOT EXISTS nodejs_story (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    bg_img TEXT,
+    bg_color TEXT,
+    link_color TEXT,
+    layout TEXT,
+    content TEXT,
+    sibling TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+`;
 
+conn.run(createTableSql, (err) => {
+    if (err) {
+        console.error('❌ Table creation error:', err.message);
+    } else {
+        console.log('✅ Table ready');
+    }
+});
 
 
 app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT));
