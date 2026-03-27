@@ -6,6 +6,7 @@
     "dev": "cross-env NODE_ENV=development nodemon app.js",
     "start": "cross-env NODE_ENV=production node app.js",
     "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
     "migrate:undo": "npx sequelize-cli db:migrate:undo"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
   "devDependencies": {
     "cross-env": "^10.1.0",
     "dotenv": "^17.3.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
   }
 }
