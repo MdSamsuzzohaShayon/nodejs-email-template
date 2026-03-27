@@ -8,6 +8,7 @@ const expressLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
 const colors = require('colors');
 const process = require('process');
+const db = require('./models/index');
 
 
 
@@ -15,8 +16,6 @@ const indexRouter = require('./routes/index');
 const emailTemplate = require('./routes/template');
 
 const app = express();
-
-
 
 
 
@@ -40,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
 app.use(methodOverride('_method'));
 
 
@@ -61,27 +60,16 @@ app.use(function (req, res) {
     res.status(404).render("404");
 });
 
-const createTableSql = `
-CREATE TABLE IF NOT EXISTS nodejs_story (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    bg_img TEXT,
-    bg_color TEXT,
-    link_color TEXT,
-    layout TEXT,
-    content TEXT,
-    sibling TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)
-`;
 
-conn.run(createTableSql, (err) => {
-    if (err) {
-        console.error('❌ Table creation error:', err.message);
-    } else {
-        console.log('✅ Table ready');
-    }
+const port = process.env.PORT || 8000;
+
+app.listen(port, () => console.log("Server is connected to: " + process.env.PORT));
+
+/*
+// IF THERE ARE NO TABLE THIS WILL CREATE
+db.sequelize.sync({ alter: true, force: true }).then(() => {
+    app.listen(port, () => {
+        console.log(`Server is running on ${port}`);
+    });
 });
-
-
-app.listen(process.env.PORT, () => console.log("Server is connected to: " + process.env.PORT));
+*/

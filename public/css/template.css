@@ -1,52 +1,70 @@
-#et-container {
+@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
+.template-wrapper {
   width: 612.88px;
   height: 794.25px;
-  background: #4685c0;
 }
-#et-container .et-template-wrapper {
-  width: 100%;
-  margin-top: 3%;
-  background: #4685c0;
-}
-#et-container .et-template-wrapper .et-header-image {
-  color: #0f3050;
+.template-wrapper .header-image {
   height: 60px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 100%;
 }
-#et-container .et-template-wrapper .et-drop-wrapper {
+.template-wrapper .header-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.template-wrapper .drop-wrapper {
   width: 80%;
   margin-left: 10%;
   margin-top: 2%;
-  border: 1px solid #7aa6ce;
-  height: 45em;
+  border: 1px solid lightgray;
+  height: 50em;
 }
-#et-container .et-template-wrapper .et-drop-wrapper .et-drop-row {
-  background: #0f3050;
-  color: #4685c0;
+.template-wrapper .drop-wrapper .drop-row {
+  background: rgb(15, 48, 80);
+  color: #ffffff;
   width: 100%;
   height: 15em;
-  border: 1px solid #b5d5f3;
+  padding: 10px 0;
+  border: 1px solid rgb(230, 225, 225);
   display: flex;
 }
-#et-container .et-template-wrapper .et-drop-wrapper .et-drop-row .et-one-column-div {
+.template-wrapper .drop-wrapper .drop-row .one-column-div {
   width: 100%;
-  height: 100%;
-  background: #7aa6ce;
-  border-right: 1px solid #b5d5f3;
+  border-right: 1px solid rgb(230, 225, 225);
 }
-#et-container .et-template-wrapper .et-drop-wrapper .et-drop-row .et-two-column-div {
+.template-wrapper .drop-wrapper .drop-row .two-column-div {
   width: 50%;
-  height: 100%;
-  background: #7aa6ce;
-  border-right: 1px solid #b5d5f3;
+  border-right: 1px solid rgb(230, 225, 225);
 }
-#et-container .et-template-wrapper .et-drop-wrapper .et-drop-row .et-three-column-div {
+.template-wrapper .drop-wrapper .drop-row .three-column-div {
   width: 33.99%;
-  height: 100%;
-  background: #7aa6ce;
-  border-right: 1px solid #b5d5f3;
+  border-right: 1px solid rgb(230, 225, 225);
+}
+.template-wrapper .drop-wrapper .drop-row .content {
+  width: 96%;
+  margin-left: 2%;
+}
+.template-wrapper .drop-wrapper .drop-row .img-content-block {
+  width: 70%;
+  margin-left: 15%;
+}
+.template-wrapper .drop-wrapper .drop-row .icon-content-block {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.template-wrapper .drop-wrapper .drop-row .icon-content-block a {
+  padding: 20px 20px;
+  border-radius: 50%;
+  background-color: rgb(15, 48, 80);
+}
+.template-wrapper .drop-wrapper .drop-row .icon-content-block a img {
+  width: 20px;
+}
+.template-wrapper .drop-wrapper .space-row-grid {
+  height: 40px;
+  background: rgb(230, 225, 225);
 }
 
 /*# sourceMappingURL=template.css.map */

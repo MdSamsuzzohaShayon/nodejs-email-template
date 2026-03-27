@@ -1,6 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Baskervville&family=Crimson+Pro:wght@200&family=Libre+Caslon+Text&family=Nanum+Myeongjo&display=swap");
 .wrapper button, .wrapper .btn {
   border-radius: 0;
 }
@@ -29,6 +27,331 @@
   left: 50%;
 }
 
+.right-bar {
+  align-self: flex-start;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+  left: 0;
+  color: rgb(2, 21, 39);
+  background: #ffffff;
+  overflow: hidden;
+}
+.right-bar .rb-wrapper {
+  width: 90%;
+  margin-left: 5%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.right-bar .rb-wrapper .rb-header {
+  margin-top: 2%;
+}
+
+.rb-block h4 {
+  margin-top: 2rem;
+}
+.rb-block .column-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.rb-block .column-block .block-col {
+  background: rgb(230, 225, 225);
+  width: 90%;
+  height: 9em;
+  border: 1px solid rgb(230, 225, 225);
+  align-items: center;
+}
+.rb-block .column-block .col-1-grid {
+  margin-right: 3%;
+}
+.rb-block .column-block .col-1-grid .content-holder {
+  margin-left: 20%;
+  width: 60%;
+  height: 60%;
+  margin-top: 18%;
+  background: #ffffff;
+}
+.rb-block .column-block .col-2-grid {
+  display: flex;
+  justify-content: space-around;
+}
+.rb-block .column-block .col-2-grid .content-holder {
+  width: 35%;
+  height: 60%;
+  margin-top: 0;
+  background: #ffffff;
+}
+.rb-block .column-block .col-3-grid {
+  margin-left: 3%;
+  display: flex;
+  justify-content: space-around;
+}
+.rb-block .column-block .col-3-grid .content-holder {
+  width: 20%;
+  height: 60%;
+  margin-top: 0;
+  background: #ffffff;
+}
+.rb-block .content-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.rb-block .content-block .content-block-col {
+  width: 30%;
+  height: 9em;
+  margin-bottom: 1rem;
+  border: rgb(230, 225, 225) solid 1px;
+  background-color: lightgray;
+}
+.rb-block .content-block .content-block-col img {
+  width: 70%;
+  margin-left: 10%;
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}
+.rb-block .content-block .content-block-col p {
+  color: darkgray;
+  text-align: center;
+  margin-top: 2%;
+}
+
+.rb-block-elements {
+  height: 100%;
+}
+.rb-block-elements .elements img {
+  margin-top: 2%;
+  width: 70%;
+}
+.rb-block-elements .elements .input-row {
+  display: block !important;
+  width: 100%;
+  margin-bottom: 2% !important;
+}
+.rb-block-elements .elements .input-row input[type=color] {
+  float: right;
+}
+.rb-block-elements .elements .elements-header input[type=file]::-webkit-file-upload-button {
+  font-size: 0.7rem;
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: rgb(15, 48, 80);
+  background: lightgray;
+}
+.rb-block-elements .elements .elements-header .btn-delete {
+  padding: 0;
+  margin: 0 0 20px 20px;
+  background: transparent;
+  outline: none;
+  border: none;
+}
+.rb-block-elements .elements .elements-header .btn-delete:focus {
+  outline: none;
+  border: none;
+}
+
+.rb-props {
+  display: none;
+}
+.rb-props .props-with-label {
+  margin-bottom: 5%;
+}
+.rb-props input[type=text] {
+  float: right;
+  height: 1rem;
+  padding: 15px;
+  width: 60%;
+  border: none;
+  background: white;
+  color: darkgray;
+  border: 1px solid darkgray;
+}
+.rb-props input[type=text]::placeholder {
+  color: darkgray;
+}
+.rb-props input[type=text]:focus {
+  outline: none;
+  color: darkgray;
+}
+.rb-props .props {
+  display: none;
+}
+.rb-props .props .img-wrap input[type=file] {
+  margin-bottom: 5px;
+}
+.rb-props .props .img-wrap input[type=file]::-webkit-file-upload-button {
+  font-size: 0.7rem;
+  padding: 10px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: rgb(15, 48, 80);
+  background: lightgray;
+}
+.rb-props .props .img-wrap img {
+  width: 50%;
+  margin: 5% 0;
+}
+.rb-props .props .btn-icon {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  padding: 3px 20px;
+  margin-left: 5px;
+  border: none;
+  outline: none;
+  color: rgb(15, 48, 80);
+  background: lightgray;
+  margin-left: 0;
+  cursor: pointer;
+}
+.rb-props .props select {
+  height: 2rem;
+  border: none;
+  background: rgb(230, 225, 225);
+}
+.rb-props .props select:focus {
+  outline: none;
+}
+.rb-props .props .txt-link {
+  margin-top: 5%;
+}
+.rb-props .props .txt-tab-wrap {
+  margin-top: 5%;
+}
+.rb-props .props input[type=color] {
+  float: right;
+}
+.rb-props .props .btn-text {
+  margin-top: 5%;
+}
+
+/* Using SCSS variables to store breakpoints */
+@media (max-width: 1660px) {
+  .col-1-grid .content-holder {
+    margin-top: 22% !important;
+  }
+  .content-block-col {
+    height: 8em !important;
+  }
+  .content-block-col img {
+    margin-top: 5% !important;
+    width: 60% !important;
+    margin-left: 15% !important;
+  }
+  .content-block-col p {
+    margin-top: 3.5% !important;
+  }
+}
+@media (max-width: 1366px) {
+  .wrapper h2 {
+    font-size: 1.5rem !important;
+  }
+  .wrapper h4 {
+    font-size: 0.6rem !important;
+  }
+  .wrapper h3 {
+    font-size: 0.8rem !important;
+  }
+  .rb-wrapper .rb-header {
+    margin-left: 10% !important;
+  }
+  .rb-wrapper {
+    width: 50% !important;
+    margin-left: 10% !important;
+  }
+  .column-block .block-col {
+    width: 24% !important;
+    height: 6em !important;
+  }
+  .content-block {
+    width: 78% !important;
+  }
+  .content-block .content-block-col {
+    height: 6em !important;
+    margin-bottom: 1rem;
+  }
+  .rb-block-elements {
+    margin-left: 12% !important;
+  }
+  .rb-block-elements .input-row {
+    width: 78% !important;
+  }
+  .rb-block-elements img {
+    width: 70% !important;
+  }
+}
+@media (max-width: 1280px) {
+  .title-input-submit input[type=text] {
+    width: 115% !important;
+  }
+  .title-input-submit input[type=text]::placeholder {
+    font-size: 0.7rem !important;
+  }
+  .title-input-submit .btn {
+    vertical-align: middle;
+    font-size: 0.75rem !important;
+    padding: 7px 12px !important;
+    margin-left: 3px !important;
+  }
+  .col-1-grid .content-holder {
+    margin-top: 25% !important;
+  }
+}
+@media (max-width: 768px) {
+  .title-input-submit {
+    margin-left: 0 !important;
+  }
+  .title-input-submit input[type=text] {
+    width: 80% !important;
+  }
+  .title-input-submit input[type=text]::placeholder {
+    font-size: 0.7rem !important;
+  }
+  .title-input-submit .btn {
+    vertical-align: middle;
+    font-size: 0.65rem !important;
+    padding: 7px 9px !important;
+    margin-left: 2px !important;
+  }
+  .col-1-grid .content-holder {
+    margin-left: 50%;
+    width: 40% !important;
+    height: 40% !important;
+    margin-top: 50% !important;
+  }
+  .col-2-grid .content-holder {
+    width: 35% !important;
+    height: 40% !important;
+    margin-top: 10% !important;
+  }
+  .col-3-grid {
+    margin-left: 3%;
+  }
+  .col-3-grid .content-holder {
+    width: 25% !important;
+    height: 40% !important;
+    margin-top: 10% !important;
+  }
+  .block-col {
+    height: 6em !important;
+  }
+  .content-block-col {
+    height: 6em !important;
+  }
+  .content-block-col img {
+    margin-top: 25% !important;
+  }
+  .content-block-col p {
+    font-size: 0.65rem;
+  }
+}
 .wrapper .template-builder {
   width: 100% !important;
   margin-top: 0;
@@ -43,7 +366,7 @@
 }
 .wrapper .template-builder .workpace .col-10 {
   border-right: 1px solid lightgray;
-  background-color: #e6e1e1;
+  background-color: rgb(230, 225, 225);
   flex: 75% !important;
 }
 .wrapper .template-builder .workpace .col-6 {
@@ -103,11 +426,11 @@
   border: none;
   outline: none;
   color: lightgray;
-  background: #0f3050;
+  background: rgb(15, 48, 80);
 }
 .title-bar .title-input-submit .cancel {
   background: darkgray;
-  color: #0f3050;
+  color: rgb(15, 48, 80);
 }
 
 .template-wrapper {
@@ -139,18 +462,20 @@
 .drop-wrapper .drop-row {
   width: 100%;
   min-height: 8em;
-  border-bottom: 1px solid #e6e1e1;
+  border-bottom: 1px solid rgb(230, 225, 225);
   display: flex;
   overflow: hidden;
 }
 .drop-wrapper .drop-row .one-column-div {
   width: 100%;
-  border-right: 1px solid #e6e1e1;
-  border-right: none !important;
-  text-align: center;
+  border-right: 1px solid rgb(230, 225, 225);
 }
 .drop-wrapper .drop-row .one-column-div:hover {
   border: none;
+}
+.drop-wrapper .drop-row .one-column-div {
+  border-right: none !important;
+  text-align: center;
 }
 .drop-wrapper .drop-row .one-column-div .btn-content-block {
   float: left;
@@ -160,7 +485,7 @@
 }
 .drop-wrapper .drop-row .two-column-div {
   width: 50%;
-  border-right: 1px solid #e6e1e1;
+  border-right: 1px solid rgb(230, 225, 225);
   text-align: center;
 }
 .drop-wrapper .drop-row .two-column-div .btn-content-block {
@@ -171,7 +496,7 @@
 }
 .drop-wrapper .drop-row .three-column-div {
   width: 33.99%;
-  border-right: 1px solid #e6e1e1;
+  border-right: 1px solid rgb(230, 225, 225);
   text-align: center;
   margin-left: 0;
 }
@@ -206,7 +531,7 @@
 .drop-wrapper .drop-row .icon-content-block a {
   padding: 20px 20px;
   border-radius: 50%;
-  background-color: #0f3050;
+  background-color: rgb(15, 48, 80);
 }
 .drop-wrapper .drop-row .icon-content-block a img {
   width: 20px;
@@ -220,7 +545,7 @@
   border: none;
   outline: none;
   color: lightgray;
-  background: #0f3050;
+  background: rgb(15, 48, 80);
   margin-top: 0.5rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
@@ -228,344 +553,7 @@
 .drop-wrapper .space-row-grid {
   height: 1.5rem;
   background: transparent;
-  border-bottom: 1px solid #e6e1e1;
-}
-
-.right-bar {
-  align-self: flex-start;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 20px;
-  left: 0;
-  color: #021527;
-  background: #ffffff;
-  overflow: hidden;
-}
-.right-bar .rb-wrapper {
-  width: 90%;
-  margin-left: 5%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.right-bar .rb-wrapper .rb-header {
-  margin-top: 2%;
-}
-
-.rb-block h4 {
-  margin-top: 2rem;
-}
-.rb-block .column-block {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.rb-block .column-block .block-col {
-  background: #e6e1e1;
-  width: 90%;
-  height: 9em;
-  border: 1px solid #e6e1e1;
-  align-items: center;
-}
-.rb-block .column-block .col-1-grid {
-  margin-right: 3%;
-}
-.rb-block .column-block .col-1-grid .content-holder {
-  margin-left: 20%;
-  width: 60%;
-  height: 60%;
-  margin-top: 18%;
-  background: #ffffff;
-}
-.rb-block .column-block .col-2-grid {
-  display: flex;
-  justify-content: space-around;
-}
-.rb-block .column-block .col-2-grid .content-holder {
-  width: 35%;
-  height: 60%;
-  margin-top: 0;
-  background: #ffffff;
-}
-.rb-block .column-block .col-3-grid {
-  margin-left: 3%;
-  display: flex;
-  justify-content: space-around;
-}
-.rb-block .column-block .col-3-grid .content-holder {
-  width: 20%;
-  height: 60%;
-  margin-top: 0;
-  background: #ffffff;
-}
-.rb-block .content-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  flex-wrap: wrap;
-}
-.rb-block .content-block .content-block-col {
-  width: 30%;
-  height: 9em;
-  margin-bottom: 1rem;
-  border: #e6e1e1 solid 1px;
-  background-color: lightgray;
-}
-.rb-block .content-block .content-block-col img {
-  width: 70%;
-  margin-left: 10%;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-}
-.rb-block .content-block .content-block-col p {
-  color: darkgray;
-  text-align: center;
-  margin-top: 2%;
-}
-
-.rb-block-elements {
-  height: 100%;
-}
-.rb-block-elements .elements img {
-  margin-top: 2%;
-  width: 70%;
-}
-.rb-block-elements .elements .input-row {
-  display: block !important;
-  width: 100%;
-  margin-bottom: 2% !important;
-}
-.rb-block-elements .elements .input-row input[type=color] {
-  float: right;
-}
-.rb-block-elements .elements .elements-header input[type=file]::-webkit-file-upload-button {
-  font-size: 0.7rem;
-  padding: 10px 20px;
-  margin-left: 5px;
-  border: none;
-  outline: none;
-  color: #0f3050;
-  background: lightgray;
-}
-.rb-block-elements .elements .elements-header .btn-delete {
-  padding: 0;
-  margin: 0 0 20px 20px;
-  background: transparent;
-  outline: none;
-  border: none;
-}
-.rb-block-elements .elements .elements-header .btn-delete:focus {
-  outline: none;
-  border: none;
-}
-
-.rb-props {
-  display: none;
-}
-.rb-props .props-with-label {
-  margin-bottom: 5%;
-}
-.rb-props input[type=text] {
-  float: right;
-  height: 1rem;
-  padding: 15px;
-  width: 60%;
-  border: none;
-  background: white;
-  color: darkgray;
-  border: 1px solid darkgray;
-}
-.rb-props input[type=text]::placeholder {
-  color: darkgray;
-}
-.rb-props input[type=text]:focus {
-  outline: none;
-  color: darkgray;
-}
-.rb-props .props {
-  display: none;
-}
-.rb-props .props .img-wrap input[type=file] {
-  margin-bottom: 5px;
-}
-.rb-props .props .img-wrap input[type=file]::-webkit-file-upload-button {
-  font-size: 0.7rem;
-  padding: 10px 20px;
-  margin-left: 5px;
-  border: none;
-  outline: none;
-  color: #0f3050;
-  background: lightgray;
-}
-.rb-props .props .img-wrap img {
-  width: 50%;
-  margin: 5% 0;
-}
-.rb-props .props .btn-icon {
-  margin: 10px 0;
-  font-size: 1.5rem;
-  padding: 3px 20px;
-  margin-left: 5px;
-  border: none;
-  outline: none;
-  color: #0f3050;
-  background: lightgray;
-  margin-left: 0;
-  cursor: pointer;
-}
-.rb-props .props select {
-  height: 2rem;
-  border: none;
-  background: #e6e1e1;
-}
-.rb-props .props select:focus {
-  outline: none;
-}
-.rb-props .props .txt-link {
-  margin-top: 5%;
-}
-.rb-props .props .txt-tab-wrap {
-  margin-top: 5%;
-}
-.rb-props .props input[type=color] {
-  float: right;
-}
-.rb-props .props .btn-text {
-  margin-top: 5%;
-}
-
-/* Using SCSS variables to store breakpoints */
-@media (max-width: 1660px) {
-  .col-1-grid .content-holder {
-    margin-top: 22% !important;
-  }
-
-  .content-block-col {
-    height: 8em !important;
-  }
-  .content-block-col img {
-    margin-top: 5% !important;
-    width: 60% !important;
-    margin-left: 15% !important;
-  }
-  .content-block-col p {
-    margin-top: 3.5% !important;
-  }
-}
-@media (max-width: 1366px) {
-  .wrapper h2 {
-    font-size: 1.5rem !important;
-  }
-  .wrapper h4 {
-    font-size: 0.6rem !important;
-  }
-  .wrapper h3 {
-    font-size: 0.8rem !important;
-  }
-
-  .rb-wrapper {
-    width: 50% !important;
-    margin-left: 10% !important;
-  }
-  .rb-wrapper .rb-header {
-    margin-left: 10% !important;
-  }
-
-  .column-block .block-col {
-    width: 24% !important;
-    height: 6em !important;
-  }
-
-  .content-block {
-    width: 78% !important;
-  }
-  .content-block .content-block-col {
-    height: 6em !important;
-    margin-bottom: 1rem;
-  }
-
-  .rb-block-elements {
-    margin-left: 12% !important;
-  }
-  .rb-block-elements .input-row {
-    width: 78% !important;
-  }
-  .rb-block-elements img {
-    width: 70% !important;
-  }
-}
-@media (max-width: 1280px) {
-  .title-input-submit input[type=text] {
-    width: 115% !important;
-  }
-  .title-input-submit input[type=text]::placeholder {
-    font-size: 0.7rem !important;
-  }
-  .title-input-submit .btn {
-    vertical-align: middle;
-    font-size: 0.75rem !important;
-    padding: 7px 12px !important;
-    margin-left: 3px !important;
-  }
-
-  .col-1-grid .content-holder {
-    margin-top: 25% !important;
-  }
-}
-@media (max-width: 768px) {
-  .title-input-submit {
-    margin-left: 0 !important;
-  }
-  .title-input-submit input[type=text] {
-    width: 80% !important;
-  }
-  .title-input-submit input[type=text]::placeholder {
-    font-size: 0.7rem !important;
-  }
-  .title-input-submit .btn {
-    vertical-align: middle;
-    font-size: 0.65rem !important;
-    padding: 7px 9px !important;
-    margin-left: 2px !important;
-  }
-
-  .col-1-grid .content-holder {
-    margin-left: 50%;
-    width: 40% !important;
-    height: 40% !important;
-    margin-top: 50% !important;
-  }
-
-  .col-2-grid .content-holder {
-    width: 35% !important;
-    height: 40% !important;
-    margin-top: 10% !important;
-  }
-
-  .col-3-grid {
-    margin-left: 3%;
-  }
-  .col-3-grid .content-holder {
-    width: 25% !important;
-    height: 40% !important;
-    margin-top: 10% !important;
-  }
-
-  .block-col {
-    height: 6em !important;
-  }
-
-  .content-block-col {
-    height: 6em !important;
-  }
-  .content-block-col img {
-    margin-top: 25% !important;
-  }
-  .content-block-col p {
-    font-size: 0.65rem;
-  }
+  border-bottom: 1px solid rgb(230, 225, 225);
 }
 
 /*# sourceMappingURL=email-template.css.map */

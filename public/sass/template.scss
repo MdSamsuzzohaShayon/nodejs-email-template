@@ -1,5 +1,5 @@
-@import "./variables";
-@import "./function";
+@use "./variables" as *;
+@use "./mixins" as *;
 
 // 612.88
 // 794.25
@@ -74,7 +74,7 @@
                 }
             }  
             .btn-content-block{
-                @include btn_general($f-color, $t-color);
+                // @include btn_general($f-color, $t-color);
             }                              
             
         }

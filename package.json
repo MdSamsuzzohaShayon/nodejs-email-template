@@ -4,10 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon app.js",
-    "start": "cross-env NODE_ENV=production node app.js"
+    "start": "cross-env NODE_ENV=production node app.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "sass:build": "sass public/sass:public/css"
   },
   "dependencies": {
     "aws-sdk": "^2.1693.0",
+    "cloudinary": "^2.9.0",
     "colors": "^1.4.0",
     "cookie-parser": "~1.4.7",
     "cors": "^2.8.6",
@@ -21,11 +26,14 @@
     "multer": "^2.1.1",
     "multer-s3": "^3.0.1",
     "mysql": "^2.18.1",
+    "sass": "^1.98.0",
+    "sequelize": "^6.37.8",
     "sqlite3": "^6.0.1"
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
     "dotenv": "^17.3.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
   }
 }

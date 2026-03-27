@@ -2,3 +2,5 @@
 node_modules
 new_user_credentials.csv
 res
+dbdata
+database.sqlite
