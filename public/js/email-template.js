@@ -103,8 +103,22 @@ const inputImg = document.getElementById('img-input'),
  * Create variables
  */
 // WEBSITE DEFAULT URL OPERATION 
-let websiteDomain = "http://" + window.location.host, defaultFbLink = 'fb.com/md.shayon.148', defaultTwitterLink = 'twitter.com/shayon_md', defaultInstaLink = 'https://www.instagram.com/md_shayon/';
+let websiteDomain;
 
+if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    // Use HTTP for local development
+    websiteDomain = "http://" + window.location.host;
+} else {
+    // Use HTTPS in production
+    websiteDomain = "https://" + window.location.host;
+}
+
+// Social links (unchanged)
+let defaultFbLink = 'https://fb.com/md.shayon.148';
+let defaultTwitterLink = 'https://twitter.com/shayon_md';
+let defaultInstaLink = 'https://www.instagram.com/md_shayon/';
+
+console.log("[DEBUG] websiteDomain:", websiteDomain);
 // DATABASE DESIGN START 
 // THIS SOULD BE ADD TO THE DATABASE - COUNT ROW AND COLUMNS 
 // TITLE OF THE TEMPLATE 
@@ -1583,7 +1597,7 @@ function templatePropsCng() {
      * This is not update any properties of columns
      * This will change base properties of the template
      */
-    
+
 
     // HEADER IMAGE CHANGE
     headerImgInput.addEventListener('change', e => {
@@ -1617,73 +1631,73 @@ function templatePropsCng() {
 // MAIN FUNCTION 6
 function backendAndDataBase(reqUrl, method) {
     /**
-     * @request to backend API to dave data
-     * @response will redirect to index page if everything goes well
-     * @cancel button will redirect to index page without making request
+     * @description Handles save/cancel buttons, sends template data to backend, and redirects on success
      */
 
     cancelButton.addEventListener('click', e => {
+        console.log("[DEBUG] Cancel clicked, redirecting to template index");
         window.location.replace(websiteDomain + "/template");
     });
 
-
     saveButton.addEventListener('click', async e => {
         e.preventDefault();
-        if (inputTitle.value === null || inputTitle.value === "") {
-            alert("Please fill newslatter title field");
-        } else {
-            rightBar.style.zIndex = '-1';
-            console.log({submitSpinner});
-            
-            submitSpinner.classList.remove("d-none");
 
-            try {
-                const selectedTextContent = document.getElementById(`txt-${selectedRow}-${selectedCol}`);
-
-                // FOR CHANGING TEXT CONTENT 
-                await positionElement.forEach(pEl => {
-                    if (pEl.blockElement.name === "txtBlockContent") {
-                        pEl.blockElement.blockHtml = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`).outerHTML;
-                    }
-                    if (pEl.blockElement.name === "imgBlockContent") {
-                        pEl.blockElement.imgUrl = "/img/empty-image.png";
-                        // SET DEFAULT IMAGE URL - FROM SERVER CHENGE RIGHT URL FOR RIGHT IMAGE  
-                    }
-                });
-
-                // CHANGING TITLE 
-                await formData.append("title", inputTitle.value);
-                await formData.append('bgColor', templateBGColorInput.value);
-                await formData.append('linkColor', templateLinkColorInput.value);
-
-                await formData.append('layout', JSON.stringify(rowList));
-                await formData.append('element', JSON.stringify(positionElement));
-                await formData.append('sibling', JSON.stringify(siblingButtonList));
-
-                const fdObj = {};
-                for(const [k, v] of formData.entries()){
-                    fdObj[k] = v;
-                }
-
-                // SUBMITTING DATA TO THE SERVER 
-                const response = await fetch(reqUrl, {
-                    method: method,
-                    body: formData,
-                });
-
-                // IF SUBMITTED SUCCESSFULLY WILL WILL REDIRECT SUCCESSFULLY 
-                submitSpinner.classList.add("d-none");
-                // window.location.replace(websiteDomain + "/template");
-            } catch (err) {
-                console.log(err);
-            }
+        if (!inputTitle.value) {
+            alert("Please fill newsletter title field");
+            return;
         }
 
+        rightBar.style.zIndex = '-1';
+        submitSpinner.classList.remove("d-none");
+        console.log("[DEBUG] Submit spinner visible, preparing formData...");
 
+        try {
+            // Update block elements
+            for (const pEl of positionElement) {
+                if (pEl.blockElement.name === "txtBlockContent") {
+                    const el = document.getElementById(`txt-${pEl.rowNumber}-${pEl.columnNumber}`);
+                    if (el) pEl.blockElement.blockHtml = el.outerHTML;
+                }
+                if (pEl.blockElement.name === "imgBlockContent") {
+                    pEl.blockElement.imgUrl = "/img/empty-image.png"; // TODO: Replace with real server URL if needed
+                }
+            }
 
+            // Prepare formData
+            const formData = new FormData();
+            formData.append("title", inputTitle.value);
+            formData.append("bgColor", templateBGColorInput.value);
+            formData.append("linkColor", templateLinkColorInput.value);
+            formData.append("layout", JSON.stringify(rowList));
+            formData.append("element", JSON.stringify(positionElement));
+            formData.append("sibling", JSON.stringify(siblingButtonList));
+
+            // Debug: log formData keys
+            console.log("[DEBUG] FormData prepared:", [...formData.keys()]);
+
+            // Submit to server
+            console.log("[DEBUG] Sending data to:", reqUrl);
+            const response = await fetch(reqUrl, {
+                method: method,
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Server returned ${response.status}: ${errorText}`);
+            }
+
+            console.log("[DEBUG] Template saved successfully, redirecting...");
+            window.location.replace(websiteDomain + "/template");
+
+        } catch (err) {
+            console.error("[ERROR] Failed to save template:", err);
+            alert("Failed to save template. Check console for details.");
+        } finally {
+            submitSpinner.classList.add("d-none");
+        }
     });
 }
-
 // MAIN FUNCTION 7
 function previewDropZoneTemplate() {
     /**
