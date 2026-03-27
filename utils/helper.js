@@ -2,13 +2,14 @@ const { promises: fsPromise } = require('fs');
 const cloudinary = require('../config/cloudinary-config');
 
 // HELPING FUNCTION 1
-function invalidToValidStr(invalidString) {
-    let blockElementString = invalidString.toString();
-    let removeDoubleQuatation = blockElementString.replace(/"/g, "~_");
-    let validString = removeDoubleQuatation.replace(/'/g, "_~");
-    let removeQ = validString.replace(/\?/g, "-_");
-    return removeQ;
+function invalidToValidStr(inputStr) {
+    let str = inputStr.toString();
+    str = str.replace(/"/g, "~_");
+    str = str.replace(/'/g, "_~");
+    str = str.replace(/\?/g, "-_");
+    return str;
 }
+
 
 // HELPIING FUNCTION 2 
 const getImage = async (imgKay) => {

@@ -1633,6 +1633,8 @@ function backendAndDataBase(reqUrl, method) {
             alert("Please fill newslatter title field");
         } else {
             rightBar.style.zIndex = '-1';
+            console.log({submitSpinner});
+            
             submitSpinner.classList.remove("d-none");
 
             try {
@@ -1658,10 +1660,10 @@ function backendAndDataBase(reqUrl, method) {
                 await formData.append('element', JSON.stringify(positionElement));
                 await formData.append('sibling', JSON.stringify(siblingButtonList));
 
-                // const fdObj = {};
-                // for(const [k, v] of formData.entries()){
-                //     fdObj[k] = v;
-                // }
+                const fdObj = {};
+                for(const [k, v] of formData.entries()){
+                    fdObj[k] = v;
+                }
 
                 // SUBMITTING DATA TO THE SERVER 
                 const response = await fetch(reqUrl, {
@@ -1671,7 +1673,7 @@ function backendAndDataBase(reqUrl, method) {
 
                 // IF SUBMITTED SUCCESSFULLY WILL WILL REDIRECT SUCCESSFULLY 
                 submitSpinner.classList.add("d-none");
-                window.location.replace(websiteDomain + "/template");
+                // window.location.replace(websiteDomain + "/template");
             } catch (err) {
                 console.log(err);
             }

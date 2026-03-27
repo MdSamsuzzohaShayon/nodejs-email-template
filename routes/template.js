@@ -50,80 +50,106 @@ router.get('/editor', (req, res, next) => {
 
 router.post('/add', uploadMultipleFile, async (req, res, next) => {
     /**
-     * @validate data to save into the database
-     * Add a templete to the database
-     * @redirect to index page
+     * @description Validate data, upload images, add template to database, redirect to index
      */
 
-    const { title, bgColor, linkColor, layout, element, sibling } = req.body;
-    let bgImg = DEFAULT_HEADER_IMAGE;
+    try {
+        const { title, bgColor, linkColor, layout, element, sibling } = req.body;
+        let backgroundImage = DEFAULT_HEADER_IMAGE;
 
-    const uploadImgs = [],
-        deleteImgs = [];
+        const imagesToUpload = [];
+        const imagesToDelete = [];
 
-    if (req.files['headerImg']) {
-        deleteImgs.push(req.files['headerImg'][0].filename);
-        const uploadBgImg = await cloudinary.uploader.upload(__dirname + `/../uploads/${req.files['headerImg'][0].filename}`, uploadOptions);
-        bgImg = `${uploadBgImg.public_id}.${uploadBgImg.format}`;
-    }
-    let elementObject = JSON.parse(element);
+        // Upload header image if exists
+        if (req.files['headerImg'] && req.files['headerImg'].length > 0) {
+            const headerFile = req.files['headerImg'][0];
+            imagesToDelete.push(headerFile.filename);
 
+            const uploadedHeader = await cloudinary.uploader.upload(
+                __dirname + `/../uploads/${headerFile.filename}`,
+                uploadOptions
+            );
+            backgroundImage = `${uploadedHeader.public_id}.${uploadedHeader.format}`;
+        }
 
-    // CHANGE IMAGE URL / IMAGE UPLOAD / IMAGE DELETE FROM SERVER
-    elementObject.forEach((eo, index) => {
-        // CHANGING HTML AS VALID HTML 
-        eo.blockElement.blockHtml = invalidToValidStr(eo.blockElement.blockHtml);
-        if (eo.blockElement.name === "imgBlockContent") {
-            const findImg = req.files[`img-${eo.rowNumber}-${eo.columnNumber}`];
-            if (findImg && findImg.length > 0) {
-                if (findImg[0].fieldname === `img-${eo.rowNumber}-${eo.columnNumber}`) {
-                    eo.blockElement.imgUrl = findImg[0].filename;
-                    // Upload image to cloudinary
-                    uploadImgs.push(cloudinary.uploader.upload(__dirname + `/../uploads/${findImg[0].filename}`, uploadOptions));
-                    // Delete from server
-                    deleteImgs.push(findImg[0].filename);
+        const parsedElements = JSON.parse(element);
+
+        // Process all block elements for images and HTML sanitization
+        for (let i = 0; i < parsedElements.length; i++) {
+            const blockObj = parsedElements[i].blockElement;
+
+            // Convert invalid HTML to valid HTML
+            blockObj.blockHtml = invalidToValidStr(blockObj.blockHtml);
+
+            if (blockObj.name === "imgBlockContent") {
+                const imageField = `img-${parsedElements[i].rowNumber}-${parsedElements[i].columnNumber}`;
+                const uploadedFiles = req.files[imageField];
+
+                if (uploadedFiles && uploadedFiles.length > 0) {
+                    const file = uploadedFiles[0];
+
+                    if (file.fieldname === imageField) {
+                        blockObj.imgUrl = file.filename;
+
+                        // Queue image for Cloudinary upload
+                        imagesToUpload.push(cloudinary.uploader.upload(
+                            __dirname + `/../uploads/${file.filename}`,
+                            uploadOptions
+                        ));
+
+                        // Queue server deletion
+                        imagesToDelete.push(file.filename);
+                    }
                 }
             }
         }
-    });
 
+        // Upload all queued images
+        const uploadedImages = await Promise.all(imagesToUpload);
 
-    try {
-        // Upload all images at once
-        const uploadImgRes = await Promise.all(uploadImgs);
+        // Replace local URLs with Cloudinary URLs
+        for (let i = 0; i < uploadedImages.length; i++) {
+            const uploadedFile = uploadedImages[i];
+            const cloudFileName = `${uploadedFile.public_id}.${uploadedFile.format}`;
+            const originalFileName = uploadedFile.original_filename + '.' + uploadedFile.format;
+            const originalFileNameJPEG = uploadedFile.original_filename + '.jpeg';
 
-        for (const ui of uploadImgRes) {
-            const uploadedFileName = `${ui.public_id}.${ui.format}`;
-            const fileOrginalName = ui.original_filename + '.' + ui.format;
-            const fileOrginalNameJPEG = ui.original_filename + '.jpeg';
-
-
-
-            // CHANGE IMAGE URL 
-            elementObject.forEach((eo, index) => {
-                if (eo.blockElement.name === "imgBlockContent" && (fileOrginalName === eo.blockElement.imgUrl || eo.blockElement.imgUrl === fileOrginalNameJPEG)) {
-                    eo.blockElement.imgUrl = uploadedFileName;
+            for (let j = 0; j < parsedElements.length; j++) {
+                const blockObj = parsedElements[j].blockElement;
+                if (
+                    blockObj.name === "imgBlockContent" &&
+                    (blockObj.imgUrl === originalFileName || blockObj.imgUrl === originalFileNameJPEG)
+                ) {
+                    blockObj.imgUrl = cloudFileName;
                 }
-            });
+            }
         }
 
-        const delTempImg = await deleteServerImages(deleteImgs);
+        // Delete temporary images from server
+        await deleteServerImages(imagesToDelete);
 
-        const newTemp = await temptab.create({
+        // Save template to database
+        await temptab.create({
             title,
             bg_color: bgColor,
-            bg_img: bgImg,
+            bg_img: backgroundImage,
             link_color: linkColor,
             layout,
-            content: JSON.stringify(elementObject),
+            content: JSON.stringify(parsedElements),
             sibling
         });
-        res.redirect('/template');
-    } catch (error) {
-        console.log(error);
-    }
 
+        return res.redirect('/template');
+
+    } catch (error) {
+        console.error("Error while adding template:", error);
+        return res.status(500).json({
+            message: "Failed to add template",
+            error: error.message || error
+        });
+    }
 });
+
 
 
 
